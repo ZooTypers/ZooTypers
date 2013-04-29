@@ -34,6 +34,18 @@
             android:name="com.example.zootypers.PreGameSelection"
             android:label="@string/title_activity_pre_game_selection" >
         </activity>
+        <activity
+            android:name="com.example.zootypers.PreGameSelectionMulti"
+            android:label="@string/title_activity_pre_game_selection_multi" >
+        </activity>
+        <activity
+            android:name="com.example.zootypers.Options"
+            android:label="@string/title_activity_options" >
+        </activity>
+        <activity
+            android:name="com.example.zootypers.Leaderboard"
+            android:label="@string/title_activity_leaderboard" >
+        </activity>
     </application>
 
 </manifest>
