@@ -61,7 +61,7 @@
         android:layout_alignLeft="@+id/single_player_button"
         android:layout_alignRight="@+id/single_player_button"
         android:layout_marginBottom="5dp"
-        android:onClick="goToZF"
+        android:onClick="goToPreGameSelectionMulti"
         android:text="@string/multiplayer" />
 
     <Button
@@ -71,7 +71,7 @@
         android:layout_above="@+id/options_button"
         android:layout_alignLeft="@+id/single_player_button"
         android:layout_alignRight="@+id/single_player_button"
-        android:onClick="goToZF"
+        android:onClick="goToLeaderboard"
         android:text="@string/leaderboard" />
 
     <Button
@@ -82,7 +82,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/single_player_button"
         android:layout_marginBottom="10sp"
-        android:onClick="goToZF"
+        android:onClick="goToOptions"
         android:text="@string/options" />
 
 </RelativeLayout>
