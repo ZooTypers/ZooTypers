@@ -22,16 +22,43 @@ public class TitlePage extends Activity {
 		getMenuInflater().inflate(R.menu.activity_title_page, menu);
 		return true;
 	}
-	
-	// Called when the user clicks button for zero feature
-	public void goToZF(View view) {
-		Intent intent = new Intent(this, ZeroFeature.class);
-		startActivity(intent);
-	}
-	
+  
+  /**
+   * Called when the user clicks the "Single Player" button.
+   * @param view The button clicked
+   */
 	public void goToPreGameSelection(View view) {
 		Intent intent = new Intent(this, PreGameSelection.class);
-		startActivity(intent);
-		
+		startActivity(intent);		
 	}
+  
+  /**
+   * Called when the user clicks the "Multiplayer" button.
+   * @param view The button clicked
+   */
+  public void goToPreGameSelectionMulti(View view) {
+    Intent intent = new Intent(this, PreGameSelectionMulti.class);
+    startActivity(intent);    
+  }
+  
+  /**
+   * Called when the user clicks the "Leaderboard" button.
+   * @param view The button clicked
+   */
+  public void goToLeaderboard(View view) {
+    // TODO send to login / leaderboard
+    Intent intent = new Intent(this, Leaderboard.class);
+    startActivity(intent);    
+  }
+  
+  /**
+   * Called when the user clicks the "Options" button.
+   * @param view The button clicked
+   */
+  public void goToOptions(View view) {
+    Intent intent = new Intent(this, Options.class);
+    startActivity(intent);    
+  }
+	
+	
 }
