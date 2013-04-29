@@ -1,0 +1,65 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/zero_feat_pic"
+    tools:context=".ZeroFeature" >
+
+    <TextView
+        android:id="@+id/zero_feature_string1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="31dp"
+        android:layout_marginTop="128dp"
+        android:onClick="goToStart"
+        android:text="@string/zero_feature1" />
+
+    <TextView
+        android:id="@+id/zero_feature_string2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/zero_feature_string1"
+        android:layout_below="@+id/zero_feature_string1"
+        android:layout_marginLeft="19dp"
+        android:layout_marginTop="14dp"
+        android:text="@string/zero_feature2" />
+
+    <TextView
+        android:id="@+id/database_string2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/database_string3"
+        android:layout_below="@+id/database_string3"
+        android:text="hello"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/database_string3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/database_string1"
+        android:layout_below="@+id/database_string1"
+        android:text="hello"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/database_string4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/database_string2"
+        android:layout_below="@+id/database_string2"
+        android:text="hello"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/database_string1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/zero_feature_string2"
+        android:layout_below="@+id/zero_feature_string2"
+        android:text="hello"
+        android:textStyle="bold" />
+
+</RelativeLayout>

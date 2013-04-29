@@ -1,0 +1,88 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/title_page_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_rainbow"
+    tools:context=".TitlePage" >
+    
+    <ImageView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:contentDescription="@string/title"
+        android:src="@drawable/title_image" />
+    
+     <ImageView
+         android:id="@+id/title_page_img1"
+         android:layout_width="110sp"
+         android:layout_height="wrap_content"
+         android:layout_marginLeft="10dp"
+         android:layout_marginTop="80dp"
+         android:contentDescription="@string/elephant_alt"
+         android:src="@drawable/animal_elephant" />
+    
+    <ImageView
+        android:id="@+id/title_page_img2"
+        android:layout_width="80sp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"
+        android:contentDescription="@string/penguin_alt"
+        android:src="@drawable/animal_penguin" />
+    
+    <ImageView
+        android:id="@+id/title_page_img3"
+        android:layout_width="80sp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="50dp"
+        android:contentDescription="@string/giraffe_alt"
+        android:src="@drawable/animal_giraffe" />
+
+    <Button
+        android:id="@+id/single_player_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/multiplayer_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:onClick="goToPreGameSelection"
+        android:text="@string/singleplayer" />
+
+    <Button
+        android:id="@+id/multiplayer_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/leaderboard_button"
+        android:layout_alignLeft="@+id/single_player_button"
+        android:layout_alignRight="@+id/single_player_button"
+        android:layout_marginBottom="5dp"
+        android:onClick="goToZF"
+        android:text="@string/multiplayer" />
+
+    <Button
+        android:id="@+id/leaderboard_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/options_button"
+        android:layout_alignLeft="@+id/single_player_button"
+        android:layout_alignRight="@+id/single_player_button"
+        android:onClick="goToZF"
+        android:text="@string/leaderboard" />
+
+    <Button
+        android:id="@+id/options_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/single_player_button"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/single_player_button"
+        android:layout_marginBottom="10sp"
+        android:onClick="goToZF"
+        android:text="@string/options" />
+
+</RelativeLayout>
