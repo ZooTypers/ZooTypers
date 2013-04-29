@@ -1,4 +1,4 @@
-package sqliteDatabase;
+package com.example.zootypers;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

@@ -4,16 +4,15 @@ import java.util.Observable;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.text.Html;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -35,8 +34,8 @@ public class SinglePlayerGame extends Activity {
 		Drawable animalD = getResources().getDrawable(animal);
 		ImageView animalView = (ImageView)findViewById(R.id.animal_pic);
 		animalView.setImageDrawable(animalD);
-		
-		
+
+
 		/*
 		// get the items in the intent
 				Intent optionalIntent = getIntent();
@@ -185,5 +184,21 @@ public class SinglePlayerGame extends Activity {
     	TextView text5 = (TextView) findViewById(R.id.word5);
     	text5.setText(Html.fromHtml("<font color=purple>gohuskies!</font>hellooo"));
     }
-	 
+	
+    public class GameTimer extends CountDownTimer {
+    
+      public GameTimer(long startTime, long interval) {
+        super(startTime, interval);
+      }
+      
+      @Override
+      public void onFinish() {
+    	  
+      }
+      
+      @Override
+      public void onTick(long millisUntilFinished) {
+    	  
+      }
+    }
 }
