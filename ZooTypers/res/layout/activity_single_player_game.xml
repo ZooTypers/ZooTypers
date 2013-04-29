@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:text="Button"
+            android:text="Press"
             android:onClick="fillTexts" />
 
         <TextView
@@ -34,13 +34,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <View
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/oval_circle" />
-
         <TextView
             android:id="@+id/word1"
             android:layout_width="wrap_content"
@@ -48,7 +41,8 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="44dp"
-            android:text="TextView" />
+            android:background="@drawable/oval_circle"
+            android:text="@string/placeholder_string" />
         
     </RelativeLayout>
     
@@ -56,80 +50,54 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <View
-            android:id="@+id/view1"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="53dp"
-            android:background="@drawable/oval_circle" />
-
         <TextView
             android:id="@+id/word2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/view1"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="44dp"
-            android:text="TextView" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="62dp"
+            android:background="@drawable/oval_circle"
+            android:text="@string/placeholder_string" />
+
     </RelativeLayout>
     
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 		
-         <View
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/oval_circle" />
 
-         <TextView
+        <TextView
              android:id="@+id/word3"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_alignParentRight="true"
              android:layout_centerVertical="true"
              android:layout_marginRight="44dp"
-             android:text="TextView" />
+             android:background="@drawable/oval_circle"
+             android:text="@string/placeholder_string" />
 
     </RelativeLayout>
     
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
-        <View
-            android:id="@+id/view2"
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginLeft="52dp"
-            android:background="@drawable/oval_circle" />
 
         <TextView
             android:id="@+id/word4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignRight="@+id/view2"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="42dp"
-            android:text="TextView" />
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="64dp"
+            android:background="@drawable/oval_circle"
+            android:text="@string/placeholder_string" />
+
     </RelativeLayout>
     
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
-
-         <View
-            android:layout_width="150dp"
-            android:layout_height="50dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:background="@drawable/oval_circle" />
 
          <TextView
              android:id="@+id/word5"
@@ -138,7 +106,8 @@
              android:layout_alignParentRight="true"
              android:layout_centerVertical="true"
              android:layout_marginRight="44dp"
-             android:text="TextView" />
+             android:background="@drawable/oval_circle"
+             android:text="@string/placeholder_string" />
          
     </RelativeLayout>
 
@@ -146,6 +115,7 @@
         android:id="@+id/animal_pic"
         android:layout_width="wrap_content"
         android:layout_height="154dp"
+        android:contentDescription="game animal"
         android:src="@drawable/animal_elephant" />
 
 </LinearLayout>

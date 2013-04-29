@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -167,20 +168,22 @@ public class SinglePlayerGame extends Activity {
 	
 	// dummy method for testing
     public void fillTexts(View view) {
+    	
     	TextView text1 = (TextView) findViewById(R.id.word1);
-    	text1.setText("jamesiscool");
+    	String var = "jamesiscool";
+    	text1.setText(Html.fromHtml("<font color=green>" + var + "</font>"));
     	
     	TextView text2 = (TextView) findViewById(R.id.word2);
     	text2.setText("Queztezcal");
     	
     	TextView text3 = (TextView) findViewById(R.id.word3);
-    	text3.setText("iwonderifthiswillfit");
+    	text3.setText(Html.fromHtml("<font color=red>thistextshouldbered</font>"));
     	
     	TextView text4 = (TextView) findViewById(R.id.word4);
     	text4.setText("hello");
     	
     	TextView text5 = (TextView) findViewById(R.id.word5);
-    	text5.setText("thiswillwork");
+    	text5.setText(Html.fromHtml("<font color=purple>gohuskies!</font>hellooo"));
     }
 	 
 }

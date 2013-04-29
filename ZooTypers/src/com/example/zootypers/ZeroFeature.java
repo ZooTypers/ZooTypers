@@ -3,6 +3,9 @@ package com.example.zootypers;
 import java.util.Map;
 import java.util.Set;
 
+import sqliteDatabase.WordDB;
+import sqliteDatabase.WordData;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
