@@ -29,6 +29,11 @@ public class TitlePage extends Activity {
 		startActivity(intent);
 	}
 	
+	public void goToSingleGame(View view) {
+		Intent intent = new Intent(this, SinglePlayerGame.class);
+		startActivity(intent);
+	}
+	
 	public void goToPreGameSelection(View view) {
 		Intent intent = new Intent(this, PreGameSelection.class);
 		startActivity(intent);

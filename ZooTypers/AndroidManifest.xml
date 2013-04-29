@@ -34,6 +34,10 @@
             android:name="com.example.zootypers.PreGameSelection"
             android:label="@string/title_activity_pre_game_selection" >
         </activity>
+        <activity
+            android:name="com.example.zootypers.SinglePlayerGame"
+            android:label="@string/title_activity_single_player_game" >
+        </activity>
     </application>
 
 </manifest>

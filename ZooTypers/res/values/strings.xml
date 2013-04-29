@@ -29,5 +29,6 @@
     <string name="options">Options</string>
     <string name="title_activity_pre_game_selection">PreGameSelection</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_single_player_game">SinglePlayerGame</string>
 
 </resources>
