@@ -16,6 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
+            android:textSize="30sp"
             android:text="TextView" />
 
         <Button
@@ -56,7 +57,7 @@
              android:layout_marginLeft="92dp"
              android:background="@drawable/oval_circle"
              android:text="TextView" />
-         
+
     </RelativeLayout>
    
     <RelativeLayout 
@@ -105,10 +106,37 @@
 	 
 	</RelativeLayout>
 
-	<ImageView
-	    android:id="@+id/animal_image"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:src="@drawable/animal_elephant" />
+	<RelativeLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content" >
+	    
+	    <ImageView
+	    	android:id="@+id/animal_image"
+	   		android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:src="@drawable/animal_elephant" />
+
+	    <TextView
+	        android:id="@+id/score_prompt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginRight="39dp"
+	        android:layout_marginTop="16dp"
+	        android:text="@string/score"
+	        android:textSize="20sp" />
+
+	    <TextView
+	        android:id="@+id/score"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignLeft="@+id/score_prompt"
+	        android:layout_centerVertical="true"
+	        android:layout_marginLeft="36dp"
+	        android:text="TextView" />
+		
+	</RelativeLayout>
+	
 	 
 </LinearLayout>
