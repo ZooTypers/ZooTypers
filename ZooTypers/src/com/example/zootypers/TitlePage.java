@@ -19,7 +19,7 @@ public class TitlePage extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_title_page, menu);
+		getMenuInflater().inflate(R.menu.title_page, menu);
 		return true;
 	}
   
@@ -46,7 +46,6 @@ public class TitlePage extends Activity {
    * @param view The button clicked
    */
   public void goToLeaderboard(View view) {
-    // TODO send to login / leaderboard
     Intent intent = new Intent(this, Leaderboard.class);
     startActivity(intent);    
   }
@@ -58,11 +57,5 @@ public class TitlePage extends Activity {
   public void goToOptions(View view) {
     Intent intent = new Intent(this, Options.class);
     startActivity(intent);    
-  }
-	
-
-  public void goToSingle(View view) {
-    Intent intent = new Intent(this, SinglePlayerGame.class);
-    startActivity(intent);
   }
 }

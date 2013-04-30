@@ -3,7 +3,6 @@ package com.example.zootypers;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-//import android.graphics.drawable.Drawable;
 import android.view.Menu;
 import android.view.View;
 
@@ -28,10 +27,12 @@ public class PreGameSelection extends Activity {
     setContentView(R.layout.activity_pregame_selection);
 
     // TODO change so initial values are gotten from storage
-    // & highlight buttons
-    diff = null;
-    animal = null;
-    background = null;
+    diff = findViewById(R.id.easy_difficulty_button);
+    setDiff(diff);
+    animal = findViewById(R.id.elephant_button);
+    setAnimal(animal);
+    background = findViewById(R.id.BG1_button);
+    setBackground(background);
   }
 
   @Override
@@ -73,21 +74,25 @@ public class PreGameSelection extends Activity {
    * @param view The button clicked
    */
   public void setBackground(View view) {
-    if (background != null) {
-      background.setBackgroundResource(DEFAULT_BUTTON_BG);
-    }
+    background.setBackgroundResource(DEFAULT_BUTTON_BG);
     view.setBackgroundResource(HIGHLIGH_BUTTON_BG);
     background = view;
   }
 
+  /**
+   * When continue is clicked, goes to the game play screen.
+   * @param view The button clicked.
+   */
   public void goToSinglePlayer(View view) {
     // TODO write these diff/animal/bg to storage
     //STORED animal = animal;
     //STORED background = background;
     //STORED difficulty = diff;
-
-
-    Intent intent = new Intent(this, SinglePlayer.class);
+    
+    Intent intent = new Intent(this, SinglePlayerGame.class);
+    // pass animal and background
+    intent.putExtra("anm", animal.getId());
+    intent.putExtra("bg", background.getId());
     startActivity(intent);
   }
 
