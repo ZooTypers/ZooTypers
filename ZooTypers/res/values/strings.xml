@@ -32,5 +32,8 @@
     <string name="title_activity_pre_game_selection_multi">PreGameSelectionMulti</string>
     <string name="title_activity_options">Options</string>
     <string name="title_activity_leaderboard">Leaderboard</string>
+    <string name="placeholder_string">TextView</string>
+    <string name="title_activity_single_player_game">SinglePlayerGame</string>
+    <string name="score">Current Score :</string>
 
 </resources>

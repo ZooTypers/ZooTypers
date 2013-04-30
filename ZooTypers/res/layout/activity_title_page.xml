@@ -71,7 +71,7 @@
         android:layout_above="@+id/options_button"
         android:layout_alignLeft="@+id/single_player_button"
         android:layout_alignRight="@+id/single_player_button"
-        android:onClick="goToLeaderboard"
+        android:onClick="goToSingle"
         android:text="@string/leaderboard" />
 
     <Button
