@@ -126,7 +126,7 @@ public class SinglePlayerModel extends Observable {
       int wordLen = wordsList[wordsDisplayed[currWordIndex]].length();
 
       // word is completed after final letter is typed
-      if (currLetterIndex + 1 > wordLen) { // >= ?
+      if (currLetterIndex + 1 >= wordLen) {
         score += wordLen;
         updateWordsDisplayed();
         currLetterIndex = -1;
