@@ -11,14 +11,18 @@ import org.apache.commons.io.FileUtils;
  */
 public class SinglePlayerModel extends Observable {
 
-  // array of words
+  // array of words 
   private String[] wordsList;
+  
   // array of indices that references strings inside wordsList
   private int[] wordsDisplayed;
+  
   // index of a string inside wordsDisplayed, should never be used on wordsList!
   private int currWordIndex;
+  
   // index of letter that has been parsed from the currWordIndex
   private int currLetterIndex;
+  
   // index of the next word to pull from wordsList, should only be used with wordsList
   private int nextWordIndex;
   private int score;

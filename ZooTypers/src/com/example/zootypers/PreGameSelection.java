@@ -1,11 +1,12 @@
 package com.example.zootypers;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-//import android.graphics.drawable.Drawable;
+import android.graphics.Color;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+//import android.graphics.drawable.Drawable;
 
 /**
  * UI / controller from pre-game selection screen.
@@ -15,7 +16,8 @@ public class PreGameSelection extends Activity {
 
   // TODO either set buttons to background:@android:color/transparent in layout
   // or change default to actually current bg
-  private final int DEFAULT_BUTTON_BG = 0;
+  private int[] buttonColors = new int[] { Color.parseColor("#00CC33"), Color.parseColor("#0066FF") };
+  private final int DEFAULT_BUTTON_BG = 0; //#00CC33
   private final int HIGHLIGH_BUTTON_BG = android.R.drawable.btn_default;
 
   private View diff;
@@ -48,9 +50,9 @@ public class PreGameSelection extends Activity {
    */
   public void setDiff(View view) {
     if (diff != null) {
-      diff.setBackgroundResource(DEFAULT_BUTTON_BG);
+      diff.setBackgroundColor(buttonColors[0]); //DEFAULT_BUTTON_BG
     }
-    view.setBackgroundResource(HIGHLIGH_BUTTON_BG);
+    view.setBackgroundColor(buttonColors[1]); //HIGHLIGH_BUTTON_BG
     diff = view;
   }
 
