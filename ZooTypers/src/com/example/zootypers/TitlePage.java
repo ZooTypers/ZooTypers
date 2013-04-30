@@ -60,5 +60,9 @@ public class TitlePage extends Activity {
     startActivity(intent);    
   }
 	
-	
+
+  public void goToSingle(View view) {
+    Intent intent = new Intent(this, SinglePlayerGame.class);
+    startActivity(intent);
+  }
 }
