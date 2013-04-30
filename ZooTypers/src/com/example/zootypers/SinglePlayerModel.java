@@ -6,51 +6,78 @@ import java.util.Observable;
 
 import org.apache.commons.io.FileUtils;
 
-/** Model class for Single Player.
+/** 
+ * 
+ * The Model class for Single Player store a list of words for the UI to display.
+ * It keeps track of word and letter the user has typed and updates the view accordingly.
+ * 
  * @author winglam, nhlien93, dyxliang
+ * 
  */
+
 public class SinglePlayerModel extends Observable {
 
-  // array of words 
+  // stores an array of words 
   private String[] wordsList;
   
-  // array of indices that references strings inside wordsList
+  // array of indices that refers to strings inside wordsList
   private int[] wordsDisplayed;
   
-  // index of a string inside wordsDisplayed, should never be used on wordsList!
+  // index of a string inside wordsDisplayed (should NEVER be used on wordsList!)
   private int currWordIndex;
   
   // index of letter that has been parsed from the currWordIndex
   private int currLetterIndex;
   
-  // index of the next word to pull from wordsList, should only be used with wordsList
+  // index of the next word to pull from wordsList, (should ONLY be used with wordsList)
   private int nextWordIndex;
+  
+  // keep track of the user's current score
   private int score;
-  private SinglePlayerUI view;
 
-  // number of words displayed
+  // number of words displayed on the view
   private final int numWordsDisplayed = 5;
 
-  public SinglePlayerModel(final String animalID, final String backgroudID,
+  private SinglePlayerUI view;
+  
+  /**
+   * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
+   * and also what the difficulty level is. The constructor will initialize the words list
+   * and fills in what words the view should display on the screen.
+   * 
+   * @param animalID, the string ID of a animal that is selected by the user
+   * @param backgroudID, the string ID of a background that is selected by the user
+   * @param diff, the difficulty level that is selected by the user
+   */
+  public SinglePlayerModel(final String animalID, final String backgroudID, 
       final States.difficulty diff) {
+    
+    // generates the words list according to difficulty chosen
     fillWordsList(diff);
-
+    
+    //initialize all the fields to default starting values
     wordsDisplayed = new int[numWordsDisplayed];
     nextWordIndex = numWordsDisplayed;
     score = 0;
     currWordIndex = -1;
     currLetterIndex = -1;
 
-    // putting first five words into word
+    // putting first five words into wordsDisplayed
     for (int i = 0; i < numWordsDisplayed; i++) {
       wordsDisplayed[i] = i;
     }
-
+    
+    //creates a new singlePlayerUI view to add as observer
     view = new SinglePlayerUI();
     this.addObserver(view);
   }
 
-  // reads some files into wordsList based on diff
+  /*
+   * Reads different files according to the difficulty passed in and
+   * parsed the words in the chosen file into wordsList.
+   * 
+   * @param diff, the difficulty level that the user has chosen
+   */
   private void fillWordsList(final States.difficulty diff) {
     File f;
     if (diff == States.difficulty.EASY) {
@@ -61,6 +88,7 @@ public class SinglePlayerModel extends Observable {
       f = new File("6words.txt");
     }
 
+    //read entire file as string, parsed into array by new line
     try {
       String contents = FileUtils.readFileToString(f);
       String[] parsedWords = contents.split("\n");
@@ -71,10 +99,18 @@ public class SinglePlayerModel extends Observable {
 
   }
 
+  /**
+   * The typedLetter method handles what words and letter the user has
+   * typed so far and notify the view to highlight typed letter or fetch 
+   * a new word from the wordsList for the view to display accordingly.
+   * 
+   * @param letter, the letter that the user typed on the Android soft-keyboard
+   */
   public final void typedLetter(final char letter) {
-    // currently not locked to a word
+    // currently not locked on to a word
     if (currWordIndex == -1) {
       for (int i = 0; i < wordsDisplayed.length; i++) {
+        // if any of the first character in wordsDisplayed matched letter
         if (wordsList[wordsDisplayed[i]].charAt(0) == letter) {
           currWordIndex = i;
           currLetterIndex = 1;
@@ -83,12 +119,14 @@ public class SinglePlayerModel extends Observable {
           return;
         }
       }
+    // locked on to a word being typed (letter == the index of current letter index in the word)
     } else if (wordsList[wordsDisplayed[currWordIndex]].charAt(currLetterIndex) == letter) {
-      // letter is the next letter in locked word
+      
+      // store length of current word
       int wordLen = wordsList[wordsDisplayed[currWordIndex]].length();
 
-      // word is completed after letter
-      if (currLetterIndex + 1 > wordLen) {
+      // word is completed after final letter is typed
+      if (currLetterIndex + 1 > wordLen) { // >= ?
         score += wordLen;
         updateWordsDisplayed();
         currLetterIndex = -1;
@@ -106,8 +144,10 @@ public class SinglePlayerModel extends Observable {
     notifyObservers(States.update.WRONG_LETTER);
   }
 
-  // replace the current word on the list with a new word
-  // post: nextWord will always be set to a valid index of wordsList
+  /*
+   *  Replace the current word on display with a new word from list.
+   *  post: nextWordIndex will always be set to a valid index of wordsList
+   */
   private void updateWordsDisplayed() {
     if (nextWordIndex >= wordsList.length) {
       nextWordIndex = 0;
@@ -133,22 +173,21 @@ public class SinglePlayerModel extends Observable {
    */
   public final String getCurrWord() {
     if (currWordIndex == -1) {
-    return null;
-  }
+      return null;
+    }
 
     return wordsList[wordsDisplayed[currWordIndex]];
   }
 
   /**
-   * @return the index of the word the player is currently locked to within the list displayed
+   * @return the index of the word the player is currently locked to within the words displayed
    */
   public final int getCurrWordIndex() {
     return currWordIndex;
   }
 
   /**
-   * @return the index of the letter the player is expected to type next
-   * from the word he/she is locked to
+   * @return the index of the letter the player is expected to type in the locked word
    */
   public final int getCurrLetterIndex() {
     return currLetterIndex;
