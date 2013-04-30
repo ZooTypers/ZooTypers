@@ -42,8 +42,9 @@ public class SinglePlayerUI extends Activity implements Observer {
     //ImageView backgroundBox = (ImageView) findViewById(R.id.background);
     //backgroundBox.setImageDrawable(backgroudID);
     
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++) {
       displayWord(i, words[i]);
+    }
     
     displayTimer(60);
     displayScore(0);
