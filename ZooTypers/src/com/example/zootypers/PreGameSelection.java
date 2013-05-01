@@ -1,43 +1,42 @@
 package com.example.zootypers;
 
+import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
+import android.graphics.PorterDuff.Mode;
 import android.view.Menu;
 import android.view.View;
-//import android.graphics.drawable.Drawable;
 
 /**
- * UI / controller from pre-game selection screen.
+ *
+ * UI / Activity for pre-game selection screen for a single player game.
  * @author cdallas
+ *
  */
 public class PreGameSelection extends Activity {
 
-  // TODO either set buttons to background:@android:color/transparent in layout
-  // or change default to actually current bg
-  private int[] buttonColors = new int[] { Color.parseColor("#00CC33"), Color.parseColor("#0066FF") };
-  private final int DEFAULT_BUTTON_BG = 0; //#00CC33
-  private final int HIGHLIGH_BUTTON_BG = android.R.drawable.btn_default;
+  private final int HIGHTLIGHT_COLOR = 0xFF000000; // black
 
   private View diff;
   private View animal;
   private View background;
 
   @Override
-  protected void onCreate(final Bundle savedInstanceState) {
+  protected final void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_pregame_selection);
 
     // TODO change so initial values are gotten from storage
-    // & highlight buttons
-    diff = null;
-    animal = null;
-    background = null;
+    diff = findViewById(R.id.medium_difficulty_button);
+    setDiff(diff);
+    animal = findViewById(R.id.elephant_button);
+    setAnimal(animal);
+    background = findViewById(R.id.BG1_button);
+    setBackground(background);
   }
 
   @Override
-  public boolean onCreateOptionsMenu(final Menu menu) {
+  public final boolean onCreateOptionsMenu(final Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.pregame_selection, menu);
     return true;
@@ -48,11 +47,11 @@ public class PreGameSelection extends Activity {
    * button and un-highlights the last selected button.
    * @param view The button clicked
    */
-  public void setDiff(View view) {
+  public final void setDiff(final View view) {
     if (diff != null) {
-      diff.setBackgroundColor(buttonColors[0]); //DEFAULT_BUTTON_BG
+      diff.getBackground().clearColorFilter();
     }
-    view.setBackgroundColor(buttonColors[1]); //HIGHLIGH_BUTTON_BG
+    view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
     diff = view;
   }
 
@@ -61,11 +60,11 @@ public class PreGameSelection extends Activity {
    * button and un-highlights the last selected button.
    * @param view The button clicked
    */
-  public void setAnimal(View view) {
+  public final void setAnimal(final View view) {
     if (animal != null) {
-      animal.setBackgroundResource(DEFAULT_BUTTON_BG);
+      animal.getBackground().clearColorFilter();
     }
-    view.setBackgroundResource(HIGHLIGH_BUTTON_BG);
+    view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
     animal = view;
   }
 
@@ -74,22 +73,25 @@ public class PreGameSelection extends Activity {
    * button and un-highlights the last selected button.
    * @param view The button clicked
    */
-  public void setBackground(View view) {
+  public final void setBackground(final View view) {
     if (background != null) {
-      background.setBackgroundResource(DEFAULT_BUTTON_BG);
+      background.getBackground().clearColorFilter();
     }
-    view.setBackgroundResource(HIGHLIGH_BUTTON_BG);
+    view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
     background = view;
   }
 
-  public void goToSinglePlayer(View view) {
-    // TODO write these diff/animal/bg to storage
-    //STORED animal = animal;
-    //STORED background = background;
-    //STORED difficulty = diff;
+  /**
+   * When continue is clicked, goes to the game play screen.
+   * @param view The button clicked.
+   */
+  public final void goToSinglePlayer(final View view) {
+    // TODO write current diff/animal/bg to storage
 
-
-    Intent intent = new Intent(this, SinglePlayer.class);
+    Intent intent = new Intent(this, SinglePlayerGame.class);
+    // pass animal and background
+    intent.putExtra("anm", animal.getId());
+    intent.putExtra("bg", background.getId());
     startActivity(intent);
   }
 
