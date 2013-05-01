@@ -3,6 +3,7 @@ package com.example.zootypers;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.PorterDuff.Mode;
 import android.view.Menu;
 import android.view.View;
 
@@ -12,9 +13,7 @@ import android.view.View;
  */
 public class PreGameSelection extends Activity {
 
-  // TODO make default for diff buttons not transparent?
-  private final int DEFAULT_BUTTON_BG = 0; //#00CC33
-  private final int HIGHLIGHT_BUTTON_BG = android.R.drawable.btn_default; // #0066FF?
+  private final int HIGHTLIGHT_COLOR = 0xFF000000; // black
 
   private View diff;
   private View animal;
@@ -48,9 +47,9 @@ public class PreGameSelection extends Activity {
    */
   public void setDiff(View view) {
     if (diff != null) {
-      diff.setBackgroundResource(DEFAULT_BUTTON_BG);
+      diff.getBackground().clearColorFilter();
     }
-    view.setBackgroundResource(HIGHLIGHT_BUTTON_BG);
+    view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
     diff = view;
   }
 
@@ -61,9 +60,9 @@ public class PreGameSelection extends Activity {
    */
   public void setAnimal(View view) {
     if (animal != null) {
-      animal.setBackgroundResource(DEFAULT_BUTTON_BG);
+      animal.getBackground().clearColorFilter();
     }
-    view.setBackgroundResource(HIGHLIGHT_BUTTON_BG);
+    view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
     animal = view;
   }
 
@@ -74,9 +73,9 @@ public class PreGameSelection extends Activity {
    */
   public void setBackground(View view) {
     if (background != null) {
-      background.setBackgroundResource(DEFAULT_BUTTON_BG);
+      background.getBackground().clearColorFilter();
     }
-    view.setBackgroundResource(HIGHLIGHT_BUTTON_BG);
+    view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
     background = view;
   }
 
