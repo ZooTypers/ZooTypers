@@ -18,6 +18,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal|center"
                     android:layout_weight="1"
+                    android:background="@android:color/transparent"
                     android:text="@string/diff_easy"
                     android:onClick="setDiff" />
      
@@ -27,6 +28,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_weight="1"
+                    android:background="@android:color/transparent"
                     android:text="@string/diff_medium"
                     android:onClick="setDiff" />
                   
@@ -36,6 +38,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical|center_horizontal"
                     android:layout_weight="1"
+                    android:background="@android:color/transparent"
                     android:text="@string/diff_hard"
                     android:onClick="setDiff" />
 
@@ -59,6 +62,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:contentDescription="@string/elephant_alt"
                     android:onClick="setAnimal"
                     android:src="@drawable/animal_elephant" />
@@ -68,6 +72,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:contentDescription="@string/giraffe_alt"
                     android:onClick="setAnimal"
                     android:src="@drawable/animal_giraffe" />
@@ -77,6 +82,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:contentDescription="@string/kangaroo_alt"
                     android:onClick="setAnimal"
                     android:src="@drawable/animal_kangaroo" />
@@ -86,6 +92,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:contentDescription="@string/lion_alt"
                     android:src="@drawable/animal_lion"
                     android:onClick="setAnimal" />
@@ -95,6 +102,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:contentDescription="@string/monkey_alt"
                     android:onClick="setAnimal"
                     android:src="@drawable/animal_monkey" />
@@ -104,6 +112,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:contentDescription="@string/panda_alt"
                     android:onClick="setAnimal"
                     android:src="@drawable/animal_panda" />
@@ -113,6 +122,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:contentDescription="@string/penguin_alt"
                     android:onClick="setAnimal"
                     android:src="@drawable/animal_penguin" />
@@ -122,6 +132,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:contentDescription="@string/turtle_alt"
                     android:onClick="setAnimal"
                     android:src="@drawable/animal_turtle" />
@@ -148,6 +159,7 @@
                    android:layout_width="wrap_content"
                    android:layout_height="wrap_content"
                    android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                    android:contentDescription="bg1"
                    android:src="@drawable/background_grassland"
                     android:onClick="setBackground" />
@@ -157,6 +169,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:background="@android:color/transparent"
                     android:contentDescription="bg2"
                     android:src="@drawable/background_rainbow"
                     android:onClick="setBackground" />
