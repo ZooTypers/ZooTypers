@@ -28,11 +28,27 @@
         </activity>
         <activity
             android:name="com.example.zootypers.SinglePlayer"
-            android:label="@string/title_activity_single_player" >
+            android:label="@string/title_activity_single_player" android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
         </activity>
         <activity
             android:name="com.example.zootypers.PreGameSelection"
             android:label="@string/title_activity_pre_game_selection" >
+        </activity>
+        <activity
+            android:name="com.example.zootypers.PreGameSelectionMulti"
+            android:label="@string/title_activity_pre_game_selection_multi" >
+        </activity>
+        <activity
+            android:name="com.example.zootypers.Options"
+            android:label="@string/title_activity_options" >
+        </activity>
+        <activity
+            android:name="com.example.zootypers.Leaderboard"
+            android:label="@string/title_activity_leaderboard" >
+        </activity>
+        <activity
+            android:name="com.example.zootypers.SinglePlayerGame"
+            android:label="@string/title_activity_single_player_game" >
         </activity>
     </application>
 
