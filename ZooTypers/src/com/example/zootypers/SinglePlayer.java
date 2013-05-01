@@ -20,7 +20,7 @@ public class SinglePlayer extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.activity_single_player, menu);
+		getMenuInflater().inflate(R.menu.single_player, menu);
 		return true;
 	}
 	
