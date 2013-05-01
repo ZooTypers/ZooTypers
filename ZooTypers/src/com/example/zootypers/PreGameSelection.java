@@ -3,8 +3,6 @@ package com.example.zootypers;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 
@@ -14,11 +12,9 @@ import android.view.View;
  */
 public class PreGameSelection extends Activity {
 
-  // TODO either set buttons to background:@android:color/transparent in layout
-  // or change default to actually current bg
-  private int[] buttonColors = new int[] { Color.parseColor("#00CC33"), Color.parseColor("#0066FF") };
+  // TODO make default for diff buttons not transparent?
   private final int DEFAULT_BUTTON_BG = 0; //#00CC33
-  private final int HIGHLIGH_BUTTON_BG = android.R.drawable.btn_default;
+  private final int HIGHLIGHT_BUTTON_BG = android.R.drawable.btn_default; // #0066FF?
 
   private View diff;
   private View animal;
@@ -30,7 +26,7 @@ public class PreGameSelection extends Activity {
     setContentView(R.layout.activity_pregame_selection);
 
     // TODO change so initial values are gotten from storage
-    diff = findViewById(R.id.easy_difficulty_button);
+    diff = findViewById(R.id.medium_difficulty_button);
     setDiff(diff);
     animal = findViewById(R.id.elephant_button);
     setAnimal(animal);
@@ -52,9 +48,9 @@ public class PreGameSelection extends Activity {
    */
   public void setDiff(View view) {
     if (diff != null) {
-      diff.setBackgroundColor(buttonColors[0]); //DEFAULT_BUTTON_BG
+      diff.setBackgroundResource(DEFAULT_BUTTON_BG);
     }
-    view.setBackgroundColor(buttonColors[1]); //HIGHLIGH_BUTTON_BG
+    view.setBackgroundResource(HIGHLIGHT_BUTTON_BG);
     diff = view;
   }
 
@@ -67,7 +63,7 @@ public class PreGameSelection extends Activity {
     if (animal != null) {
       animal.setBackgroundResource(DEFAULT_BUTTON_BG);
     }
-    view.setBackgroundResource(HIGHLIGH_BUTTON_BG);
+    view.setBackgroundResource(HIGHLIGHT_BUTTON_BG);
     animal = view;
   }
 
@@ -80,7 +76,7 @@ public class PreGameSelection extends Activity {
     if (background != null) {
       background.setBackgroundResource(DEFAULT_BUTTON_BG);
     }
-    view.setBackgroundResource(HIGHLIGH_BUTTON_BG);
+    view.setBackgroundResource(HIGHLIGHT_BUTTON_BG);
     background = view;
   }
 
@@ -89,10 +85,7 @@ public class PreGameSelection extends Activity {
    * @param view The button clicked.
    */
   public void goToSinglePlayer(View view) {
-    // TODO write these diff/animal/bg to storage
-    //STORED animal = animal;
-    //STORED background = background;
-    //STORED difficulty = diff;
+    // TODO write current diff/animal/bg to storage
     
     Intent intent = new Intent(this, SinglePlayerGame.class);
     // pass animal and background
