@@ -8,8 +8,10 @@ import android.view.Menu;
 import android.view.View;
 
 /**
- * UI / controller from pre-game selection screen.
+ *
+ * UI / Activity for pre-game selection screen for a single player game.
  * @author cdallas
+ *
  */
 public class PreGameSelection extends Activity {
 
@@ -20,7 +22,7 @@ public class PreGameSelection extends Activity {
   private View background;
 
   @Override
-  protected void onCreate(final Bundle savedInstanceState) {
+  protected final void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_pregame_selection);
 
@@ -34,7 +36,7 @@ public class PreGameSelection extends Activity {
   }
 
   @Override
-  public boolean onCreateOptionsMenu(final Menu menu) {
+  public final boolean onCreateOptionsMenu(final Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.pregame_selection, menu);
     return true;
@@ -45,7 +47,7 @@ public class PreGameSelection extends Activity {
    * button and un-highlights the last selected button.
    * @param view The button clicked
    */
-  public void setDiff(View view) {
+  public final void setDiff(final View view) {
     if (diff != null) {
       diff.getBackground().clearColorFilter();
     }
@@ -58,7 +60,7 @@ public class PreGameSelection extends Activity {
    * button and un-highlights the last selected button.
    * @param view The button clicked
    */
-  public void setAnimal(View view) {
+  public final void setAnimal(final View view) {
     if (animal != null) {
       animal.getBackground().clearColorFilter();
     }
@@ -71,7 +73,7 @@ public class PreGameSelection extends Activity {
    * button and un-highlights the last selected button.
    * @param view The button clicked
    */
-  public void setBackground(View view) {
+  public final void setBackground(final View view) {
     if (background != null) {
       background.getBackground().clearColorFilter();
     }
@@ -83,9 +85,9 @@ public class PreGameSelection extends Activity {
    * When continue is clicked, goes to the game play screen.
    * @param view The button clicked.
    */
-  public void goToSinglePlayer(View view) {
+  public final void goToSinglePlayer(final View view) {
     // TODO write current diff/animal/bg to storage
-    
+
     Intent intent = new Intent(this, SinglePlayerGame.class);
     // pass animal and background
     intent.putExtra("anm", animal.getId());
