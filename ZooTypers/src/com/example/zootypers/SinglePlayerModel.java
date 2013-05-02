@@ -3,6 +3,8 @@ package com.example.zootypers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.StringWriter;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
@@ -10,7 +12,9 @@ import java.util.Observable;
 import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 
+import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 
 /** 
@@ -44,6 +48,8 @@ public class SinglePlayerModel extends Observable {
 
   // number of words displayed on the view
   private final int numWordsDisplayed = 5;
+
+private AssetManager am;
   
   /**
    * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
@@ -54,8 +60,9 @@ public class SinglePlayerModel extends Observable {
    * @param backgroudID, the string ID of a background that is selected by the user
    * @param diff, the difficulty level that is selected by the user
    */
-  public SinglePlayerModel(final States.difficulty diff) {
+  public SinglePlayerModel(final States.difficulty diff, AssetManager am) {
     
+	  this.am = am;
     // generates the words list according to difficulty chosen
     fillWordsList(diff);
 //    wordsList = new String[10];
@@ -79,47 +86,28 @@ public class SinglePlayerModel extends Observable {
    * @param diff, the difficulty level that the user has chosen
    */
   private void fillWordsList(final States.difficulty diff) {
-    File f;
+    String file;
     if (diff == States.difficulty.EASY) {
-      f = new File("4words.txt");
+      file = "4words.txt";
     } else if (diff == States.difficulty.MEDIUM) {
-      f = new File("5words.txt");
+      file = "5words.txt";
     } else {
-      f = new File("6words.txt");
+      file = "6words.txt";
     }
 
-
-    
     // read entire file as string, parsed into array by new line
     try {
-//    	wordsList = new String[300];
-//        Scanner input = new Scanner(f);
-//        int i = 0;
-//        while(input.hasNext() && i < 300) {
-//            wordsList[i] = input.nextLine();
-//        }
-//
-//        input.close();
-      String contents = getFile("4words.txt");
-      String[] parsedWords = contents.split("\n");
-      wordsList = parsedWords;
+      String contents = getFile(file);
+      wordsList = contents.split("\r\n");
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
   
   public String getFile(String path) throws IOException {
-
-	  FileInputStream stream = new FileInputStream(new File(path));
-	  try {
-		  FileChannel fc = stream.getChannel();
-		  MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
-		  /* Instead of using default, pass in a decoder. */
-		  return Charset.defaultCharset().decode(bb).toString();
-	  }
-	  finally {
-		  stream.close();
-	  }	
+	  InputStream stream = am.open(path);
+	  String myString = IOUtils.toString(stream, "UTF-8");
+	  return myString;  
   }
   
   /**

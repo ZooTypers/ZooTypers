@@ -46,7 +46,7 @@ public class SinglePlayer extends Activity implements Observer {
     Drawable background = ((ImageButton) findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
     // start model
-    model = new SinglePlayerModel(States.difficulty.EASY);
+    model = new SinglePlayerModel(States.difficulty.EASY, this.getAssets());
     model.addObserver(this);
     
     // change screen view
