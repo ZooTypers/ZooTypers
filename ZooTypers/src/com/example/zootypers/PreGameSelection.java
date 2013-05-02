@@ -88,7 +88,7 @@ public class PreGameSelection extends Activity {
   public final void goToSinglePlayer(final View view) {
     // TODO write current diff/animal/bg to storage
 
-    Intent intent = new Intent(this, SinglePlayerGame.class);
+    Intent intent = new Intent(this, SinglePlayer.class);
     // pass animal and background
     intent.putExtra("anm", animal.getId());
     intent.putExtra("bg", background.getId());
