@@ -47,10 +47,6 @@
             android:label="@string/title_activity_leaderboard" >
         </activity>
         <activity
-            android:name="com.example.zootypers.SinglePlayerGame"
-            android:label="@string/title_activity_single_player_game" >
-        </activity>
-        <activity
             android:name="com.example.zootypers.PostGameScreen"
             android:label="@string/title_activity_post_game_screen" >
         </activity>

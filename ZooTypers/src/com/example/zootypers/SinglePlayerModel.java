@@ -6,6 +6,8 @@ import java.util.Observable;
 
 import org.apache.commons.io.FileUtils;
 
+import android.graphics.drawable.Drawable;
+
 /** 
  * 
  * The Model class for Single Player store a list of words for the UI to display.
@@ -38,7 +40,7 @@ public class SinglePlayerModel extends Observable {
   // number of words displayed on the view
   private final int numWordsDisplayed = 5;
 
-  private SinglePlayerUI view;
+  private SinglePlayer view;
   
   /**
    * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
@@ -49,8 +51,7 @@ public class SinglePlayerModel extends Observable {
    * @param backgroudID, the string ID of a background that is selected by the user
    * @param diff, the difficulty level that is selected by the user
    */
-  public SinglePlayerModel(final String animalID, final String backgroudID, 
-      final States.difficulty diff) {
+  public SinglePlayerModel(final States.difficulty diff) {
     
     // generates the words list according to difficulty chosen
     fillWordsList(diff);
@@ -68,7 +69,7 @@ public class SinglePlayerModel extends Observable {
     }
     
     //creates a new singlePlayerUI view to add as observer
-    view = new SinglePlayerUI();
+    view = new SinglePlayer();
     this.addObserver(view);
   }
 
