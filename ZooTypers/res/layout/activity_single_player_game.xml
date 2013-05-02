@@ -35,7 +35,7 @@
         android:layout_height="wrap_content" >
 
         <TextView
-            android:id="@+id/word1"
+            android:id="@+id/word0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -49,7 +49,7 @@
         android:layout_height="wrap_content" >
 
          <TextView
-             android:id="@+id/word2"
+             android:id="@+id/word1"
              android:layout_width="wrap_content"
              android:layout_height="wrap_content"
              android:layout_alignParentLeft="true"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content" >
         
         <TextView
-            android:id="@+id/word3"
+            android:id="@+id/word2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -80,7 +80,7 @@
 	    android:layout_height="wrap_content" >
 	     
 	    <TextView
-	         android:id="@+id/word4"
+	         android:id="@+id/word3"
 	         android:layout_width="wrap_content"
 	         android:layout_height="wrap_content"
 	         android:layout_alignParentLeft="true"
@@ -96,7 +96,7 @@
 	    android:layout_height="wrap_content" >
 	    
 	    <TextView
-            android:id="@+id/word5"
+            android:id="@+id/word4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -111,10 +111,12 @@
 	    android:layout_height="wrap_content" >
 	    
 	    <ImageView
-	    	android:id="@+id/animal_image"
-	   		android:layout_width="wrap_content"
-	    	android:layout_height="wrap_content"
-	    	android:src="@drawable/animal_elephant" />
+	        android:id="@+id/animal_image"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+	        android:src="@drawable/animal_elephant" />
 
 	    <TextView
 	        android:id="@+id/score_prompt"
