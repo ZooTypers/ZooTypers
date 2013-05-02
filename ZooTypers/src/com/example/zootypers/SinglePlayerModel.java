@@ -1,8 +1,13 @@
 package com.example.zootypers;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
 import java.util.Observable;
+import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
 
@@ -39,8 +44,6 @@ public class SinglePlayerModel extends Observable {
 
   // number of words displayed on the view
   private final int numWordsDisplayed = 5;
-
-  private SinglePlayer view;
   
   /**
    * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
@@ -55,22 +58,18 @@ public class SinglePlayerModel extends Observable {
     
     // generates the words list according to difficulty chosen
     fillWordsList(diff);
+//    wordsList = new String[10];
+//    for (int i = 0; i < 10; i++) {
+//    	wordsList[i] = "testing" + i;
+//    }
+
     
     //initialize all the fields to default starting values
     wordsDisplayed = new int[numWordsDisplayed];
     nextWordIndex = numWordsDisplayed;
     score = 0;
-    currWordIndex = -1;
     currLetterIndex = -1;
-
-    // putting first five words into wordsDisplayed
-    for (int i = 0; i < numWordsDisplayed; i++) {
-      wordsDisplayed[i] = i;
-    }
-    
-    //creates a new singlePlayerUI view to add as observer
-    view = new SinglePlayer();
-    this.addObserver(view);
+    currWordIndex = -1;
   }
 
   /*
@@ -89,15 +88,53 @@ public class SinglePlayerModel extends Observable {
       f = new File("6words.txt");
     }
 
-    //read entire file as string, parsed into array by new line
+
+    
+    // read entire file as string, parsed into array by new line
     try {
-      String contents = FileUtils.readFileToString(f);
+//    	wordsList = new String[300];
+//        Scanner input = new Scanner(f);
+//        int i = 0;
+//        while(input.hasNext() && i < 300) {
+//            wordsList[i] = input.nextLine();
+//        }
+//
+//        input.close();
+      String contents = getFile("4words.txt");
       String[] parsedWords = contents.split("\n");
       wordsList = parsedWords;
     } catch (IOException e) {
       e.printStackTrace();
     }
+  }
+  
+  public String getFile(String path) throws IOException {
 
+	  FileInputStream stream = new FileInputStream(new File(path));
+	  try {
+		  FileChannel fc = stream.getChannel();
+		  MappedByteBuffer bb = fc.map(FileChannel.MapMode.READ_ONLY, 0, fc.size());
+		  /* Instead of using default, pass in a decoder. */
+		  return Charset.defaultCharset().decode(bb).toString();
+	  }
+	  finally {
+		  stream.close();
+	  }	
+  }
+  
+  /**
+   * The populateDisplayedList method gets called once by SinglePlayer after
+   * it added itself as an observer of this class.
+   */
+  public void populateDisplayedList() {
+	  // putting first five words into wordsDisplayed
+	  for (int i = 0; i < numWordsDisplayed; i++) {
+		  wordsDisplayed[i] = i;
+		  currWordIndex = i;
+		  setChanged();
+		  notifyObservers(States.update.FINISHED_WORD);
+	  }   
+	  currWordIndex = -1;
   }
 
   /**
@@ -154,8 +191,11 @@ public class SinglePlayerModel extends Observable {
       nextWordIndex = 0;
     }
     wordsDisplayed[currWordIndex] = nextWordIndex;
-
+    // checking to see if any of the first letters of all the words being
+    // displayed are the same letter.
+    
     nextWordIndex += 1;
+    
 
     setChanged();
     notifyObservers(States.update.FINISHED_WORD);
