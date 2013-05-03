@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.PorterDuff.Mode;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 
 /**
  *
@@ -24,9 +25,10 @@ public class PreGameSelection extends Activity {
   @Override
   protected final void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    
     setContentView(R.layout.activity_pregame_selection);
 
-    // TODO change so initial values are gotten from storage
     diff = findViewById(R.id.medium_difficulty_button);
     setDiff(diff);
     animal = findViewById(R.id.elephant_button);
@@ -83,15 +85,35 @@ public class PreGameSelection extends Activity {
 
   /**
    * When continue is clicked, goes to the game play screen.
+   * Passes id of animal & background button selected and an int coding of difficulty,
+   * where 1 is easy, 2 is medium, and 3 is hard.
    * @param view The button clicked.
    */
   public final void goToSinglePlayer(final View view) {
-    // TODO write current diff/animal/bg to storage
-
     Intent intent = new Intent(this, SinglePlayer.class);
+    
+    // pass difficulty
+    if (diff == findViewById(R.id.easy_difficulty_button)) {
+      intent.putExtra("diff", 1);      
+    } else if (diff == findViewById(R.id.hard_difficulty_button)) {
+      intent.putExtra("diff", 3);      
+    } else {
+      intent.putExtra("diff", 2);      
+    }
+    
     // pass animal and background
     intent.putExtra("anm", animal.getId());
     intent.putExtra("bg", background.getId());
+    
+    startActivity(intent);
+  }
+
+  /**
+   * Called when the user clicks the "Main Menu" button.
+   * @param view The button clicked
+   */
+  public final void goToTitlePage(final View view) {
+    Intent intent = new Intent(this, TitlePage.class);
     startActivity(intent);
   }
 
