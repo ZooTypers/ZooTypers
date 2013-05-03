@@ -3,9 +3,7 @@ package com.example.zootypers;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
-
 import com.example.zootypers.States.difficulty;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -35,8 +33,7 @@ public class SinglePlayer extends Activity implements Observer {
   private GameTimer gameTimer;
   public final static long START_TIME = 60000; // 1 minute
   private final long INTERVAL = 1000; // 1 second
-
-  private static final int NUM_WORDS = 5;
+  private final int numWordsDisplayed = 5;
 
   @Override
   protected final void onCreate(final Bundle savedInstanceState) {
@@ -46,7 +43,7 @@ public class SinglePlayer extends Activity implements Observer {
     setContentView(R.layout.activity_pregame_selection);
     Drawable animal = ((ImageButton) findViewById(getIntent().getIntExtra("anm", 0))).getDrawable();
     Drawable background = ((ImageButton) findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
-
+    
     // Get difficulty
     int diff = getIntent().getIntExtra("diff", 2);
     difficulty d = States.difficulty.MEDIUM;
@@ -57,12 +54,11 @@ public class SinglePlayer extends Activity implements Observer {
     }
     
     // start model
-    model = new SinglePlayerModel(d, this.getAssets());
+    model = new SinglePlayerModel(d, this.getAssets(), numWordsDisplayed);
     model.addObserver(this);
     
     // change screen view
     setContentView(R.layout.activity_single_player);
-
     initialDisplay(animal, background);
 
     // create and start timer
@@ -79,7 +75,9 @@ public class SinglePlayer extends Activity implements Observer {
 
   @Override
   public final boolean onKeyDown(final int key, final KeyEvent event){
-    model.typedLetter(event.getDisplayLabel());
+	char charTyped = event.getDisplayLabel();
+	charTyped = Character.toLowerCase(charTyped);
+	model.typedLetter(charTyped);
     return true;
   }
 
@@ -91,10 +89,6 @@ public class SinglePlayer extends Activity implements Observer {
      * @param words An array of the words to display. Must have a length of 5.
      */
   public void initialDisplay(Drawable animalID, Drawable backgroundID) {
-//    if (words.length != NUM_WORDS) {
-//      // TODO error!
-//    }
-
     // display animal
     ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
     animalImage.setImageDrawable(animalID);
@@ -116,7 +110,7 @@ public class SinglePlayer extends Activity implements Observer {
    * @param word The word to display.
    */
   public final void displayWord(final int wordIndex, final String word) {
-    if (wordIndex < 0 || wordIndex >= NUM_WORDS) {
+    if (wordIndex < 0 || wordIndex >= numWordsDisplayed) {
       // error!
     }
     TextView wordBox = (TextView) getByStringId("word" + wordIndex);
@@ -147,8 +141,11 @@ public class SinglePlayer extends Activity implements Observer {
    * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
    * @param letterIndex The index of the letter in the word to highlight.
    */
-  public void highlightWord(final int wordIndex, final int letterIndex) {
-    // TODO highlight the letterIndex letter of the wordIndex word
+  public void highlightWord(final int wordIndex, final String word, final int letterIndex) {
+	  TextView wordBox = (TextView) getByStringId("word" + wordIndex);
+	  String highlighted  = word.substring(0, letterIndex);
+	  String rest = word.substring(letterIndex);
+	  wordBox.setText(Html.fromHtml("<font color=red>" + highlighted + "</font>" + rest));
   }
 
   /**
@@ -168,35 +165,13 @@ public class SinglePlayer extends Activity implements Observer {
           displayScore(spM.getScore());
           displayWord(spM.getCurrWordIndex(), spM.getCurrWord());
         } else if (change == States.update.HIGHLIGHT) {
-          highlightWord(spM.getCurrWordIndex(), spM.getCurrLetterIndex());
+          highlightWord(spM.getCurrWordIndex(), spM.getCurrWord(), spM.getCurrLetterIndex());
         } else if (change == States.update.WRONG_LETTER) {
           // TODO print an error message?
         }
 
       }
     }
-  }
-
-  /** dummy method for testing.
-   * @param view blah
-   * **/
-  public final void fillTexts(final View view) {
-    // testing that variables work
-    String testString = "jamesiscool";
-    TextView firstWord = (TextView) findViewById(R.id.word0);
-    firstWord.setText(Html.fromHtml("<font color=green>" + testString + "</font>"));
-
-    TextView secondWord = (TextView) findViewById(R.id.word1);
-    secondWord.setText("Quetezecal");
-
-    TextView thirdWord = (TextView) findViewById(R.id.word2);
-    thirdWord.setText(Html.fromHtml("<font color=red>thisshouldbered</font>"));
-
-    TextView fourthWord = (TextView) findViewById(R.id.word3);
-    fourthWord.setText("hello");
-
-    TextView fifthWord = (TextView) findViewById(R.id.word4);
-    fifthWord.setText(Html.fromHtml("<font color=purple>gohuskies!</font>asdfadfsd"));
   }
 
   /**
@@ -236,6 +211,8 @@ public class SinglePlayer extends Activity implements Observer {
 
     @Override
     public final void onFinish() {
+      // TODO add game over message before going to post game
+      // currentTime.setText("GAME OVER!!");
       goToPostGame();
     }
 
