@@ -3,39 +3,42 @@ package com.example.zootypers;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
-//import android.graphics.drawable.Drawable;
+import android.graphics.PorterDuff.Mode;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 
 /**
- * UI / controller from pre-game selection screen.
+ *
+ * UI / Activity for pre-game selection screen for a single player game.
  * @author cdallas
+ *
  */
 public class PreGameSelection extends Activity {
 
-  // TODO either set buttons to background:@android:color/transparent in layout
-  // or change default to actually current bg
-  private final int DEFAULT_BUTTON_BG = 0;
-  private final int HIGHLIGH_BUTTON_BG = android.R.drawable.btn_default;
+  private final int HIGHTLIGHT_COLOR = 0xFF000000; // black
 
   private View diff;
   private View animal;
   private View background;
 
   @Override
-  protected void onCreate(final Bundle savedInstanceState) {
+  protected final void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    
     setContentView(R.layout.activity_pregame_selection);
 
-    // TODO change so initial values are gotten from storage
-    // & highlight buttons
-    diff = null;
-    animal = null;
-    background = null;
+    diff = findViewById(R.id.medium_difficulty_button);
+    setDiff(diff);
+    animal = findViewById(R.id.elephant_button);
+    setAnimal(animal);
+    background = findViewById(R.id.BG1_button);
+    setBackground(background);
   }
 
   @Override
-  public boolean onCreateOptionsMenu(final Menu menu) {
+  public final boolean onCreateOptionsMenu(final Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.pregame_selection, menu);
     return true;
@@ -46,11 +49,11 @@ public class PreGameSelection extends Activity {
    * button and un-highlights the last selected button.
    * @param view The button clicked
    */
-  public void setDiff(View view) {
+  public final void setDiff(final View view) {
     if (diff != null) {
-      diff.setBackgroundResource(DEFAULT_BUTTON_BG);
+      diff.getBackground().clearColorFilter();
     }
-    view.setBackgroundResource(HIGHLIGH_BUTTON_BG);
+    view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
     diff = view;
   }
 
@@ -59,11 +62,11 @@ public class PreGameSelection extends Activity {
    * button and un-highlights the last selected button.
    * @param view The button clicked
    */
-  public void setAnimal(View view) {
+  public final void setAnimal(final View view) {
     if (animal != null) {
-      animal.setBackgroundResource(DEFAULT_BUTTON_BG);
+      animal.getBackground().clearColorFilter();
     }
-    view.setBackgroundResource(HIGHLIGH_BUTTON_BG);
+    view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
     animal = view;
   }
 
@@ -72,22 +75,45 @@ public class PreGameSelection extends Activity {
    * button and un-highlights the last selected button.
    * @param view The button clicked
    */
-  public void setBackground(View view) {
+  public final void setBackground(final View view) {
     if (background != null) {
-      background.setBackgroundResource(DEFAULT_BUTTON_BG);
+      background.getBackground().clearColorFilter();
     }
-    view.setBackgroundResource(HIGHLIGH_BUTTON_BG);
+    view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
     background = view;
   }
 
-  public void goToSinglePlayer(View view) {
-    // TODO write these diff/animal/bg to storage
-    //STORED animal = animal;
-    //STORED background = background;
-    //STORED difficulty = diff;
-
-
+  /**
+   * When continue is clicked, goes to the game play screen.
+   * Passes id of animal & background button selected and an int coding of difficulty,
+   * where 1 is easy, 2 is medium, and 3 is hard.
+   * @param view The button clicked.
+   */
+  public final void goToSinglePlayer(final View view) {
     Intent intent = new Intent(this, SinglePlayer.class);
+    
+    // pass difficulty
+    if (diff == findViewById(R.id.easy_difficulty_button)) {
+      intent.putExtra("diff", 1);      
+    } else if (diff == findViewById(R.id.hard_difficulty_button)) {
+      intent.putExtra("diff", 3);      
+    } else {
+      intent.putExtra("diff", 2);      
+    }
+    
+    // pass animal and background
+    intent.putExtra("anm", animal.getId());
+    intent.putExtra("bg", background.getId());
+    
+    startActivity(intent);
+  }
+
+  /**
+   * Called when the user clicks the "Main Menu" button.
+   * @param view The button clicked
+   */
+  public final void goToTitlePage(final View view) {
+    Intent intent = new Intent(this, TitlePage.class);
     startActivity(intent);
   }
 

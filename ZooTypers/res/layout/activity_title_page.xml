@@ -17,29 +17,30 @@
     
      <ImageView
          android:id="@+id/title_page_img1"
-         android:layout_width="110sp"
-         android:layout_height="wrap_content"
+         android:layout_width="120sp"
+         android:layout_height="120sp"
+        android:layout_alignParentLeft="true"
          android:layout_marginLeft="10dp"
-         android:layout_marginTop="80dp"
+         android:layout_marginTop="110dp"
          android:contentDescription="@string/elephant_alt"
          android:src="@drawable/animal_elephant" />
     
     <ImageView
         android:id="@+id/title_page_img2"
-        android:layout_width="80sp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_width="120sp"
+        android:layout_height="120sp"
+        android:layout_marginTop="110dp"
         android:layout_centerHorizontal="true"
         android:contentDescription="@string/penguin_alt"
         android:src="@drawable/animal_penguin" />
     
     <ImageView
         android:id="@+id/title_page_img3"
-        android:layout_width="80sp"
-        android:layout_height="wrap_content"
+        android:layout_width="120sp"
+        android:layout_height="120sp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
-        android:layout_marginTop="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="110dp"
         android:contentDescription="@string/giraffe_alt"
         android:src="@drawable/animal_giraffe" />
 
@@ -71,7 +72,7 @@
         android:layout_above="@+id/options_button"
         android:layout_alignLeft="@+id/single_player_button"
         android:layout_alignRight="@+id/single_player_button"
-        android:onClick="goToSingle"
+        android:onClick="goToLeaderboard"
         android:text="@string/leaderboard" />
 
     <Button
