@@ -112,10 +112,11 @@
 	    
 	    <ImageView
 	        android:id="@+id/animal_image"
-	        android:layout_width="wrap_content"
+	        android:layout_width="200dp"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentBottom="true"
 	        android:layout_alignParentLeft="true"
+	        android:layout_margin="0dp"
 	        android:src="@drawable/animal_elephant" />
 
 	    <TextView

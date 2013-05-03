@@ -3,7 +3,7 @@ package com.example.zootypers;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
-
+import com.example.zootypers.States.difficulty;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -43,10 +43,18 @@ public class SinglePlayer extends Activity implements Observer {
     setContentView(R.layout.activity_pregame_selection);
     Drawable animal = ((ImageButton) findViewById(getIntent().getIntExtra("anm", 0))).getDrawable();
     Drawable background = ((ImageButton) findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
-
+    
+    // Get difficulty
+    int diff = getIntent().getIntExtra("diff", 2);
+    difficulty d = States.difficulty.MEDIUM;
+    if (diff == 1) {
+      d = States.difficulty.EASY;
+    } else if (diff == 3) {
+      d = States.difficulty.HARD;
+    }
+    
     // start model
-    model = new SinglePlayerModel(States.difficulty.EASY, 
-    							this.getAssets(), numWordsDisplayed);
+    model = new SinglePlayerModel(d, this.getAssets(), numWordsDisplayed);
     model.addObserver(this);
     
     // change screen view
@@ -65,7 +73,6 @@ public class SinglePlayer extends Activity implements Observer {
     return true;
   }
 
-  // testing methods
   @Override
   public final boolean onKeyDown(final int key, final KeyEvent event){
 	char charTyped = event.getDisplayLabel();
@@ -106,7 +113,6 @@ public class SinglePlayer extends Activity implements Observer {
     if (wordIndex < 0 || wordIndex >= numWordsDisplayed) {
       // error!
     }
-    // TODO : figure out what this means
     TextView wordBox = (TextView) getByStringId("word" + wordIndex);
     wordBox.setText(word);
   }
