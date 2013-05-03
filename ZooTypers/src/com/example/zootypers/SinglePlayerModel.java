@@ -1,21 +1,14 @@
 package com.example.zootypers;
 
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
-import java.nio.MappedByteBuffer;
-import java.nio.channels.FileChannel;
-import java.nio.charset.Charset;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Observable;
-import java.util.Scanner;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 
 import android.content.res.AssetManager;
-import android.graphics.drawable.Drawable;
 
 /** 
  * 
@@ -64,12 +57,7 @@ private AssetManager am;
     
 	  this.am = am;
     // generates the words list according to difficulty chosen
-    fillWordsList(diff);
-//    wordsList = new String[10];
-//    for (int i = 0; i < 10; i++) {
-//    	wordsList[i] = "testing" + i;
-//    }
-
+    getWordsList(diff);
     
     //initialize all the fields to default starting values
     wordsDisplayed = new int[numWordsDisplayed];
@@ -80,12 +68,13 @@ private AssetManager am;
   }
 
   /*
-   * Reads different files according to the difficulty passed in and
-   * parsed the words in the chosen file into wordsList.
+   * Reads different files according to the difficulty passed in,
+   * parsed the words in the chosen file into wordsList, and shuffles
+   * the words in the list.
    * 
    * @param diff, the difficulty level that the user has chosen
    */
-  private void fillWordsList(final States.difficulty diff) {
+  private void getWordsList(final States.difficulty diff) {
     String file;
     if (diff == States.difficulty.EASY) {
       file = "4words.txt";
@@ -97,17 +86,15 @@ private AssetManager am;
 
     // read entire file as string, parsed into array by new line
     try {
-      String contents = getFile(file);
-      wordsList = contents.split("\r\n");
+	  InputStream stream = am.open(file);
+	  String contents = IOUtils.toString(stream, "UTF-8");
+      wordsList = contents.split(System.getProperty("line.separator"));
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-  
-  public String getFile(String path) throws IOException {
-	  InputStream stream = am.open(path);
-	  String myString = IOUtils.toString(stream, "UTF-8");
-	  return myString;  
+    
+    // Shuffle the elements in the array
+    Collections.shuffle(Arrays.asList(wordsList));
   }
   
   /**
