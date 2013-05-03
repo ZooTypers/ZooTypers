@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Observable;
+import java.util.Set;
 
 import org.apache.commons.io.IOUtils;
 
@@ -21,6 +23,9 @@ import android.content.res.AssetManager;
 
 public class SinglePlayerModel extends Observable {
 
+	// number of words displayed on the view
+	private final int numWordsDisplayed;
+	
 	// stores an array of words 
 	private String[] wordsList;
 
@@ -39,10 +44,10 @@ public class SinglePlayerModel extends Observable {
 	// keep track of the user's current score
 	private int score;
 
-	// number of words displayed on the view
-	private final int numWordsDisplayed;
-
+	// allows files in assets to be accessed.
 	private AssetManager am;
+	
+	private Set<Character> currFirstLetters;
 
 	/**
 	 * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
@@ -61,7 +66,7 @@ public class SinglePlayerModel extends Observable {
 
 		//initialize all the fields to default starting values
 		wordsDisplayed = new int[numWordsDisplayed];
-		nextWordIndex = numWordsDisplayed;
+		nextWordIndex = 0;
 		score = 0;
 		currLetterIndex = -1;
 		currWordIndex = -1;
@@ -103,8 +108,13 @@ public class SinglePlayerModel extends Observable {
 	 */
 	public void populateDisplayedList() {
 		// putting first five words into wordsDisplayed
+		currFirstLetters = new HashSet<Character>();
 		for (int i = 0; i < numWordsDisplayed; i++) {
-			wordsDisplayed[i] = i;
+			while (currFirstLetters.contains(wordsList[nextWordIndex].charAt(0))) {
+				nextWordIndex++;
+			}
+			currFirstLetters.add(wordsList[nextWordIndex].charAt(0));
+			wordsDisplayed[i] = nextWordIndex;
 			currWordIndex = i;
 			setChanged();
 			notifyObservers(States.update.FINISHED_WORD);
@@ -164,28 +174,19 @@ public class SinglePlayerModel extends Observable {
 	 *  post: nextWordIndex will always be set to a valid index of wordsList
 	 */
 	private void updateWordsDisplayed() {
-		while (true) {
+		currFirstLetters.remove(wordsList[wordsDisplayed[currWordIndex]].charAt(0));
+		while (currFirstLetters.contains(wordsList[nextWordIndex].charAt(0))) {
+			nextWordIndex++;
 			if (nextWordIndex >= wordsList.length) {
 				nextWordIndex = 0;
 			}
-			// checking to see if any of the first letters of all the words being
-			// displayed are the same letter.
-			for (int i = 0; i < numWordsDisplayed; i++) {
-				if (currWordIndex != i) {
-					String nextWord = wordsList[nextWordIndex];
-					String selectedWord = wordsList[wordsDisplayed[i]];
-					if (selectedWord.charAt(0) == nextWord.charAt(0)) {
-						nextWordIndex++;
-						break;
-					} 
-				}
-			}
-			if (wordsDisplayed[currWordIndex] == nextWordIndex) {
-				break;
-			}
 		}
+		currFirstLetters.add(wordsList[nextWordIndex].charAt(0));
 		wordsDisplayed[currWordIndex] = nextWordIndex;
 		nextWordIndex++;
+		if (nextWordIndex >= wordsList.length) {
+			nextWordIndex = 0;
+		}
 		setChanged();
 		notifyObservers(States.update.FINISHED_WORD);
 	}
