@@ -40,7 +40,7 @@ public class SinglePlayerModel extends Observable {
 	private int score;
 
 	// number of words displayed on the view
-	private final int numWordsDisplayed = 5;
+	private final int numWordsDisplayed;
 
 	private AssetManager am;
 
@@ -53,8 +53,8 @@ public class SinglePlayerModel extends Observable {
 	 * @param backgroudID, the string ID of a background that is selected by the user
 	 * @param diff, the difficulty level that is selected by the user
 	 */
-	public SinglePlayerModel(final States.difficulty diff, AssetManager am) {
-
+	public SinglePlayerModel(final States.difficulty diff, AssetManager am, int wordsDis) {
+		this.numWordsDisplayed = wordsDis;
 		this.am = am;
 		// generates the words list according to difficulty chosen
 		getWordsList(diff);
@@ -164,28 +164,27 @@ public class SinglePlayerModel extends Observable {
 	 *  post: nextWordIndex will always be set to a valid index of wordsList
 	 */
 	private void updateWordsDisplayed() {
-		boolean isMatching = true;
-		while (isMatching) {
+		while (true) {
 			if (nextWordIndex >= wordsList.length) {
 				nextWordIndex = 0;
 			}
-			wordsDisplayed[currWordIndex] = nextWordIndex;
 			// checking to see if any of the first letters of all the words being
 			// displayed are the same letter.
 			for (int i = 0; i < numWordsDisplayed; i++) {
 				if (currWordIndex != i) {
-					String current = wordsList[nextWordIndex];
-					String other = wordsList[wordsDisplayed[i]];
-					if (current.charAt(0) == other.charAt(0)) {
+					String nextWord = wordsList[nextWordIndex];
+					String selectedWord = wordsList[wordsDisplayed[i]];
+					if (selectedWord.charAt(0) == nextWord.charAt(0)) {
 						nextWordIndex++;
 						break;
 					} 
 				}
 			}
 			if (wordsDisplayed[currWordIndex] == nextWordIndex) {
-				isMatching = false;
+				break;
 			}
 		}
+		wordsDisplayed[currWordIndex] = nextWordIndex;
 		nextWordIndex++;
 		setChanged();
 		notifyObservers(States.update.FINISHED_WORD);

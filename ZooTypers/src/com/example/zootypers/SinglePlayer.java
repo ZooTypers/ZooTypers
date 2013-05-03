@@ -33,8 +33,7 @@ public class SinglePlayer extends Activity implements Observer {
   private GameTimer gameTimer;
   public final static long START_TIME = 60000; // 1 minute
   private final long INTERVAL = 1000; // 1 second
-
-  private static final int NUM_WORDS = 5;
+  private final int numWordsDisplayed = 5;
 
   @Override
   protected final void onCreate(final Bundle savedInstanceState) {
@@ -46,14 +45,13 @@ public class SinglePlayer extends Activity implements Observer {
     Drawable background = ((ImageButton) findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
     // start model
-    model = new SinglePlayerModel(States.difficulty.EASY, this.getAssets());
+    model = new SinglePlayerModel(States.difficulty.EASY, 
+    							this.getAssets(), numWordsDisplayed);
     model.addObserver(this);
     
     // change screen view
     setContentView(R.layout.activity_single_player);
 
-//    // TODO get words from model
-//    String[] words = {"word1", "word2", "word3", "word4", "word5"};
     initialDisplay(animal, background);
 
     // create and start timer
@@ -82,10 +80,6 @@ public class SinglePlayer extends Activity implements Observer {
      * @param words An array of the words to display. Must have a length of 5.
      */
   public void initialDisplay(Drawable animalID, Drawable backgroundID) {
-//    if (words.length != NUM_WORDS) {
-//      // TODO error!
-//    }
-
     // display animal
     ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
     animalImage.setImageDrawable(animalID);
@@ -94,10 +88,6 @@ public class SinglePlayer extends Activity implements Observer {
     ViewGroup layout = (ViewGroup) findViewById(R.id.single_game_layout);
     layout.setBackground(backgroundID);
 
-//    for (int i = 0; i < Math.max(words.length, NUM_WORDS); i++) {
-//      displayWord(i, words[i]);
-//    }
-    // display words
     model.populateDisplayedList();
 
     // TODO figure out how to change milliseconds to seconds. it skips numbers
@@ -111,7 +101,7 @@ public class SinglePlayer extends Activity implements Observer {
    * @param word The word to display.
    */
   public final void displayWord(final int wordIndex, final String word) {
-    if (wordIndex < 0 || wordIndex >= NUM_WORDS) {
+    if (wordIndex < 0 || wordIndex >= numWordsDisplayed) {
       // error!
     }
     // TODO : figure out what this means
@@ -176,7 +166,7 @@ public class SinglePlayer extends Activity implements Observer {
   /** dummy method for testing.
    * @param view blah
    * **/
-  public final void fillTexts(final View view) {
+  public final void fillTexts() {
     // testing that variables work
     String testString = "jamesiscool";
     TextView firstWord = (TextView) findViewById(R.id.word0);
