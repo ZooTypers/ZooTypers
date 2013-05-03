@@ -15,6 +15,7 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,19 +31,23 @@ public class SinglePlayer extends Activity implements Observer {
 
   private SinglePlayerModel model;
 
-  private GameTimer gameTimer;
   public final static long START_TIME = 60000; // 1 minute
   private final long INTERVAL = 1000; // 1 second
+  private GameTimer gameTimer;
   private final int numWordsDisplayed = 5;
+  
+  private int bg;
 
   @Override
   protected final void onCreate(final Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
     // Get animal & background selected by user
     setContentView(R.layout.activity_pregame_selection);
     Drawable animal = ((ImageButton) findViewById(getIntent().getIntExtra("anm", 0))).getDrawable();
-    Drawable background = ((ImageButton) findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
+    bg = getIntent().getIntExtra("bg", 0);
+    Drawable background = ((ImageButton) findViewById(bg)).getDrawable();
     
     // Get difficulty
     int diff = getIntent().getIntExtra("diff", 2);
@@ -181,6 +186,7 @@ public class SinglePlayer extends Activity implements Observer {
     Intent intent = new Intent(this, PostGameScreen.class);
     // pass score
     intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
+    intent.putExtra("bg", bg);
     startActivity(intent);
   }
 
