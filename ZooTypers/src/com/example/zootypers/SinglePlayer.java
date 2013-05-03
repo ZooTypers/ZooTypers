@@ -1,5 +1,7 @@
 package com.example.zootypers;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +36,15 @@ public class SinglePlayer extends Activity implements Observer {
   public final static long START_TIME = 60000; // 1 minute
   private final long INTERVAL = 1000; // 1 second
 
+  // for testing purposes
+  private String[] words; // would a list be better?
+  private String currentWord;
+  private int currentIndex;
+  private int currentLetter;
+  
+  
+  
+  
   private static final int NUM_WORDS = 5;
 
   @Override
@@ -52,9 +63,17 @@ public class SinglePlayer extends Activity implements Observer {
     setContentView(R.layout.activity_single_player);
 
     // TODO get words from model
-    String[] words = {"word1", "word2", "word3", "word4", "word5"};
-    initialDisplay(animal, background, words);
-
+    words = new String[NUM_WORDS];
+    words[0] = "word1";
+    words[1] = "hello";
+    words[2] = "james";
+    words[3] = "computer";
+    words[4] = "boo";
+    currentWord = ""; 
+    
+    String[] word_temp = {"word1", "hello", "james", "computer", "boo"};
+    initialDisplay(animal, background, word_temp);
+    
     // create and start timer
     gameTimer = new GameTimer(START_TIME, INTERVAL);
     gameTimer.start();
@@ -67,12 +86,59 @@ public class SinglePlayer extends Activity implements Observer {
     return true;
   }
 
+  // testing methods
   @Override
   public final boolean onKeyDown(final int key, final KeyEvent event){
-    Model.typedLetter(event.getDisplayLabel());
+	char charTyped = event.getDisplayLabel();
+	charTyped = Character.toLowerCase(charTyped);
+	System.out.println("THIS IS CHARTYPED " + charTyped);
+	boolean foundStart = false;  // used to see if word is found
+	if (currentWord.equals("")) {
+	  // case where the word is not set yet
+	  for (int i = 0; i < words.length; i++) {
+	    if (words[i].charAt(0) == charTyped) {
+		  currentWord = words[i];
+		  currentIndex = i;
+		  currentLetter = 0;
+		  foundStart = true;
+		  break;
+		}
+	  }
+	  
+	  if (foundStart) {
+	    highlightWordTest(currentIndex, currentLetter);
+	  }
+	} else {
+	  // word is set, type the nextletter
+	  if((currentLetter + 1) == currentWord.length()) {
+	    // entire word was typed, reset values
+	    currentWord = "";
+		currentLetter = 0;
+		// make the thing invisible
+		TextView deletedText = (TextView) getByStringId("word" + currentIndex);
+		deletedText.setVisibility(TextView.INVISIBLE);
+		// remove the word from the list
+	  } else {
+	    if (currentWord.charAt(currentLetter) == charTyped) {
+		  highlightWordTest(currentIndex, currentLetter);
+		}
+	  }
+	}
+	//Model.typedLetter(event.getDisplayLabel());
     return true;
   }
 
+  private void highlightWordTest(int wordIndex, int letterIndex) {
+	    System.out.println("DID IT GET HERE");
+	    TextView wordBox = (TextView) getByStringId("word" + wordIndex);
+	    String highlighted  = currentWord.substring(0, letterIndex+1);
+	    String rest = currentWord.substring(letterIndex+1);
+	    currentLetter++;
+	    System.out.println("THIS IS THE HIGHLIGHTED " + highlighted);
+	    System.out.println("THIS IS THE REST " + rest);
+	    wordBox.setText(Html.fromHtml("<font color=red>" + highlighted + "</font>"
+	    							+ rest));
+  }  
   /**
      * Displays the initial screen of the single player game.
      * @param animalID Drawable referring to the id of the selected animal image,
