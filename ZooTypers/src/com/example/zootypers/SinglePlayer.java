@@ -31,7 +31,7 @@ public class SinglePlayer extends Activity implements Observer {
 
   private SinglePlayerModel model;
 
-  public final static long START_TIME = 60000; // 1 minute
+  public final static long START_TIME = 1000; // 1 minute
   private final long INTERVAL = 1000; // 1 second
   private GameTimer gameTimer;
   private final int numWordsDisplayed = 5;
@@ -80,10 +80,15 @@ public class SinglePlayer extends Activity implements Observer {
 
   @Override
   public final boolean onKeyDown(final int key, final KeyEvent event){
-	char charTyped = event.getDisplayLabel();
+ 	char charTyped = event.getDisplayLabel();
 	charTyped = Character.toLowerCase(charTyped);
 	model.typedLetter(charTyped);
     return true;
+  }
+  
+  @Override
+  public void onBackPressed() {
+	  // TODO trigger pause screen!
   }
 
   /**

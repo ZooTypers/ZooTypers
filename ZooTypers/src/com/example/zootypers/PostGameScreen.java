@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -38,6 +39,12 @@ public class PostGameScreen extends Activity {
     finalScore.setText(score);
   }
 
+  @Override
+  public void onBackPressed() {
+	  // TODO decide what we want to happen when pressed!
+	  return;
+  }
+  
   @Override
   public final boolean onCreateOptionsMenu(final Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
