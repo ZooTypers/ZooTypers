@@ -1,11 +1,10 @@
 package com.example.zootypers;
 
-import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.view.KeyEvent;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -41,7 +40,7 @@ public class PostGameScreen extends Activity {
 
   @Override
   public void onBackPressed() {
-	  // TODO decide what we want to happen when pressed!
+	  // do nothing
 	  return;
   }
   
@@ -51,7 +50,7 @@ public class PostGameScreen extends Activity {
     getMenuInflater().inflate(R.menu.postgame_screen, menu);
     return true;
   }
-
+  
   /**
    * Called when the user clicks the "Main Menu" button.
    * @param view The button clicked

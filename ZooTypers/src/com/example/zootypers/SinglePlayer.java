@@ -3,7 +3,7 @@ package com.example.zootypers;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
-import com.example.zootypers.States.difficulty;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -20,6 +20,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.zootypers.States.difficulty;
+
 @SuppressLint("NewApi")
 /**
 *
@@ -31,7 +33,7 @@ public class SinglePlayer extends Activity implements Observer {
 
   private SinglePlayerModel model;
 
-  public final static long START_TIME = 1000; // 1 minute
+  public final static long START_TIME = 60000; // 1 minute
   private final long INTERVAL = 1000; // 1 second
   private GameTimer gameTimer;
   private final int numWordsDisplayed = 5;
@@ -77,13 +79,19 @@ public class SinglePlayer extends Activity implements Observer {
     getMenuInflater().inflate(R.menu.single_player, menu);
     return true;
   }
-
+  
   @Override
   public final boolean onKeyDown(final int key, final KeyEvent event){
  	char charTyped = event.getDisplayLabel();
 	charTyped = Character.toLowerCase(charTyped);
 	model.typedLetter(charTyped);
     return true;
+  }
+  
+  @Override 
+  public void onPause() {
+	  super.onPause();
+	  // TODO trigger pause screen to pause when Home is pressed
   }
   
   @Override
