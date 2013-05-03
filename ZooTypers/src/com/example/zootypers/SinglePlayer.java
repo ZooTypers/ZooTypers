@@ -51,7 +51,6 @@ public class SinglePlayer extends Activity implements Observer {
     
     // change screen view
     setContentView(R.layout.activity_single_player);
-
     initialDisplay(animal, background);
 
     // create and start timer
@@ -66,9 +65,12 @@ public class SinglePlayer extends Activity implements Observer {
     return true;
   }
 
+  // testing methods
   @Override
   public final boolean onKeyDown(final int key, final KeyEvent event){
-    model.typedLetter(event.getDisplayLabel());
+	char charTyped = event.getDisplayLabel();
+	charTyped = Character.toLowerCase(charTyped);
+	model.typedLetter(charTyped);
     return true;
   }
 
@@ -133,8 +135,11 @@ public class SinglePlayer extends Activity implements Observer {
    * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
    * @param letterIndex The index of the letter in the word to highlight.
    */
-  public void highlightWord(final int wordIndex, final int letterIndex) {
-    // TODO highlight the letterIndex letter of the wordIndex word
+  public void highlightWord(final int wordIndex, final String word, final int letterIndex) {
+	  TextView wordBox = (TextView) getByStringId("word" + wordIndex);
+	  String highlighted  = word.substring(0, letterIndex);
+	  String rest = word.substring(letterIndex);
+	  wordBox.setText(Html.fromHtml("<font color=red>" + highlighted + "</font>" + rest));
   }
 
   /**
@@ -154,35 +159,13 @@ public class SinglePlayer extends Activity implements Observer {
           displayScore(spM.getScore());
           displayWord(spM.getCurrWordIndex(), spM.getCurrWord());
         } else if (change == States.update.HIGHLIGHT) {
-          highlightWord(spM.getCurrWordIndex(), spM.getCurrLetterIndex());
+          highlightWord(spM.getCurrWordIndex(), spM.getCurrWord(), spM.getCurrLetterIndex());
         } else if (change == States.update.WRONG_LETTER) {
           // TODO print an error message?
         }
 
       }
     }
-  }
-
-  /** dummy method for testing.
-   * @param view blah
-   * **/
-  public final void fillTexts() {
-    // testing that variables work
-    String testString = "jamesiscool";
-    TextView firstWord = (TextView) findViewById(R.id.word0);
-    firstWord.setText(Html.fromHtml("<font color=green>" + testString + "</font>"));
-
-    TextView secondWord = (TextView) findViewById(R.id.word1);
-    secondWord.setText("Quetezecal");
-
-    TextView thirdWord = (TextView) findViewById(R.id.word2);
-    thirdWord.setText(Html.fromHtml("<font color=red>thisshouldbered</font>"));
-
-    TextView fourthWord = (TextView) findViewById(R.id.word3);
-    fourthWord.setText("hello");
-
-    TextView fifthWord = (TextView) findViewById(R.id.word4);
-    fifthWord.setText(Html.fromHtml("<font color=purple>gohuskies!</font>asdfadfsd"));
   }
 
   /**
