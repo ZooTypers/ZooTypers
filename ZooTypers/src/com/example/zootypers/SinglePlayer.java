@@ -28,7 +28,7 @@ import android.widget.TextView;
 */
 public class SinglePlayer extends Activity implements Observer {
 
-  SinglePlayerModel Model;
+  private SinglePlayerModel model;
 
   private GameTimer gameTimer;
   public final static long START_TIME = 60000; // 1 minute
@@ -46,14 +46,15 @@ public class SinglePlayer extends Activity implements Observer {
     Drawable background = ((ImageButton) findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
     // start model
-    Model = new SinglePlayerModel(States.difficulty.EASY);
-
+    model = new SinglePlayerModel(States.difficulty.EASY, this.getAssets());
+    model.addObserver(this);
+    
     // change screen view
     setContentView(R.layout.activity_single_player);
 
-    // TODO get words from model
-    String[] words = {"word1", "word2", "word3", "word4", "word5"};
-    initialDisplay(animal, background, words);
+//    // TODO get words from model
+//    String[] words = {"word1", "word2", "word3", "word4", "word5"};
+    initialDisplay(animal, background);
 
     // create and start timer
     gameTimer = new GameTimer(START_TIME, INTERVAL);
@@ -69,7 +70,7 @@ public class SinglePlayer extends Activity implements Observer {
 
   @Override
   public final boolean onKeyDown(final int key, final KeyEvent event){
-    Model.typedLetter(event.getDisplayLabel());
+    model.typedLetter(event.getDisplayLabel());
     return true;
   }
 
@@ -80,10 +81,10 @@ public class SinglePlayer extends Activity implements Observer {
      * @param backgroudID Drawable referring to the id of the selected background image.
      * @param words An array of the words to display. Must have a length of 5.
      */
-  public void initialDisplay(Drawable animalID, Drawable backgroundID, String[] words) {
-    if (words.length != NUM_WORDS) {
-      // TODO error!
-    }
+  public void initialDisplay(Drawable animalID, Drawable backgroundID) {
+//    if (words.length != NUM_WORDS) {
+//      // TODO error!
+//    }
 
     // display animal
     ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
@@ -93,9 +94,11 @@ public class SinglePlayer extends Activity implements Observer {
     ViewGroup layout = (ViewGroup) findViewById(R.id.single_game_layout);
     layout.setBackground(backgroundID);
 
-    for (int i = 0; i < Math.max(words.length, NUM_WORDS); i++) {
-      displayWord(i, words[i]);
-    }
+//    for (int i = 0; i < Math.max(words.length, NUM_WORDS); i++) {
+//      displayWord(i, words[i]);
+//    }
+    // display words
+    model.populateDisplayedList();
 
     // TODO figure out how to change milliseconds to seconds. it skips numbers
     displayTime(START_TIME / INTERVAL);
