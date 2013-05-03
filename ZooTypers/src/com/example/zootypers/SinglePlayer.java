@@ -4,6 +4,8 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
 
+import com.example.zootypers.States.difficulty;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -45,15 +47,22 @@ public class SinglePlayer extends Activity implements Observer {
     Drawable animal = ((ImageButton) findViewById(getIntent().getIntExtra("anm", 0))).getDrawable();
     Drawable background = ((ImageButton) findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
+    // Get difficulty
+    int diff = getIntent().getIntExtra("diff", 2);
+    difficulty d = States.difficulty.MEDIUM;
+    if (diff == 1) {
+      d = States.difficulty.EASY;
+    } else if (diff == 3) {
+      d = States.difficulty.HARD;
+    }
+    
     // start model
-    model = new SinglePlayerModel(States.difficulty.EASY, this.getAssets());
+    model = new SinglePlayerModel(d, this.getAssets());
     model.addObserver(this);
     
     // change screen view
     setContentView(R.layout.activity_single_player);
 
-//    // TODO get words from model
-//    String[] words = {"word1", "word2", "word3", "word4", "word5"};
     initialDisplay(animal, background);
 
     // create and start timer
@@ -94,10 +103,6 @@ public class SinglePlayer extends Activity implements Observer {
     ViewGroup layout = (ViewGroup) findViewById(R.id.single_game_layout);
     layout.setBackground(backgroundID);
 
-//    for (int i = 0; i < Math.max(words.length, NUM_WORDS); i++) {
-//      displayWord(i, words[i]);
-//    }
-    // display words
     model.populateDisplayedList();
 
     // TODO figure out how to change milliseconds to seconds. it skips numbers
@@ -114,7 +119,6 @@ public class SinglePlayer extends Activity implements Observer {
     if (wordIndex < 0 || wordIndex >= NUM_WORDS) {
       // error!
     }
-    // TODO : figure out what this means
     TextView wordBox = (TextView) getByStringId("word" + wordIndex);
     wordBox.setText(word);
   }
@@ -232,8 +236,6 @@ public class SinglePlayer extends Activity implements Observer {
 
     @Override
     public final void onFinish() {
-      // TODO add game over message before going to post game
-      // currentTime.setText("GAME OVER!!");
       goToPostGame();
     }
 
