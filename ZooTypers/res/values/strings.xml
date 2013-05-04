@@ -34,11 +34,13 @@
     <string name="title_activity_leaderboard">Leaderboard</string>
     <string name="placeholder_string">TextView</string>
     <string name="title_activity_single_player_game">SinglePlayerGame</string>
-    <string name="score">Current Score :</string>
+    <string name="score">Score:</string>
     <string name="title_activity_post_game_screen">PostGameScreen</string>
     <string name="final_score">Final Score: </string>
     <string name="main_menu">Main Menu</string>
     <string name="new_game">New Game</string>
     <string name="ad_text">Your ad could be here!</string>
+    <string name="pause">| |</string>
+    <string name="toggle_keyboard">Keyboard</string>
 
 </resources>
