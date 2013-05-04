@@ -1,10 +1,10 @@
 package com.example.zootypers;
 
-import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -39,12 +39,18 @@ public class PostGameScreen extends Activity {
   }
 
   @Override
+  public void onBackPressed() {
+	  // do nothing
+	  return;
+  }
+  
+  @Override
   public final boolean onCreateOptionsMenu(final Menu menu) {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.postgame_screen, menu);
     return true;
   }
-
+  
   /**
    * Called when the user clicks the "Main Menu" button.
    * @param view The button clicked
