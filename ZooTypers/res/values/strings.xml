@@ -40,5 +40,6 @@
     <string name="main_menu">Main Menu</string>
     <string name="new_game">New Game</string>
     <string name="ad_text">Your ad could be here!</string>
+    <string name="keyboard_string">KeyBoard</string>
 
 </resources>

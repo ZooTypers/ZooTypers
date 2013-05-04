@@ -27,7 +27,9 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:onClick="fillTexts"
-            android:text="Button" />        
+            android:text="Button" />       
+            
+            
     </RelativeLayout>
     
     <RelativeLayout
@@ -140,6 +142,22 @@
 	        android:text="TextView" />
 		
 	</RelativeLayout>
-	
-	 
+    <RelativeLayout 
+        android:id="@+id/InnerRelativeLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true" >
+
+ 	<Button
+       	android:id="@+id/keyboard_button"
+       	style="?android:attr/buttonStyleSmall"
+       	android:layout_width="wrap_content"
+       	android:layout_height="wrap_content"
+       	android:layout_centerHorizontal="true"
+       	android:layout_marginBottom="5dp"
+       	android:onClick="keyboardButton"
+       	android:text="@string/keyboard_string" />
+
+    </RelativeLayout>
+
 </LinearLayout>
