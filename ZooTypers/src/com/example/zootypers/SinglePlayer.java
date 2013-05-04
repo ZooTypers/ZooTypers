@@ -37,25 +37,28 @@ import com.example.zootypers.States.difficulty;
 /**
 *
 * UI / Activity and controller for single player game screen.
-* @author cdallas
+* @author cdallas, littlpunk, kobyran
 *
 */
 public class SinglePlayer extends Activity implements Observer {
 
   private SinglePlayerModel model;
-
-  public final static long START_TIME = 60000; // 1 minute
-  private final long INTERVAL = 1000; // 1 second
-  private GameTimer gameTimer;
-  private final int numWordsDisplayed = 5;
   
-  private PopupMenu popUp;
+  private final int NUM_WORDS = 5;  
+
+  private int bg;
+  
+  // for the popup window
+  PopupWindow ppw;
   LayoutParams popUpParams;
   LinearLayout popUpLayout;
-  private int bg;
   private long currentTime;
-  private long startTime = START_TIME;
-  private boolean click = true;
+  private long pausedTime = START_TIME;
+
+  // for the timer
+  private GameTimer gameTimer;
+  private final long INTERVAL = 1000; // 1 second
+  public final static long START_TIME = 60000; // 1 minute
 
   @Override
   protected final void onCreate(final Bundle savedInstanceState) {
@@ -78,7 +81,7 @@ public class SinglePlayer extends Activity implements Observer {
     }
     
     // start model
-    model = new SinglePlayerModel(d, this.getAssets(), numWordsDisplayed);
+    model = new SinglePlayerModel(d, this.getAssets(), NUM_WORDS);
     model.addObserver(this);
     
     // change screen view
@@ -88,9 +91,6 @@ public class SinglePlayer extends Activity implements Observer {
     // create and start timer
     gameTimer = new GameTimer(START_TIME, INTERVAL);
     gameTimer.start();
-    
-    setUpPopUp();
-    
   }
 
   @Override
@@ -148,7 +148,7 @@ public class SinglePlayer extends Activity implements Observer {
    * @param word The word to display.
    */
   public final void displayWord(final int wordIndex, final String word) {
-    if (wordIndex < 0 || wordIndex >= numWordsDisplayed) {
+    if (wordIndex < 0 || wordIndex >= NUM_WORDS) {
       // error!
     }
     TextView wordBox = (TextView) getByStringId("word" + wordIndex);
@@ -233,47 +233,7 @@ public class SinglePlayer extends Activity implements Observer {
     startActivity(intent);
   }
   
-  private void initializeButtons(){
-	    final Intent startOverIntent = new Intent(this, PreGameSelection.class);
-	    final Intent titlePageIntent = new Intent(this, TitlePage.class);
-		//Continue Button
-		Button continueButton = new Button(this);
-		continueButton.setText("Continue");
-		continueButton.setOnTouchListener(new OnTouchListener(){
-			@Override
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-				gameTimer = new GameTimer(startTime, INTERVAL);
-				gameTimer.start();
-				popUp.dismiss();
-				return true;
-			}
-		});
-		//replay Button
-		Button replayButton = new Button(this);
-		replayButton.setText("replay");
-		replayButton.setOnTouchListener(new OnTouchListener(){
-			@Override
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-				startActivity(startOverIntent);
-				return true;
-			}
-
-		});
-		//endGame Button
-		Button endGameButton = new Button(this);
-		endGameButton.setText("endGame");
-		endGameButton.setOnTouchListener(new OnTouchListener(){
-			@Override
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-				startActivity(titlePageIntent);
-				return true;
-			}
-		});
-		//Add all to layout
-		popUpLayout.addView(continueButton, popUpParams);
-		popUpLayout.addView(replayButton, popUpParams);
-		popUpLayout.addView(endGameButton, popUpParams);
-	}
+  
 
   /**
    * @param id The id of the View to get as a String.
@@ -283,64 +243,69 @@ public class SinglePlayer extends Activity implements Observer {
     return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
   }
 
-  private void setUpPopUp() {
-	final Intent mainMenuIntent = new Intent(this, TitlePage.class);
-	final Intent restartIntent = new Intent(this, PreGameSelection.class);
-	Button pauseButton = (Button) findViewById(R.id.pause_button);
-	pauseButton.setOnClickListener(new Button.OnClickListener() {
-		@Override
-		public void onClick(View view) {
-			startTime = currentTime;
-			gameTimer.cancel();
-
-			LayoutInflater layoutInflater = 
-					(LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-			View popupView = layoutInflater.inflate(R.layout.pause_layout, null);
-			final PopupWindow popupWindow = new PopupWindow(
-					popupView,
-					LayoutParams.WRAP_CONTENT,
-						LayoutParams.WRAP_CONTENT);
-			ViewGroup parentLayout = (ViewGroup) findViewById(R.id.single_game_layout);
-			popupWindow.showAtLocation(parentLayout, Gravity.CENTER, 10, -150);
-			popupWindow.update(350, 500);
-			Button continueButton = (Button)popupView.findViewById(R.id.continue_button);
-			continueButton.setOnClickListener(new Button.OnClickListener() {
-				@Override
-				public void onClick(View view){
-					gameTimer = new GameTimer(startTime, INTERVAL);
-					gameTimer.start();
-					popupWindow.dismiss();
-				}
-			});
-
-			Button mainMenuButton = (Button)popupView.findViewById(R.id.main_menu_button);
-			mainMenuButton.setOnClickListener(new Button.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					startActivity(mainMenuIntent);
-				}
-			});
-
-			Button restartButton = (Button)popupView.findViewById(R.id.restart_button);
-			restartButton.setOnClickListener(new Button.OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					startActivity(restartIntent);
-				}
-			});
-		}
-	});
-  }
   /**
-   *
+   * When the pause button is pressed, pauses the game and shows a pop-up window.
+   * @param view The button clicked.
+   */
+  public void pauseGame(View view) {
+	  // save & stop time
+	  pausedTime = currentTime;
+	  gameTimer.cancel();
+	  
+	  // disable buttons & keyboard
+	  findViewById(R.id.keyboard_open_button).setEnabled(false);
+	  findViewById(R.id.pause_button).setEnabled(false);
+
+	  // create popup window
+	  LayoutInflater layoutInflater = 
+			  (LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+	  View popupView = layoutInflater.inflate(R.layout.pause_layout, null);
+	  ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+	  ViewGroup parentLayout = (ViewGroup) findViewById(R.id.single_game_layout);
+	  ppw.showAtLocation(parentLayout, Gravity.CENTER, 10, 20);
+	  ppw.update(350, 500);
+  }
+  
+  /**
+   * When the user clicks the continue button while paused, continues the game.
+   * @param view The button clicked.
+   */
+  public void pausedContinue(View view){
+	  // re-enable buttons & keyboard
+	  findViewById(R.id.keyboard_open_button).setEnabled(true);
+	  findViewById(R.id.pause_button).setEnabled(true);
+	  keyboardButton(findViewById(R.id.keyboard_open_button));
+	  
+	  gameTimer = new GameTimer(pausedTime, INTERVAL);
+	  gameTimer.start();
+	  ppw.dismiss();
+  }
+
+  /**
+   * When the user clicks the new game button while paused, starts a new game.
+   * @param view The button clicked.
+   */
+  public void pausedNewGame(View view) {
+	  final Intent restartIntent = new Intent(this, PreGameSelection.class);
+	  startActivity(restartIntent);
+  }
+  
+  /**
+   * When the user clicks the main menu button while paused, goes to the title screen. 
+   * @param view The button clicked.
+   */
+  public void pausedMainMenu(View view) {
+	  final Intent mainMenuIntent = new Intent(this, TitlePage.class);
+	  startActivity(mainMenuIntent);
+  }
+  
+  /**
    * Timer for game.
    * @author ZooTypers
-   *
    */
   public class GameTimer extends CountDownTimer {
 
     /**
-     *
      * @param startTime Amount of time player starts with.
      * @param interval Amount of time between ticks.
      */
@@ -351,14 +316,13 @@ public class SinglePlayer extends Activity implements Observer {
     @Override
     public final void onFinish() {
       // TODO add game over message before going to post game
-      // currentTime.setText("GAME OVER!!");
       goToPostGame();
     }
 
     @Override
     public final void onTick(final long millisUntilFinished) {
       currentTime = millisUntilFinished;
-      displayTime(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
+      displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
     }
   }
 }
