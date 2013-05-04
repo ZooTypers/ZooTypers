@@ -233,47 +233,7 @@ public class SinglePlayer extends Activity implements Observer {
     startActivity(intent);
   }
   
-  private void initializeButtons(){
-	    final Intent startOverIntent = new Intent(this, PreGameSelection.class);
-	    final Intent titlePageIntent = new Intent(this, TitlePage.class);
-		//Continue Button
-		Button continueButton = new Button(this);
-		continueButton.setText("Continue");
-		continueButton.setOnTouchListener(new OnTouchListener(){
-			@Override
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-				gameTimer = new GameTimer(startTime, INTERVAL);
-				gameTimer.start();
-				popUp.dismiss();
-				return true;
-			}
-		});
-		//replay Button
-		Button replayButton = new Button(this);
-		replayButton.setText("replay");
-		replayButton.setOnTouchListener(new OnTouchListener(){
-			@Override
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-				startActivity(startOverIntent);
-				return true;
-			}
-
-		});
-		//endGame Button
-		Button endGameButton = new Button(this);
-		endGameButton.setText("endGame");
-		endGameButton.setOnTouchListener(new OnTouchListener(){
-			@Override
-			public boolean onTouch(View arg0, MotionEvent arg1) {
-				startActivity(titlePageIntent);
-				return true;
-			}
-		});
-		//Add all to layout
-		popUpLayout.addView(continueButton, popUpParams);
-		popUpLayout.addView(replayButton, popUpParams);
-		popUpLayout.addView(endGameButton, popUpParams);
-	}
+  
 
   /**
    * @param id The id of the View to get as a String.
@@ -293,6 +253,10 @@ public class SinglePlayer extends Activity implements Observer {
 			startTime = currentTime;
 			gameTimer.cancel();
 
+			// disable buttons & keyboard
+			findViewById(R.id.keyboard_open_button).setEnabled(false);
+			findViewById(R.id.pause_button).setEnabled(false);
+
 			LayoutInflater layoutInflater = 
 					(LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 			View popupView = layoutInflater.inflate(R.layout.pause_layout, null);
@@ -307,6 +271,11 @@ public class SinglePlayer extends Activity implements Observer {
 			continueButton.setOnClickListener(new Button.OnClickListener() {
 				@Override
 				public void onClick(View view){
+					// re-enable buttons & keyboard
+					findViewById(R.id.keyboard_open_button).setEnabled(true);
+					findViewById(R.id.pause_button).setEnabled(true);
+					keyboardButton(findViewById(R.id.keyboard_open_button));
+
 					gameTimer = new GameTimer(startTime, INTERVAL);
 					gameTimer.start();
 					popupWindow.dismiss();
@@ -331,6 +300,7 @@ public class SinglePlayer extends Activity implements Observer {
 		}
 	});
   }
+  
   /**
    *
    * Timer for game.
@@ -340,7 +310,6 @@ public class SinglePlayer extends Activity implements Observer {
   public class GameTimer extends CountDownTimer {
 
     /**
-     *
      * @param startTime Amount of time player starts with.
      * @param interval Amount of time between ticks.
      */
@@ -351,7 +320,6 @@ public class SinglePlayer extends Activity implements Observer {
     @Override
     public final void onFinish() {
       // TODO add game over message before going to post game
-      // currentTime.setText("GAME OVER!!");
       goToPostGame();
     }
 
