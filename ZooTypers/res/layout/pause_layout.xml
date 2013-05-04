@@ -12,8 +12,7 @@
         android:layout_gravity="center_horizontal"
         android:gravity="center_horizontal"
         android:layout_marginTop="20dp"
-        android:text="Game Paused" />
-        "
+        android:text="@string/is_paused" />
 
     <Button
         android:id="@+id/continue_button"
@@ -21,7 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="Continue" />
+        android:text="@string/cont"
+        android:onClick="pausedContinue" />
     
      <Button
          android:id="@+id/restart_button"
@@ -29,7 +29,8 @@
          android:layout_height="wrap_content"
          android:layout_gravity="center_horizontal"
          android:layout_marginTop="10dp"
-         android:text="New Game" />
+         android:text="@string/new_game"
+        android:onClick="pausedNewGame" />
      
      <Button
          android:id="@+id/main_menu_button"
@@ -37,6 +38,7 @@
          android:layout_height="wrap_content"
          android:layout_gravity="center_horizontal"
          android:layout_marginTop="10dp"
-         android:text="Main Menu" />
+         android:text="@string/main_menu"
+        android:onClick="pausedMainMenu" />
    
 </LinearLayout>
