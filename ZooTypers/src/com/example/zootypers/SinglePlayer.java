@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import com.example.zootypers.States.difficulty;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -150,7 +152,7 @@ public class SinglePlayer extends Activity implements Observer {
 	  TextView wordBox = (TextView) getByStringId("word" + wordIndex);
 	  String highlighted  = word.substring(0, letterIndex);
 	  String rest = word.substring(letterIndex);
-	  wordBox.setText(Html.fromHtml("<font color=red>" + highlighted + "</font>" + rest));
+	  wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
   }
 
   /**
@@ -177,6 +179,16 @@ public class SinglePlayer extends Activity implements Observer {
 
       }
     }
+  }
+  
+  /**
+   * Reopens keyboard when it is closed
+   * @param view The button clicked.
+   * @author oaknguyen
+   */
+  public final  void keyboardButton(final View view) {
+	  InputMethodManager inputMgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+	  inputMgr.toggleSoftInput(0, 0);
   }
 
   /**
