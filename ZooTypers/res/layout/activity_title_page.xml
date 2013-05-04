@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="70dp"
         android:contentDescription="@string/title"
         android:src="@drawable/title_image" />
     
@@ -19,9 +19,9 @@
          android:id="@+id/title_page_img1"
          android:layout_width="120sp"
          android:layout_height="120sp"
-        android:layout_alignParentLeft="true"
+         android:layout_alignParentLeft="true"
+         android:layout_below="@+id/title"
          android:layout_marginLeft="10dp"
-         android:layout_marginTop="110dp"
          android:contentDescription="@string/elephant_alt"
          android:src="@drawable/animal_elephant" />
     
@@ -29,8 +29,8 @@
         android:id="@+id/title_page_img2"
         android:layout_width="120sp"
         android:layout_height="120sp"
-        android:layout_marginTop="110dp"
         android:layout_centerHorizontal="true"
+        android:layout_below="@+id/title"
         android:contentDescription="@string/penguin_alt"
         android:src="@drawable/animal_penguin" />
     
@@ -40,7 +40,7 @@
         android:layout_height="120sp"
         android:layout_alignParentRight="true"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="110dp"
+        android:layout_below="@+id/title"
         android:contentDescription="@string/giraffe_alt"
         android:src="@drawable/animal_giraffe" />
 
