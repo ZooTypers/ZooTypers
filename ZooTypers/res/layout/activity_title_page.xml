@@ -21,7 +21,6 @@
          android:layout_height="120sp"
          android:layout_alignParentLeft="true"
          android:layout_below="@+id/title"
-         android:layout_marginLeft="10dp"
          android:contentDescription="@string/elephant_alt"
          android:src="@drawable/animal_elephant" />
     
@@ -85,5 +84,14 @@
         android:layout_marginBottom="10sp"
         android:onClick="goToOptions"
         android:text="@string/options" />
+
+    <ImageView
+        android:id="@+id/title_page_img4"
+        android:layout_width="50sp"
+        android:layout_height="50sp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:contentDescription="@string/husky_logo_alt"
+        android:src="@drawable/husky_logo" />
 
 </RelativeLayout>
