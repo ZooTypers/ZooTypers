@@ -3,7 +3,7 @@ package com.example.zootypers;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
-import com.example.zootypers.States.difficulty;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -21,6 +21,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.zootypers.States.difficulty;
 
 @SuppressLint("NewApi")
 /**
@@ -79,13 +81,24 @@ public class SinglePlayer extends Activity implements Observer {
     getMenuInflater().inflate(R.menu.single_player, menu);
     return true;
   }
-
+  
   @Override
   public final boolean onKeyDown(final int key, final KeyEvent event){
-	char charTyped = event.getDisplayLabel();
+ 	char charTyped = event.getDisplayLabel();
 	charTyped = Character.toLowerCase(charTyped);
 	model.typedLetter(charTyped);
     return true;
+  }
+  
+  @Override 
+  public void onPause() {
+	  super.onPause();
+	  // TODO trigger pause screen to pause when Home is pressed
+  }
+  
+  @Override
+  public void onBackPressed() {
+	  // TODO trigger pause screen!
   }
 
   /**
