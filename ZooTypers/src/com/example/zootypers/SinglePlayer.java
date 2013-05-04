@@ -3,8 +3,9 @@ package com.example.zootypers;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
-import com.example.zootypers.States.difficulty;
+
 import android.annotation.SuppressLint;
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,15 +13,25 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.Button;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import com.example.zootypers.States.difficulty;
 
 @SuppressLint("NewApi")
 /**
@@ -38,7 +49,13 @@ public class SinglePlayer extends Activity implements Observer {
   private GameTimer gameTimer;
   private final int numWordsDisplayed = 5;
   
+  private PopupMenu popUp;
+  LayoutParams popUpParams;
+  LinearLayout popUpLayout;
   private int bg;
+  private long currentTime;
+  private long startTime = START_TIME;
+  private boolean click = true;
 
   @Override
   protected final void onCreate(final Bundle savedInstanceState) {
@@ -71,6 +88,9 @@ public class SinglePlayer extends Activity implements Observer {
     // create and start timer
     gameTimer = new GameTimer(START_TIME, INTERVAL);
     gameTimer.start();
+    
+    setUpPopUp();
+    
   }
 
   @Override
@@ -79,13 +99,24 @@ public class SinglePlayer extends Activity implements Observer {
     getMenuInflater().inflate(R.menu.single_player, menu);
     return true;
   }
-
+  
   @Override
   public final boolean onKeyDown(final int key, final KeyEvent event){
-	char charTyped = event.getDisplayLabel();
+ 	char charTyped = event.getDisplayLabel();
 	charTyped = Character.toLowerCase(charTyped);
 	model.typedLetter(charTyped);
     return true;
+  }
+  
+  @Override 
+  public void onPause() {
+	  super.onPause();
+	  // TODO trigger pause screen to pause when Home is pressed
+  }
+  
+  @Override
+  public void onBackPressed() {
+	  // TODO trigger pause screen!
   }
 
   /**
@@ -201,6 +232,48 @@ public class SinglePlayer extends Activity implements Observer {
     intent.putExtra("bg", bg);
     startActivity(intent);
   }
+  
+  private void initializeButtons(){
+	    final Intent startOverIntent = new Intent(this, PreGameSelection.class);
+	    final Intent titlePageIntent = new Intent(this, TitlePage.class);
+		//Continue Button
+		Button continueButton = new Button(this);
+		continueButton.setText("Continue");
+		continueButton.setOnTouchListener(new OnTouchListener(){
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				gameTimer = new GameTimer(startTime, INTERVAL);
+				gameTimer.start();
+				popUp.dismiss();
+				return true;
+			}
+		});
+		//replay Button
+		Button replayButton = new Button(this);
+		replayButton.setText("replay");
+		replayButton.setOnTouchListener(new OnTouchListener(){
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				startActivity(startOverIntent);
+				return true;
+			}
+
+		});
+		//endGame Button
+		Button endGameButton = new Button(this);
+		endGameButton.setText("endGame");
+		endGameButton.setOnTouchListener(new OnTouchListener(){
+			@Override
+			public boolean onTouch(View arg0, MotionEvent arg1) {
+				startActivity(titlePageIntent);
+				return true;
+			}
+		});
+		//Add all to layout
+		popUpLayout.addView(continueButton, popUpParams);
+		popUpLayout.addView(replayButton, popUpParams);
+		popUpLayout.addView(endGameButton, popUpParams);
+	}
 
   /**
    * @param id The id of the View to get as a String.
@@ -210,6 +283,54 @@ public class SinglePlayer extends Activity implements Observer {
     return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
   }
 
+  private void setUpPopUp() {
+	final Intent mainMenuIntent = new Intent(this, TitlePage.class);
+	final Intent restartIntent = new Intent(this, PreGameSelection.class);
+	Button pauseButton = (Button) findViewById(R.id.pause_button);
+	pauseButton.setOnClickListener(new Button.OnClickListener() {
+		@Override
+		public void onClick(View view) {
+			startTime = currentTime;
+			gameTimer.cancel();
+
+			LayoutInflater layoutInflater = 
+					(LayoutInflater)getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+			View popupView = layoutInflater.inflate(R.layout.pause_layout, null);
+			final PopupWindow popupWindow = new PopupWindow(
+					popupView,
+					LayoutParams.WRAP_CONTENT,
+						LayoutParams.WRAP_CONTENT);
+			ViewGroup parentLayout = (ViewGroup) findViewById(R.id.single_game_layout);
+			popupWindow.showAtLocation(parentLayout, Gravity.CENTER, 10, -150);
+			popupWindow.update(350, 500);
+			Button continueButton = (Button)popupView.findViewById(R.id.continue_button);
+			continueButton.setOnClickListener(new Button.OnClickListener() {
+				@Override
+				public void onClick(View view){
+					gameTimer = new GameTimer(startTime, INTERVAL);
+					gameTimer.start();
+					popupWindow.dismiss();
+				}
+			});
+
+			Button mainMenuButton = (Button)popupView.findViewById(R.id.main_menu_button);
+			mainMenuButton.setOnClickListener(new Button.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					startActivity(mainMenuIntent);
+				}
+			});
+
+			Button restartButton = (Button)popupView.findViewById(R.id.restart_button);
+			restartButton.setOnClickListener(new Button.OnClickListener() {
+				@Override
+				public void onClick(View view) {
+					startActivity(restartIntent);
+				}
+			});
+		}
+	});
+  }
   /**
    *
    * Timer for game.
@@ -236,6 +357,7 @@ public class SinglePlayer extends Activity implements Observer {
 
     @Override
     public final void onTick(final long millisUntilFinished) {
+      currentTime = millisUntilFinished;
       displayTime(TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
     }
   }
