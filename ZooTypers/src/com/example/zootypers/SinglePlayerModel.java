@@ -116,7 +116,8 @@ public class SinglePlayerModel extends Observable {
 			currWordIndex = i;
 			setChanged();
 			notifyObservers(States.update.FINISHED_WORD);
-		}   
+		}
+		nextWordIndex++;
 		currWordIndex = -1;
 	}
 
