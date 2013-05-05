@@ -115,5 +115,10 @@ public class PreGameSelection extends Activity {
         Intent intent = new Intent(this, TitlePage.class);
         startActivity(intent);
     }
-
+    
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, TitlePage.class);
+        startActivity(intent);
+    }
 }
