@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings id="workspace" codepro_version="7.1.0.r37x201109091135" platform_id="org.eclipse.ui">
+	<!--
+		Exported using EclipsePro Audit 7.1.0.r37x201109091206
+		Thu May 02 16:02:11 PDT 2013
+	-->
+	<plugin id="com.instantiations.assist.eclipse.analysis" version="7.1.0.r37x201109091135">
+		<category id="codepro.code.audit">
+			<xmlfile id="audit.xml">
+				<auditRuleSets>
+					<auditRuleSet name="CodePro Code2" description="CodePro&apos;s recommended starting point for an audit rule set." locked="false" active="true" ignoreDisableDirectives="false" autoResolutionEnabled="false" maximumViolationCount="20000" maximumViolationCountByType="2000" maximumViolationCountInResource="200" maximumViolationCountByTypeInResource="200" resourceFilterEnabled="false" default="true">
+						<resourceFilter>
+							<null/>
+						</resourceFilter>
+					
+						#Thu May 02 16:02:11 PDT 2013
+						com.instantiations.assist.eclipse.audit.bracePosition.openingBraceType=false
+						com.instantiations.assist.eclipse.audit.accidentalConcatenation.enabled=true
+						com.instantiations.assist.eclipse.audit.throwInFinally.enabled=true
+						com.instantiations.assist.eclipse.audit.interfaceNamingConvention.namingConvention=;1;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.fullyParenthesizeExpressions.enabled=true
+						com.instantiations.assist.eclipse.audit.avoidNestedAssignments.enabled=true
+						com.instantiations.assist.eclipse.audit.useOfInstanceOfWithThis.enabled=true
+						com.instantiations.assist.eclipse.audit.disallowUnnamedThreadUsage.enabled=true
+						com.instantiations.assist.eclipse.audit.commandExecution.enabled=true
+						com.instantiations.assist.eclipse.audit.wrongIntegerTypeSuffix.enabled=true
+						com.instantiations.assist.eclipse.audit.whiteSpaceUsage.allowSpaceAtStart=true
+						com.instantiations.assist.eclipse.audit.enumerationConstantNamingConvention.namingConvention=;1;9;t;1;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.labelNamingConvention.namingConvention=;2;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.noRunMethod.enabled=true
+						com.instantiations.assist.eclipse.audit.classNamingConvention.namingConvention=;1;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.staticFieldNamingConvention.namingConvention=;1;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.integerDivisionInFloatingPointExpression.enabled=true
+						com.instantiations.assist.eclipse.audit.useOfThreadInterrupted.enabled=true
+						com.instantiations.assist.eclipse.audit.useArraycopyRatherThanALoop.enabled=true
+						com.instantiations.assist.eclipse.audit.emptyFinallyClause.enabled=true
+						com.instantiations.assist.eclipse.audit.disallowAWTPeerUsage.enabled=true
+						com.instantiations.assist.eclipse.audit.returnInFinally.enabled=true
+						com.instantiations.assist.eclipse.audit.emptyWhileStatement.enabled=true
+						com.instantiations.assist.eclipse.audit.logExceptions.enabled=true
+						com.instantiations.assist.eclipse.audit.pluralizeCollectionNames.allowedSuffixes=collection,list,map,set
+						com.instantiations.assist.eclipse.analysis.audit.rule.dereferencingNullPointer.enabled=true
+						com.instantiations.assist.eclipse.audit.methodNamingConvention.namingConvention=;2;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.spaceAroundOperators.enabled=true
+						com.instantiations.assist.eclipse.audit.unnecessaryInstanceof.enabled=true
+						com.instantiations.assist.eclipse.audit.unnecessaryReturn.enabled=true
+						com.instantiations.assist.eclipse.audit.enumeratedTypeNamingConvention.namingConvention=;1;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.overridingEqualsAndHashCode.enabled=true
+						com.instantiations.assist.eclipse.audit.emptySynchronizedStatement.enabled=true
+						com.instantiations.assist.eclipse.audit.useForLoop.flagAll=true
+						com.instantiations.assist.eclipse.audit.questionableName.questionableNames=bar/baz/foo/
+						com.instantiations.assist.eclipse.audit.overridingSynchronizedMethod.enabled=true
+						com.instantiations.assist.eclipse.audit.spaceAfterCommas.enabled=true
+						com.instantiations.assist.eclipse.audit.appendString.enabled=true
+						com.instantiations.assist.eclipse.audit.transientFieldInNonSerializable.enabled=true
+						com.instantiations.assist.eclipse.audit.emptyDoStatement.enabled=true
+						com.instantiations.assist.eclipse.audit.duplicateImport.enabled=true
+						com.instantiations.assist.eclipse.audit.questionableName.acceptableNames=b/c/d/e/ex/f/i/in/j/k/l/o/out/s/v/x/y/z/
+						com.instantiations.assist.eclipse.audit.emptyCatchClause.enabled=true
+						com.instantiations.assist.eclipse.audit.useStartRatherThanRun.enabled=true
+						com.instantiations.assist.eclipse.audit.emptyForStatement.enabled=true
+						com.instantiations.assist.eclipse.audit.temporaryObjectCreation.enabled=true
+						com.instantiations.assist.eclipse.audit.localVariableNamingConvention.namingConvention=;2;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.analysis.audit.rule.effectivejava.obeyEqualsContract.obeyGeneralContractOfEquals.enabled=true
+						com.instantiations.assist.eclipse.audit.disallowDeprecatedMethodUsage.enabled=true
+						com.instantiations.assist.eclipse.audit.useCharAtRatherThanStartsWith.enabled=true
+						com.instantiations.assist.eclipse.audit.indentCodeWithinBlocks.enabled=true
+						com.instantiations.assist.eclipse.audit.constantNamingConvention.namingConvention=;1;9;t;1;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.whiteSpaceUsage.enabled=true
+						com.instantiations.assist.eclipse.audit.disallowNativeMethods.enabled=true
+						com.instantiations.assist.eclipse.audit.efficientExpression.enabled=true
+						com.instantiations.assist.eclipse.audit.emptyInitializer.enabled=true
+						com.instantiations.assist.eclipse.audit.unusedLabel.enabled=true
+						com.instantiations.assist.eclipse.audit.lineLength.maxLineLength=100
+						com.instantiations.assist.eclipse.audit.emptyStatement.enabled=true
+						com.instantiations.assist.eclipse.audit.unnecessaryOverride.enabled=true
+						com.instantiations.assist.eclipse.audit.avoidOctalLiterals.enabled=true
+						com.instantiations.assist.eclipse.audit.bracePosition.openingBraceMethod=false
+						com.instantiations.assist.eclipse.audit.badlyLocatedArrayDeclarators.enabled=true
+						com.instantiations.assist.eclipse.audit.conditionalOperatorUse.enabled=true
+						com.instantiations.assist.eclipse.audit.spaceAfterCasts.enabled=true
+						com.instantiations.assist.eclipse.audit.packageNamingConvention.namingConvention=;2;2;t;2;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.stringCreatedFromLiteral.enabled=true
+						com.instantiations.assist.eclipse.audit.emptyTryStatement.enabled=true
+						com.instantiations.assist.eclipse.audit.environmentVariableAccess.enabled=true
+						com.instantiations.assist.eclipse.audit.comparisonOfShortAndChar.enabled=true
+						com.instantiations.assist.eclipse.audit.useTypeSpecificNames.nameMap=java.io.InputStream\:in,inStream,input,inputStream;java.io.OutputStream\:out,outStream,output,outputStream
+						com.instantiations.assist.eclipse.audit.unnecessaryImport.enabled=true
+						com.instantiations.assist.eclipse.audit.typeParameterNamingConvention.namingConvention=;1;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.emptySwitchStatement.enabled=true
+						com.instantiations.assist.eclipse.audit.oneStatementPerLine.enabled=true
+						com.instantiations.assist.eclipse.audit.redundantAssignment.enabled=true
+						com.instantiations.assist.eclipse.analysis.nonserializableClassDeclaresSerialVersionUID.enabled=true
+						com.instantiations.assist.eclipse.audit.instanceFieldNamingConvention.namingConvention=;2;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.audit.lineLength.enabled=true
+						com.instantiations.assist.eclipse.audit.accessorUsageInDefiningClass.accessorPrefixes=can,equal,get,has,have,is,needs,should,was,can,equal,get,has,have,is,needs,should,was,can,equal,get,has,have,is,needs,should,was,can,equal,get,has,have,is,needs,should,was,can,equal,get,has,have,is,needs,should,was,can,equal,get,has,have,is,needs,should,was,can,equal,get,has,have,is,needs,should,was
+						com.instantiations.assist.eclipse.audit.importOfImplicitPackage.enabled=true
+						com.instantiations.assist.eclipse.audit.typeMemberOrdering.orderAllMembersRuleName=Alphabetical
+						com.instantiations.assist.eclipse.audit.floatComparison.enabled=true
+						com.instantiations.assist.eclipse.audit.equalityTestWithBooleanLiteral.enabled=true
+						com.instantiations.assist.eclipse.audit.bracePosition.enabled=true
+						com.instantiations.assist.eclipse.audit.duplicatePropertyName.enabled=true
+						com.instantiations.assist.eclipse.audit.stringComparison.enabled=true
+						com.instantiations.assist.eclipse.audit.explicitInvocationOfFinalize.enabled=true
+						com.instantiations.assist.eclipse.audit.extraSemicolon.enabled=true
+						com.instantiations.assist.eclipse.audit.unnecessaryCast.enabled=true
+						com.instantiations.assist.eclipse.audit.nonCaseLabelInSwitch.enabled=true
+						com.instantiations.assist.eclipse.audit.methodParameterNamingConvention.namingConvention=;2;15;t;15;;f;1;f;45
+						com.instantiations.assist.eclipse.analysis.audit.rule.codingStyle.returnBooleanExpressionValue.enabled=true
+						com.instantiations.assist.eclipse.audit.annotationTypeNamingConvention.namingConvention=;1;15;t;15;;f;1;f;45
+					</auditRuleSet>
+				</auditRuleSets>
+			</xmlfile>
+		</category>
+	</plugin>
+</settings>
