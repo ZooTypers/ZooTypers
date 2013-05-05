@@ -64,4 +64,9 @@ public class TitlePage extends Activity {
         Intent intent = new Intent(this, Options.class);
         startActivity(intent);
     }
+    
+    @Override
+    public void onBackPressed() {
+        // TODO trigger pause screen!
+    }
 }
