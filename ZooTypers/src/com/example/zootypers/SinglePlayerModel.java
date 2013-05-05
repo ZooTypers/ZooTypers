@@ -7,9 +7,7 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Observable;
 import java.util.Set;
-
 import org.apache.commons.io.IOUtils;
-
 import android.content.res.AssetManager;
 
 /** 
@@ -118,7 +116,8 @@ public class SinglePlayerModel extends Observable {
 			currWordIndex = i;
 			setChanged();
 			notifyObservers(States.update.FINISHED_WORD);
-		}   
+		}
+		nextWordIndex++;
 		currWordIndex = -1;
 	}
 
@@ -149,7 +148,7 @@ public class SinglePlayerModel extends Observable {
 			int wordLen = wordsList[wordsDisplayed[currWordIndex]].length();
 
 			// word is completed after final letter is typed
-			if (currLetterIndex + 1 >= wordLen) {
+			if ((currLetterIndex + 1) >= wordLen) {
 				score += wordLen;
 				updateWordsDisplayed();
 				currLetterIndex = -1;
