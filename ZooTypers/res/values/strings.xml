@@ -45,5 +45,6 @@
     <string name="pause">| |</string>
     <string name="toggle_keyboard">Keyboard</string>
     <string name="is_paused">Game Paused</string>
+    <string name="typedError_prompt">Invalid Letter Typed</string>
 
 </resources>
