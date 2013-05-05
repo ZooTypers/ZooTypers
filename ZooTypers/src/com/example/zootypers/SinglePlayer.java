@@ -56,7 +56,8 @@ public class SinglePlayer extends Activity implements Observer {
     private GameTimer gameTimer;
     private final long INTERVAL = 1000; // 1 second
     public final static long START_TIME = 60000; // 1 minute
-
+    public static boolean paused = false;
+    
     @Override
     protected final void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +90,7 @@ public class SinglePlayer extends Activity implements Observer {
         // create and start timer
         gameTimer = new GameTimer(START_TIME, INTERVAL);
         gameTimer.start();
+
     }
 
     @Override
@@ -103,7 +105,12 @@ public class SinglePlayer extends Activity implements Observer {
      * When the user types a letter, this listens for it.
      */
     public final boolean onKeyDown(final int key, final KeyEvent event){
-        char charTyped = event.getDisplayLabel();
+        if (key == KeyEvent.KEYCODE_BACK && !paused) {
+        	pauseGame(findViewById(R.id.pause_button));
+        	return true;
+        }
+    	
+    	char charTyped = event.getDisplayLabel();
         charTyped = Character.toLowerCase(charTyped);
         model.typedLetter(charTyped);
         return true;
@@ -111,13 +118,9 @@ public class SinglePlayer extends Activity implements Observer {
     
     @Override 
     public void onPause() {
-        super.onPause();
-        // TODO trigger pause screen to pause when Home is pressed
-    }
-  
-    @Override
-    public void onBackPressed() {
-        // TODO trigger pause screen!
+    	super.onPause();
+    	if (!paused)
+    		pauseGame(findViewById(R.id.pause_button));
     }
 
     /**
@@ -271,6 +274,8 @@ public class SinglePlayer extends Activity implements Observer {
         ViewGroup parentLayout = (ViewGroup) findViewById(R.id.single_game_layout);
         ppw.showAtLocation(parentLayout, Gravity.CENTER, 10, 20);
         ppw.update(350, 500);
+        
+        paused = true;
     }
   
     /**
@@ -281,11 +286,12 @@ public class SinglePlayer extends Activity implements Observer {
         // re-enable buttons & keyboard
         findViewById(R.id.keyboard_open_button).setEnabled(true);
         findViewById(R.id.pause_button).setEnabled(true);
-        keyboardButton(findViewById(R.id.keyboard_open_button));
+//        keyboardButton(findViewById(R.id.keyboard_open_button));
 	  
         gameTimer = new GameTimer(pausedTime, INTERVAL);
         gameTimer.start();
         ppw.dismiss();
+        paused = false;
     }
 
     /**
@@ -295,6 +301,7 @@ public class SinglePlayer extends Activity implements Observer {
     public void pausedNewGame(View view) {
         final Intent restartIntent = new Intent(this, PreGameSelection.class);
         startActivity(restartIntent);
+        paused = false;
     }
   
     /**
@@ -304,6 +311,7 @@ public class SinglePlayer extends Activity implements Observer {
     public void pausedMainMenu(View view) {
         final Intent mainMenuIntent = new Intent(this, TitlePage.class);
         startActivity(mainMenuIntent);
+        paused = false;
     }
   
     /**
