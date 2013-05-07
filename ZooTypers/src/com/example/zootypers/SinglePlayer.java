@@ -8,7 +8,10 @@ import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
@@ -24,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.zootypers.States.difficulty;
 
@@ -52,7 +56,8 @@ public class SinglePlayer extends Activity implements Observer {
     private GameTimer gameTimer;
     private final long INTERVAL = 1000; // 1 second
     public final static long START_TIME = 60000; // 1 minute
-
+    public static boolean paused = false;
+    
     @Override
     protected final void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +90,7 @@ public class SinglePlayer extends Activity implements Observer {
         // create and start timer
         gameTimer = new GameTimer(START_TIME, INTERVAL);
         gameTimer.start();
+
     }
 
     @Override
@@ -99,7 +105,12 @@ public class SinglePlayer extends Activity implements Observer {
      * When the user types a letter, this listens for it.
      */
     public final boolean onKeyDown(final int key, final KeyEvent event){
-        char charTyped = event.getDisplayLabel();
+        if (key == KeyEvent.KEYCODE_BACK && !paused) {
+        	pauseGame(findViewById(R.id.pause_button));
+        	return true;
+        }
+    	
+    	char charTyped = event.getDisplayLabel();
         charTyped = Character.toLowerCase(charTyped);
         model.typedLetter(charTyped);
         return true;
@@ -107,13 +118,9 @@ public class SinglePlayer extends Activity implements Observer {
     
     @Override 
     public void onPause() {
-        super.onPause();
-        // TODO trigger pause screen to pause when Home is pressed
-    }
-  
-    @Override
-    public void onBackPressed() {
-        // TODO trigger pause screen!
+    	super.onPause();
+    	if (!paused)
+    		pauseGame(findViewById(R.id.pause_button));
     }
 
     /**
@@ -195,15 +202,21 @@ public class SinglePlayer extends Activity implements Observer {
 
             if (arg1 instanceof States.update) {
                 States.update change = (States.update) arg1;
-
+                TextView tv = (TextView)findViewById(R.id.typedError_prompt);
                 if (change == States.update.FINISHED_WORD) {
                     displayScore(spM.getScore());
                     displayWord(spM.getCurrWordIndex(), spM.getCurrWord());
+                    tv.setVisibility(TextView.INVISIBLE);
                 } else if (change == States.update.HIGHLIGHT) {
                     highlightWord(spM.getCurrWordIndex(), spM.getCurrWord(), 
                             spM.getCurrLetterIndex());
+                    tv.setVisibility(TextView.INVISIBLE);
                 } else if (change == States.update.WRONG_LETTER) {
-                    // TODO print an error message?
+                    //final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+                    //final RelativeLayout rl = (RelativeLayout) findViewById(R.id.single_game_layout);
+                    //tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
+                    tv.setVisibility(TextView.VISIBLE);
+
                 }
 
             }
@@ -261,6 +274,8 @@ public class SinglePlayer extends Activity implements Observer {
         ViewGroup parentLayout = (ViewGroup) findViewById(R.id.single_game_layout);
         ppw.showAtLocation(parentLayout, Gravity.CENTER, 10, 20);
         ppw.update(350, 500);
+        
+        paused = true;
     }
   
     /**
@@ -271,11 +286,12 @@ public class SinglePlayer extends Activity implements Observer {
         // re-enable buttons & keyboard
         findViewById(R.id.keyboard_open_button).setEnabled(true);
         findViewById(R.id.pause_button).setEnabled(true);
-        keyboardButton(findViewById(R.id.keyboard_open_button));
+//        keyboardButton(findViewById(R.id.keyboard_open_button));
 	  
         gameTimer = new GameTimer(pausedTime, INTERVAL);
         gameTimer.start();
         ppw.dismiss();
+        paused = false;
     }
 
     /**
@@ -285,6 +301,7 @@ public class SinglePlayer extends Activity implements Observer {
     public void pausedNewGame(View view) {
         final Intent restartIntent = new Intent(this, PreGameSelection.class);
         startActivity(restartIntent);
+        paused = false;
     }
   
     /**
@@ -294,6 +311,7 @@ public class SinglePlayer extends Activity implements Observer {
     public void pausedMainMenu(View view) {
         final Intent mainMenuIntent = new Intent(this, TitlePage.class);
         startActivity(mainMenuIntent);
+        paused = false;
     }
   
     /**
