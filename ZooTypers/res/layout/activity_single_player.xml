@@ -158,7 +158,16 @@
             android:gravity="center_horizontal"
             android:text="0"
             android:textSize="30sp" />
-
+		<TextView 
+		    android:id="@+id/typedError_prompt"
+		    android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/score"
+            android:gravity="center_horizontal"
+		    android:textColor="@color/red"
+		    android:textSize="15sp"
+		    android:visibility="invisible"
+		    android:text="@string/typedError_prompt"/>
         <Button
             android:id="@+id/keyboard_open_button"
             style="?android:attr/buttonStyleSmall"

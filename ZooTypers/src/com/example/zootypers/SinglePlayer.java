@@ -8,7 +8,10 @@ import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
@@ -24,6 +27,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.example.zootypers.States.difficulty;
 
@@ -198,15 +202,21 @@ public class SinglePlayer extends Activity implements Observer {
 
             if (arg1 instanceof States.update) {
                 States.update change = (States.update) arg1;
-
+                TextView tv = (TextView)findViewById(R.id.typedError_prompt);
                 if (change == States.update.FINISHED_WORD) {
                     displayScore(spM.getScore());
                     displayWord(spM.getCurrWordIndex(), spM.getCurrWord());
+                    tv.setVisibility(TextView.INVISIBLE);
                 } else if (change == States.update.HIGHLIGHT) {
                     highlightWord(spM.getCurrWordIndex(), spM.getCurrWord(), 
                             spM.getCurrLetterIndex());
+                    tv.setVisibility(TextView.INVISIBLE);
                 } else if (change == States.update.WRONG_LETTER) {
-                    // TODO print an error message?
+                    //final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+                    //final RelativeLayout rl = (RelativeLayout) findViewById(R.id.single_game_layout);
+                    //tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
+                    tv.setVisibility(TextView.VISIBLE);
+
                 }
 
             }

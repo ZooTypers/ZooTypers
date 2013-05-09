@@ -28,7 +28,7 @@
         </activity>
         <activity
             android:name="com.example.zootypers.SinglePlayer"
-            android:label="@string/title_activity_single_player" android:windowSoftInputMode="stateAlwaysVisible|adjustResize">
+            android:label="@string/title_activity_single_player" android:windowSoftInputMode="stateAlwaysVisible|adjustResize|adjustPan">
         </activity>
         <activity
             android:name="com.example.zootypers.PreGameSelection"
