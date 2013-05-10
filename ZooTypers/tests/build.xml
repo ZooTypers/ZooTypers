@@ -86,7 +86,22 @@
          In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
          in order to avoid having your file be overridden by tools such as "android update project"
     -->
-    <!-- version-tag: 1 -->
+    <!-- version-tag: custom -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
+
+    <target name="unittests" depends="debug,install" >
+        <property name="unittestlog.file" value="unit_tests_log.txt" />
+        <record name="${unittestlog.file}" action="start" />
+        <antcall target="test" />
+        <record name="${unittestlog.file}" action="stop" />
+        <loadfile property="tests.output" srcFile="${unittestlog.file}" />
+        <echo>Checking for failures</echo>
+        <fail message="Unit tests failed!">
+            <condition>
+                <contains string="${tests.output}" substring="FAILURES" />
+            </condition>
+        </fail>
+        <echo>Unit tests passed!</echo>
+    </target>
 
 </project>
