@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-  <name>ZooTypers-git</name>
+	<name>tests</name>
 	<comment></comment>
 	<projects>
+		<project>ZooTypers-git</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
