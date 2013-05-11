@@ -212,9 +212,9 @@ public class SinglePlayer extends Activity implements Observer {
                             spM.getCurrLetterIndex());
                     tv.setVisibility(TextView.INVISIBLE);
                 } else if (change == States.update.WRONG_LETTER) {
-                    final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+                    //final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
                     //final RelativeLayout rl = (RelativeLayout) findViewById(R.id.single_game_layout);
-                    tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
+                    //tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
                     tv.setVisibility(TextView.VISIBLE);
 
                 }
