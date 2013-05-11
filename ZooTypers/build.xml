@@ -86,7 +86,27 @@
          In all cases you must update the value of version-tag below to read 'custom' instead of an integer,
          in order to avoid having your file be overridden by tools such as "android update project"
     -->
-    <!-- version-tag: 1 -->
+    <!-- version-tag: custom -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
+    <condition property="findbugs.home" value="${env.FINDBUGS_HOME}">
+        <isset property="env.FINDBUGS_HOME" />
+    </condition>
+    <taskdef name="findbugs" classpath="libs/findbugs-ant.jar" classname="edu.umd.cs.findbugs.anttask.FindBugsTask" />
+    <target name="findbugs" depends="debug">
+        <gettarget
+            androidJarFileOut="project.target.android.jar"
+            androidAidlFileOut="project.target.framework.aidl"
+            bootClassPathOut="project.target.class.path"
+            targetApiOut="project.target.apilevel"
+            minSdkVersionOut="project.minSdkVersion" />
+        <findbugs home="${findbugs.home}" output="xml" outputFile="findbugs.xml"
+                excludeFilter="findbugs-exclude.xml" warningsProperty="findbugsWarning" errorProperty="findbugsError">
+            <auxClasspath path="${project.target.android.jar}" />
+            <class location="${out.dir}" />
+        </findbugs>
+        <fail if="findbugsError" message="FindBugs detected at least one error." />
+        <!-- <fail if="findbugsWarning" message="FindBugs detected at least one warning." /> -->
+    </target>
+    
 </project>
