@@ -7,6 +7,12 @@ import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.Button;
 import android.widget.EditText;
 
+/**
+ * Testing the title page using android unit tests.
+ * 
+ * @author dyxliang
+ *
+ */
 
 public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 

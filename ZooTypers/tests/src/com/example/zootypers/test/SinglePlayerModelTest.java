@@ -1,12 +1,12 @@
 package com.example.zootypers.test;
 
-import static org.junit.Assert.*;
-import org.junit.Test;
-
-import android.content.res.AssetManager;
-import com.example.zootypers.SinglePlayer;
-import com.example.zootypers.SinglePlayerModel;
-import com.example.zootypers.States;
+//import static org.junit.Assert.*;
+//import org.junit.Test;
+//
+//import android.content.res.AssetManager;
+//import com.example.zootypers.SinglePlayer;
+//import com.example.zootypers.SinglePlayerModel;
+//import com.example.zootypers.States;
 
 /**
  * Testing the model class for single player.
@@ -21,18 +21,18 @@ public class SinglePlayerModelTest {
     //private SinglePlayer sm;
     
     
-    @Test
-    public void testModelConstructor() {
-        //new SinglePlayerModel(States.difficulty.MEDIUM, sm.getAssets(), 5);
-    }
-    
-    @Test
-    public void testGetWordsList() {
-        
-    }
-    
-    @Test
-    public void testPopulateWordsList() {
-        
-    }
+//    @Test
+//    public void testModelConstructor() {
+//        //new SinglePlayerModel(States.difficulty.MEDIUM, sm.getAssets(), 5);
+//    }
+//    
+//    @Test
+//    public void testGetWordsList() {
+//        
+//    }
+//    
+//    @Test
+//    public void testPopulateWordsList() {
+//        
+//    }
 }
