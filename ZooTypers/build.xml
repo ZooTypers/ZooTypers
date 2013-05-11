@@ -89,6 +89,15 @@
     <!-- version-tag: custom -->
     <import file="${sdk.dir}/tools/ant/build.xml" />
 
+    <taskdef resource="checkstyletask.properties" classpath="${basedir}/libs/checkstyle-5.6-all.jar" />
+    <target name="checkstyle">
+        <checkstyle config="sun_checks.xml">
+            <fileset dir="src" includes="**/*.java" />
+            <formatter type="plain" />
+            <formatter type="xml" toFile="checkstyle-result.xml" />
+        </checkstyle>
+    </target>
+    
     <condition property="findbugs.home" value="${env.FINDBUGS_HOME}">
         <isset property="env.FINDBUGS_HOME" />
     </condition>
