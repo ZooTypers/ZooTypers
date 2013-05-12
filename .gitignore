@@ -12,10 +12,9 @@ local.properties
  
 # generated files
 bin/*
-!bin/*.apk
+#!bin/*.apk
 gen/
 
 # Eclipse project files
 .classpath
 .project
-ZooTypers/bin/
