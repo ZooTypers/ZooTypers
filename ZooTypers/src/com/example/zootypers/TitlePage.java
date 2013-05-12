@@ -1,7 +1,7 @@
 package com.example.zootypers;
 
-import android.app.Activity;
 import android.app.ActionBar.LayoutParams;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -10,7 +10,14 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.TextView;
+
+import com.parse.LogInCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
 
 /**
 *
@@ -27,6 +34,9 @@ public class TitlePage extends Activity {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_title_page);
+        Parse.initialize(this, "yUgc5n1ws3KrVpdSnagD" +
+		  		"5vwHvaGKpq00KUP3Kkak", "e9tvSeC8GtMEE3ux" +
+		  				"3B4phnWNtL9QRjmk7VG1zdZI");
     }
 
     @Override
@@ -87,14 +97,42 @@ public class TitlePage extends Activity {
     	LayoutInflater layoutInflater = 
                  (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.login_popup, null);
-        ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
         ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
         // set the position and size of popup
         ppw.showAtLocation(parentLayout, Gravity.CENTER, 10, 20);
-        ppw.update(1000, 500);
+        ppw.update(1000, 600);
     }
     
+    /**
+     * Handles what happens when user clicks the login button
+     * @param view Button that is pressed
+     */
     public void loginButton(View view) {
+    	// get the username and password inputs
+    	EditText usernameInput = (EditText) findViewById(R.id.username_login_input);
+    	EditText passwordInput = (EditText) findViewById(R.id.password_input_register);
+    	
+    	final String usernameString = usernameInput.getText().toString();
+    	final String passwordString = passwordInput.getText().toString();
+    	
+    	// intent to go to the pregame multiplayer screen
+    	final Intent multiIntent = new Intent(this, PreGameSelectionMulti.class);
+    	/*
+    	// try to login with the given inputs
+    	ParseUser.logInInBackground(usernameString, passwordString, new LogInCallback() {
+    	public void done(ParseUser user, ParseException e) {
+    		    if (user != null) {
+    		    	// login successful
+    		    	multiIntent.putExtra("username", usernameString);
+    		    	startActivity(multiIntent);
+    		    } else {
+    		    	TextView errorMessage = (TextView) findViewById(R.id.login_error_message);
+    		    	errorMessage.setText("An Error has Occured");
+    		    	//TODO : figure out how to know what is wrong
+    		    }
+    		  }
+    	});  */
     	ppw.dismiss();
     }
     
