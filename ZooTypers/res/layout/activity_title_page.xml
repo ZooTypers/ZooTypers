@@ -61,7 +61,7 @@
         android:layout_alignLeft="@+id/single_player_button"
         android:layout_alignRight="@+id/single_player_button"
         android:layout_marginBottom="5dp"
-        android:onClick="goToPreGameSelectionMulti"
+        android:onClick="multiplayerLogin"
         android:text="@string/multiplayer" />
 
     <Button
