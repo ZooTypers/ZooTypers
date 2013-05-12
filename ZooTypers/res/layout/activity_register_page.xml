@@ -1,0 +1,119 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/greyish"
+    tools:context=".RegisterPage" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:paddingTop="20dp"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/register_string" />
+    
+    <LinearLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:id="@+id/username_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:text="@string/username_string" />
+
+    	<EditText
+        	android:id="@+id/username_register_input"
+        	android:layout_width="184dp"
+        	android:layout_height="wrap_content"
+        	android:ems="10"
+        	android:inputType="text" >
+    	</EditText>
+    </LinearLayout>
+
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:orientation="horizontal" >
+	    
+	    <TextView
+        	android:id="@+id/password_register"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:paddingLeft="20dp"
+        	android:paddingRight="10dp"
+        	android:text="@string/password_string" />
+
+    	<EditText
+        	android:id="@+id/password_input_register"
+        	android:layout_width="184dp"
+        	android:layout_height="wrap_content"
+        	android:ems="10"
+        	android:inputType="textPassword" />
+	
+	</LinearLayout>
+   
+
+	<LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:orientation="horizontal" >
+	    
+	    <TextView
+	        android:id="@+id/confirm_password_register"
+	        android:layout_width="wrap_content"
+	        android:layout_height="44dp"
+	        android:paddingLeft="20dp"
+	        android:paddingRight="10dp"
+	        android:text="@string/confirm_pw_string" />
+
+    	<EditText
+        	android:id="@+id/confirm_password_input_register"
+        	android:layout_width="184dp"
+        	android:layout_height="wrap_content"
+        	android:ems="10"
+        	android:inputType="textPassword" />
+	    
+	</LinearLayout>
+	
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:orientation="horizontal" >
+	    
+	    <TextView 
+	        android:id="@+id/email_register"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:paddingLeft="20dp"
+	        android:paddingRight="40dp"
+	        android:text="@string/email_string"/>
+
+	    <EditText
+	        android:id="@+id/email_input_register"
+	        android:layout_width="184dp"
+	        android:layout_height="wrap_content"
+	        android:ems="10"
+	        android:inputType="textEmailAddress" />
+
+	</LinearLayout>
+
+	<Button
+	    android:id="@+id/submit_register"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="20dp"
+	    android:layout_marginLeft="20dp"
+	    android:text="@string/submit_string"
+	    android:onClick="submitRegister" />
+	
+</LinearLayout>
