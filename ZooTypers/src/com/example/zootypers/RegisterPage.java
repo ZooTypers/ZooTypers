@@ -30,12 +30,9 @@ public class RegisterPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_page);
-		  Parse.initialize(this, "yUgc5n1ws3KrVpdSnagD" +
+		Parse.initialize(this, "yUgc5n1ws3KrVpdSnagD" +
 		  		"5vwHvaGKpq00KUP3Kkak", "e9tvSeC8GtMEE3ux" +
 		  				"3B4phnWNtL9QRjmk7VG1zdZI");
-		  ParseObject testObject = new ParseObject("TestObject");
-		  testObject.put("foo", "bar");
-		  testObject.saveInBackground();
 	}
 
 	@Override
@@ -133,7 +130,7 @@ public class RegisterPage extends Activity {
 				this);
 	
 		if (goToTitle) {
-			titleIntent = new Intent(this, PreGameSelectionMulti.class);
+			titleIntent = new Intent(this, TitlePage.class);
 			titleIntent.putExtra("current user", currentUser);
 		}
 		// set title
@@ -199,7 +196,7 @@ public class RegisterPage extends Activity {
 					final String message = "Please verify your email before playing";
 					buildAlertDialog(title, message, true);
 				} else {
-					// sign up didnt succed.
+					// sign up didnt succed. //TODO: figure out how do deal with error
 					final String title = "Error Account Creation failed";
 					final String message = "Account could not be created";
 					buildAlertDialog(title, message, false);
