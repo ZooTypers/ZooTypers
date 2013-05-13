@@ -18,11 +18,15 @@ public class PreGameSelection extends Activity {
 
     private final int HIGHTLIGHT_COLOR = 0xFF000000; // black
     private View diff;
-    private View animal;
-    private View background;
+    protected View animal;
+    protected View background;
+    
+    protected void storeSelected() {
+    	// TODO store selected animal, background & difficulty
+    }
 
     @Override
-    protected final void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     
@@ -41,6 +45,48 @@ public class PreGameSelection extends Activity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.pregame_selection, menu);
         return true;
+    }
+    
+    /**
+    * When continue is clicked, goes to the game play screen.
+    * Passes id of animal & background button selected and an int coding of difficulty,
+    * where 1 is easy, 2 is medium, and 3 is hard.
+    * @param view The button clicked.
+    */
+    public final void goToSinglePlayer(final View view) {
+    	storeSelected();
+    	
+        Intent intent = new Intent(this, SinglePlayer.class);
+    
+        // pass difficulty
+        if (diff == findViewById(R.id.easy_difficulty_button)) {
+            intent.putExtra("diff", 1);      
+        } else if (diff == findViewById(R.id.hard_difficulty_button)) {
+            intent.putExtra("diff", 3);      
+        } else {
+            intent.putExtra("diff", 2);      
+        }
+    
+        // pass animal and background
+        intent.putExtra("anm", animal.getId());
+        intent.putExtra("bg", background.getId());
+    
+        startActivity(intent);
+    }
+
+    /**
+    * Called when the user clicks the "Main Menu" button.
+    * @param view The button clicked
+    */
+    public final void goToTitlePage(final View view) {
+        Intent intent = new Intent(this, TitlePage.class);
+        startActivity(intent);
+    }
+    
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent(this, TitlePage.class);
+        startActivity(intent);
     }
 
     /**
@@ -82,43 +128,4 @@ public class PreGameSelection extends Activity {
         background = view;
     }
 
-    /**
-    * When continue is clicked, goes to the game play screen.
-    * Passes id of animal & background button selected and an int coding of difficulty,
-    * where 1 is easy, 2 is medium, and 3 is hard.
-    * @param view The button clicked.
-    */
-    public final void goToSinglePlayer(final View view) {
-        Intent intent = new Intent(this, SinglePlayer.class);
-    
-        // pass difficulty
-        if (diff == findViewById(R.id.easy_difficulty_button)) {
-            intent.putExtra("diff", 1);      
-        } else if (diff == findViewById(R.id.hard_difficulty_button)) {
-            intent.putExtra("diff", 3);      
-        } else {
-            intent.putExtra("diff", 2);      
-        }
-    
-        // pass animal and background
-        intent.putExtra("anm", animal.getId());
-        intent.putExtra("bg", background.getId());
-    
-        startActivity(intent);
-    }
-
-    /**
-    * Called when the user clicks the "Main Menu" button.
-    * @param view The button clicked
-    */
-    public final void goToTitlePage(final View view) {
-        Intent intent = new Intent(this, TitlePage.class);
-        startActivity(intent);
-    }
-    
-    @Override
-    public void onBackPressed() {
-        Intent intent = new Intent(this, TitlePage.class);
-        startActivity(intent);
-    }
 }
