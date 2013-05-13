@@ -1,6 +1,10 @@
 package com.example.zootypers.test;
 
+//import org.junit.After;
+//import org.junit.Before;
+
 import com.example.zootypers.TitlePage;
+import com.jayway.android.robotium.solo.Solo;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
@@ -15,35 +19,88 @@ import android.widget.EditText;
  */
 
 public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
+	
+	private Solo solo;
+	
+	public TitlePageTest() {
+		//super("com.example.zootypers", TitlePage.class);
+		super(TitlePage.class);
+	}
 
-    public TitlePageTest() {
-        super(TitlePage.class);
-    }
-    
-    @SmallTest
-    public void testSinglePlayerButtonExists() {
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.single_player_button));
-    }
-    
-    @SmallTest
-    public void testMultiPlayerButtonExists() {
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button));
-    }
-    
-    @SmallTest
-    public void testLeaderboardButtonExists() {
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button));
-    }
-    
-    @SmallTest
-    public void testOptionsButtonExists() {
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.options_button));
-    }
+	//@Before
+	protected void setUp() throws Exception {
+		super.setUp();
+		solo = new Solo(getInstrumentation(), getActivity());
+	}
+	
+	public void testBackButtonStayInTitlePage() {
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+		solo.goBack();
+		solo.goBack();
+		solo.goBack();
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+	}
+	
+	public void testSearchAllButtonsExist() {
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+		assertTrue(solo.searchButton("Single Player"));
+		assertTrue(solo.searchButton("Multiplayer"));
+		assertTrue(solo.searchButton("Leaderboard"));
+		assertTrue(solo.searchButton("Options"));
+	}
 
-    @SmallTest
-    public void testSinglePlayerButtonDisplayCorrectText() {
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.single_player_button));
-        Button singlePlayerButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.single_player_button);
-        singlePlayerButton.getText().equals("Single Player");
-    }
+	public void testSinglePlayerButtonWorks() {
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+		solo.clickOnButton("Single Player");
+		solo.goBack();
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+	}
+	
+	public void testMultiplayerButtonWorks() {
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+		solo.clickOnButton("Multiplayer");
+		solo.goBack();
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+	}
+	
+	public void testLeaderboardButtonWorks() {
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+		solo.clickOnButton("Leaderboard");
+		solo.goBack();
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+	}
+	
+	public void testOptionsButtonWorks() {
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+		solo.clickOnButton("Options");
+		solo.goBack();
+		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+	}
+	
+	//@After
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
+
+//    @SmallTest
+//    public void testMultiPlayerButtonExists() {
+//        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button));
+//    }
+//    
+//    @SmallTest
+//    public void testLeaderboardButtonExists() {
+//        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button));
+//    }
+//    
+//    @SmallTest
+//    public void testOptionsButtonExists() {
+//        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.options_button));
+//    }
+//
+//    @SmallTest
+//    public void testSinglePlayerButtonDisplayCorrectText() {
+//        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.single_player_button));
+//        Button singlePlayerButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.single_player_button);
+//        singlePlayerButton.getText().equals("Single Player");
+//    }
 }
