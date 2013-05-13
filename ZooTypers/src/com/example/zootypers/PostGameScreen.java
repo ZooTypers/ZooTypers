@@ -42,7 +42,6 @@ public class PostGameScreen extends Activity {
     @Override
     public void onBackPressed() {
         // do nothing
-        return;
     }
   
     @Override
