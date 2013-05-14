@@ -17,10 +17,10 @@ package com.example.zootypers.test;
 
 public class SinglePlayerModelTest {
     
-    //private AssetManager am;
-    //private SinglePlayer sm;
-    
-    
+//    //private AssetManager am;
+//    //private SinglePlayer sm;
+//    
+//    
 //    @Test
 //    public void testModelConstructor() {
 //        //new SinglePlayerModel(States.difficulty.MEDIUM, sm.getAssets(), 5);
