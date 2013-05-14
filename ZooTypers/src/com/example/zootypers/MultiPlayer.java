@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -13,7 +14,6 @@ public class MultiPlayer extends SinglePlayer {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
         // Get animal & background selected by user
         setContentView(R.layout.activity_pregame_selection_multi);
@@ -27,7 +27,7 @@ public class MultiPlayer extends SinglePlayer {
         model.addObserver(this);
         
         // change screen view
-        setContentView(R.layout.activity_single_player);
+        setContentView(R.layout.activity_multi_player);
         initialDisplay(animal, background);
         
         // create and start timer
@@ -54,6 +54,11 @@ public class MultiPlayer extends SinglePlayer {
         currentScore.setText(Integer.toString(score));
     }
     
+    @Override
+    public void pauseGame(View view) {
+    	// do nothing
+    }
+    
     // TODO overrride update method
 
     /**
@@ -61,10 +66,11 @@ public class MultiPlayer extends SinglePlayer {
     */
     @Override
     public final void goToPostGame() {
-        Intent intent = new Intent(this, PostGameScreen.class);
+        Intent intent = new Intent(this, PostGameScreenMulti.class);
         // pass score
         intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
-        intent.putExtra("opScore", ((TextView) findViewById(R.id.opp_score)).getText().toString());
+        // TODO get whether you won from the model
+        intent.putExtra("won", true);
         intent.putExtra("bg", bg);
         startActivity(intent);
     }
