@@ -3,7 +3,7 @@ package com.example.zootypers.test;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.awt.*;
+//import java.awt.*;
 
 import junit.framework.TestCase;
 import android.content.Intent;
