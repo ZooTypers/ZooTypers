@@ -1,11 +1,7 @@
 package com.example.zootypers.test;
 
-//import org.junit.After;
-//import org.junit.Before;
-
 import com.example.zootypers.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
-
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.Button;
@@ -47,6 +43,7 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		assertTrue(solo.searchButton("Multiplayer"));
 		assertTrue(solo.searchButton("Leaderboard"));
 		assertTrue(solo.searchButton("Options"));
+		assertFalse(solo.searchButton("WRONG_BUTTON"));
 	}
 
 	public void testSinglePlayerButtonWorks() {
@@ -82,25 +79,25 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		super.tearDown();
 	}
 
-//    @SmallTest
-//    public void testMultiPlayerButtonExists() {
-//        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button));
-//    }
-//    
-//    @SmallTest
-//    public void testLeaderboardButtonExists() {
-//        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button));
-//    }
-//    
-//    @SmallTest
-//    public void testOptionsButtonExists() {
-//        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.options_button));
-//    }
-//
-//    @SmallTest
-//    public void testSinglePlayerButtonDisplayCorrectText() {
-//        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.single_player_button));
-//        Button singlePlayerButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.single_player_button);
-//        singlePlayerButton.getText().equals("Single Player");
-//    }
+    @SmallTest
+    public void testMultiPlayerButtonExists() {
+        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button));
+    }
+    
+    @SmallTest
+    public void testLeaderboardButtonExists() {
+        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button));
+    }
+    
+    @SmallTest
+    public void testOptionsButtonExists() {
+        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.options_button));
+    }
+
+    @SmallTest
+    public void testSinglePlayerButtonDisplayCorrectText() {
+        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.single_player_button));
+        Button singlePlayerButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.single_player_button);
+        singlePlayerButton.getText().equals("Single Player");
+    }
 }
