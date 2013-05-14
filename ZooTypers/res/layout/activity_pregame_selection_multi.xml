@@ -1,16 +1,173 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".PreGameSelectionMulti" >
-
-    <TextView
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:orientation="vertical">
+	
+    <TextView 
+        android:id="@+id/current_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/multiplayer" />
+        android:text="hello"/>
+	<HorizontalScrollView
+		android:id="@+id/background_select_ScrollView"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:background="@drawable/gradient_turq">
+		
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:orientation="horizontal"
+			android:padding="10sp">
+			
+			<ImageButton
+				android:id="@+id/elephant_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="@string/elephant_alt"
+				android:onClick="setAnimal"
+				android:scaleType="fitXY"
+				android:src="@drawable/animal_elephant"/>
+			
+			<ImageButton
+				android:id="@+id/giraffe_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="@string/giraffe_alt"
+				android:onClick="setAnimal"
+				android:scaleType="fitXY"
+				android:src="@drawable/animal_giraffe"/>
+			
+			<ImageButton
+				android:id="@+id/kangaroo_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="@string/kangaroo_alt"
+				android:onClick="setAnimal"
+				android:scaleType="fitXY"
+				android:src="@drawable/animal_kangaroo"/>
+			
+			<ImageButton
+				android:id="@+id/lion_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="@string/lion_alt"
+				android:src="@drawable/animal_lion"
+				android:onClick="setAnimal"
+				android:scaleType="fitXY"/>
+			
+			<ImageButton
+				android:id="@+id/monkey_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="@string/monkey_alt"
+				android:onClick="setAnimal"
+				android:src="@drawable/animal_monkey"
+				android:scaleType="fitXY"/>
+			
+			<ImageButton
+				android:id="@+id/panda_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="@string/panda_alt"
+				android:onClick="setAnimal"
+				android:scaleType="fitXY"
+				android:src="@drawable/animal_panda"/>
+			
+			<ImageButton
+				android:id="@+id/penguin_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="@string/penguin_alt"
+				android:onClick="setAnimal"
+				android:scaleType="fitXY"
+				android:src="@drawable/animal_penguin"/>
+			
+			<ImageButton
+				android:id="@+id/turtle_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="@string/turtle_alt"
+				android:onClick="setAnimal"
+				android:scaleType="fitXY"
+				android:src="@drawable/animal_turtle"/>
+		
+		</LinearLayout>
+	
+	</HorizontalScrollView>
+	
+	<HorizontalScrollView
+		android:id="@+id/animal_select_ScrollView"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:background="@drawable/gradient_peach">
+		
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="match_parent"
+			android:orientation="horizontal"
+			android:padding="10sp">
+			
+			<ImageButton
+				android:id="@+id/BG1_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:scaleType="fitXY"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="bg1"
+				android:onClick="setBackground"
+				android:src="@drawable/background_grassland"/>
+			
+			<ImageButton
+				android:id="@+id/BG2_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:scaleType="fitXY"
+				android:layout_gravity="center_vertical"
+				android:contentDescription="bg2"
+				android:src="@drawable/background_rainbow"
+				android:onClick="setBackground"/>
+		
+		<!--morebackgroundshere-->
+		
+		</LinearLayout>
+	
+	</HorizontalScrollView>
+	
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_gravity="center_horizontal"
+		android:background="@drawable/gradient_yellow"
+		android:padding="10sp">
+		
+		<Button
+			android:id="@+id/menu_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:text="@string/main_menu"
+			android:onClick="goToTitlePage"/>
+		
+		<Button
+			android:id="@+id/continue_button"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_weight="1"
+			android:layout_gravity="right"
+			android:text="@string/pregame_continue"
+			android:onClick="goToMultiPlayer"/>
+	
+	</LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
