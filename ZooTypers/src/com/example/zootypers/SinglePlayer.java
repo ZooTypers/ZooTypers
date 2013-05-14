@@ -134,7 +134,7 @@ public class SinglePlayer extends Activity implements Observer {
         animalImage.setImageDrawable(animalID);
 
         // display background
-        ViewGroup layout = (ViewGroup) findViewById(R.id.single_game_layout);
+        ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
         layout.setBackground(backgroundID);
 
         model.populateDisplayedList();
@@ -269,7 +269,7 @@ public class SinglePlayer extends Activity implements Observer {
                 (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.pause_popup, null);
         ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        ViewGroup parentLayout = (ViewGroup) findViewById(R.id.single_game_layout);
+        ViewGroup parentLayout = (ViewGroup) findViewById(R.id.game_layout);
         ppw.showAtLocation(parentLayout, Gravity.CENTER, 10, 20);
         ppw.update(350, 500);
         

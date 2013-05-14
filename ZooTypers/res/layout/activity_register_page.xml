@@ -10,14 +10,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
-        android:paddingTop="20dp"
+        android:paddingTop="10dp"
         android:layout_gravity="center_horizontal"
         android:text="@string/register_string" />
     
-    <LinearLayout 
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
         android:orientation="horizontal" >
 
         <TextView
@@ -37,10 +36,9 @@
     	</EditText>
     </LinearLayout>
 
-	<LinearLayout 
+	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginTop="10dp"
 	    android:orientation="horizontal" >
 	    
 	    <TextView
@@ -60,11 +58,9 @@
 	
 	</LinearLayout>
    
-
-	<LinearLayout 
+	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginTop="10dp"
 	    android:orientation="horizontal" >
 	    
 	    <TextView
@@ -87,16 +83,15 @@
 	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
-	    android:layout_marginTop="10dp"
 	    android:orientation="horizontal" >
 	    
-	    <TextView 
+	    <TextView
 	        android:id="@+id/email_register"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:paddingLeft="20dp"
-	        android:paddingRight="40dp"
-	        android:text="@string/email_string"/>
+	        android:paddingRight="38dp"
+	        android:text="@string/email_string" />
 
 	    <EditText
 	        android:id="@+id/email_input_register"
@@ -111,9 +106,9 @@
 	    android:id="@+id/submit_register"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_marginTop="20dp"
-	    android:layout_marginLeft="20dp"
-	    android:text="@string/submit_string"
-	    android:onClick="submitRegister" />
+	    android:layout_gravity="center_horizontal"
+	    android:layout_marginTop="10dp"
+	    android:onClick="submitRegister"
+	    android:text="@string/submit_string" />
 	
 </LinearLayout>
