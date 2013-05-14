@@ -21,7 +21,7 @@ public class PostGameScreen extends Activity {
 
     @SuppressLint("NewApi")
     @Override
-    protected final void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     
@@ -37,6 +37,8 @@ public class PostGameScreen extends Activity {
         String score = getIntent().getStringExtra("score");
         TextView finalScore = (TextView) findViewById(R.id.final_score);
         finalScore.setText(score);
+        
+        // TODO store score
     }
 
     @Override
@@ -64,7 +66,7 @@ public class PostGameScreen extends Activity {
     * Called when the user clicks the "New Game" button.
     * @param view The button clicked
     */
-    public final void goToPreGameSelection(final View view) {
+    public void goToPreGameSelection(final View view) {
         Intent intent = new Intent(this, PreGameSelection.class);
         startActivity(intent);
     }

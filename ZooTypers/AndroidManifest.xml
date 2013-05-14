@@ -62,6 +62,10 @@
             android:name="com.example.zootypers.MultiPlayer"
             android:label="@string/title_activity_multi_player" >
         </activity>
+        <activity
+            android:name="com.example.zootypers.PostGameScreenMulti"
+            android:label="@string/title_activity_post_game_screen_multi" >
+        </activity>
     </application>
 
 </manifest>

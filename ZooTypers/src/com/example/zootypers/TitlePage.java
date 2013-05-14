@@ -97,11 +97,11 @@ public class TitlePage extends Activity {
     	LayoutInflater layoutInflater = 
                  (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
         View popupView = layoutInflater.inflate(R.layout.login_popup, null);
-        ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+        ppw = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
         ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
         // set the position and size of popup
-        ppw.showAtLocation(parentLayout, Gravity.CENTER, 10, 20);
-        ppw.update(1000, 600);
+        ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 100);
+        //ppw.update(1000, 600);
     }
     
     /**
@@ -110,29 +110,34 @@ public class TitlePage extends Activity {
      */
     public void loginButton(View view) {
     	// get the username and password inputs
-    	EditText usernameInput = (EditText) findViewById(R.id.username_login_input);
-    	EditText passwordInput = (EditText) findViewById(R.id.password_input_register);
+    	final View contentView = ppw.getContentView();
+    	EditText usernameInput = (EditText) contentView.findViewById(R.id.username_login_input);
+    	EditText passwordInput = (EditText) contentView.findViewById(R.id.password_login_input);
     	
     	final String usernameString = usernameInput.getText().toString();
     	final String passwordString = passwordInput.getText().toString();
     	
     	// intent to go to the pregame multiplayer screen
     	final Intent multiIntent = new Intent(this, PreGameSelectionMulti.class);
-    	/*
+    	
     	// try to login with the given inputs
     	ParseUser.logInInBackground(usernameString, passwordString, new LogInCallback() {
     	public void done(ParseUser user, ParseException e) {
-    		    if (user != null) {
-    		    	// login successful
-    		    	multiIntent.putExtra("username", usernameString);
-    		    	startActivity(multiIntent);
-    		    } else {
-    		    	TextView errorMessage = (TextView) findViewById(R.id.login_error_message);
-    		    	errorMessage.setText("An Error has Occured");
-    		    	//TODO : figure out how to know what is wrong
-    		    }
-    		  }
-    	});  */
+    		if (user != null) {
+    			// login successful
+    		    //multiIntent.putExtra("username", usernameString);
+    		    startActivity(multiIntent);
+    		 } else {
+    		    e.printStackTrace();
+    		    TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
+    		    errorMessage.setText("An Error has Occured");
+    		    //TODO : figure out how to know what is wrong
+    		 }
+    	}
+    	}); 
+    }
+    
+    public void exitPopup(View view) {
     	ppw.dismiss();
     }
     

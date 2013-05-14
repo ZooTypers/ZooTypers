@@ -197,8 +197,22 @@ public class RegisterPage extends Activity {
 					buildAlertDialog(title, message, true);
 				} else {
 					// sign up didnt succed. //TODO: figure out how do deal with error
-					final String title = "Error Account Creation failed";
-					final String message = "Account could not be created";
+					int errorCode = e.getCode();
+					// figure out what the error was
+					final String title = "Registration failed";
+					String message;
+					if (errorCode == ParseException.ACCOUNT_ALREADY_LINKED) {
+						message = "Account already in use";
+					} else if (errorCode == ParseException.EMAIL_TAKEN) {
+						message = "Email already in use";
+					} else if (errorCode == ParseException.USERNAME_TAKEN) {
+						message = "Username is already in use";
+					} else if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
+						message = "Invalid Email Address";
+					} else {
+						e.printStackTrace();
+						message = "Account could not be created";
+					}
 					buildAlertDialog(title, message, false);
 				}
 			}
