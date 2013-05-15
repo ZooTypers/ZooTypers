@@ -107,11 +107,31 @@ public class RegisterPage extends Activity {
 				indicateError(usernameText, false);
 				indicateError(emailText, false);
 			} else {
-				// need to put the color back to normal
-				indicateError(passwordText, false);
-				indicateError(confirmPWText, false);
-				// inputs are valid put into the database
-				setupDatabase(usernameString, passwordString, emailString);
+				if (usernameString.length() >= 4 && passwordString.length() >= 4) {
+					// make sure username and pw is reasonable length, for security purposes
+					// need to put the color back to normal
+					indicateError(usernameText, false);
+					indicateError(passwordText, false);
+					indicateError(confirmPWText, false);
+					indicateError(emailText, false);
+					// inputs are valid put into the database
+					setupDatabase(usernameString, passwordString, emailString);
+				} else {
+					final String title = "Invalid username/password";
+					final String message = "Username/password must be at least 4 characters long";
+					if (usernameString.length() < 4) {
+						indicateError(usernameText, true);
+					} else {
+						indicateError(usernameText, false);
+					}
+					if (passwordString.length() < 4) {
+						indicateError(passwordText, true);
+					} else {
+						indicateError(passwordText, false);
+					}
+					buildAlertDialog(title, message, false);
+				}
+				
 			}
 		}
 	}

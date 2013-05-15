@@ -127,5 +127,25 @@ public class PreGameSelection extends Activity {
         view.getBackground().setColorFilter(HIGHTLIGHT_COLOR, Mode.MULTIPLY);
         background = view;
     }
-
+    
+    /**
+     * @return the difficulty view for testing
+     */
+    public View getDiffView() {
+    	return diff;
+    }
+    
+    /**
+     * @return the animal view for testing
+     */
+    public View getAnimalView() {
+    	return animal;
+    }
+    
+    /**
+     * @return the animal view for testing
+     */
+    public View getBackgroundView() {
+    	return background;
+    }
 }

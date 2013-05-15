@@ -2,6 +2,8 @@ package com.example.zootypers;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -18,6 +20,7 @@ import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 
 /**
 *
@@ -100,8 +103,7 @@ public class TitlePage extends Activity {
         ppw = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
         ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
         // set the position and size of popup
-        ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 100);
-        //ppw.update(1000, 600);
+        ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
     }
     
     /**
@@ -120,16 +122,21 @@ public class TitlePage extends Activity {
     	// intent to go to the pregame multiplayer screen
     	final Intent multiIntent = new Intent(this, PreGameSelectionMulti.class);
     	
+    	final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
     	// try to login with the given inputs
     	ParseUser.logInInBackground(usernameString, passwordString, new LogInCallback() {
     	public void done(ParseUser user, ParseException e) {
     		if (user != null) {
     			// login successful
-    		    //multiIntent.putExtra("username", usernameString);
-    		    startActivity(multiIntent);
+    			boolean emailVerified = user.getBoolean("emailVerified");
+    			if (emailVerified) {
+    				multiIntent.putExtra("username", usernameString);
+    				startActivity(multiIntent);
+    			} else {
+    				errorMessage.setText("Email is not verified");
+    			}
     		 } else {
     		    e.printStackTrace();
-    		    TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
     		    errorMessage.setText("An Error has Occured");
     		    //TODO : figure out how to know what is wrong
     		 }
@@ -137,12 +144,85 @@ public class TitlePage extends Activity {
     	}); 
     }
     
+    /**
+     * Exits the popup window
+     * @param view the button clicked
+     */
     public void exitPopup(View view) {
     	ppw.dismiss();
     }
     
+    /**
+     * Handles what happens when user wants to reset password.
+     * @param view the button clicked
+     */
+    public void resetPassword(View view) {
+    	// get the contents of the popup window and get the email
+    	// user typed in
+    	final View contentView = ppw.getContentView();
+    	EditText emailReset = (EditText) contentView.findViewById(R.id.email_forgot_password_input);
+    	final String emailString = emailReset.getText().toString();
+    	
+    	final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
+    	// try to reset the password by sending an email
+    	ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
+    		public void done(ParseException e) {
+    			if (e == null) {
+    				// success
+    				final String title = "Password Reset";
+    				final String message = "An email has been sent to " +
+    						emailString;
+    				buildAlertDialog(title, message);
+    			} else {
+    				// failure
+    				int errorCode = e.getCode();
+    				if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
+    					errorMessage.setText("Invalid Email Address");
+    				} else {
+    					errorMessage.setText("Password Reset Failed");
+					}
+    			}
+    		}
+    	});
+    }
+    
+    /**
+     * Goes to the Registration page
+     * @param view the button clicked
+     */
     public void goToRegister(View view) {
     	Intent registerIntent = new Intent(this, RegisterPage.class);
     	startActivity(registerIntent);
     }
+    
+    /**
+     * builds an AlertDialog popup with the given title and message
+     * @param title String representing title of the AlertDialog popup
+     * @param message String representing the message of the AlertDialog
+     * popup
+     */
+    private void buildAlertDialog(String title, String message) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				this);
+	
+		// set title
+		alertDialogBuilder.setTitle(title);
+	
+		// set dialog message
+		alertDialogBuilder
+			.setMessage(message)
+			.setCancelable(false)
+			.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					// if this button is clicked, close the dialog box
+					dialog.cancel();
+				}
+			});
+	
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+			
+		// show the message
+		alertDialog.show();
+	}
 }
