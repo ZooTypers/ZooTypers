@@ -14,6 +14,8 @@ import android.widget.TextView;
 /**
  * Testing to see if the multiplayer feature for our game works.
  * 
+ * Test-driven development.
+ * 
  * @author dyxliang
  *
  */
