@@ -56,5 +56,9 @@
     <string name="title_activity_multi_player">MultiPlayer</string>
     <string name="your_score">Your Score:</string>
     <string name="opponent_score">Their Score:</string>
+    <string name="title_activity_post_game_screen_multi">PostGameScreenMulti</string>
+    <string name="x_string">X</string>
+    <string name="forgot_password">Forgot your password? Enter you email address below</string>
+    <string name="reset_password">Reset Password</string>
 
 </resources>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 /**
  *
@@ -22,7 +23,6 @@ public class PreGameSelectionMulti extends PreGameSelection {
     @Override
     protected final void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     
         setContentView(R.layout.activity_pregame_selection_multi);
 
@@ -30,6 +30,14 @@ public class PreGameSelectionMulti extends PreGameSelection {
         setAnimal(animal);
         background = findViewById(R.id.BG1_button);
         setBackground(background);
+        
+        /*
+        Intent userIntent = getIntent();
+        userIntent.getExtras();
+        String currentUser = userIntent.getStringExtra("username");
+        
+        TextView usernameText = (TextView) findViewById(R.id.current_user);
+        usernameText.setText("You are logged in as " + currentUser); */
     }
 
     /**

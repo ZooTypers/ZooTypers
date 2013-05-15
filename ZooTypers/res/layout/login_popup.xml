@@ -3,20 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/greyish"
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
     
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:paddingTop="5dp"
-      	android:paddingLeft="20dp"
-        android:text="@string/login_string" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <Button
+            android:id="@+id/button1"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:padding="0sp"
+            android:text="@string/x_string"
+            android:textSize="20sp"
+            android:onClick="exitPopup" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:paddingTop="5dp"
+            android:text="@string/login_string"
+            android:textSize="20sp" />
+
+    </RelativeLayout>
 
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
         <TextView
@@ -34,6 +53,7 @@
         	android:ems="10"
         	android:inputType="text" >
     	</EditText>
+    	
     </LinearLayout>
     
     <LinearLayout
@@ -51,7 +71,7 @@
         	android:text="@string/password_string" />
 
     	<EditText
-        	android:id="@+id/password_login_register"
+        	android:id="@+id/password_login_input"
         	android:layout_width="184dp"
         	android:layout_height="wrap_content"
         	android:ems="10"
@@ -59,22 +79,54 @@
 	
 	</LinearLayout>
 	
-    <Button
-	    android:id="@+id/login_button"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_marginTop="20dp"
-	    android:layout_marginLeft="20dp"
-	    android:text="@string/login_string"
-	    android:onClick="loginButton" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
+        android:padding="10dp" >
+	
+	    <Button
+		    android:id="@+id/login_button"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/login_string"
+		    android:onClick="loginButton" />
+	    
+	    <Button
+		    android:id="@+id/register_button"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/register_string"
+		    android:onClick="goToRegister" />
     
+    </LinearLayout>
+    
+    <TextView
+    	android:id="@+id/email_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="38dp"
+        android:text="@string/forgot_password" />
+
+    <EditText
+        android:id="@+id/email_forgot_password_input"
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress" >
+
+        <requestFocus />
+    </EditText>
+
     <Button
-	    android:id="@+id/register_button"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_marginLeft="20dp"
-	    android:text="@string/register_string"
-	    android:onClick="goToRegister" />
+        android:id="@+id/reset_password_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_password"
+        android:onClick="resetPassword" />
 
     <TextView
         android:id="@+id/login_error_message"
