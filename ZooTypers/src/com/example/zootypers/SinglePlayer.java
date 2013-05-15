@@ -3,15 +3,13 @@ package com.example.zootypers;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
@@ -27,8 +25,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.example.zootypers.States.difficulty;
 
 @SuppressLint("NewApi")
@@ -42,8 +40,8 @@ public class SinglePlayer extends Activity implements Observer {
 
     // used for the communicating with model
     private SinglePlayerModel model;
-    private final int NUM_WORDS = 5;  
-    private int bg;
+    protected final int NUM_WORDS = 5;  
+    protected int bg;
     
     // for the popup window
     private PopupWindow ppw;
@@ -53,13 +51,13 @@ public class SinglePlayer extends Activity implements Observer {
     private long pausedTime = START_TIME;
 
     // for the game timer
-    private GameTimer gameTimer;
-    private final long INTERVAL = 1000; // 1 second
+    protected GameTimer gameTimer;
+    protected final long INTERVAL = 1000; // 1 second
     public final static long START_TIME = 60000; // 1 minute
     public static boolean paused = false;
     
     @Override
-    protected final void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -136,7 +134,7 @@ public class SinglePlayer extends Activity implements Observer {
         animalImage.setImageDrawable(animalID);
 
         // display background
-        ViewGroup layout = (ViewGroup) findViewById(R.id.single_game_layout);
+        ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
         layout.setBackground(backgroundID);
 
         model.populateDisplayedList();
@@ -195,7 +193,7 @@ public class SinglePlayer extends Activity implements Observer {
     * @param arg0 Thing being observes.
     * @param arg1 State.
     */
-    public final void update(final Observable arg0, final Object arg1) {
+    public void update(final Observable arg0, final Object arg1) {
         SinglePlayerModel spM;
         if (arg0 instanceof SinglePlayerModel) {
             spM = (SinglePlayerModel) arg0;
@@ -237,7 +235,7 @@ public class SinglePlayer extends Activity implements Observer {
     /**
     * Called when the timer runs out; goes to the post game screen.
     */
-    public final void goToPostGame() {
+    public void goToPostGame() {
         Intent intent = new Intent(this, PostGameScreen.class);
         // pass score
         intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
@@ -269,9 +267,9 @@ public class SinglePlayer extends Activity implements Observer {
         // create popup window
         LayoutInflater layoutInflater = 
                 (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.pause_layout, null);
+        View popupView = layoutInflater.inflate(R.layout.pause_popup, null);
         ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-        ViewGroup parentLayout = (ViewGroup) findViewById(R.id.single_game_layout);
+        ViewGroup parentLayout = (ViewGroup) findViewById(R.id.game_layout);
         ppw.showAtLocation(parentLayout, Gravity.CENTER, 10, 20);
         ppw.update(350, 500);
         

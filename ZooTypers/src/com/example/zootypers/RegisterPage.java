@@ -30,12 +30,9 @@ public class RegisterPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_page);
-		  Parse.initialize(this, "yUgc5n1ws3KrVpdSnagD" +
+		Parse.initialize(this, "yUgc5n1ws3KrVpdSnagD" +
 		  		"5vwHvaGKpq00KUP3Kkak", "e9tvSeC8GtMEE3ux" +
 		  				"3B4phnWNtL9QRjmk7VG1zdZI");
-		  ParseObject testObject = new ParseObject("TestObject");
-		  testObject.put("foo", "bar");
-		  testObject.saveInBackground();
 	}
 
 	@Override
@@ -133,7 +130,7 @@ public class RegisterPage extends Activity {
 				this);
 	
 		if (goToTitle) {
-			titleIntent = new Intent(this, PreGameSelectionMulti.class);
+			titleIntent = new Intent(this, TitlePage.class);
 			titleIntent.putExtra("current user", currentUser);
 		}
 		// set title
@@ -199,9 +196,23 @@ public class RegisterPage extends Activity {
 					final String message = "Please verify your email before playing";
 					buildAlertDialog(title, message, true);
 				} else {
-					// sign up didnt succed.
-					final String title = "Error Account Creation failed";
-					final String message = "Account could not be created";
+					// sign up didnt succed. //TODO: figure out how do deal with error
+					int errorCode = e.getCode();
+					// figure out what the error was
+					final String title = "Registration failed";
+					String message;
+					if (errorCode == ParseException.ACCOUNT_ALREADY_LINKED) {
+						message = "Account already in use";
+					} else if (errorCode == ParseException.EMAIL_TAKEN) {
+						message = "Email already in use";
+					} else if (errorCode == ParseException.USERNAME_TAKEN) {
+						message = "Username is already in use";
+					} else if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
+						message = "Invalid Email Address";
+					} else {
+						e.printStackTrace();
+						message = "Account could not be created";
+					}
 					buildAlertDialog(title, message, false);
 				}
 			}
