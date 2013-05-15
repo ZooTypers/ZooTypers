@@ -16,6 +16,8 @@ import android.widget.ImageButton;
 /**
  * Testing the Pre-Game Selection screen for the game.
  * 
+ * White box test.
+ * 
  * @author dyxliang
  *
  */
