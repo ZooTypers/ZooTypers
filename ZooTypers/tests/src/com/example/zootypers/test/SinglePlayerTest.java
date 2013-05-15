@@ -28,6 +28,8 @@ import com.example.zootypers.PreGameSelection;
  * also checking to see if typing word works and if the scores are updated properly;
  * the pause screen and other aspect of single player will be tested as well.
  * 
+ * White box test.
+ * 
  * @author oaknguyen & dyxliang
  *
  */

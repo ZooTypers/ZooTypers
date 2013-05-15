@@ -10,6 +10,8 @@ import android.widget.EditText;
 /**
  * Testing the title page using android unit tests and robotium UI testing.
  * 
+ * Black box test.
+ * 
  * @author dyxliang
  *
  */

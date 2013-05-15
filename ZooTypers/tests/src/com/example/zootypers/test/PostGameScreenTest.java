@@ -8,6 +8,8 @@ import android.test.ActivityInstrumentationTestCase2;
 /**
  * Testing the post game screen for the game.
  * 
+ * Black box test.
+ * 
  * @author dyxliang
  *
  */

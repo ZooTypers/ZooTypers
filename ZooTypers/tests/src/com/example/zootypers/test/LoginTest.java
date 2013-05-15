@@ -9,6 +9,8 @@ import android.widget.EditText;
 /**
  * Testing to see if the login feature for our game works.
  * 
+ * Black box test. 
+ * 
  * @author dyxliang
  *
  */
