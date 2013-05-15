@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 /**
- * Testing the title page using android unit tests.
+ * Testing the title page using android unit tests and robotium UI testing.
+ * 
+ * Black box test.
  * 
  * @author dyxliang
  *
@@ -25,7 +27,6 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
 	//@Before
 	protected void setUp() throws Exception {
-		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 	
@@ -74,9 +75,8 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
 	}
 	
-	//@After
 	protected void tearDown() throws Exception {
-		super.tearDown();
+		solo.finishOpenedActivities();
 	}
 
     @SmallTest

@@ -1,9 +1,8 @@
 package com.example.zootypers.test;
 
-import com.example.zootypers.PreGameSelection;
+import com.example.zootypers.*;
 import com.example.zootypers.R;
 import com.jayway.android.robotium.solo.Solo;
-
 import android.content.Context;
 import android.graphics.drawable.ColorDrawable;
 import android.test.ActivityInstrumentationTestCase2;
@@ -16,6 +15,8 @@ import android.widget.ImageButton;
 
 /**
  * Testing the Pre-Game Selection screen for the game.
+ * 
+ * White box test.
  * 
  * @author dyxliang
  *
@@ -33,7 +34,6 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	}
 
 	protected void setUp() throws Exception {
-		super.setUp();
 		solo = new Solo(getInstrumentation(), getActivity());
 		display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
 	    screenWidth = display.getWidth(); 
@@ -223,22 +223,38 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	}
 	
 	public void testSelectingGrasslandBackground() {
-		
+		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.BG1_button);
+		solo.clickOnView(imageButton);
+		View expected = solo.getView(com.example.zootypers.R.id.BG1_button);
+		View actual = getActivity().getBackgroundView();
+		assertEquals(expected, actual);
 	}
 	
 	public void testingSelectingRainbowBackground() {
-		
+		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.BG2_button);
+		solo.clickOnView(imageButton);
+		View expected = solo.getView(com.example.zootypers.R.id.BG2_button);
+		View actual = getActivity().getBackgroundView();
+		assertEquals(expected, actual);
 	}
 	
 	public void testingSelectingMainMenuButton() {
-		
+		solo.assertCurrentActivity("Check on current page activity.", PreGameSelection.class);
+		assertTrue(solo.searchButton("Main Menu"));
+		solo.clickOnButton("Main Menu");
+		solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
+		solo.goBack();
+		solo.assertCurrentActivity("Check on current page activity.", PreGameSelection.class);
 	}
 	
 	public void testingSelectingContinueButton() {
-		
+		solo.assertCurrentActivity("Check on current page activity.", PreGameSelection.class);
+		assertTrue(solo.searchButton("Continue"));
+		solo.clickOnButton("Continue");
+		solo.assertCurrentActivity("Check on current page activity.", SinglePlayer.class);
 	}
 	
 	protected void tearDown() throws Exception {
-		super.tearDown();
+		solo.finishOpenedActivities();
 	}
 }
