@@ -53,7 +53,7 @@ public class MultiPlayer extends Activity implements Observer {
 		//setupWordsList();
 		// this can be fetched from the database once login is properly setup
 		// should not need these in actual model
-		String uname = "lindsey";
+		String uname = "david";
 
 		// start model
 		model = new MultiPlayerModel(States.difficulty.MEDIUM, this.getAssets(), NUM_WORDS, uname);

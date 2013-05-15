@@ -27,7 +27,7 @@ import com.parse.SaveCallback;
 
 public class MultiPlayerModel extends Observable {
 
-	private static final long TIMEOUT = 5000; // timer set for 50 sec
+	private static final long TIMEOUT = 500000; // timer set for 50 sec TODO change this back. dont forget.
 	private static final int LIST_SIZE = 100;
 	// number of words displayed on the view
 	private final int numWordsDisplayed;
@@ -123,6 +123,7 @@ public class MultiPlayerModel extends Observable {
 		for (ParseObject o : wordObjects) {
 			words.add(o.getString("word"));
 		}
+		
 		return words;
 	}
 	
@@ -180,6 +181,7 @@ public class MultiPlayerModel extends Observable {
 			while(System.currentTimeMillis() < endtime) {
 				String retMsg = ParseCloud.callFunction("checkMeOut", params);
 				if (retMsg.equals("found opponent")) {
+					player.refresh();
 					getOpponentData();
 					return true;
 				}
