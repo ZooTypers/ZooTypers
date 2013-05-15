@@ -70,6 +70,14 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		return retVal;
 	}
 	
+	public void testFiveWordsPresent(){
+		List<TextView> views = getWordsPresented(solo);
+		for(int i = 0; i < 5; i++){
+			assertTrue(views.get(i).getText().length() > 0);
+		}
+		
+	}
+	
 	public void testInvalidCharacterPressed(){
 		List<TextView> views = getWordsPresented(solo);
 		String firstLetters = "";
@@ -78,8 +86,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		}
 		for(char c : lowChanceLetters){
 			if(firstLetters.indexOf(c) < 0 ){
-				//sendKeys('j' - 68);
-				sendKeys(c);
+				sendKeys(c - 68);
 				assertTrue(solo.searchText("Invalid Letter Typed"));
 			}
 		}
@@ -91,7 +98,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		TextView s = views.get(0);
 		Log.v("words", s.getText().toString());
 		solo.sleep(5000);
-		sendKeys(s.getText().charAt(0) - 68);//words.get(0).substring(0, 1));
+		sendKeys(s.getText().charAt(0) - 68);
 		Log.v("char typed", String.valueOf(Character.toUpperCase(s.getText().charAt(0))));
 		views = getWordsPresented(solo);
 		solo.sleep(1000);
@@ -100,7 +107,21 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		SpannableString spanString = new SpannableString(word);
 		Log.v("Span", spanString.toString());
 		ForegroundColorSpan[] spans = spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
-		assertTrue(spans.length > 0);//Color.rgb(0, 255, 0) == spans[0].getForegroundColor());
+		assertTrue(spans.length > 0);
+	}
+	
+	public void testChangeAWordWhenFinished(){
+		List<TextView> textList = getWordsPresented(solo);
+		TextView currTextView = textList.get(0);
+		String currWord = currTextView.getText().toString();
+		Log.v("current-word", currWord);
+		for (int i = 0; i < currWord.length(); i++) {
+			char c = currWord.charAt(i);
+			sendKeys(c - 68);
+			Log.v("current-letter", Character.toString(c));
+		}
+		textList = getWordsPresented(solo);
+		assertTrue(textList.get(0).getText().toString() != currWord);		
 	}
 	
 	public void testTypingCorrectWordUpdateScore() {
@@ -112,7 +133,6 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 			char c = currWord.charAt(i);
 			sendKeys(c - 68);
 			Log.v("current-letter", Character.toString(c));
-			//solo.sleep(1000);
 		}
 		TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
 		String scoreString = score.getText().toString();
