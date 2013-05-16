@@ -31,13 +31,12 @@ public class PreGameSelectionMulti extends PreGameSelection {
         background = findViewById(R.id.BG1_button);
         setBackground(background);
         
-        /*
         Intent userIntent = getIntent();
         userIntent.getExtras();
         String currentUser = userIntent.getStringExtra("username");
         
         TextView usernameText = (TextView) findViewById(R.id.current_user);
-        usernameText.setText("You are logged in as " + currentUser); */
+        usernameText.setText("You are logged in as " + currentUser);
     }
 
     /**
