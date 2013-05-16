@@ -76,9 +76,9 @@ public class MultiplayerTest extends ActivityInstrumentationTestCase2<TitlePage>
 //		assertTrue(solo.searchButton("New Game"));
 //		assertTrue(solo.searchButton("Main Menu"));
 //	}
-//	
-//	protected void tearDown() throws Exception {
-//		solo.finishOpenedActivities();
-//	}
+	
+	protected void tearDown() throws Exception {
+		solo.finishOpenedActivities();
+	}
 
 }
