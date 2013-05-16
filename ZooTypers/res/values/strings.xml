@@ -53,12 +53,14 @@
     <string name="confirm_pw_string">Confirm\nPassword</string>
     <string name="email_string">Email</string>
     <string name="submit_string">Submit</string>
-    <string name="title_activity_multi_player">MultiPlayer</string>
-    <string name="your_score">Your Score:</string>
-    <string name="opponent_score">Their Score:</string>
-    <string name="title_activity_post_game_screen_multi">PostGameScreenMulti</string>
+    <string name="loggedin_string">You are logged in as :</string>
+    <string name="logout_string">Logout</string>
+    <string name="your_score">Your Score</string>
+    <string name="opponent_score">Opponent\'s Score</string>
     <string name="x_string">X</string>
-    <string name="forgot_password">Forgot your password? Enter you email address below</string>
     <string name="reset_password">Reset Password</string>
+    <string name="forgot_password">Enter your email address to reset your password</string>
+    <string name="title_activity_multi_player">MultiPlayer</string>
+    <string name="title_activity_post_game_screen_multi">PostGameScreenMulti</string>
 
 </resources>
