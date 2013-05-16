@@ -13,6 +13,8 @@ import android.widget.TextView;
  *
  */
 public class PreGameSelectionMulti extends PreGameSelection {
+  
+  String currentUser;
 	
 	@Override
 	protected final void storeSelected() {
@@ -33,7 +35,7 @@ public class PreGameSelectionMulti extends PreGameSelection {
         
         Intent userIntent = getIntent();
         userIntent.getExtras();
-        String currentUser = userIntent.getStringExtra("username");
+        currentUser = userIntent.getStringExtra("username");
         
         TextView usernameText = (TextView) findViewById(R.id.current_user);
         usernameText.setText("You are logged in as " + currentUser);
@@ -50,6 +52,7 @@ public class PreGameSelectionMulti extends PreGameSelection {
         // pass animal and background
         intent.putExtra("anm", super.animal.getId());
         intent.putExtra("bg", super.background.getId());
+        intent.putExtra("username", currentUser);
     
         startActivity(intent);
     }
