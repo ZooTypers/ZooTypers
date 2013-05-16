@@ -23,6 +23,12 @@ import android.widget.TextView;
 
 import com.parse.Parse;
 
+
+/**
+ * Activity / UI for MultiPlayer screen.
+ * @author cdallas
+ *
+ */
 @SuppressLint("NewApi")
 public class MultiPlayer extends Activity implements Observer {
 	private MultiPlayerModel model;
@@ -35,6 +41,40 @@ public class MultiPlayer extends Activity implements Observer {
 	public final static long START_TIME = 60000; // 1 minute
 	public static boolean paused = false;
 	private long currentTime;
+	
+
+  /**
+   * @param id The id of the View to get as a String.
+   * @return The View object with that id
+   */
+  private final View getByStringId(final String id) {
+    return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
+  }
+  
+  /**
+   * @param id The id of an animal ImageButton on the pregame screen.
+   * @return The resource if of the drawable image facing the opposite way
+   * (i.e. the opponent's version of the animal).
+   */
+  private int reverseDrawable(int id) {
+    if (id == R.id.giraffe_button) {
+      return R.drawable.animal_giraffe_opp;
+    } else if (id == R.id.kangaroo_button) {
+      return R.drawable.animal_kangaroo_opp;
+    } else if (id == R.id.lion_button) {
+      return R.drawable.animal_lion_opp;
+    } else if (id == R.id.monkey_button) {
+      return R.drawable.animal_monkey_opp;
+    } else if (id == R.id.panda_button) {
+      return R.drawable.animal_panda_opp;
+    } else if (id == R.id.penguin_button) {
+      return R.drawable.animal_penguin_opp;
+    } else if (id == R.id.turtle_button) {
+      return R.drawable.animal_turtle_opp;
+    } else {
+      return R.drawable.animal_elephant_opp;
+    }
+  }
 
 
 	@Override
@@ -43,25 +83,29 @@ public class MultiPlayer extends Activity implements Observer {
 
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection_multi);
-		Drawable animal = ((ImageButton) findViewById
-				(getIntent().getIntExtra("anm", 0))).getDrawable();
+		int anmID = getIntent().getIntExtra("anm", 0);
+		Drawable animal = ((ImageButton) findViewById(anmID)).getDrawable();
 		bg = getIntent().getIntExtra("bg", 0);
 		Drawable background = ((ImageButton) findViewById(bg)).getDrawable();
 
+		// Initialize the database
 		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		
-		// Get user name
+		// Get the user name
 		String uname = getIntent().getStringExtra("username");
 
-		// start model
-		model = new MultiPlayerModel(NUM_WORDS, uname, AnimalDrawables.drawableToString(animal));
+		// Start model, passing number of words, user name, and selected animal
+		model = new MultiPlayerModel(NUM_WORDS, uname, anmID);
 		model.addObserver(this);
-
-		// change screen view
+    
+		// Get the opponent's animal from the model
+    int oppAnimal = reverseDrawable(model.getOpponentAnimal());
+		
+		// Display the multiplayer screen
 		setContentView(R.layout.activity_multi_player);
-		initialDisplay(animal, background);
+		initialDisplay(animal, background, oppAnimal);
 
-		// create and start timer
+		// Create and start timer
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
 	}
@@ -75,7 +119,7 @@ public class MultiPlayer extends Activity implements Observer {
 	
 	@Override
 	/**
-	 * When the user types a letter, this listens for it.
+	 * Called when the user types a letter; passes the letter to the model.
 	 */
 	public final boolean onKeyDown(final int key, final KeyEvent event){ 	  
 	  char charTyped = event.getDisplayLabel();
@@ -127,7 +171,6 @@ public class MultiPlayer extends Activity implements Observer {
 	  wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
 	}
 
-
   /**
    * Displays the initial screen of the single player game.
    * @param animal Drawable referring to the id of the selected animal image,
@@ -135,13 +178,12 @@ public class MultiPlayer extends Activity implements Observer {
    * @param backgroudID Drawable referring to the id of the selected background image.
    * @param words An array of the words to display. Must have a length of 5.
    */
-	public void initialDisplay(Drawable animal, Drawable background) {
+	public void initialDisplay(Drawable animal, Drawable background, int oppAnimal) {
 	  // display animal
 	  ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
 	  animalImage.setImageDrawable(animal);
 	  
 	  // display opponent's animal
-	  int oppAnimal = AnimalDrawables.stringToResID(model.getOpponentAnimal());
 	  ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
 	  oppAnimalImage.setBackgroundResource(oppAnimal);
 
@@ -204,7 +246,7 @@ public class MultiPlayer extends Activity implements Observer {
 	}
 
 	/**
-	 * Reopens keyboard when it is closed
+	 * Reopens keyboard when it is closed (or closes it when it's opened).
 	 * @param view The button clicked.
 	 * @author oaknguyen
 	 */
@@ -227,17 +269,9 @@ public class MultiPlayer extends Activity implements Observer {
 		startActivity(intent);
 	}
 
-	/**
-	 * @param id The id of the View to get as a String.
-	 * @return The View object with that id
-	 */
-	public final View getByStringId(final String id) {
-	  return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
-	}
-
 
 	/**
-	 * Timer for game.
+	 * Timer for the game.
 	 * @author ZooTypers
 	 */
 	public class GameTimer extends CountDownTimer {

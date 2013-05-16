@@ -29,9 +29,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-        	android:layout_centerHorizontal="true"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/oval_circle"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
         
@@ -49,7 +49,7 @@
              android:layout_alignParentTop="true"
         	android:layout_centerHorizontal="true"
              android:background="@drawable/oval_circle"
-             android:padding="15dp"
+             android:padding="10dp"
              android:text="6width"
              android:textSize="20sp" />
 
@@ -67,7 +67,7 @@
             android:layout_alignParentTop="true"
         	android:layout_centerHorizontal="true"
             android:background="@drawable/oval_circle"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
 
@@ -85,7 +85,7 @@
             android:layout_alignParentTop="true"
         	android:layout_centerHorizontal="true"
             android:background="@drawable/oval_circle"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
 
@@ -103,7 +103,7 @@
             android:layout_alignParentTop="true"
         	android:layout_centerHorizontal="true"
             android:background="@drawable/oval_circle"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
 
@@ -117,7 +117,7 @@
         <ImageView
             android:id="@+id/animal_image"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_alignParentBottom="false"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="50dp"
@@ -176,7 +176,7 @@
         <ImageView
             android:id="@+id/opp_animal_image"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_alignParentBottom="false"
             android:layout_alignParentLeft="true"
             android:layout_marginTop="50dp"
