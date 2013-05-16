@@ -55,7 +55,7 @@ public class MultiPlayerModel extends Observable {
 
 	// keep track of the user's current score
 	private int score;
-	private String animalName;
+	private int animalName;
 	
 	// maximum number of words in wordLists on Parse database
 	private static final int NUMOFWORDS = 709;
@@ -69,7 +69,7 @@ public class MultiPlayerModel extends Observable {
 	 * @param backgroudID, the string ID of a background that is selected by the user
 	 * @param diff, the difficulty level that is selected by the user
 	 */
-	public MultiPlayerModel(int wordsDis, String uname, String animalName) {
+	public MultiPlayerModel(int wordsDis, String uname, int animalName) {
 		this.animalName = animalName;
 		this.name = uname;
 		beginMatchMaking();
@@ -106,7 +106,7 @@ public class MultiPlayerModel extends Observable {
 		player = new ParseObject("Players");
 		player.put("name", name);
 		player.put("opponent", "");
-		player.put("animal", animalName);
+		player.put("animalID", animalName);
 		player.put("score", 0);
 		player.put("startingIndex", -1);
 		player.put("finished", false);
@@ -162,6 +162,7 @@ public class MultiPlayerModel extends Observable {
     	long endtime = starttime + QUEUE_TIMEOUT;
     	while(System.currentTimeMillis() < endtime) {
     		try {
+    		  player.refresh();
     			ParseQuery query = new ParseQuery("Players");
     			query.whereEqualTo("name", name);
     			query.whereNotEqualTo("opponent", "");
@@ -205,9 +206,14 @@ public class MultiPlayerModel extends Observable {
 		currWordIndex = -1;
 	}
 
-  public String getOpponentAnimal() {
-    // TODO Auto-generated method stub
-    return "giraffe";
+  public int getOpponentAnimal() {
+    try {
+      opponent.refresh();
+    } catch (ParseException e) {
+      // TODO Auto-generated catch block
+      e.printStackTrace();
+    }
+    return opponent.getInt("animalID");
   }
 
 	// populates wordsList by contacting the database for LIST_SIZE amount of words
