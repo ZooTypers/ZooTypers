@@ -7,6 +7,6 @@ public class States {
     };
 
     public enum update {
-        HIGHLIGHT, WRONG_LETTER, FINISHED_WORD
+        HIGHLIGHT, WRONG_LETTER, FINISHED_WORD, OPPONENT_WORD, OPPONENT_SCORE
     };
 }

@@ -196,6 +196,14 @@ public class SinglePlayerModel extends Observable {
 	public final int getScore() {
 		return score;
 	}
+	
+	/**
+	 * @return current opponent score of the player
+	 * This method will return 0 because there is no opponent.
+	 */
+	public final int getOpponentScore() {
+		return score;
+	}
 
 	/**
 	 * @return the string representation of the current word the player is locked to,
