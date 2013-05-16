@@ -244,7 +244,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		solo.clickOnButton("Main Menu");
 		solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
 		solo.goBack();
-		solo.assertCurrentActivity("Check on current page activity.", PreGameSelection.class);
+		solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
 	}
 	
 	public void testingSelectingContinueButton() {

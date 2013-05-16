@@ -65,20 +65,20 @@ public class MultiplayerTest extends ActivityInstrumentationTestCase2<TitlePage>
 	}
 	
 		
-	public void testingPlayingAMultiplayerGame() {
-		boolean gameFlag = true;
-		while (gameFlag) {
-			automateKeyboardTyping();
-			if (solo.searchButton("New Game") == true) {
-				gameFlag = false;
-			}
-		}
-		assertTrue(solo.searchButton("New Game"));
-		assertTrue(solo.searchButton("Main Menu"));
-	}
-	
-	protected void tearDown() throws Exception {
-		solo.finishOpenedActivities();
-	}
+//	public void testingPlayingAMultiplayerGame() {
+//		boolean gameFlag = true;
+//		while (gameFlag) {
+//			automateKeyboardTyping();
+//			if (solo.searchButton("New Game") == true) {
+//				gameFlag = false;
+//			}
+//		}
+//		assertTrue(solo.searchButton("New Game"));
+//		assertTrue(solo.searchButton("Main Menu"));
+//	}
+//	
+//	protected void tearDown() throws Exception {
+//		solo.finishOpenedActivities();
+//	}
 
 }
