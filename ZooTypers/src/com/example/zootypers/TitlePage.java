@@ -1,5 +1,7 @@
 package com.example.zootypers;
 
+import java.util.List;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -12,14 +14,17 @@ import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import com.parse.FindCallback;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 
@@ -32,18 +37,32 @@ import com.parse.RequestPasswordResetCallback;
 public class TitlePage extends Activity {
 
 	PopupWindow ppw; // for the multiplayer login popup
+	Intent multiIntent;  // used to go to MultiplayerPregameScreen
+	ParseUser currentUser;
+	// used for figuring out valid login inputs
+	boolean foundUser;
+	boolean foundPassword;
 	
-    @Override
+	@Override
     protected final void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_title_page);
+        // initialize the Intent to go to Pregame selection
+    	multiIntent = new Intent(this, PreGameSelectionMulti.class);
         Parse.initialize(this, "yUgc5n1ws3KrVpdSnagD" +
 		  		"5vwHvaGKpq00KUP3Kkak", "e9tvSeC8GtMEE3ux" +
 		  				"3B4phnWNtL9QRjmk7VG1zdZI");
+        currentUser = ParseUser.getCurrentUser();
+        if (currentUser == null) {
+        	// there is no current user so dont display logged in views
+        	makeViewsInvisible();
+        } else {
+        	// there is a user logged in. set the current user text
+        	TextView currentUserText = (TextView) findViewById(R.id.current_user_text);
+        	String currentUserString = currentUser.getString("username");
+        	currentUserText.setText(currentUserString);
+        }
     }
 
     @Override
@@ -96,18 +115,26 @@ public class TitlePage extends Activity {
     
     /**
     * Called when the user presses the "Multiplayer" button.
-    * Prompts a login screen
+    * Prompts a login screen if user is not logged in already
     * @param view The button clicked
     */
     public final void multiplayerLogin(final View view) {
-    	// make the login popup screen with the login_popup layout
-    	LayoutInflater layoutInflater = 
-                 (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-        View popupView = layoutInflater.inflate(R.layout.login_popup, null);
-        ppw = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-        ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
-        // set the position and size of popup
-        ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
+    	if (currentUser != null) {
+    		// someone is already logged in
+    		String currentUserString = currentUser.getString("username");
+    		multiIntent.putExtra("username", currentUserString);
+    		startActivity(multiIntent);
+    	} else {
+    		// there is no one logged in. prompt the login screen
+    		// make the login popup screen with the login_popup layout
+        	LayoutInflater layoutInflater = 
+                     (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+            View popupView = layoutInflater.inflate(R.layout.login_popup, null);
+            ppw = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+            ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
+            // set the position and size of popup
+            ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
+    	}
     }
     
     /**
@@ -124,27 +151,25 @@ public class TitlePage extends Activity {
     	final String passwordString = passwordInput.getText().toString();
     	
     	// intent to go to the pregame multiplayer screen
-    	final Intent multiIntent = new Intent(this, PreGameSelectionMulti.class);
-    	
     	final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
     	// try to login with the given inputs
     	ParseUser.logInInBackground(usernameString, passwordString, new LogInCallback() {
-    	public void done(ParseUser user, ParseException e) {
-    		if (user != null) {
-    			// login successful
-    			boolean emailVerified = user.getBoolean("emailVerified");
-    			if (emailVerified) {
-    				multiIntent.putExtra("username", usernameString);
-    				startActivity(multiIntent);
+    		public void done(ParseUser user, ParseException e) {
+    			if (user != null) {
+    				// login successful
+    				boolean emailVerified = user.getBoolean("emailVerified");
+    				if (emailVerified) {
+    					multiIntent.putExtra("username", usernameString);
+    					startActivity(multiIntent);
+    				} else {
+    					errorMessage.setText("Email is not verified");
+    				}
     			} else {
-    				errorMessage.setText("Email is not verified");
+    				// an error occured. Figure out if invalid username or password
+    				// or another error 
+    				errorMessage.setText("An Error has Occured");
     			}
-    		 } else {
-    		    e.printStackTrace();
-    		    errorMessage.setText("An Error has Occured");
-    		    //TODO : figure out how to know what is wrong
-    		 }
-    	}
+    		}
     	}); 
     }
     
@@ -154,6 +179,20 @@ public class TitlePage extends Activity {
      */
     public void exitPopup(View view) {
     	ppw.dismiss();
+    }
+    
+    /**
+     * Logs out the current user
+     * @param view the button clicked
+     */
+    public void logoutUser(View view) {
+    	ParseUser.logOut();
+    	currentUser = ParseUser.getCurrentUser();
+    	final String title = "Logged Out";
+    	final String message = "You have successfully logged out";
+    	buildAlertDialog(title, message);
+    	// make the views disappear
+    	makeViewsInvisible();
     }
     
     /**
@@ -229,4 +268,19 @@ public class TitlePage extends Activity {
 		// show the message
 		alertDialog.show();
 	}
+    
+    /**
+     * helper method that sets the logged in status views to invisible
+     */
+    private void makeViewsInvisible() {
+    	// get all the logged in related views
+    	TextView loggedInText = (TextView) findViewById(R.id.loggedin_text);
+    	TextView currentUserText = (TextView) findViewById(R.id.current_user_text);
+    	Button logoutButton = (Button) findViewById(R.id.logout_button);
+    	
+    	// set the views to be invisible
+    	loggedInText.setVisibility(View.INVISIBLE);
+    	currentUserText.setVisibility(View.INVISIBLE);
+    	logoutButton.setVisibility(View.INVISIBLE);
+    }
 }
