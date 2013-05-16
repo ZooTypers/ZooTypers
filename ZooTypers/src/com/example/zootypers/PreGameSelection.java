@@ -7,6 +7,7 @@ import android.graphics.PorterDuff.Mode;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 
 /**
  *
@@ -28,6 +29,9 @@ public class PreGameSelection extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     
         setContentView(R.layout.activity_pregame_selection);
