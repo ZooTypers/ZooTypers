@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_rainbow"
     tools:context=".TitlePage" >
+
     
     <ImageView
         android:id="@+id/title"
@@ -93,5 +94,30 @@
         android:layout_alignParentLeft="true"
         android:contentDescription="@string/husky_logo_alt"
         android:src="@drawable/husky_logo" />
+
+    <TextView
+        android:id="@+id/loggedin_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:text="@string/loggedin_string" />
+
+    <TextView
+        android:id="@+id/current_user_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/title_page_img3"
+        android:layout_below="@+id/loggedin_text" />
+
+    <Button
+        android:id="@+id/logout_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/current_user_text"
+        android:text="@string/logout_string"
+        android:onClick="logoutUser"/>
 
 </RelativeLayout>

@@ -11,16 +11,16 @@
         android:layout_height="wrap_content" >
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/exit_login_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
+            android:onClick="exitPopup"
             android:padding="0sp"
             android:text="@string/x_string"
-            android:textSize="20sp"
-            android:onClick="exitPopup" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/textView1"
@@ -36,7 +36,6 @@
     <LinearLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal" >
 
         <TextView
@@ -102,6 +101,32 @@
 		    android:onClick="goToRegister" />
     
     </LinearLayout>
+    
+    <TextView
+    	android:id="@+id/email_forgot_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="20dp"
+        android:paddingRight="38dp"
+        android:text="@string/forgot_password" />
+
+    <EditText
+        android:id="@+id/email_forgot_password_input"
+        android:layout_width="184dp"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/reset_password_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/reset_password"
+        android:onClick="resetPassword" />
 
     <TextView
         android:id="@+id/login_error_message"
