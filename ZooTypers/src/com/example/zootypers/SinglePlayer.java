@@ -3,14 +3,13 @@ package com.example.zootypers;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.TimeUnit;
+
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.media.AudioManager;
-import android.media.ToneGenerator;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
@@ -27,6 +26,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.example.zootypers.States.difficulty;
 
 @SuppressLint("NewApi")
@@ -39,7 +39,7 @@ import com.example.zootypers.States.difficulty;
 public class SinglePlayer extends Activity implements Observer {
 
     // used for the communicating with model
-    protected SinglePlayerModel model;
+    private SinglePlayerModel model;
     protected final int NUM_WORDS = 5;  
     protected int bg;
     
@@ -193,7 +193,7 @@ public class SinglePlayer extends Activity implements Observer {
     * @param arg0 Thing being observes.
     * @param arg1 State.
     */
-    public final void update(final Observable arg0, final Object arg1) {
+    public void update(final Observable arg0, final Object arg1) {
         SinglePlayerModel spM;
         if (arg0 instanceof SinglePlayerModel) {
             spM = (SinglePlayerModel) arg0;
