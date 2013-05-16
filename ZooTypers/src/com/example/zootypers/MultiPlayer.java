@@ -26,21 +26,20 @@ import com.parse.Parse;
 @SuppressLint("NewApi")
 public class MultiPlayer extends Activity implements Observer {
 	private MultiPlayerModel model;
-    protected final int NUM_WORDS = 5;  
-    protected int bg;
+	protected final int NUM_WORDS = 5;  
+	protected int bg;
    
-
-    // for the game timer
-    protected GameTimer gameTimer;
-    protected final long INTERVAL = 1000; // 1 second
-    public final static long START_TIME = 60000; // 1 minute
-    public static boolean paused = false;
-    private long currentTime;
+	// for the game timer
+	protected GameTimer gameTimer;
+	protected final long INTERVAL = 1000; // 1 second
+	public final static long START_TIME = 60000; // 1 minute
+	public static boolean paused = false;
+	private long currentTime;
 
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	  super.onCreate(savedInstanceState);
 
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection_multi);
@@ -50,13 +49,12 @@ public class MultiPlayer extends Activity implements Observer {
 		Drawable background = ((ImageButton) findViewById(bg)).getDrawable();
 
 		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
-		//setupWordsList();
-		// this can be fetched from the database once login is properly setup
-		// should not need these in actual model
-		String uname = "david";
+		
+		// Get user name
+		String uname = getIntent().getStringExtra("username");
 
 		// start model
-		model = new MultiPlayerModel(States.difficulty.MEDIUM, this.getAssets(), NUM_WORDS, uname);
+		model = new MultiPlayerModel(NUM_WORDS, uname, AnimalDrawables.drawableToString(animal));
 		model.addObserver(this);
 
 		// change screen view
@@ -68,102 +66,97 @@ public class MultiPlayer extends Activity implements Observer {
 		gameTimer.start();
 	}
 	
-    @Override
-    public final boolean onCreateOptionsMenu(final Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.single_player, menu);
-        return true;
-    }
-  
-    @Override
-    /**
-     * When the user types a letter, this listens for it.
-     */
-    public final boolean onKeyDown(final int key, final KeyEvent event){  	
-    	char charTyped = event.getDisplayLabel();
-        charTyped = Character.toLowerCase(charTyped);
-        model.typedLetter(charTyped);
-        return true;
-    }
-    
-    /**
-    * @param wordIndex The index of the word to display; 0 <= wordIndex < 5.
-    * @param word The word to display.
-    */
-    public final void displayWord(final int wordIndex, final String word) {
-        if ((wordIndex < 0) || (wordIndex >= NUM_WORDS)) {
-            // error!
-        }
-        TextView wordBox = (TextView) getByStringId("word" + wordIndex);
-        wordBox.setText(word);
-    }
-
-    /**
-    * Updates the timer on the screen.
-    * @param secondsLeft The number of seconds to display.
-    */
-    public final void displayTime(final long secondsLeft) {
-        TextView timerBox = (TextView) findViewById(R.id.time_text);
-        timerBox.setText(Long.toString(secondsLeft));
-    }
-
-    /**
-    * Updates the score on the screen.
-    * @param score The score to display.
-    */
-    public final void displayScore(final int score) {
-        TextView currentScore = (TextView) findViewById(R.id.score);
-        currentScore.setText(Integer.toString(score));
-    }
-
-    /**
-    * Highlights the letterIndex letter of the wordIndex word. letterIndex must
-    * not be beyond the scope of the word.
-    * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
-    * @param letterIndex The index of the letter in the word to highlight.
-    */
-    public void highlightWord(final int wordIndex, final String word, final int letterIndex) {
-        TextView wordBox = (TextView) getByStringId("word" + wordIndex);
-        String highlighted  = word.substring(0, letterIndex);
-        String rest = word.substring(letterIndex);
-        wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
-    }
-
-
-    /**
-     * Displays the initial screen of the single player game.
-     * @param animalID Drawable referring to the id of the selected animal image,
-     * e.g. R.drawable.elephant_color.
-     * @param backgroudID Drawable referring to the id of the selected background image.
-     * @param words An array of the words to display. Must have a length of 5.
-     */
-    public void initialDisplay(Drawable animalID, Drawable backgroundID) {
-        // display animal
-        ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
-        animalImage.setImageDrawable(animalID);
-
-        // display background
-        ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
-        layout.setBackground(backgroundID);
-
-        model.populateDisplayedList();
-
-        // TODO figure out how to change milliseconds to seconds. it skips numbers
-        displayTime(START_TIME / INTERVAL);
-
-        displayScore(0);
-    }
-
+	@Override
+	public final boolean onCreateOptionsMenu(final Menu menu) {
+	  // Inflate the menu; this adds items to the action bar if it is present.
+	  getMenuInflater().inflate(R.menu.single_player, menu);
+	  return true;
+	}
+	
+	@Override
 	/**
-	 * Displays the oppenent's animal on the screen.
-	 * @param score The score to display.
+	 * When the user types a letter, this listens for it.
 	 */
-	@SuppressLint("NewApi")
-	public final void displayOpponentAnimal(final Drawable animal) {
-		TextView oppAnimal = (TextView) findViewById(R.id.opp_animal_image);
-		oppAnimal.setBackground(animal);
+	public final boolean onKeyDown(final int key, final KeyEvent event){ 	  
+	  char charTyped = event.getDisplayLabel();
+	  charTyped = Character.toLowerCase(charTyped);
+	  model.typedLetter(charTyped);
+	  return true;
+	}
+    
+	/**
+	 * @param wordIndex The index of the word to display; 0 <= wordIndex < 5.
+   * @param word The word to display.
+   */
+	public final void displayWord(final int wordIndex, final String word) {
+	  if ((wordIndex < 0) || (wordIndex >= NUM_WORDS)) {
+	    // error!
+	  }
+	  TextView wordBox = (TextView) getByStringId("word" + wordIndex);
+	  wordBox.setText(word);
 	}
 
+  /**
+   * Updates the timer on the screen.
+   * @param secondsLeft The number of seconds to display.
+   */
+	public final void displayTime(final long secondsLeft) {
+	  TextView timerBox = (TextView) findViewById(R.id.time_text);
+	  timerBox.setText(Long.toString(secondsLeft));
+	}
+
+	/**
+	 * Updates the score on the screen.
+   * @param score The score to display.
+   */
+	public final void displayScore(final int score) {
+	  TextView currentScore = (TextView) findViewById(R.id.score);
+	  currentScore.setText(Integer.toString(score));
+	}
+
+  /**
+   * Highlights the letterIndex letter of the wordIndex word. letterIndex must
+   * not be beyond the scope of the word.
+   * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
+   * @param letterIndex The index of the letter in the word to highlight.
+   */
+	public void highlightWord(final int wordIndex, final String word, final int letterIndex) {
+	  TextView wordBox = (TextView) getByStringId("word" + wordIndex);
+	  String highlighted  = word.substring(0, letterIndex);
+	  String rest = word.substring(letterIndex);
+	  wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
+	}
+
+
+  /**
+   * Displays the initial screen of the single player game.
+   * @param animal Drawable referring to the id of the selected animal image,
+   * e.g. R.drawable.elephant_color.
+   * @param backgroudID Drawable referring to the id of the selected background image.
+   * @param words An array of the words to display. Must have a length of 5.
+   */
+	public void initialDisplay(Drawable animal, Drawable background) {
+	  // display animal
+	  ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
+	  animalImage.setImageDrawable(animal);
+	  
+	  // display opponent's animal
+	  int oppAnimal = AnimalDrawables.stringToResID(model.getOpponentAnimal());
+	  ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
+	  oppAnimalImage.setBackgroundResource(oppAnimal);
+
+	  // display background
+	  ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
+	  layout.setBackground(background);
+
+	  model.populateDisplayedList();
+
+	  // TODO figure out how to change milliseconds to seconds. it skips numbers
+	  displayTime(START_TIME / INTERVAL);
+
+	  displayScore(0);
+	}
+    
 	/**
 	 * Updates the oppenent's score on the screen.
 	 * @param score The score to display.
@@ -173,8 +166,6 @@ public class MultiPlayer extends Activity implements Observer {
 		currentScore.setText(Integer.toString(score));
 	}
 
-
-	// TODO overrride update method
 	/**
 	 * Observer for model.
 	 * @param arg0 Thing being observes.
@@ -198,7 +189,7 @@ public class MultiPlayer extends Activity implements Observer {
 								  mpM.getCurrLetterIndex());
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.OPPONENT_SCORE) {
-					displayScore(mpM.getOpponentScore());
+					displayOpponentScore(mpM.getOpponentScore());
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.WRONG_LETTER) {
 					//final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
@@ -212,17 +203,17 @@ public class MultiPlayer extends Activity implements Observer {
 		}
 	}
 
-    /**
-    * Reopens keyboard when it is closed
-    * @param view The button clicked.
-    * @author oaknguyen
-    */
-    public final void keyboardButton(final View view) {
-        InputMethodManager inputMgr = (InputMethodManager) 
-        getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMgr.toggleSoftInput(0, 0);
-    }
-	
+	/**
+	 * Reopens keyboard when it is closed
+	 * @param view The button clicked.
+	 * @author oaknguyen
+	 */
+	public final void keyboardButton(final View view) {
+	  InputMethodManager inputMgr = (InputMethodManager) 
+	      getSystemService(Context.INPUT_METHOD_SERVICE);
+	  inputMgr.toggleSoftInput(0, 0);
+	}
+
 	/**
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
@@ -235,39 +226,39 @@ public class MultiPlayer extends Activity implements Observer {
 		intent.putExtra("bg", bg);
 		startActivity(intent);
 	}
-	
-    /**
-    * @param id The id of the View to get as a String.
-    * @return The View object with that id
-    */
-    public final View getByStringId(final String id) {
-        return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
-    }
 
-    
-    /**
-     * Timer for game.
-     * @author ZooTypers
-     */
-     public class GameTimer extends CountDownTimer {
-         /**
-         * @param startTime Amount of time player starts with.
-         * @param interval Amount of time between ticks.
-         */
-         public GameTimer(final long startTime, final long interval) {
-             super(startTime, interval);
-         }
+	/**
+	 * @param id The id of the View to get as a String.
+	 * @return The View object with that id
+	 */
+	public final View getByStringId(final String id) {
+	  return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
+	}
 
-         @Override
-         public final void onFinish() {
-             // TODO add game over message before going to post game
-             goToPostGame();
-         }
 
-         @Override
-         public final void onTick(final long millisUntilFinished) {
-             currentTime = millisUntilFinished;
-             displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
-         }
-     }
+	/**
+	 * Timer for game.
+	 * @author ZooTypers
+	 */
+	public class GameTimer extends CountDownTimer {
+	  /**
+	   * @param startTime Amount of time player starts with.
+	   * @param interval Amount of time between ticks.
+	   */
+	  public GameTimer(final long startTime, final long interval) {
+	    super(startTime, interval);
+	  }
+
+	  @Override
+	  public final void onFinish() {
+	    // TODO add game over message before going to post game
+	    goToPostGame();
+	  }
+
+	  @Override
+	  public final void onTick(final long millisUntilFinished) {
+	    currentTime = millisUntilFinished;
+	    displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
+	  }
+	}
 }
