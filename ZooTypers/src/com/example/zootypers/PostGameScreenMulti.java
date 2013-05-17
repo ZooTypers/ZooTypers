@@ -10,10 +10,12 @@ import android.widget.TextView;
 
 public class PostGameScreenMulti extends PostGameScreen {
 
-  @SuppressLint("NewApi")
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	String username;
+
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
     // Get & display background
     setContentView(R.layout.activity_pregame_selection_multi);
@@ -47,14 +49,17 @@ public class PostGameScreenMulti extends PostGameScreen {
         resultMessage.setText("You Lost.");
       }
     }
+    
+    username = getIntent().getStringExtra("username");
 
     // TODO store score
   }
 
-  @Override
-  public final void goToPreGameSelection(final View view) {
-    Intent intent = new Intent(this, PreGameSelectionMulti.class);
-    startActivity(intent);
-  }
+	@Override
+	public final void goToPreGameSelection(final View view) {
+		Intent intent = new Intent(this, PreGameSelectionMulti.class);
+		intent.putExtra("username", username);
+		startActivity(intent);
+	}
 
 }
