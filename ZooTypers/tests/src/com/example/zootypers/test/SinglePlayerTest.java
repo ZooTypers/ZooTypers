@@ -77,6 +77,13 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		return retVal;
 	}
 	
+	private void goBackToMainMenu() {
+        Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
+        solo.clickOnView(pauseButton);
+        solo.clickOnButton("Main Menu");
+        solo.searchButton("Single Player");
+	}
+	
   	@Test(timeout = TIMEOUT)
 	public void testFiveWordsPresent(){
 		List<TextView> views = getWordsPresented(solo);
@@ -98,7 +105,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 				assertTrue(solo.searchText("Invalid Letter Typed"));
 			}
 		}
-		
+		goBackToMainMenu();
 	}
 	
   	@Test(timeout = TIMEOUT)
@@ -117,6 +124,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		Log.v("Span", spanString.toString());
 		ForegroundColorSpan[] spans = spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
 		assertTrue(spans.length > 0);
+		goBackToMainMenu();
 	}
 	
 	public void testChangeAWordWhenFinished(){
@@ -130,7 +138,8 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 			Log.v("current-letter", Character.toString(c));
 		}
 		textList = getWordsPresented(solo);
-		assertTrue(textList.get(0).getText().toString() != currWord);		
+		assertTrue(textList.get(0).getText().toString() != currWord);
+		goBackToMainMenu();
 	}
 	
   	@Test(timeout = TIMEOUT)
@@ -155,6 +164,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 
   	    }
         assertEquals(expectedScore, actualScore);
+        goBackToMainMenu();
 	}
 	
 //  	@Test(timeout = 70000)
@@ -201,7 +211,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.clickOnButton("New Game");
         solo.searchButton("Continue");
     }
-  	
+    
 	protected void tearDown() throws Exception {
 		solo.finishOpenedActivities();
 	}
