@@ -40,6 +40,15 @@ public class RegisterPage extends Activity {
 		getMenuInflater().inflate(R.menu.activity_register_page, menu);
 		return true;
 	}
+	
+	/**
+	 * Cancel registering and go back to the title page.
+	 * @param view The button clicked.
+	 */
+	public final void cancel(View view) {
+        Intent intent = new Intent(this, TitlePage.class);
+        startActivity(intent);		
+	}
 
 	/**
 	 * Handles what happens when the submit button is pressed
