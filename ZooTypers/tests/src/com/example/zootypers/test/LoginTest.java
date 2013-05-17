@@ -32,7 +32,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	}
 
 	@Test(timeout = TIMEOUT)
-	public void testingRegisteringForAccount() {
+	public void testingRegisteringForAccountInUse() {
 		solo.clickOnButton("Multiplayer");
 		solo.clickOnButton("Register");
 		EditText username = (EditText) solo.getView(R.id.username_register_input);
@@ -44,10 +44,11 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		EditText email = (EditText) solo.getView(R.id.email_input_register);
 		solo.enterText(email, "davidqwe123@hotmail.com");
 		solo.clickOnButton("Submit");
+		solo.searchText("Username is already in use.");
 	}
 	
 	@Test(timeout = TIMEOUT)
-	public void testingLoginToExistingUser() {
+	public void testingLoginToExistingUserAndLoggingOut() {
 		solo.clickOnButton("Multiplayer");
 		EditText username = (EditText) solo.getView(R.id.username_login_input);
 		solo.enterText(username, "David");
@@ -56,14 +57,16 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		solo.clickOnButton("Login");
 		solo.goBack();
 		solo.clickOnButton("Logout");
+		solo.searchText("Logged Out");
 	}
 	
 	@Test(timeout = TIMEOUT)
-	public void testingForgotPasswordInput() {
+	public void testingForgotPasswordInputFailure() {
 		solo.clickOnButton("Multiplayer");
 		EditText email = (EditText) solo.getView(R.id.email_forgot_password_input);
 		solo.enterText(email, "davidqwe123@hotmail.com");
-		solo.clickOnButton("Reset Password");
+		solo.clickOnButton("Reset");
+		solo.searchText("Password Reset Failed");
 	}
 	
 	protected void tearDown() throws Exception {

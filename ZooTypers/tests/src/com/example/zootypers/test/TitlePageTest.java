@@ -43,10 +43,9 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	
 	@Test(timeout = TIMEOUT)
 	public void testSearchAllButtonsExist() {
-		assertTrue(solo.searchButton("Single Player"));
-		assertTrue(solo.searchButton("Multiplayer"));
-		assertTrue(solo.searchButton("Leaderboard"));
-		assertFalse(solo.searchButton("WRONG_BUTTON"));
+        solo.searchText("Single Player");
+        solo.searchText("Multiplayer");
+        solo.searchText("Leaderboard");
 	}
 
 	@Test(timeout = TIMEOUT)

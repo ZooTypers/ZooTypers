@@ -224,7 +224,11 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	    Button continueButton = (Button) solo.getView(com.example.zootypers.R.id.continue_button);
 		assertTrue(solo.searchButton("Continue"));
 	    solo.clickOnView(continueButton);
-	    solo.assertCurrentActivity("Check on current page activity.", SinglePlayer.class);
+        Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
+        solo.clickOnView(pauseButton);
+        solo.clickOnButton("Main Menu");
+        solo.searchButton("Single Player");
+	    solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
 	}
 	
 	protected void tearDown() throws Exception {
