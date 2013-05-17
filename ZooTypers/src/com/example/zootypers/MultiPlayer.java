@@ -261,12 +261,12 @@ public class MultiPlayer extends Activity implements Observer {
 	 */
 	public final void goToPostGame() {
 		Intent intent = new Intent(this, PostGameScreenMulti.class);
-		// pass score
-		intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
-
-		// TODO get whether you won from the model
 		int myScore = model.getScore();
 		int oppScore = model.getOpponentScore();
+		// pass score
+		intent.putExtra("score", myScore);
+		intent.putExtra("oppScore", oppScore);
+		// TODO get whether you won from the model
 		if (myScore > oppScore) {
 			intent.putExtra("won", true);			
 		} else if (myScore == oppScore) {
