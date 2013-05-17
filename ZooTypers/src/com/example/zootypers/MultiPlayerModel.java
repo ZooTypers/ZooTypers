@@ -53,7 +53,7 @@ public class MultiPlayerModel extends Observable {
 
 	// index of letter that has been parsed from the currWordIndex
 	private int currLetterIndex;
-	
+
 	private int animalName;
 
 	// maximum number of words in wordLists on Parse database
@@ -139,7 +139,7 @@ public class MultiPlayerModel extends Observable {
 			info.put("oscore", "p1score");
 			info.put("ofinished", "p1finished");
 		}
-		
+
 	}
 
 	private void addToQueue() {
@@ -204,37 +204,13 @@ public class MultiPlayerModel extends Observable {
 		}
 	}
 
+
+	// checks if match online still has the same player in it.
 	private void checkIfInMatch() {
 		if (!match.getString(info.get("name")).equals(name)) {
 			// TODO YouGotReplacedException
 		}
 	}
-
-	/*
-	 *  Replace the current word on display with a new word from list making
-	 *  sure that the new word will not start with the same letter as any of
-	 *  the other words being displayed.
-	 *  post: nextWordIndex will always be set to a valid index of wordsList
-	 */
-	private void updateWordsDisplayed() {
-		currFirstLetters.remove(wordsList.get(wordsDisplayed[currWordIndex]).charAt(0));
-		while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
-			nextWordIndex++;
-			if (nextWordIndex >= wordsList.size()) {
-				nextWordIndex = 0;
-			}
-		}
-		currFirstLetters.add(wordsList.get(nextWordIndex).charAt(0));
-		wordsDisplayed[currWordIndex] = nextWordIndex;
-		nextWordIndex++;
-		if (nextWordIndex >= wordsList.size()) {
-			nextWordIndex = 0;
-		}
-		
-		setChanged();
-		notifyObservers(States.update.FINISHED_WORD);
-	}
-
 
 	/**
 	 * The populateDisplayedList method gets called once by MultiPlayer after
@@ -316,7 +292,98 @@ public class MultiPlayerModel extends Observable {
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
 	}
-	
+
+
+	/*
+	 *  Replace the current word on display with a new word from list making
+	 *  sure that the new word will not start with the same letter as any of
+	 *  the other words being displayed.
+	 *  post: nextWordIndex will always be set to a valid index of wordsList
+	 */
+	private void updateWordsDisplayed() {
+		currFirstLetters.remove(wordsList.get(wordsDisplayed[currWordIndex]).charAt(0));
+		while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
+			nextWordIndex++;
+			if (nextWordIndex >= wordsList.size()) {
+				nextWordIndex = 0;
+			}
+		}
+		currFirstLetters.add(wordsList.get(nextWordIndex).charAt(0));
+		wordsDisplayed[currWordIndex] = nextWordIndex;
+		nextWordIndex++;
+		if (nextWordIndex >= wordsList.size()) {
+			nextWordIndex = 0;
+		}
+
+		setChanged();
+		notifyObservers(States.update.FINISHED_WORD);
+	}
+
+
+	// TODO: this never gets called
+	public final void setUserFinish() {
+		try {
+			match.put(info.get("finished"), true);
+			match.save();
+		} catch (ParseException e) {
+			// TODO CONNECTION ERROR
+		}
+	}
+
+	// TODO: this never gets called
+	// return true if my opponent has finished their game
+	public final boolean isOpponentFinished() {
+		long starttime = System.currentTimeMillis();
+		long endtime = starttime + SCORE_TIMEOUT;
+		while(System.currentTimeMillis() < endtime) {
+
+			if (match.getBoolean(info.get("ofinished"))) {
+				return true;
+			}
+			try {
+				match.refresh();
+				checkIfInMatch();
+				Thread.sleep(RECHECK_TIME);
+			} catch (ParseException e1) {
+				// TODO CONNECTION ERROR
+				e1.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO NEVER SHOULD HAPPEN
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * refreshes the match then tries to delete themselves from the queue
+	 * if the other player has not finished then just set their own finished field
+	 * in the match to true.
+	 * 
+	 * @modifies this
+	 */
+	public void deleteUser() {
+		try {
+			match.refresh();
+			checkIfInMatch();
+			if (match.getBoolean(info.get("ofinished"))) {
+				match.delete();
+			} else {
+				match.put(info.get("finished"), true);
+				match.save();
+			}
+		} catch (ParseException e) {
+			// TODO CONNECTION ERROR
+		}
+
+	}
+
+	/**
+	 * refreshes the match in a background thread and notifies the
+	 * UI to update the opponent score after the refresh is done.
+	 * 
+	 * @modifies this
+	 */
 	public void refreshInBackground() {
 		match.refreshInBackground(new RefreshCallback() {
 			public void done(ParseObject object, ParseException e) {
@@ -343,7 +410,6 @@ public class MultiPlayerModel extends Observable {
 		if (currWordIndex == -1) {
 			return null;
 		}
-
 		return wordsList.get(wordsDisplayed[currWordIndex]);
 	}
 
@@ -363,54 +429,5 @@ public class MultiPlayerModel extends Observable {
 
 	public final int getOpponentScore() {
 		return match.getInt(info.get("oscore"));
-	}
-
-	public final void setUserFinish() {
-		try {
-			match.put(info.get("finished"), true);
-			match.save();
-		} catch (ParseException e) {
-			// TODO CONNECTION ERROR
-		}
-	}
-
-	// return true if my opponent has finished their game
-	public final boolean isOpponentFinished() {
-		long starttime = System.currentTimeMillis();
-		long endtime = starttime + SCORE_TIMEOUT;
-		while(System.currentTimeMillis() < endtime) {
-
-			if (match.getBoolean(info.get("ofinished"))) {
-				return true;
-			}
-			try {
-				match.refresh();
-				checkIfInMatch();
-				Thread.sleep(RECHECK_TIME);
-			} catch (ParseException e1) {
-				// TODO CONNECTION ERROR
-				e1.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO NEVER SHOULD HAPPEN
-				e.printStackTrace();
-			}
-		}
-		return false;
-	}
-
-	public void deleteUser() {
-		try {
-			match.refresh();
-			checkIfInMatch();
-			if (match.getBoolean(info.get("ofinished"))) {
-				match.delete();
-			} else {
-				match.put(info.get("finished"), true);
-				match.save();
-			}
-		} catch (ParseException e) {
-			// TODO CONNECTION ERROR
-		}
-		
 	}
 }
