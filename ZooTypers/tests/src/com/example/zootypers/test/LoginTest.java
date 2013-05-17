@@ -1,5 +1,6 @@
 package com.example.zootypers.test;
 
+import org.junit.*;
 import com.example.zootypers.*;
 import com.example.zootypers.R;
 import com.jayway.android.robotium.solo.Solo;
@@ -7,9 +8,11 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
 /**
- * Testing to see if the login feature for our game works.
+ * Testing to see if the login feature works correctly by logging into
+ * an existing user, registering a new user, and also entering a password
+ * for recovering information.
  * 
- * Black box test. 
+ * (Black box testing to make sure that the login UI works.)
  * 
  * @author dyxliang
  *
@@ -18,6 +21,7 @@ import android.widget.EditText;
 public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	
 	private Solo solo;
+	private static final int TIMEOUT = 10000;
 	
 	public LoginTest() {
 		super(TitlePage.class);
@@ -26,7 +30,8 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	protected void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
-	
+
+	@Test(timeout = TIMEOUT)
 	public void testingRegisteringForAccount() {
 		solo.clickOnButton("Multiplayer");
 		solo.clickOnButton("Register");
@@ -37,27 +42,27 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		EditText password2 = (EditText) solo.getView(R.id.confirm_password_input_register);
 		solo.enterText(password2, "12345");
 		EditText email = (EditText) solo.getView(R.id.email_input_register);
-		solo.enterText(email, "davidrandomemail123@hotmail.com");
+		solo.enterText(email, "davidqwe123@hotmail.com");
 		solo.clickOnButton("Submit");
-		solo.sleep(3000);
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testingLoginToExistingUser() {
 		solo.clickOnButton("Multiplayer");
 		EditText username = (EditText) solo.getView(R.id.username_login_input);
 		solo.enterText(username, "David");
-		solo.sleep(1000);
 		EditText password = (EditText) solo.getView(R.id.password_login_input);
 		solo.enterText(password, "1234567");
-		solo.sleep(1000);
 		solo.clickOnButton("Login");
 		solo.goBack();
+		solo.clickOnButton("Logout");
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testingForgotPasswordInput() {
 		solo.clickOnButton("Multiplayer");
 		EditText email = (EditText) solo.getView(R.id.email_forgot_password_input);
-		solo.enterText(email, "davidrandomemail123@hotmail.com");
+		solo.enterText(email, "davidqwe123@hotmail.com");
 		solo.clickOnButton("Reset Password");
 	}
 	

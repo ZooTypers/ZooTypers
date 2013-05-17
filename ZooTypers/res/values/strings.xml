@@ -62,5 +62,6 @@
     <string name="forgot_password">Enter your email address to reset your password</string>
     <string name="title_activity_multi_player">MultiPlayer</string>
     <string name="title_activity_post_game_screen_multi">PostGameScreenMulti</string>
+    <string name="opp_final_score">Opponent\'s Score:</string>
 
 </resources>
