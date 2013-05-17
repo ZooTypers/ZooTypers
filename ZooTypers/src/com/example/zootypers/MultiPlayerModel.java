@@ -73,8 +73,6 @@ public class MultiPlayerModel extends Observable {
 		this.animalName = animalName;
 		this.name = uname;
 		this.info = new HashMap<String, String>();
-		beginMatchMaking();
-		setWordsList();
 		this.numWordsDisplayed = wordsDis;
 		currFirstLetters = new HashSet<Character>();
 		//initialize all the fields to default starting values
@@ -84,7 +82,7 @@ public class MultiPlayerModel extends Observable {
 		currWordIndex = -1;
 	}
 
-	private void beginMatchMaking() {
+	private void beginMatchMaking() throws InternetConnectionException, EmptyQueueException, InternalErrorException {
 		if (findOpponent()) {
 			setInfo(false);
 			try {
@@ -94,13 +92,12 @@ public class MultiPlayerModel extends Observable {
 				match.put("p2finished", false);
 				match.save();
 			} catch (ParseException e) {
-				// TODO CONNECTION ERROR
-				e.printStackTrace();
+				throw new InternetConnectionException();
 			}
 		} else {
 			addToQueue();
 			if (!checkStatus()) {
-				//TODO throw new NoOneInQueueException
+				throw new EmptyQueueException();
 			}
 		}
 	}
@@ -142,7 +139,7 @@ public class MultiPlayerModel extends Observable {
 
 	}
 
-	private void addToQueue() {
+	private void addToQueue() throws InternetConnectionException {
 		final int randy = (int) (Math.random() * (NUMOFWORDS));
 		try {
 			setInfo(true);
@@ -155,11 +152,11 @@ public class MultiPlayerModel extends Observable {
 			match.put("wordIndex", randy);
 			match.save();
 		} catch (ParseException e) {
-			// TODO MAKE EXCEPTION FOR WHEN CANT SAVE
+			throw new InternetConnectionException();
 		}
 	}
 
-	private boolean checkStatus() {
+	private boolean checkStatus() throws InternetConnectionException, InternalErrorException {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + QUEUE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -171,20 +168,18 @@ public class MultiPlayerModel extends Observable {
 				}
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e1) {
-				// TODO THROW EXCEPTION IF NOT CONNECTED TO INTERNET
+				throw new InternetConnectionException();
 			} catch (InterruptedException e) {
-				// TODO SHOULD NEVER HAPPEN
-				e.printStackTrace();
+				throw new InternalErrorException();
 			}
 		}
 		return false;
 	}
 
 	// populates wordsList by contacting the database for LIST_SIZE amount of words
-	private void setWordsList() {
+	private void setWordsList() throws InternetConnectionException {
 		List<ParseObject> wordObjects = null;
 		try {
-			checkIfInMatch();
 			ParseQuery query = new ParseQuery("WordList");
 			query.setSkip(match.getInt("wordIndex"));
 			query.setLimit(LIST_SIZE); // limit to at most 20 results
@@ -195,7 +190,7 @@ public class MultiPlayerModel extends Observable {
 				wordObjects.addAll(query2.find());
 			}
 		} catch (ParseException e1) {
-			// TODO THROW EXCEPTION IF NOT CONNECTED TO INTERNET
+			throw new InternetConnectionException();
 		}	
 		// changing words from parse objects into a list of strings.
 		wordsList = new ArrayList<String>();
@@ -206,9 +201,9 @@ public class MultiPlayerModel extends Observable {
 
 
 	// checks if match online still has the same player in it.
-	private void checkIfInMatch() {
+	private void checkIfInMatch() throws InternalErrorException {
 		if (!match.getString(info.get("name")).equals(name)) {
-			// TODO YouGotReplacedException
+			throw new InternalErrorException();
 		}
 	}
 
@@ -234,13 +229,12 @@ public class MultiPlayerModel extends Observable {
 		currWordIndex = -1;
 	}
 
-	public int getOpponentAnimal() {
+	public int getOpponentAnimal() throws InternalErrorException, InternetConnectionException {
 		try {
 			match.refresh();
 			checkIfInMatch();
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			throw new InternetConnectionException();
 		}
 		return match.getInt(info.get("oanimal"));
 	}
@@ -319,20 +313,17 @@ public class MultiPlayerModel extends Observable {
 		notifyObservers(States.update.FINISHED_WORD);
 	}
 
-
-	// TODO: this never gets called
-	public final void setUserFinish() {
+	public final void setUserFinish() throws InternetConnectionException {
 		try {
 			match.put(info.get("finished"), true);
 			match.save();
 		} catch (ParseException e) {
-			// TODO CONNECTION ERROR
+			throw new InternetConnectionException();
 		}
 	}
 
-	// TODO: this never gets called
 	// return true if my opponent has finished their game
-	public final boolean isOpponentFinished() {
+	public final boolean isOpponentFinished() throws InternalErrorException, InternetConnectionException {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + SCORE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -345,11 +336,9 @@ public class MultiPlayerModel extends Observable {
 				checkIfInMatch();
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e1) {
-				// TODO CONNECTION ERROR
-				e1.printStackTrace();
+				throw new InternetConnectionException();
 			} catch (InterruptedException e) {
-				// TODO NEVER SHOULD HAPPEN
-				e.printStackTrace();
+				throw new InternalErrorException();
 			}
 		}
 		return false;
@@ -359,10 +348,12 @@ public class MultiPlayerModel extends Observable {
 	 * refreshes the match then tries to delete themselves from the queue
 	 * if the other player has not finished then just set their own finished field
 	 * in the match to true.
+	 * @throws InternalErrorException 
+	 * @throws InternetConnectionException 
 	 * 
 	 * @modifies this
 	 */
-	public void deleteUser() {
+	public void deleteUser() throws InternalErrorException, InternetConnectionException {
 		try {
 			match.refresh();
 			checkIfInMatch();
@@ -373,7 +364,7 @@ public class MultiPlayerModel extends Observable {
 				match.save();
 			}
 		} catch (ParseException e) {
-			// TODO CONNECTION ERROR
+			throw new InternetConnectionException();
 		}
 
 	}
