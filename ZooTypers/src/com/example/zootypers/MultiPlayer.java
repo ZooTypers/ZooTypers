@@ -52,7 +52,7 @@ public class MultiPlayer extends Activity implements Observer {
 	public final static long START_TIME = 60000; // 1 minute
 	public static boolean paused = false;
 	private long currentTime;
-
+	
 
 	/**
 	 * @param id The id of the View to get as a String.
@@ -108,6 +108,7 @@ public class MultiPlayer extends Activity implements Observer {
     	ppw.dismiss();
     }
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -148,9 +149,9 @@ public class MultiPlayer extends Activity implements Observer {
 
 	@Override
 	public final boolean onCreateOptionsMenu(final Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.single_player, menu);
-		return true;
+	  // Inflate the menu; this adds items to the action bar if it is present.
+	  getMenuInflater().inflate(R.menu.single_player, menu);
+	  return true;
 	}
 
 	@Override
@@ -158,83 +159,83 @@ public class MultiPlayer extends Activity implements Observer {
 	 * Called when the user types a letter; passes the letter to the model.
 	 */
 	public final boolean onKeyDown(final int key, final KeyEvent event){ 	  
-		char charTyped = event.getDisplayLabel();
-		charTyped = Character.toLowerCase(charTyped);
-		model.typedLetter(charTyped);
-		return true;
+	  char charTyped = event.getDisplayLabel();
+	  charTyped = Character.toLowerCase(charTyped);
+	  model.typedLetter(charTyped);
+	  return true;
 	}
-
+    
 	/**
 	 * @param wordIndex The index of the word to display; 0 <= wordIndex < 5.
-	 * @param word The word to display.
-	 */
+   * @param word The word to display.
+   */
 	public final void displayWord(final int wordIndex, final String word) {
-		if ((wordIndex < 0) || (wordIndex >= NUM_WORDS)) {
-			// error!
-		}
-		TextView wordBox = (TextView) getByStringId("word" + wordIndex);
-		wordBox.setText(word);
+	  if ((wordIndex < 0) || (wordIndex >= NUM_WORDS)) {
+	    // error!
+	  }
+	  TextView wordBox = (TextView) getByStringId("word" + wordIndex);
+	  wordBox.setText(word);
 	}
 
-	/**
-	 * Updates the timer on the screen.
-	 * @param secondsLeft The number of seconds to display.
-	 */
+  /**
+   * Updates the timer on the screen.
+   * @param secondsLeft The number of seconds to display.
+   */
 	public final void displayTime(final long secondsLeft) {
-		TextView timerBox = (TextView) findViewById(R.id.time_text);
-		timerBox.setText(Long.toString(secondsLeft));
+	  TextView timerBox = (TextView) findViewById(R.id.time_text);
+	  timerBox.setText(Long.toString(secondsLeft));
 	}
 
 	/**
 	 * Updates the score on the screen.
-	 * @param score The score to display.
-	 */
+   * @param score The score to display.
+   */
 	public final void displayScore(final int score) {
-		TextView currentScore = (TextView) findViewById(R.id.score);
-		currentScore.setText(Integer.toString(score));
+	  TextView currentScore = (TextView) findViewById(R.id.score);
+	  currentScore.setText(Integer.toString(score));
 	}
 
-	/**
-	 * Highlights the letterIndex letter of the wordIndex word. letterIndex must
-	 * not be beyond the scope of the word.
-	 * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
-	 * @param letterIndex The index of the letter in the word to highlight.
-	 */
+  /**
+   * Highlights the letterIndex letter of the wordIndex word. letterIndex must
+   * not be beyond the scope of the word.
+   * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
+   * @param letterIndex The index of the letter in the word to highlight.
+   */
 	public void highlightWord(final int wordIndex, final String word, final int letterIndex) {
-		TextView wordBox = (TextView) getByStringId("word" + wordIndex);
-		String highlighted  = word.substring(0, letterIndex);
-		String rest = word.substring(letterIndex);
-		wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
+	  TextView wordBox = (TextView) getByStringId("word" + wordIndex);
+	  String highlighted  = word.substring(0, letterIndex);
+	  String rest = word.substring(letterIndex);
+	  wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
 	}
 
-	/**
-	 * Displays the initial screen of the single player game.
-	 * @param animal Drawable referring to the id of the selected animal image,
-	 * e.g. R.drawable.elephant_color.
-	 * @param backgroudID Drawable referring to the id of the selected background image.
-	 * @param words An array of the words to display. Must have a length of 5.
-	 */
+  /**
+   * Displays the initial screen of the single player game.
+   * @param animal Drawable referring to the id of the selected animal image,
+   * e.g. R.drawable.elephant_color.
+   * @param backgroudID Drawable referring to the id of the selected background image.
+   * @param words An array of the words to display. Must have a length of 5.
+   */
 	public void initialDisplay(Drawable animal, Drawable background, int oppAnimal) {
-		// display animal
-		ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
-		animalImage.setImageDrawable(animal);
+	  // display animal
+	  ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
+	  animalImage.setImageDrawable(animal);
 
-		// display opponent's animal
-		ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
-		oppAnimalImage.setBackgroundResource(oppAnimal);
+	  // display opponent's animal
+	  ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
+	  oppAnimalImage.setBackgroundResource(oppAnimal);
 
-		// display background
-		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
-		layout.setBackground(background);
+	  // display background
+	  ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
+	  layout.setBackground(background);
 
-		model.populateDisplayedList();
+	  model.populateDisplayedList();
 
-		// TODO figure out how to change milliseconds to seconds. it skips numbers
-		displayTime(START_TIME / INTERVAL);
+	  // TODO figure out how to change milliseconds to seconds. it skips numbers
+	  displayTime(START_TIME / INTERVAL);
 
-		displayScore(0);
+	  displayScore(0);
 	}
-
+    
 	/**
 	 * Updates the oppenent's score on the screen.
 	 * @param score The score to display.
@@ -264,7 +265,7 @@ public class MultiPlayer extends Activity implements Observer {
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.HIGHLIGHT) {
 					highlightWord(mpM.getCurrWordIndex(), mpM.getCurrWord(), 
-							mpM.getCurrLetterIndex());
+								  mpM.getCurrLetterIndex());
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.OPPONENT_SCORE) {
 					displayOpponentScore(mpM.getOpponentScore());
@@ -308,27 +309,36 @@ public class MultiPlayer extends Activity implements Observer {
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
 	public final void goToPostGame() {
-		model.setUserFinish();
+	  model.setUserFinish();
+	  	  
+	  Intent intent = new Intent(this, PostGameScreenMulti.class);
 
-		Intent intent = new Intent(this, PostGameScreenMulti.class);
+	  // Pass scores and if you won to post game screen
+	  // TODO get whether you won from the model
+	  int myScore = model.getScore();
+	  int oppScore = model.getOpponentScore();
+	  intent.putExtra("score", score);
+	  intent.putExtra("oppScore", oppScore);
+		if (myScore > oppScore) {
+			intent.putExtra("won", true);			
+		} else if (myScore == oppScore) {
+			// TODO need a display for tie
+			intent.putExtra("won", false);			
+		} else {			
+			intent.putExtra("won", false);			
+		}
 
-		// Pass scores and if you won to post game screen
-		int score = model.getScore();
-		int oppScore = model.getOpponentScore();
-		intent.putExtra("score", score);
-		intent.putExtra("oppScore", oppScore);
-		intent.putExtra("won", (score > oppScore));
+	  // Pass if opponent completed the game
+	  intent.putExtra("discon", !model.isOpponentFinished());
 
-		// Pass if opponent completed the game
-		intent.putExtra("discon", !model.isOpponentFinished());
+	  // Pass background to post game screen
+	  intent.putExtra("bg", bg);
 
-		// Pass background to post game screen
-		intent.putExtra("bg", bg);
+	  // Pass username
+	  intent.putExtra("username", username);
 
-		// Pass username
-		intent.putExtra("username", username);
-
-		startActivity(intent);
+	  model.deleteUser();
+	  startActivity(intent);		
 	}
 
 
@@ -337,24 +347,25 @@ public class MultiPlayer extends Activity implements Observer {
 	 * @author ZooTypers
 	 */
 	public class GameTimer extends CountDownTimer {
-		/**
-		 * @param startTime Amount of time player starts with.
-		 * @param interval Amount of time between ticks.
-		 */
-		public GameTimer(final long startTime, final long interval) {
-			super(startTime, interval);
-		}
+	  /**
+	   * @param startTime Amount of time player starts with.
+	   * @param interval Amount of time between ticks.
+	   */
+	  public GameTimer(final long startTime, final long interval) {
+	    super(startTime, interval);
+	  }
 
-		@Override
-		public final void onFinish() {
-			// TODO add game over message before going to post game
-			goToPostGame();
-		}
+	  @Override
+	  public final void onFinish() {
+	    // TODO add game over message before going to post game
+	    goToPostGame();
+	  }
 
-		@Override
-		public final void onTick(final long millisUntilFinished) {
-			currentTime = millisUntilFinished;
-			displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
-		}
+	  @Override
+	  public final void onTick(final long millisUntilFinished) {
+		model.refreshInBackground();
+	    currentTime = millisUntilFinished;
+	    displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
+	  }
 	}
 }

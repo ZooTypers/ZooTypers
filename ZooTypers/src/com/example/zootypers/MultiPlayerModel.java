@@ -1,8 +1,10 @@
 package com.example.zootypers;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 import java.util.Set;
 
@@ -10,7 +12,6 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.RefreshCallback;
-import com.parse.SaveCallback;
 
 /** 
  * 
@@ -23,19 +24,19 @@ import com.parse.SaveCallback;
 
 public class MultiPlayerModel extends Observable {
 
-	private static final long QUEUE_TIMEOUT = 50000; // timer set for 50 sec to wait before giving up in queue
-	private static final int LIST_SIZE = 100;
+	private static final int QUEUE_TIMEOUT = 50000; // timer set for 50 sec to wait before giving up in queue
 	private static final int SCORE_TIMEOUT = 10000; // timer set to 10 sec to wait for getting opponents score
-	
+	private static final int RECHECK_TIME = 1000; // timer set to 1 sec to wait between checks
+	private static final int LIST_SIZE = 100;
 	// number of words displayed on the view
 	private final int numWordsDisplayed;
 
 	private String name;
 
-	private ParseObject player;
-	
-	private ParseObject opponent;
-	
+	private ParseObject match;
+
+	private Map<String, String> info;
+
 	// stores an array of words 
 	private List<String> wordsList;
 
@@ -43,7 +44,7 @@ public class MultiPlayerModel extends Observable {
 	private int[] wordsDisplayed;
 
 	private Set<Character> currFirstLetters;
-	
+
 	// index of the next word to pull from wordsList, (should ONLY be used with wordsList)
 	private int nextWordIndex;
 
@@ -53,10 +54,8 @@ public class MultiPlayerModel extends Observable {
 	// index of letter that has been parsed from the currWordIndex
 	private int currLetterIndex;
 
-	// keep track of the user's current score
-	private int score;
 	private int animalName;
-	
+
 	// maximum number of words in wordLists on Parse database
 	private static final int NUMOFWORDS = 709;
 
@@ -68,122 +67,151 @@ public class MultiPlayerModel extends Observable {
 	 * @param animalID, the string ID of a animal that is selected by the user
 	 * @param backgroudID, the string ID of a background that is selected by the user
 	 * @param diff, the difficulty level that is selected by the user
+	 * @throws ParseException 
 	 */
 	public MultiPlayerModel(int wordsDis, String uname, int animalName) {
 		this.animalName = animalName;
 		this.name = uname;
+		this.info = new HashMap<String, String>();
 		beginMatchMaking();
-		wordsList = getWordsList();
+		setWordsList();
 		this.numWordsDisplayed = wordsDis;
 		currFirstLetters = new HashSet<Character>();
 		//initialize all the fields to default starting values
 		wordsDisplayed = new int[numWordsDisplayed];
-		score = 0;
 		nextWordIndex = 0;
 		currLetterIndex = -1;
 		currWordIndex = -1;
 	}
-	
-    private void beginMatchMaking() {
-        while (!addToQueue()) {
-        	// loop until added, will need timeout
-        }
-        
-        if (findOpponent()) {
-        	// found an opponent, begin game
-        	//getOpponentData();
-        	
-        } else {
-        	// keep checking my status till I am matched
-        	while (!checkStatus()) {
-        		// loop until I am matched, till need timeout
-        	}
-        }
-    }
-    
-	public boolean addToQueue() {
-		
-		player = new ParseObject("Players");
-		player.put("name", name);
-		player.put("opponent", "");
-		player.put("animalID", animalName);
-		player.put("score", 0);
-		player.put("startingIndex", -1);
-		player.put("finished", false);
-		try {
-			player.save();
-		} catch (ParseException e) {
-			// did not save properly
-			return false;
-		}
-		return true;
-	}
-	
-	private boolean findOpponent() {
-		try {
-			ParseQuery query = new ParseQuery("Players");
-			query.whereEqualTo("opponent", "");
-			query.whereNotEqualTo("name", name);
-			opponent = query.getFirst();
-			if (opponent != null) {
-				// changing opponent
-				final int randy = (int) (Math.random() * (NUMOFWORDS));
-				opponent.saveInBackground(new SaveCallback() {
-					@Override
-					public void done(ParseException e) {
-						opponent.put("opponent", name);
-						opponent.put("startingIndex", randy);
-						opponent.saveInBackground();			
-					}
-				});
-				
-				// changing myself 
-				player.saveInBackground(new SaveCallback() {
-					@Override
-					public void done(ParseException e) {
-						player.put("opponent", opponent.getString("name"));
-						player.put("startingIndex", randy);
-						player.saveInBackground();			
-					}
-				});
-				
-				return true;
-			} 
-		} catch (ParseException e1) {
-			// TODO say connection failed if can't get opponent info
-//			e1.printStackTrace();
-		}
-		return false;
-	}
-	
-    private boolean checkStatus() {
-    	List<ParseObject> wordObjects = null;
-    	long starttime = System.currentTimeMillis();
-    	long endtime = starttime + QUEUE_TIMEOUT;
-    	while(System.currentTimeMillis() < endtime) {
-    		try {
-    		  player.refresh();
-    			ParseQuery query = new ParseQuery("Players");
-    			query.whereEqualTo("name", name);
-    			query.whereNotEqualTo("opponent", "");
-    			wordObjects= query.find();
-    			if (wordObjects.size() != 0) {
-    				ParseQuery queryOpponent = new ParseQuery("Players");
-    				queryOpponent.whereEqualTo("name", player.getString("opponent"));
-    				opponent = queryOpponent.getFirst();
-    				return true;
-    			}
-    			Thread.sleep(5000);
-    		} catch (ParseException e1) {
-    			return false;
-    		} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
+
+	private void beginMatchMaking() {
+		if (findOpponent()) {
+			setInfo(false);
+			try {
+				match.put("p2name", name);
+				match.put("p2animal", animalName);
+				match.put("p2score", 0);
+				match.put("p2finished", false);
+				match.save();
+			} catch (ParseException e) {
+				// TODO CONNECTION ERROR
 				e.printStackTrace();
 			}
-    	}
+		} else {
+			addToQueue();
+			if (!checkStatus()) {
+				//TODO throw new NoOneInQueueException
+			}
+		}
+	}
+
+	// checks whether name can be matched to an opponent
+	// returns true if matched, false otherwise
+	private boolean findOpponent() {
+		try {
+			ParseQuery query = new ParseQuery("Matches");
+			query.whereEqualTo("p2name", "");
+			query.whereNotEqualTo("p1name", name);
+			match = query.getFirst();
+			return true;
+		} catch (ParseException e1) {
+			return false;
+		}
+	}
+
+	private void setInfo(boolean isPOne) {
+		if (isPOne) {
+			info.put("name", "p1name");
+			info.put("animal", "p1animal");
+			info.put("score", "p1score");
+			info.put("finished", "p1finished");
+			info.put("oname", "p2name");
+			info.put("oanimal", "p2animal");
+			info.put("oscore", "p2score");
+			info.put("ofinished", "p2finished");
+		} else {
+			info.put("name", "p2name");
+			info.put("animal", "p2animal");
+			info.put("score", "p2score");
+			info.put("finished", "p2finished");
+			info.put("oname", "p1name");
+			info.put("oanimal", "p1animal");
+			info.put("oscore", "p1score");
+			info.put("ofinished", "p1finished");
+		}
+
+	}
+
+	private void addToQueue() {
+		final int randy = (int) (Math.random() * (NUMOFWORDS));
+		try {
+			setInfo(true);
+			match = new ParseObject("Matches");
+			match.put("p1name", name);
+			match.put("p1animal", animalName);
+			match.put("p1score", 0);
+			match.put("p1finished", false);
+			match.put("p2name", "");
+			match.put("wordIndex", randy);
+			match.save();
+		} catch (ParseException e) {
+			// TODO MAKE EXCEPTION FOR WHEN CANT SAVE
+		}
+	}
+
+	private boolean checkStatus() {
+		long starttime = System.currentTimeMillis();
+		long endtime = starttime + QUEUE_TIMEOUT;
+		while(System.currentTimeMillis() < endtime) {
+			try {
+				match.refresh();  	
+				checkIfInMatch();
+				if (!match.getString(info.get("oname")).equals("")) {
+					return true;
+				}
+				Thread.sleep(RECHECK_TIME);
+			} catch (ParseException e1) {
+				// TODO THROW EXCEPTION IF NOT CONNECTED TO INTERNET
+			} catch (InterruptedException e) {
+				// TODO SHOULD NEVER HAPPEN
+				e.printStackTrace();
+			}
+		}
 		return false;
-    }
-    
+	}
+
+	// populates wordsList by contacting the database for LIST_SIZE amount of words
+	private void setWordsList() {
+		List<ParseObject> wordObjects = null;
+		try {
+			checkIfInMatch();
+			ParseQuery query = new ParseQuery("WordList");
+			query.setSkip(match.getInt("wordIndex"));
+			query.setLimit(LIST_SIZE); // limit to at most 20 results
+			wordObjects= query.find();
+			if (wordObjects.size() < LIST_SIZE) {
+				ParseQuery query2 = new ParseQuery("WordList");
+				query2.setLimit(LIST_SIZE - wordObjects.size());
+				wordObjects.addAll(query2.find());
+			}
+		} catch (ParseException e1) {
+			// TODO THROW EXCEPTION IF NOT CONNECTED TO INTERNET
+		}	
+		// changing words from parse objects into a list of strings.
+		wordsList = new ArrayList<String>();
+		for (ParseObject o : wordObjects) {
+			wordsList.add(o.getString("word"));
+		}
+	}
+
+
+	// checks if match online still has the same player in it.
+	private void checkIfInMatch() {
+		if (!match.getString(info.get("name")).equals(name)) {
+			// TODO YouGotReplacedException
+		}
+	}
+
 	/**
 	 * The populateDisplayedList method gets called once by MultiPlayer after
 	 * it added itself as an observer of this class. The method populates the
@@ -206,102 +234,17 @@ public class MultiPlayerModel extends Observable {
 		currWordIndex = -1;
 	}
 
-  public int getOpponentAnimal() {
-    try {
-      opponent.refresh();
-    } catch (ParseException e) {
-      // TODO Auto-generated catch block
-      e.printStackTrace();
-    }
-    return opponent.getInt("animalID");
-  }
-
-	// populates wordsList by contacting the database for LIST_SIZE amount of words
-	private List<String> getWordsList() {
-		List<ParseObject> wordObjects = null;
+	public int getOpponentAnimal() {
 		try {
-			ParseQuery query = new ParseQuery("WordList");
-			query.setSkip(player.getInt("startingIndex"));
-			query.setLimit(LIST_SIZE); // limit to at most 20 results
-			 wordObjects= query.find();
-			if (wordObjects.size() < LIST_SIZE) {
-				ParseQuery query2 = new ParseQuery("WordList");
-				query2.setLimit(LIST_SIZE - wordObjects.size());
-				wordObjects.addAll(query2.find());
-			}
-		} catch (ParseException e1) {
-			// TODO connection error
+			match.refresh();
+			checkIfInMatch();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-
-		List<String> words = new ArrayList<String>();
-		for (ParseObject o : wordObjects) {
-			words.add(o.getString("word"));
-		}
-		
-		return words;
+		return match.getInt(info.get("oanimal"));
 	}
-	
 
-
-	// returns false if there is a duplicate, true otherwise
-//	private boolean noDuplicates() {
-//		try {
-//			ParseQuery query = new ParseQuery("Players");
-//			query.whereEqualTo("name", name);
-//			@SuppressWarnings("unused")
-//			ParseObject retObj = query.getFirst();
-//			return false;
-//		} catch (ParseException e1) {
-//			return true;
-//		}
-//
-//	}
-
-	/*
-	 *  Replace the current word on display with a new word from list making
-	 *  sure that the new word will not start with the same letter as any of
-	 *  the other words being displayed.
-	 *  post: nextWordIndex will always be set to a valid index of wordsList
-	 */
-	private void updateWordsDisplayed() {
-		currFirstLetters.remove(wordsList.get(wordsDisplayed[currWordIndex]).charAt(0));
-		while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
-			nextWordIndex++;
-			if (nextWordIndex >= wordsList.size()) {
-				nextWordIndex = 0;
-			}
-		}
-		currFirstLetters.add(wordsList.get(nextWordIndex).charAt(0));
-		wordsDisplayed[currWordIndex] = nextWordIndex;
-		nextWordIndex++;
-		if (nextWordIndex >= wordsList.size()) {
-			nextWordIndex = 0;
-		}
-		
-		opponent.refreshInBackground(new RefreshCallback() {
-			public void done(ParseObject object, ParseException e) {
-				if (e == null) {
-					setChanged();
-					notifyObservers(States.update.OPPONENT_SCORE);
-				}
-			}
-		});
-		
-		setChanged();
-		notifyObservers(States.update.FINISHED_WORD);
-		updateScoreOnline();
-	}
-	
-	private void updateScoreOnline() {
-		player.saveInBackground(new SaveCallback() {
-			@Override
-			public void done(ParseException e) {
-				player.put("score", score);
-				player.saveInBackground();			
-			}
-		});
-	}
-	
 	/**
 	 * The typedLetter method handles what words and letter the user has
 	 * typed so far and notify the view to highlight typed letter or fetch 
@@ -330,7 +273,10 @@ public class MultiPlayerModel extends Observable {
 
 			// word is completed after final letter is typed
 			if ((currLetterIndex + 1) >= wordLen) {
-				score += wordLen;
+				int curScore = match.getInt(info.get("score"));
+				curScore += wordLen;
+				match.put(info.get("score"), curScore);
+				match.saveInBackground();
 				updateWordsDisplayed();
 				currLetterIndex = -1;
 				currWordIndex = -1;
@@ -347,11 +293,113 @@ public class MultiPlayerModel extends Observable {
 		notifyObservers(States.update.WRONG_LETTER);
 	}
 
+
+	/*
+	 *  Replace the current word on display with a new word from list making
+	 *  sure that the new word will not start with the same letter as any of
+	 *  the other words being displayed.
+	 *  post: nextWordIndex will always be set to a valid index of wordsList
+	 */
+	private void updateWordsDisplayed() {
+		currFirstLetters.remove(wordsList.get(wordsDisplayed[currWordIndex]).charAt(0));
+		while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
+			nextWordIndex++;
+			if (nextWordIndex >= wordsList.size()) {
+				nextWordIndex = 0;
+			}
+		}
+		currFirstLetters.add(wordsList.get(nextWordIndex).charAt(0));
+		wordsDisplayed[currWordIndex] = nextWordIndex;
+		nextWordIndex++;
+		if (nextWordIndex >= wordsList.size()) {
+			nextWordIndex = 0;
+		}
+
+		setChanged();
+		notifyObservers(States.update.FINISHED_WORD);
+	}
+
+
+	// TODO: this never gets called
+	public final void setUserFinish() {
+		try {
+			match.put(info.get("finished"), true);
+			match.save();
+		} catch (ParseException e) {
+			// TODO CONNECTION ERROR
+		}
+	}
+
+	// TODO: this never gets called
+	// return true if my opponent has finished their game
+	public final boolean isOpponentFinished() {
+		long starttime = System.currentTimeMillis();
+		long endtime = starttime + SCORE_TIMEOUT;
+		while(System.currentTimeMillis() < endtime) {
+
+			if (match.getBoolean(info.get("ofinished"))) {
+				return true;
+			}
+			try {
+				match.refresh();
+				checkIfInMatch();
+				Thread.sleep(RECHECK_TIME);
+			} catch (ParseException e1) {
+				// TODO CONNECTION ERROR
+				e1.printStackTrace();
+			} catch (InterruptedException e) {
+				// TODO NEVER SHOULD HAPPEN
+				e.printStackTrace();
+			}
+		}
+		return false;
+	}
+
+	/**
+	 * refreshes the match then tries to delete themselves from the queue
+	 * if the other player has not finished then just set their own finished field
+	 * in the match to true.
+	 * 
+	 * @modifies this
+	 */
+	public void deleteUser() {
+		try {
+			match.refresh();
+			checkIfInMatch();
+			if (match.getBoolean(info.get("ofinished"))) {
+				match.delete();
+			} else {
+				match.put(info.get("finished"), true);
+				match.save();
+			}
+		} catch (ParseException e) {
+			// TODO CONNECTION ERROR
+		}
+
+	}
+
+	/**
+	 * refreshes the match in a background thread and notifies the
+	 * UI to update the opponent score after the refresh is done.
+	 * 
+	 * @modifies this
+	 */
+	public void refreshInBackground() {
+		match.refreshInBackground(new RefreshCallback() {
+			public void done(ParseObject object, ParseException e) {
+				if (e == null) {
+					setChanged();
+					notifyObservers(States.update.OPPONENT_SCORE);
+				}
+			}
+		});
+	}
+
 	/**
 	 * @return current score of the player
 	 */
 	public final int getScore() {
-		return score;
+		return match.getInt(info.get("score"));
 	}
 
 	/**
@@ -362,7 +410,6 @@ public class MultiPlayerModel extends Observable {
 		if (currWordIndex == -1) {
 			return null;
 		}
-
 		return wordsList.get(wordsDisplayed[currWordIndex]);
 	}
 
@@ -379,44 +426,8 @@ public class MultiPlayerModel extends Observable {
 	public final int getCurrLetterIndex() {
 		return currLetterIndex;
 	}
-	
-	public final int getOpponentScore() {
-		return opponent.getInt("score");
-	}
 
-	public final void setUserFinish() {
-		player.put("finished", true);
-	}
-	
-	// return true if my opponent has finished their game
-	public final boolean isOpponentFinished() {
-    	long starttime = System.currentTimeMillis();
-    	long endtime = starttime + SCORE_TIMEOUT;
-    	while(System.currentTimeMillis() < endtime) {
-    		
-    		if (opponent.getBoolean("finished")) {
-    			return true;
-    		}
-    		try {
-				opponent.refresh();
-				Thread.sleep(5000);
-			} catch (ParseException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	}
-    	return false;
-	}
-	
-	public void deleteUser() {
-		try {
-			player.delete();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public final int getOpponentScore() {
+		return match.getInt(info.get("oscore"));
 	}
 }

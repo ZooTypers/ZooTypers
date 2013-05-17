@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 import com.parse.SignUpCallback;
 
@@ -60,25 +59,25 @@ public class RegisterPage extends Activity {
 		TextView usernameText = (TextView) findViewById(R.id.username_register);
 		EditText usernameEdit = (EditText) findViewById(R.id.username_register_input);
 		String usernameString = usernameEdit.getText().toString();
-		
+
 		TextView passwordText = (TextView) findViewById(R.id.password_register);
 		EditText passwordEdit = (EditText) findViewById(R.id.password_input_register);
 		String passwordString = passwordEdit.getText().toString();
-		
+
 		TextView confirmPWText = (TextView) findViewById(R.id.confirm_password_register);
 		EditText confirmPWEdit = (EditText) findViewById(R.id.confirm_password_input_register);
 		String confirmPWString = confirmPWEdit.getText().toString();
-		
+
 		TextView emailText = (TextView) findViewById(R.id.email_register);
 		EditText emailEdit = (EditText) findViewById(R.id.email_input_register);
 		String emailString = emailEdit.getText().toString();
-		
+
 		if (usernameString.length() == 0 || passwordString.length() == 0
 				|| confirmPWString.length() == 0
 				|| emailString.length() == 0) {
 			// case where everything is not filled out 
-			final String title = "Missing information";
-			final String message = "Please fill in all of the fields";
+			final String title = "Missing Information";
+			final String message = "Please fill in all of the fields.";
 			buildAlertDialog(title, message, false);
 			// indicate which ones were not filled out
 			if (usernameString.length() == 0) {
@@ -86,19 +85,19 @@ public class RegisterPage extends Activity {
 			} else {
 				indicateError(usernameText, false);
 			}
-		
+
 			if (passwordString.length() == 0) {
 				indicateError(passwordText, true);
 			} else {
 				indicateError(passwordText, false);
 			}
-			
+
 			if (confirmPWString.length() == 0) {
 				indicateError(confirmPWText, true);
 			} else {
 				indicateError(confirmPWText, false);
 			}
-			
+
 			if (emailString.length() == 0) {
 				indicateError(emailText, true);
 			} else {
@@ -107,8 +106,8 @@ public class RegisterPage extends Activity {
 		} else {
 			// the fields arent empty, check if the passwords match
 			if (!passwordString.equals(confirmPWString)) {
-				final String title = "Invalid password";
-				final String message = "Password fields do not match";
+				final String title = "Invalid Password";
+				final String message = "Password fields do not match.";
 				buildAlertDialog(title, message, false);
 				indicateError(passwordText, true);
 				indicateError(confirmPWText, true);
@@ -126,8 +125,8 @@ public class RegisterPage extends Activity {
 					// inputs are valid put into the database
 					setupDatabase(usernameString, passwordString, emailString);
 				} else {
-					final String title = "Invalid username/password";
-					final String message = "Username/password must be at least 4 characters long";
+					final String title = "Invalid Username/Password";
+					final String message = "Username and password must be at least 4 characters.";
 					if (usernameString.length() < 4) {
 						indicateError(usernameText, true);
 					} else {
@@ -140,11 +139,11 @@ public class RegisterPage extends Activity {
 					}
 					buildAlertDialog(title, message, false);
 				}
-				
+
 			}
 		}
 	}
-	
+
 	/**
 	 * builds an alertdialog(popup) for a given title, message, and
 	 * optional multiplayer option
@@ -157,14 +156,14 @@ public class RegisterPage extends Activity {
 			final boolean goToTitle) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				this);
-	
+
 		if (goToTitle) {
 			titleIntent = new Intent(this, TitlePage.class);
 			titleIntent.putExtra("current user", currentUser);
 		}
 		// set title
 		alertDialogBuilder.setTitle(title);
-	
+
 		// set dialog message
 		alertDialogBuilder
 			.setMessage(message)
@@ -179,14 +178,14 @@ public class RegisterPage extends Activity {
 					}
 				}
 			});
-	
+
 		// create alert dialog
 		AlertDialog alertDialog = alertDialogBuilder.create();
-			
+
 		// show the message
 		alertDialog.show();
 	}
-	
+
 	/**
 	 * highlights the given textview depending on if it is an error
 	 * @param text TextView to be highlighted
@@ -202,7 +201,7 @@ public class RegisterPage extends Activity {
 			text.setTextColor(getResources().getColor(R.color.black));
 		}
 	}
-	
+
 	/**
 	 * puts the user information into database
 	 * @param username String representing user's username
@@ -214,7 +213,7 @@ public class RegisterPage extends Activity {
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setEmail(email);
-		
+
 		user.signUpInBackground(new SignUpCallback() {
 			public void done(ParseException e) {
 				if (e == null) {
@@ -222,25 +221,25 @@ public class RegisterPage extends Activity {
 					// store the username of the current player
 					currentUser = username;
 					final String title = "Account Created Successfully!";
-					final String message = "Please verify your email before playing";
+					final String message = "Please verify your email before playing.";
 					buildAlertDialog(title, message, true);
 				} else {
 					// sign up didnt succed. //TODO: figure out how do deal with error
 					int errorCode = e.getCode();
 					// figure out what the error was
-					final String title = "Registration failed";
+					final String title = "Registration Failed";
 					String message;
 					if (errorCode == ParseException.ACCOUNT_ALREADY_LINKED) {
-						message = "Account already in use";
+						message = "Account is already in use.";
 					} else if (errorCode == ParseException.EMAIL_TAKEN) {
-						message = "Email already in use";
+						message = "Email is already in use.";
 					} else if (errorCode == ParseException.USERNAME_TAKEN) {
-						message = "Username is already in use";
+						message = "Username is already in use.";
 					} else if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
 						message = "Invalid Email Address";
 					} else {
 						e.printStackTrace();
-						message = "Account could not be created";
+						message = "Account could not be created.";
 					}
 					buildAlertDialog(title, message, false);
 				}
