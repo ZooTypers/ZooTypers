@@ -34,7 +34,6 @@
             android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -52,7 +51,6 @@
             android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -70,7 +68,6 @@
             android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -88,7 +85,6 @@
             android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -106,7 +102,6 @@
             android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -160,13 +155,12 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
             android:onClick="keyboardButton"
             android:text="@string/toggle_keyboard"
             android:textSize="12sp" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -209,13 +203,25 @@
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:layout_marginBottom="10dp"
             android:onClick="goToTitlePage"
             android:text="@string/quit_game"
             android:textSize="12sp" />
-        
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/game_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:background="@color/white"
+        android:padding="40sp"
+        android:text="@string/game_over"
+        android:textSize="30sp"
+        android:visibility="invisible" />
 
 </RelativeLayout>
