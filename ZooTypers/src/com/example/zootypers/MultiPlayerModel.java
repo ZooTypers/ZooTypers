@@ -53,7 +53,7 @@ public class MultiPlayerModel extends Observable {
 
 	// index of letter that has been parsed from the currWordIndex
 	private int currLetterIndex;
-	
+
 	private int animalName;
 
 	// maximum number of words in wordLists on Parse database
@@ -139,7 +139,7 @@ public class MultiPlayerModel extends Observable {
 			info.put("oscore", "p1score");
 			info.put("ofinished", "p1finished");
 		}
-		
+
 	}
 
 	private void addToQueue() {
@@ -230,7 +230,15 @@ public class MultiPlayerModel extends Observable {
 		if (nextWordIndex >= wordsList.size()) {
 			nextWordIndex = 0;
 		}
-		
+
+		match.refreshInBackground(new RefreshCallback() {
+			public void done(ParseObject object, ParseException e) {
+				if (e == null) {
+					setChanged();
+					notifyObservers(States.update.OPPONENT_SCORE);
+				}
+			}
+		});
 		setChanged();
 		notifyObservers(States.update.FINISHED_WORD);
 	}
@@ -316,17 +324,6 @@ public class MultiPlayerModel extends Observable {
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
 	}
-	
-	public void refreshInBackground() {
-		match.refreshInBackground(new RefreshCallback() {
-			public void done(ParseObject object, ParseException e) {
-				if (e == null) {
-					setChanged();
-					notifyObservers(States.update.OPPONENT_SCORE);
-				}
-			}
-		});
-	}
 
 	/**
 	 * @return current score of the player
@@ -411,6 +408,6 @@ public class MultiPlayerModel extends Observable {
 		} catch (ParseException e) {
 			// TODO CONNECTION ERROR
 		}
-		
+
 	}
 }
