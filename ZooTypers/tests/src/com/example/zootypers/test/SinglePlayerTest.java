@@ -84,14 +84,13 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.searchButton("Single Player");
 	}
 	
-  	@Test(timeout = TIMEOUT)
-	public void testFiveWordsPresent(){
-		List<TextView> views = getWordsPresented(solo);
-		for(int i = 0; i < 5; i++){
-			assertTrue(views.get(i).getText().length() > 0);
-		}
-		
-	}
+//  	@Test(timeout = TIMEOUT)
+//	public void testFiveWordsPresent(){
+//		List<TextView> views = getWordsPresented(solo);
+//		for(int i = 0; i < 5; i++){
+//			assertTrue(views.get(i).getText().length() > 0);
+//		}
+//	}
   	
     @Test(timeout = TIMEOUT)
 	public void testInvalidCharacterPressed(){
