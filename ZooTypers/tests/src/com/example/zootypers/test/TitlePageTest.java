@@ -6,6 +6,7 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.SmallTest;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 /**
  * Testing the title page using android unit tests and robotium UI testing.
@@ -57,7 +58,8 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	public void testMultiplayerButtonWorks() {
 		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
 		solo.clickOnButton("Multiplayer");
-		solo.goBack();
+		Button xButton = (Button) solo.getView(com.example.zootypers.R.id.exit_login_button);
+		solo.clickOnView(xButton);
 		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
 	}
 	
