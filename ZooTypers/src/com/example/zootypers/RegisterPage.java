@@ -50,19 +50,19 @@ public class RegisterPage extends Activity {
 		TextView usernameText = (TextView) findViewById(R.id.username_register);
 		EditText usernameEdit = (EditText) findViewById(R.id.username_register_input);
 		String usernameString = usernameEdit.getText().toString();
-		
+
 		TextView passwordText = (TextView) findViewById(R.id.password_register);
 		EditText passwordEdit = (EditText) findViewById(R.id.password_input_register);
 		String passwordString = passwordEdit.getText().toString();
-		
+
 		TextView confirmPWText = (TextView) findViewById(R.id.confirm_password_register);
 		EditText confirmPWEdit = (EditText) findViewById(R.id.confirm_password_input_register);
 		String confirmPWString = confirmPWEdit.getText().toString();
-		
+
 		TextView emailText = (TextView) findViewById(R.id.email_register);
 		EditText emailEdit = (EditText) findViewById(R.id.email_input_register);
 		String emailString = emailEdit.getText().toString();
-		
+
 		if (usernameString.length() == 0 || passwordString.length() == 0
 				|| confirmPWString.length() == 0
 				|| emailString.length() == 0) {
@@ -76,19 +76,19 @@ public class RegisterPage extends Activity {
 			} else {
 				indicateError(usernameText, false);
 			}
-		
+
 			if (passwordString.length() == 0) {
 				indicateError(passwordText, true);
 			} else {
 				indicateError(passwordText, false);
 			}
-			
+
 			if (confirmPWString.length() == 0) {
 				indicateError(confirmPWText, true);
 			} else {
 				indicateError(confirmPWText, false);
 			}
-			
+
 			if (emailString.length() == 0) {
 				indicateError(emailText, true);
 			} else {
@@ -130,11 +130,11 @@ public class RegisterPage extends Activity {
 					}
 					buildAlertDialog(title, message, false);
 				}
-				
+
 			}
 		}
 	}
-	
+
 	/**
 	 * builds an alertdialog(popup) for a given title, message, and
 	 * optional multiplayer option
@@ -147,14 +147,14 @@ public class RegisterPage extends Activity {
 			final boolean goToTitle) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 				this);
-	
+
 		if (goToTitle) {
 			titleIntent = new Intent(this, TitlePage.class);
 			titleIntent.putExtra("current user", currentUser);
 		}
 		// set title
 		alertDialogBuilder.setTitle(title);
-	
+
 		// set dialog message
 		alertDialogBuilder
 			.setMessage(message)
@@ -169,14 +169,14 @@ public class RegisterPage extends Activity {
 					}
 				}
 			});
-	
+
 		// create alert dialog
 		AlertDialog alertDialog = alertDialogBuilder.create();
-			
+
 		// show the message
 		alertDialog.show();
 	}
-	
+
 	/**
 	 * highlights the given textview depending on if it is an error
 	 * @param text TextView to be highlighted
@@ -192,7 +192,7 @@ public class RegisterPage extends Activity {
 			text.setTextColor(getResources().getColor(R.color.black));
 		}
 	}
-	
+
 	/**
 	 * puts the user information into database
 	 * @param username String representing user's username
@@ -204,7 +204,7 @@ public class RegisterPage extends Activity {
 		user.setUsername(username);
 		user.setPassword(password);
 		user.setEmail(email);
-		
+
 		user.signUpInBackground(new SignUpCallback() {
 			public void done(ParseException e) {
 				if (e == null) {

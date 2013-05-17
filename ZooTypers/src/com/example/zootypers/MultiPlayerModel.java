@@ -13,13 +13,13 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.RefreshCallback;
 
-/**
- *
+/** 
+ * 
  * The Model class for Single Player store a list of words for the UI to display.
  * It keeps track of word and letter the user has typed and updates the view accordingly.
- *
+ * 
  * @author winglam, nhlien93, dyxliang
- *
+ * 
  */
 
 public class MultiPlayerModel extends Observable {
@@ -37,7 +37,7 @@ public class MultiPlayerModel extends Observable {
 
 	private Map<String, String> info;
 
-	// stores an array of words
+	// stores an array of words 
 	private List<String> wordsList;
 
 	// array of indices that refers to strings inside wordsList
@@ -63,11 +63,11 @@ public class MultiPlayerModel extends Observable {
 	 * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
 	 * and also what the difficulty level is. The constructor will initialize the words list
 	 * and fills in what words the view should display on the screen.
-	 *
+	 * 
 	 * @param animalID, the string ID of a animal that is selected by the user
 	 * @param backgroudID, the string ID of a background that is selected by the user
 	 * @param diff, the difficulty level that is selected by the user
-	 * @throws ParseException
+	 * @throws ParseException 
 	 */
 	public MultiPlayerModel(int wordsDis, String uname, int animalName) {
 		this.animalName = animalName;
@@ -166,7 +166,7 @@ public class MultiPlayerModel extends Observable {
 		long endtime = starttime + QUEUE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
 			try {
-				match.refresh();
+				match.refresh();  	
 				checkIfInMatch();
 				if (!match.getString(info.get("oname")).equals("")) {
 					return true;
@@ -213,10 +213,10 @@ public class MultiPlayerModel extends Observable {
 	}
 
 	/*
-	 * Replace the current word on display with a new word from list making
-	 * sure that the new word will not start with the same letter as any of
-	 * the other words being displayed.
-	 * post: nextWordIndex will always be set to a valid index of wordsList
+	 *  Replace the current word on display with a new word from list making
+	 *  sure that the new word will not start with the same letter as any of
+	 *  the other words being displayed.
+	 *  post: nextWordIndex will always be set to a valid index of wordsList
 	 */
 	private void updateWordsDisplayed() {
 		currFirstLetters.remove(wordsList.get(wordsDisplayed[currWordIndex]).charAt(0));
@@ -249,7 +249,7 @@ public class MultiPlayerModel extends Observable {
 	/**
 	 * The populateDisplayedList method gets called once by MultiPlayer after
 	 * it added itself as an observer of this class. The method populates the
-	 * displayed word list with numWordsDisplayed amount of words.
+	 * displayed word list with numWordsDisplayed amount of words. 
 	 */
 	public void populateDisplayedList() {
 		// putting first five words into wordsDisplayed
@@ -281,9 +281,9 @@ public class MultiPlayerModel extends Observable {
 
 	/**
 	 * The typedLetter method handles what words and letter the user has
-	 * typed so far and notify the view to highlight typed letter or fetch
+	 * typed so far and notify the view to highlight typed letter or fetch 
 	 * a new word from the wordsList for the view to display accordingly.
-	 *
+	 * 
 	 * @param letter, the letter that the user typed on the Android soft-keyboard
 	 */
 	public final void typedLetter(final char letter) {
