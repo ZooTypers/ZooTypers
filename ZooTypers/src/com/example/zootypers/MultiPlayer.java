@@ -99,7 +99,7 @@ public class MultiPlayer extends Activity implements Observer {
 		model.addObserver(this);
     
 		// Get the opponent's animal from the model
-    int oppAnimal = reverseDrawable(model.getOpponentAnimal());
+		int oppAnimal = reverseDrawable(model.getOpponentAnimal());
 		
 		// Display the multiplayer screen
 		setContentView(R.layout.activity_multi_player);
@@ -266,6 +266,7 @@ public class MultiPlayer extends Activity implements Observer {
 		// TODO get whether you won from the model
 		intent.putExtra("won", true);
 		intent.putExtra("bg", bg);
+		model.deleteUser();
 		startActivity(intent);
 	}
 
