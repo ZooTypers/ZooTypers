@@ -108,6 +108,7 @@ public class MultiPlayer extends Activity implements Observer {
     	ppw.dismiss();
     }
 
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -163,7 +164,7 @@ public class MultiPlayer extends Activity implements Observer {
 	  model.typedLetter(charTyped);
 	  return true;
 	}
-
+    
 	/**
 	 * @param wordIndex The index of the word to display; 0 <= wordIndex < 5.
    * @param word The word to display.
@@ -234,7 +235,7 @@ public class MultiPlayer extends Activity implements Observer {
 
 	  displayScore(0);
 	}
-
+    
 	/**
 	 * Updates the oppenent's score on the screen.
 	 * @param score The score to display.
@@ -362,6 +363,7 @@ public class MultiPlayer extends Activity implements Observer {
 
 	  @Override
 	  public final void onTick(final long millisUntilFinished) {
+		model.refreshInBackground();
 	    currentTime = millisUntilFinished;
 	    displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
 	  }

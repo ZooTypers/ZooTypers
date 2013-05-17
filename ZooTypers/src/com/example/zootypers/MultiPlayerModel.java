@@ -113,8 +113,6 @@ public class MultiPlayerModel extends Observable {
 			query.whereEqualTo("p2name", "");
 			query.whereNotEqualTo("p1name", name);
 			match = query.getFirst();
-			match.refresh();
-			checkIfInMatch();
 			return true;
 		} catch (ParseException e1) {
 			return false;
@@ -206,45 +204,13 @@ public class MultiPlayerModel extends Observable {
 		}
 	}
 
+
+	// checks if match online still has the same player in it.
 	private void checkIfInMatch() {
 		if (!match.getString(info.get("name")).equals(name)) {
 			// TODO YouGotReplacedException
 		}
 	}
-
-	/*
-	 *  Replace the current word on display with a new word from list making
-	 *  sure that the new word will not start with the same letter as any of
-	 *  the other words being displayed.
-	 *  post: nextWordIndex will always be set to a valid index of wordsList
-	 */
-	private void updateWordsDisplayed() {
-		currFirstLetters.remove(wordsList.get(wordsDisplayed[currWordIndex]).charAt(0));
-		while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
-			nextWordIndex++;
-			if (nextWordIndex >= wordsList.size()) {
-				nextWordIndex = 0;
-			}
-		}
-		currFirstLetters.add(wordsList.get(nextWordIndex).charAt(0));
-		wordsDisplayed[currWordIndex] = nextWordIndex;
-		nextWordIndex++;
-		if (nextWordIndex >= wordsList.size()) {
-			nextWordIndex = 0;
-		}
-
-		match.refreshInBackground(new RefreshCallback() {
-			public void done(ParseObject object, ParseException e) {
-				if (e == null) {
-					setChanged();
-					notifyObservers(States.update.OPPONENT_SCORE);
-				}
-			}
-		});
-		setChanged();
-		notifyObservers(States.update.FINISHED_WORD);
-	}
-
 
 	/**
 	 * The populateDisplayedList method gets called once by MultiPlayer after
@@ -327,43 +293,34 @@ public class MultiPlayerModel extends Observable {
 		notifyObservers(States.update.WRONG_LETTER);
 	}
 
-	/**
-	 * @return current score of the player
-	 */
-	public final int getScore() {
-		return match.getInt(info.get("score"));
-	}
 
-	/**
-	 * @return the string representation of the current word the player is locked to,
-	 * null if player is not locked to a word
+	/*
+	 *  Replace the current word on display with a new word from list making
+	 *  sure that the new word will not start with the same letter as any of
+	 *  the other words being displayed.
+	 *  post: nextWordIndex will always be set to a valid index of wordsList
 	 */
-	public final String getCurrWord() {
-		if (currWordIndex == -1) {
-			return null;
+	private void updateWordsDisplayed() {
+		currFirstLetters.remove(wordsList.get(wordsDisplayed[currWordIndex]).charAt(0));
+		while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
+			nextWordIndex++;
+			if (nextWordIndex >= wordsList.size()) {
+				nextWordIndex = 0;
+			}
+		}
+		currFirstLetters.add(wordsList.get(nextWordIndex).charAt(0));
+		wordsDisplayed[currWordIndex] = nextWordIndex;
+		nextWordIndex++;
+		if (nextWordIndex >= wordsList.size()) {
+			nextWordIndex = 0;
 		}
 
-		return wordsList.get(wordsDisplayed[currWordIndex]);
+		setChanged();
+		notifyObservers(States.update.FINISHED_WORD);
 	}
 
-	/**
-	 * @return the index of the word the player is currently locked to within the words displayed
-	 */
-	public final int getCurrWordIndex() {
-		return currWordIndex;
-	}
 
-	/**
-	 * @return the index of the letter the player is expected to type in the locked word
-	 */
-	public final int getCurrLetterIndex() {
-		return currLetterIndex;
-	}
-
-	public final int getOpponentScore() {
-		return match.getInt(info.get("oscore"));
-	}
-
+	// TODO: this never gets called
 	public final void setUserFinish() {
 		try {
 			match.put(info.get("finished"), true);
@@ -373,6 +330,7 @@ public class MultiPlayerModel extends Observable {
 		}
 	}
 
+	// TODO: this never gets called
 	// return true if my opponent has finished their game
 	public final boolean isOpponentFinished() {
 		long starttime = System.currentTimeMillis();
@@ -397,6 +355,13 @@ public class MultiPlayerModel extends Observable {
 		return false;
 	}
 
+	/**
+	 * refreshes the match then tries to delete themselves from the queue
+	 * if the other player has not finished then just set their own finished field
+	 * in the match to true.
+	 * 
+	 * @modifies this
+	 */
 	public void deleteUser() {
 		try {
 			match.refresh();
@@ -411,5 +376,58 @@ public class MultiPlayerModel extends Observable {
 			// TODO CONNECTION ERROR
 		}
 
+	}
+
+	/**
+	 * refreshes the match in a background thread and notifies the
+	 * UI to update the opponent score after the refresh is done.
+	 * 
+	 * @modifies this
+	 */
+	public void refreshInBackground() {
+		match.refreshInBackground(new RefreshCallback() {
+			public void done(ParseObject object, ParseException e) {
+				if (e == null) {
+					setChanged();
+					notifyObservers(States.update.OPPONENT_SCORE);
+				}
+			}
+		});
+	}
+
+	/**
+	 * @return current score of the player
+	 */
+	public final int getScore() {
+		return match.getInt(info.get("score"));
+	}
+
+	/**
+	 * @return the string representation of the current word the player is locked to,
+	 * null if player is not locked to a word
+	 */
+	public final String getCurrWord() {
+		if (currWordIndex == -1) {
+			return null;
+		}
+		return wordsList.get(wordsDisplayed[currWordIndex]);
+	}
+
+	/**
+	 * @return the index of the word the player is currently locked to within the words displayed
+	 */
+	public final int getCurrWordIndex() {
+		return currWordIndex;
+	}
+
+	/**
+	 * @return the index of the letter the player is expected to type in the locked word
+	 */
+	public final int getCurrLetterIndex() {
+		return currLetterIndex;
+	}
+
+	public final int getOpponentScore() {
+		return match.getInt(info.get("oscore"));
 	}
 }
