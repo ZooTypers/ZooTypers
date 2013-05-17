@@ -265,12 +265,13 @@ public class MultiPlayer extends Activity implements Observer {
 	 */
 	public final void goToPostGame() {
 		Intent intent = new Intent(this, PostGameScreenMulti.class);
-		// pass score
-		intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
-
-		// TODO get whether you won from the model
+		model.deleteUser();
 		int myScore = model.getScore();
 		int oppScore = model.getOpponentScore();
+		// pass score
+		intent.putExtra("score", myScore);
+		intent.putExtra("oppScore", oppScore);
+		// TODO get whether you won from the model
 		if (myScore > oppScore) {
 			intent.putExtra("won", true);			
 		} else if (myScore == oppScore) {
@@ -285,7 +286,7 @@ public class MultiPlayer extends Activity implements Observer {
 
 >>>>>>> 7a58bd8ce28055be341cef68a56ed52fd195a513
 		intent.putExtra("bg", bg);
-		model.deleteUser();
+		
 		startActivity(intent);
 	}
 
@@ -311,6 +312,7 @@ public class MultiPlayer extends Activity implements Observer {
 
 	  @Override
 	  public final void onTick(final long millisUntilFinished) {
+		model.refreshInBackground();
 	    currentTime = millisUntilFinished;
 	    displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
 	  }
