@@ -34,9 +34,9 @@ public class PostGameScreen extends Activity {
         findViewById(R.id.postgame_layout).setBackground(background);
         
         // get and display score
-        String score = getIntent().getStringExtra("score");
+        Integer score = getIntent().getIntExtra("score", 0);
         TextView finalScore = (TextView) findViewById(R.id.final_score);
-        finalScore.setText(score);
+        finalScore.setText(score.toString());
         
         // TODO store score
     }

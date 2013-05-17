@@ -260,13 +260,24 @@ public class MultiPlayer extends Activity implements Observer {
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
 	public final void goToPostGame() {
-		Intent intent = new Intent(this, PostGameScreenMulti.class);
-		// pass score
-		intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
-		// TODO get whether you won from the model
-		intent.putExtra("won", true);
-		intent.putExtra("bg", bg);
-		startActivity(intent);
+	  model.setUserFinish();
+	  	  
+	  Intent intent = new Intent(this, PostGameScreenMulti.class);
+
+	  // Pass scores and if you won to post game screen
+    int score = model.getScore();
+	  int oppScore = model.getOpponentScore();
+	  intent.putExtra("score", score);
+	  intent.putExtra("oppScore", oppScore);
+	  intent.putExtra("won", (score > oppScore));
+
+	  // Pass if opponent completed the game
+	  intent.putExtra("discon", !model.isOpponentFinished());
+
+	  // Pass background to post game screen
+	  intent.putExtra("bg", bg);
+
+	  startActivity(intent);		
 	}
 
 
