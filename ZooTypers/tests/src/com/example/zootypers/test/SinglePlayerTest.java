@@ -66,7 +66,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		}
 	}
   	
-	private static List<TextView> getWordsPresented(Solo solo){
+	public static List<TextView> getWordsPresented(Solo solo){
 		solo.sleep(1000);
 		List<TextView> retVal = new ArrayList<TextView>();
 		retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
@@ -84,15 +84,15 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.searchButton("Single Player");
 	}
 	
-//  	@Test(timeout = TIMEOUT)
-//	public void testFiveWordsPresent(){
-//		List<TextView> views = getWordsPresented(solo);
-//		for(int i = 0; i < 5; i++){
-//			assertTrue(views.get(i).getText().length() > 0);
-//		}
-//	}
-  	
-    @Test(timeout = TIMEOUT)
+  	@Test(timeout = TIMEOUT)
+	public void testFiveWordsPresent(){
+		List<TextView> views = getWordsPresented(solo);
+		for(int i = 0; i < 5; i++){
+			assertTrue(views.get(i).getText().length() > 0);
+		}
+		
+	}
+	
 	public void testInvalidCharacterPressed(){
 		List<TextView> views = getWordsPresented(solo);
 		String firstLetters = "";
@@ -112,32 +112,35 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 	public void testCorrectCharacterPressed(){
 		List<TextView> views = getWordsPresented(solo);
 		TextView s = views.get(0);
+		//Log.v("words", s.getText().toString());
 		solo.sleep(5000);
 		sendKeys(s.getText().charAt(0) - 68);
+		//Log.v("char typed", String.valueOf(Character.toUpperCase(s.getText().charAt(0))));
 		views = getWordsPresented(solo);
 		solo.sleep(1000);
 		CharSequence word = views.get(0).getText();
+		//Log.v("word", word.toString());
 		SpannableString spanString = new SpannableString(word);
+		//Log.v("Span", spanString.toString());
 		ForegroundColorSpan[] spans = spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
 		assertTrue(spans.length > 0);
 		goBackToMainMenu();
 	}
 	
-//    @Test(timeout = TIMEOUT)
-//	public void testChangeAWordWhenFinished(){
-//		List<TextView> textList = getWordsPresented(solo);
-//		TextView currTextView = textList.get(0);
-//		String currWord = currTextView.getText().toString();
-//		Log.v("current-word", currWord);
-//		for (int i = 0; i < currWord.length(); i++) {
-//			char c = currWord.charAt(i);
-//			sendKeys(c - 68);
-//			Log.v("current-letter", Character.toString(c));
-//		}
-//		textList = getWordsPresented(solo);
-//		assertTrue(textList.get(0).getText().toString() != currWord);
-//		goBackToMainMenu();
-//	}
+	public void testChangeAWordWhenFinished(){
+		List<TextView> textList = getWordsPresented(solo);
+		TextView currTextView = textList.get(0);
+		String currWord = currTextView.getText().toString();
+		//Log.v("current-word", currWord);
+		for (int i = 0; i < currWord.length(); i++) {
+			char c = currWord.charAt(i);
+			sendKeys(c - 68);
+			//Log.v("current-letter", Character.toString(c));
+		}
+		textList = getWordsPresented(solo);
+		assertTrue(textList.get(0).getText().toString() != currWord);
+		goBackToMainMenu();
+	}
 	
   	@Test(timeout = TIMEOUT)
 	public void testTypingCorrectWordsThreeTimesUpdateScore() {
@@ -147,11 +150,11 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
     		List<TextView> textList = getWordsPresented(solo);
     		TextView currTextView = textList.get(0);
     		String currWord = currTextView.getText().toString();
-    		Log.v("current-word", currWord);
+    		//Log.v("current-word", currWord);
     		for (int j = 0; j < currWord.length(); j++) {
     			char c = currWord.charAt(j);
     			sendKeys(c - 68);    			
-    			Log.v("current-letter", Character.toString(c));
+    			//Log.v("current-letter", Character.toString(c));
     		
     		}
     		TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
