@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,6 +17,7 @@ import android.text.style.ForegroundColorSpan;
 import android.text.style.TextAppearanceSpan;
 import android.util.Log;	
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.example.zootypers.SinglePlayer;
@@ -25,8 +28,11 @@ import com.example.zootypers.PreGameSelection;
 /**
  * Testing the single player game mode using robotium testing framework.
  * Checking to see if typing a invalid letter and valid letter works. We are
- * also checking to see if typing word works and if the scores are updated properly;
- * the pause screen and other aspect of single player will be tested as well.
+ * also checking to see if typing a complete word works and if the scores are 
+ * updated properly; the pause screen and other aspect of single player will 
+ * be tested as well.
+ * 
+ * (White box test since we looked at the Single Player code as well as the UI.)
  * 
  * @author oaknguyen & dyxliang
  *
@@ -36,6 +42,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 
 	private Solo solo;
 	private char[] lowChanceLetters = {'j', 'z', 'x', 'q', 'k', 'o'};
+    private static final int TIMEOUT = 10000;
 	
 	public SinglePlayerTest() {
         super(PreGameSelection.class);
@@ -70,6 +77,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		return retVal;
 	}
 	
+  	@Test(timeout = TIMEOUT)
 	public void testFiveWordsPresent(){
 		List<TextView> views = getWordsPresented(solo);
 		for(int i = 0; i < 5; i++){
@@ -93,6 +101,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		
 	}
 	
+  	@Test(timeout = TIMEOUT)
 	public void testCorrectCharacterPressed(){
 		List<TextView> views = getWordsPresented(solo);
 		TextView s = views.get(0);
@@ -124,35 +133,75 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		assertTrue(textList.get(0).getText().toString() != currWord);		
 	}
 	
-	public void testTypingCorrectWordUpdateScore() {
-		List<TextView> textList = getWordsPresented(solo);
-		TextView currTextView = textList.get(0);
-		String currWord = currTextView.getText().toString();
-		Log.v("current-word", currWord);
-		for (int i = 0; i < currWord.length(); i++) {
-			char c = currWord.charAt(i);
-			sendKeys(c - 68);
-			Log.v("current-letter", Character.toString(c));
-		}
-		TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
-		String scoreString = score.getText().toString();
-		int expectedScore = currWord.length();
-		int actualScore = Integer.parseInt(scoreString);
-		assertEquals(expectedScore, actualScore);
+  	@Test(timeout = TIMEOUT)
+	public void testTypingCorrectWordsThreeTimesUpdateScore() {
+  	    int expectedScore = 0;
+  	    int actualScore = 0;
+  	    for (int i = 0; i < 3; i++) {
+    		List<TextView> textList = getWordsPresented(solo);
+    		TextView currTextView = textList.get(0);
+    		String currWord = currTextView.getText().toString();
+    		Log.v("current-word", currWord);
+    		for (int j = 0; j < currWord.length(); j++) {
+    			char c = currWord.charAt(j);
+    			sendKeys(c - 68);    			
+    			Log.v("current-letter" Character.toString(c));
+    		
+    		}
+    		TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
+    		String scoreString = score.getText().toString();
+    		expectedScore += currWord.length();
+    		actualScore = Integer.parseInt(scoreString);
+
+  	    }
+        assertEquals(expectedScore, actualScore);
 	}
 	
-	public void testSimulatePlayingAOneMinuteGame() {
-		boolean gameFlag = true;
-		while (gameFlag) {
-			automateKeyboardTyping();
-			if (solo.searchButton("New Game") == true) {
-				gameFlag = false;
-			}
-		}
-		assertTrue(solo.searchButton("New Game"));
-		assertTrue(solo.searchButton("Main Menu"));
-	}
+//  	@Test(timeout = 70000)
+//	public void testSimulatePlayingAOneMinuteGame() {
+//		boolean gameFlag = true;
+//		while (gameFlag) {
+//			automateKeyboardTyping();
+//			if (solo.searchButton("New Game") == true) {
+//				gameFlag = false;
+//			}
+//		}
+//		assertTrue(solo.searchButton("New Game"));
+//		assertTrue(solo.searchButton("Main Menu"));
+//	    assertTrue(solo.searchText("Your ad could be here!"));
+//	}
 	
+  	@Test(timeout = TIMEOUT)
+  	public void testTheKeyboardButtonWorks() {
+  	     Button keyboardButton = (Button) solo.getView(com.example.zootypers.R.id.keyboard_open_button);
+         solo.clickOnView(keyboardButton);
+         assertTrue(solo.searchButton("Keyboard"));
+  	}
+  	
+  	@Test(timeout = TIMEOUT)
+  	public void testPauseButtonWorksProperly() {
+  	    Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
+  	    solo.clickOnView(pauseButton);
+  	    assertTrue(solo.searchButton("| |"));
+  	    solo.clickOnButton("Continue");
+  	}
+  	
+  	@Test(timeout = TIMEOUT)
+  	public void testPauseButtonCanGoToMainMenu() {
+        Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
+        solo.clickOnView(pauseButton);
+        solo.clickOnButton("Main Menu");
+        solo.searchButton("Single Player");
+  	}
+  	
+    @Test(timeout = TIMEOUT)
+    public void testPauseButtonCanStartNewGame() {
+        Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
+        solo.clickOnView(pauseButton);
+        solo.clickOnButton("New Game");
+        solo.searchButton("Continue");
+    }
+  	
 	protected void tearDown() throws Exception {
 		solo.finishOpenedActivities();
 	}
