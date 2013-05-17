@@ -145,7 +145,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
     		for (int j = 0; j < currWord.length(); j++) {
     			char c = currWord.charAt(j);
     			sendKeys(c - 68);    			
-    			Log.v("current-letter" Character.toString(c));
+    			Log.v("current-letter", Character.toString(c));
     		
     		}
     		TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
