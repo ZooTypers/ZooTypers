@@ -124,21 +124,21 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		goBackToMainMenu();
 	}
 	
-    @Test(timeout = TIMEOUT)
-	public void testChangeAWordWhenFinished(){
-		List<TextView> textList = getWordsPresented(solo);
-		TextView currTextView = textList.get(0);
-		String currWord = currTextView.getText().toString();
-		Log.v("current-word", currWord);
-		for (int i = 0; i < currWord.length(); i++) {
-			char c = currWord.charAt(i);
-			sendKeys(c - 68);
-			Log.v("current-letter", Character.toString(c));
-		}
-		textList = getWordsPresented(solo);
-		assertTrue(textList.get(0).getText().toString() != currWord);
-		goBackToMainMenu();
-	}
+//    @Test(timeout = TIMEOUT)
+//	public void testChangeAWordWhenFinished(){
+//		List<TextView> textList = getWordsPresented(solo);
+//		TextView currTextView = textList.get(0);
+//		String currWord = currTextView.getText().toString();
+//		Log.v("current-word", currWord);
+//		for (int i = 0; i < currWord.length(); i++) {
+//			char c = currWord.charAt(i);
+//			sendKeys(c - 68);
+//			Log.v("current-letter", Character.toString(c));
+//		}
+//		textList = getWordsPresented(solo);
+//		assertTrue(textList.get(0).getText().toString() != currWord);
+//		goBackToMainMenu();
+//	}
 	
   	@Test(timeout = TIMEOUT)
 	public void testTypingCorrectWordsThreeTimesUpdateScore() {
