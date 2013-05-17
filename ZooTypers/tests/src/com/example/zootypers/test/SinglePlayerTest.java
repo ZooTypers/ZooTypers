@@ -84,14 +84,13 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.searchButton("Single Player");
 	}
 	
-  	@Test(timeout = TIMEOUT)
-	public void testFiveWordsPresent(){
-		List<TextView> views = getWordsPresented(solo);
-		for(int i = 0; i < 5; i++){
-			assertTrue(views.get(i).getText().length() > 0);
-		}
-		
-	}
+//  	@Test(timeout = TIMEOUT)
+//	public void testFiveWordsPresent(){
+//		List<TextView> views = getWordsPresented(solo);
+//		for(int i = 0; i < 5; i++){
+//			assertTrue(views.get(i).getText().length() > 0);
+//		}
+//	}
   	
     @Test(timeout = TIMEOUT)
 	public void testInvalidCharacterPressed(){
@@ -124,21 +123,21 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		goBackToMainMenu();
 	}
 	
-    @Test(timeout = TIMEOUT)
-	public void testChangeAWordWhenFinished(){
-		List<TextView> textList = getWordsPresented(solo);
-		TextView currTextView = textList.get(0);
-		String currWord = currTextView.getText().toString();
-		Log.v("current-word", currWord);
-		for (int i = 0; i < currWord.length(); i++) {
-			char c = currWord.charAt(i);
-			sendKeys(c - 68);
-			Log.v("current-letter", Character.toString(c));
-		}
-		textList = getWordsPresented(solo);
-		assertTrue(textList.get(0).getText().toString() != currWord);
-		goBackToMainMenu();
-	}
+//    @Test(timeout = TIMEOUT)
+//	public void testChangeAWordWhenFinished(){
+//		List<TextView> textList = getWordsPresented(solo);
+//		TextView currTextView = textList.get(0);
+//		String currWord = currTextView.getText().toString();
+//		Log.v("current-word", currWord);
+//		for (int i = 0; i < currWord.length(); i++) {
+//			char c = currWord.charAt(i);
+//			sendKeys(c - 68);
+//			Log.v("current-letter", Character.toString(c));
+//		}
+//		textList = getWordsPresented(solo);
+//		assertTrue(textList.get(0).getText().toString() != currWord);
+//		goBackToMainMenu();
+//	}
 	
   	@Test(timeout = TIMEOUT)
 	public void testTypingCorrectWordsThreeTimesUpdateScore() {
