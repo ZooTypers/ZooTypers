@@ -37,8 +37,8 @@ public class PreGameSelectionMulti extends PreGameSelection {
         userIntent.getExtras();
         currentUser = userIntent.getStringExtra("username");
         
-        TextView usernameText = (TextView) findViewById(R.id.current_user);
-        usernameText.setText("You are logged in as " + currentUser);
+        TextView usernameText = (TextView) findViewById(R.id.current_user_text);
+        usernameText.setText(currentUser);
     }
 
     /**
