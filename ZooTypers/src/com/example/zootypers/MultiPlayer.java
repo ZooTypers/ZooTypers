@@ -261,6 +261,7 @@ public class MultiPlayer extends Activity implements Observer {
 	 */
 	public final void goToPostGame() {
 		Intent intent = new Intent(this, PostGameScreenMulti.class);
+		model.deleteUser();
 		int myScore = model.getScore();
 		int oppScore = model.getOpponentScore();
 		// pass score
@@ -277,7 +278,7 @@ public class MultiPlayer extends Activity implements Observer {
 		}
 
 		intent.putExtra("bg", bg);
-		model.deleteUser();
+		
 		startActivity(intent);
 	}
 
@@ -303,6 +304,7 @@ public class MultiPlayer extends Activity implements Observer {
 
 	  @Override
 	  public final void onTick(final long millisUntilFinished) {
+		model.refreshInBackground();
 	    currentTime = millisUntilFinished;
 	    displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
 	  }

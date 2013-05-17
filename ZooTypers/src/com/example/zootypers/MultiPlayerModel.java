@@ -230,15 +230,7 @@ public class MultiPlayerModel extends Observable {
 		if (nextWordIndex >= wordsList.size()) {
 			nextWordIndex = 0;
 		}
-
-		match.refreshInBackground(new RefreshCallback() {
-			public void done(ParseObject object, ParseException e) {
-				if (e == null) {
-					setChanged();
-					notifyObservers(States.update.OPPONENT_SCORE);
-				}
-			}
-		});
+		
 		setChanged();
 		notifyObservers(States.update.FINISHED_WORD);
 	}
@@ -323,6 +315,17 @@ public class MultiPlayerModel extends Observable {
 		// wrong letter typed
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
+	}
+	
+	public void refreshInBackground() {
+		match.refreshInBackground(new RefreshCallback() {
+			public void done(ParseObject object, ParseException e) {
+				if (e == null) {
+					setChanged();
+					notifyObservers(States.update.OPPONENT_SCORE);
+				}
+			}
+		});
 	}
 
 	/**
