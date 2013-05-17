@@ -41,7 +41,7 @@ public class MultiPlayer extends Activity implements Observer {
 	public final static long START_TIME = 60000; // 1 minute
 	public static boolean paused = false;
 	private long currentTime;
-	
+
 
   /**
    * @param id The id of the View to get as a String.
@@ -90,7 +90,7 @@ public class MultiPlayer extends Activity implements Observer {
 
 		// Initialize the database
 		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
-		
+
 		// Get the user name
 		String uname = getIntent().getStringExtra("username");
 
@@ -99,8 +99,12 @@ public class MultiPlayer extends Activity implements Observer {
 		model.addObserver(this);
     
 		// Get the opponent's animal from the model
-    int oppAnimal = reverseDrawable(model.getOpponentAnimal());
+		int oppAnimal = reverseDrawable(model.getOpponentAnimal());
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> 7a58bd8ce28055be341cef68a56ed52fd195a513
 		// Display the multiplayer screen
 		setContentView(R.layout.activity_multi_player);
 		initialDisplay(animal, background, oppAnimal);
@@ -109,14 +113,14 @@ public class MultiPlayer extends Activity implements Observer {
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
 	}
-	
+
 	@Override
 	public final boolean onCreateOptionsMenu(final Menu menu) {
 	  // Inflate the menu; this adds items to the action bar if it is present.
 	  getMenuInflater().inflate(R.menu.single_player, menu);
 	  return true;
 	}
-	
+
 	@Override
 	/**
 	 * Called when the user types a letter; passes the letter to the model.
@@ -182,7 +186,7 @@ public class MultiPlayer extends Activity implements Observer {
 	  // display animal
 	  ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
 	  animalImage.setImageDrawable(animal);
-	  
+
 	  // display opponent's animal
 	  ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
 	  oppAnimalImage.setBackgroundResource(oppAnimal);
@@ -260,24 +264,29 @@ public class MultiPlayer extends Activity implements Observer {
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
 	public final void goToPostGame() {
-	  model.setUserFinish();
-	  	  
-	  Intent intent = new Intent(this, PostGameScreenMulti.class);
+		Intent intent = new Intent(this, PostGameScreenMulti.class);
+		// pass score
+		intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
 
-	  // Pass scores and if you won to post game screen
-    int score = model.getScore();
-	  int oppScore = model.getOpponentScore();
-	  intent.putExtra("score", score);
-	  intent.putExtra("oppScore", oppScore);
-	  intent.putExtra("won", (score > oppScore));
+		// TODO get whether you won from the model
+		int myScore = model.getScore();
+		int oppScore = model.getOpponentScore();
+		if (myScore > oppScore) {
+			intent.putExtra("won", true);			
+		} else if (myScore == oppScore) {
+			// TODO need a display for tie
+			intent.putExtra("won", false);			
+		} else {			
+			intent.putExtra("won", false);			
+		}
+<<<<<<< HEAD
+		
+=======
 
-	  // Pass if opponent completed the game
-	  intent.putExtra("discon", !model.isOpponentFinished());
-
-	  // Pass background to post game screen
-	  intent.putExtra("bg", bg);
-
-	  startActivity(intent);		
+>>>>>>> 7a58bd8ce28055be341cef68a56ed52fd195a513
+		intent.putExtra("bg", bg);
+		model.deleteUser();
+		startActivity(intent);
 	}
 
 
