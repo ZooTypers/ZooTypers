@@ -43,9 +43,9 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	
 	@Test(timeout = TIMEOUT)
 	public void testSearchAllButtonsExist() {
-        solo.searchText("Single Player");
-        solo.searchText("Multiplayer");
-        solo.searchText("Leaderboard");
+		solo.searchText("Single Player");
+		solo.searchText("Multiplayer");
+		solo.searchText("Leaderboard");
 	}
 
 	@Test(timeout = TIMEOUT)
