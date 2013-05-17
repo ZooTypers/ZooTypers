@@ -1,5 +1,7 @@
 package com.example.zootypers.test;
 
+import org.junit.Test;
+
 import com.example.zootypers.*;
 import com.example.zootypers.R;
 import com.jayway.android.robotium.solo.Solo;
@@ -14,9 +16,11 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 /**
- * Testing the Pre-Game Selection screen for the game.
+ * Testing the Pre-Game Selection screen by checking and clicking all the
+ * buttons, selecting all the animal choices, selecting all the background,
+ * and also checking it goes to the single player correctly.
  * 
- * White box test.
+ * (Black box testing of the pre-game selection UI.)
  * 
  * @author dyxliang
  *
@@ -28,6 +32,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	private int screenWidth;
 	private int screenHeight;
 	private Display display;
+	private static final int TIMEOUT = 10000;
 	
 	public PreGameSelectionTest() {
 		super(PreGameSelection.class);
@@ -40,6 +45,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	    screenHeight = display.getHeight();
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testCorrectButtonAndTextDisplayed() {
 		 assertTrue(solo.searchButton("Easy"));
 		 assertTrue(solo.searchButton("Medium"));
@@ -49,37 +55,26 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		 assertFalse(solo.searchButton("WRONG_BUTTON"));
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testSelectingEasyDifficultyButton() {
 		solo.clickOnButton("Easy");
 		View expected = solo.getView(com.example.zootypers.R.id.easy_difficulty_button);
-		//solo.clickOnView(expected);
 		View actual = getActivity().getDiffView();
 		assertEquals(expected, actual);
-		
-		//ColorDrawable expectedColor = (ColorDrawable) expected.getBackground();
-		//int buttonColorValue = expectedColor.getColor();
-		//View actual = getActivity().findViewById(R.id.easy_difficulty_button);
-		//boolean actual = solo.isToggleButtonChecked(0);
-		//assertEquals("Easy button is OFF", true, actual);
-		
-		// solo.clickOnButton("Medium");
-		// solo.searchToggleButton("Medium");
-		// solo.clickOnButton("Hard");
-		// solo.searchToggleButton("Hard");
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testSelectingMediumDifficultyButton() {
 		solo.clickOnButton("Medium");
 		View expected = solo.getView(com.example.zootypers.R.id.medium_difficulty_button);
-		//solo.clickOnView(expected);
 		View actual = getActivity().getDiffView();
 		assertEquals(expected, actual);
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testSelectingHardDifficultyButton() {
 		solo.clickOnButton("Hard");
 		View expected = solo.getView(com.example.zootypers.R.id.hard_difficulty_button);
-		//solo.clickOnView(expected);
 		View actual = getActivity().getDiffView();
 		assertEquals(expected, actual);
 	}
@@ -93,19 +88,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		assertEquals(expected, actual);
 	}
 	
-//	public void testSelectionPandaButtonWorks() {
-//	    solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
-//	    solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
-//	    solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
-//		
-//		solo.waitForView(ImageButton.class);
-//		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.panda_button);
-//		solo.clickOnView(imageButton);
-//		View expected = solo.getView(com.example.zootypers.R.id.panda_button);
-//		View actual = getActivity().getAnimalView();
-//		assertEquals(expected, actual);
-//	}
-	
+	@Test(timeout = TIMEOUT)
 	public void testSelectionGiraffeButtonWorks() {
 		solo.waitForView(ImageButton.class);
 		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.giraffe_button);
@@ -115,6 +98,27 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		assertEquals(expected, actual);
 	}
 	
+	@Test(timeout = TIMEOUT)
+    public void testSelectionKangarooButtonWorks() {
+        int expectedValue = 0; // 0=VISIBLE, 4=INVISIBLE, 8=GONE
+        assertEquals("The button is out of view.", expectedValue, solo.getView(com.example.zootypers.R.id.kangaroo_button).getVisibility());
+        
+        int[] location = new int[2]; // this will hold the x and y position
+        solo.getView(com.example.zootypers.R.id.kangaroo_button).getLocationOnScreen(location);
+        assertTrue("The button is out of view.", location[0] >= 0 && location[1] >= 0);
+        
+        solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
+        solo.sleep(1000);
+        solo.waitForView(ImageButton.class);
+        solo.scrollToSide(5);
+        ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.kangaroo_button);
+        solo.clickOnView(imageButton);
+        View expected = solo.getView(com.example.zootypers.R.id.kangaroo_button);
+        View actual = getActivity().getAnimalView();
+        assertEquals(expected, actual);
+    }
+	
+//	@Test(timeout = TIMEOUT)
 //	public void testSelectionTurtleButtonWorks() {
 //		
 //	    solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
@@ -131,6 +135,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 //		assertEquals(expected, actual);
 //	}
 //	
+//	@Test(timeout = TIMEOUT)
 //	public void testSelectionLionButtonWorks() {
 //	    solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
 //	    solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
@@ -142,58 +147,21 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 //		View actual = getActivity().getAnimalView();
 //		assertEquals(expected, actual);
 //	}
-	
-	public void testSelectionKangarooButtonWorks() {
-//		int expectedValue = 0; // 0=VISIBLE, 4=INVISIBLE, 8=GONE
-//		assertEquals("Message when assert failed", expectedValue, solo.getView(com.example.zootypers.R.id.kangaroo_button).getVisibility());
-//		
-//		int[] location = new int[2]; // this will hold the x and y position
-//		// retrieve coordinates
-//		solo.getView(com.example.zootypers.R.id.kangaroo_button).getLocationOnScreen(location);
-//		// and check if possitive or whatever fits your needs
-//		assertTrue("Message when assert failed", location[0] >= 0 && location[1] >= 0);
-		
-		//Display display = ((WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-		//Display d =((WindowManager)activity.getApplication().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-	    //int screenWidth = display.getWidth(); 
-	    //int screenHeight = display.getHeight();
-	    //int screenWidth = getActivity().getWindowManager().getDefaultDisplay().getWidth();
-	    //int screenHeight = getActivity().getWindowManager().getDefaultDisplay().getHeight();
-	    
-//	    int fromX, toX, fromY, toY = 0;
-//	    fromX = screenWidth/2 - (screenHeight/3);
-//	    toX = screenWidth/2 + (screenHeight/3);
-//	    fromY = (screenHeight/2);
-//	    toY = (screenHeight/2);
-//	    //int scroll_time = 10000;             
-//	    //solo.sleep(5000);
-//	        // Drag UP  
-//	    solo.drag(fromX, toX, fromY, toY, 10);
-	    //Log.d(TAG, "Drag 1");
-	        // here default origin (x,y = 0,0) is left upper corner
-	    
-	    solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
-	    
-//		int fromX = (screenWidth/2) - (screenWidth/2);
-//		int toX = (screenWidth/2) + (screenWidth/2);
-//		int fromY = screenHeight/2;
-//		int toY = screenHeight/2;
-		//solo.drag(fromX, toX, fromY, toY, 1);
-		solo.sleep(1000);
-		//Log.d(TAG,"Scroll Left");
-	    
-//	    solo.scrollToSide(screenWidth/2);
-//	    solo.sleep(3000);
-		
-		solo.waitForView(ImageButton.class);
-		solo.scrollToSide(5);
-		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.kangaroo_button);
-		solo.clickOnView(imageButton);
-		View expected = solo.getView(com.example.zootypers.R.id.kangaroo_button);
-		View actual = getActivity().getAnimalView();
-		assertEquals(expected, actual);
-	}
-	
+//
+//	@Test(timeout = TIMEOUT)
+//  public void testSelectionPandaButtonWorks() {
+//      solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
+//      solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
+//      solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
+//      
+//      solo.waitForView(ImageButton.class);
+//      ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.panda_button);
+//      solo.clickOnView(imageButton);
+//      View expected = solo.getView(com.example.zootypers.R.id.panda_button);
+//      View actual = getActivity().getAnimalView();
+//      assertEquals(expected, actual);
+//  }
+//	
 //	public void testSelectionMonkeyButtonWorks() {
 //	    solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
 //	    solo.drag(screenWidth-10, 10, screenHeight/2, screenHeight/2, 40);
@@ -222,6 +190,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 //		assertEquals(expected, actual);
 //	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testSelectingGrasslandBackground() {
 		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.BG1_button);
 		solo.clickOnView(imageButton);
@@ -230,6 +199,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		assertEquals(expected, actual);
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testingSelectingRainbowBackground() {
 		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.BG2_button);
 		solo.clickOnView(imageButton);
@@ -238,6 +208,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		assertEquals(expected, actual);
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testingSelectingMainMenuButton() {
 		solo.assertCurrentActivity("Check on current page activity.", PreGameSelection.class);
 		assertTrue(solo.searchButton("Main Menu"));
@@ -247,11 +218,13 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testingSelectingContinueButton() {
 		solo.assertCurrentActivity("Check on current page activity.", PreGameSelection.class);
+	    Button continueButton = (Button) solo.getView(com.example.zootypers.R.id.continue_button);
 		assertTrue(solo.searchButton("Continue"));
-		solo.clickOnButton("Continue");
-		solo.assertCurrentActivity("Check on current page activity.", SinglePlayer.class);
+	    solo.clickOnView(continueButton);
+	    solo.assertCurrentActivity("Check on current page activity.", SinglePlayer.class);
 	}
 	
 	protected void tearDown() throws Exception {
