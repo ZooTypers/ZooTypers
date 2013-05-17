@@ -38,7 +38,7 @@ public class MultiPlayer extends Activity implements Observer {
 	// for the game timer
 	protected GameTimer gameTimer;
 	protected final long INTERVAL = 1000; // 1 second
-	public final static long START_TIME = 20000; // 1 minute
+	public final static long START_TIME = 60000; // 1 minute
 	public static boolean paused = false;
 	private long currentTime;
 	
