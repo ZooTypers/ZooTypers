@@ -6,13 +6,16 @@ import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.parse.Parse;
@@ -32,6 +36,9 @@ import com.parse.Parse;
  */
 @SuppressLint("NewApi")
 public class MultiPlayer extends Activity implements Observer {
+	
+	// Loading popup
+	private PopupWindow ppw;
 	
 	private String username;
 	
@@ -79,7 +86,27 @@ public class MultiPlayer extends Activity implements Observer {
 			return R.drawable.animal_elephant_opp;
 		}
 	}
-
+    
+    /**
+     * Shows the loading popup window.
+     */
+	private void showLoadScreen() {
+		LayoutInflater layoutInflater = 
+				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		View popupView = layoutInflater.inflate(R.layout.login_popup, null);
+		ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+		// TODO problem here
+		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.pregame_layout);
+		// set the position and size of popup
+		ppw.showAtLocation(parentLayout, Gravity.CENTER, 0, 0);
+	}
+    
+    /**
+     * Exits the loading popup window.
+     */
+	private void dismissLoadScreen() {
+    	ppw.dismiss();
+    }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -99,9 +126,13 @@ public class MultiPlayer extends Activity implements Observer {
 		// Get the user name
 		username = getIntent().getStringExtra("username");
 
+		//showLoadScreen();
+		
 		// Start model, passing number of words, user name, and selected animal
 		model = new MultiPlayerModel(NUM_WORDS, username, anmID);
 		model.addObserver(this);
+		
+		//dismissLoadScreen();
 
 		// Get the opponent's animal from the model
 		int oppAnimal = reverseDrawable(model.getOpponentAnimal());
