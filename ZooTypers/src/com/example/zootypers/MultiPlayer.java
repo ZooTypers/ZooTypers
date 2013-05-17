@@ -38,7 +38,7 @@ public class MultiPlayer extends Activity implements Observer {
 	// for the game timer
 	protected GameTimer gameTimer;
 	protected final long INTERVAL = 1000; // 1 second
-	public final static long START_TIME = 60000; // 1 minute
+	public final static long START_TIME = 10000; // 1 minute
 	public static boolean paused = false;
 	private long currentTime;
 	
@@ -263,8 +263,19 @@ public class MultiPlayer extends Activity implements Observer {
 		Intent intent = new Intent(this, PostGameScreenMulti.class);
 		// pass score
 		intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
+
 		// TODO get whether you won from the model
-		intent.putExtra("won", true);
+		int myScore = model.getScore();
+		int oppScore = model.getOpponentScore();
+		if (myScore > oppScore) {
+			intent.putExtra("won", true);			
+		} else if (myScore == oppScore) {
+			// TODO need a display for tie
+			intent.putExtra("won", false);			
+		} else {			
+			intent.putExtra("won", false);			
+		}
+		
 		intent.putExtra("bg", bg);
 		model.deleteUser();
 		startActivity(intent);

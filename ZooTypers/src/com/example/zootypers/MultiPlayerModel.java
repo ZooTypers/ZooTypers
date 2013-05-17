@@ -53,9 +53,6 @@ public class MultiPlayerModel extends Observable {
 
 	// index of letter that has been parsed from the currWordIndex
 	private int currLetterIndex;
-
-	// keep track of the user's current score
-	private int score;
 	
 	private int animalName;
 
@@ -74,7 +71,7 @@ public class MultiPlayerModel extends Observable {
 	 */
 	public MultiPlayerModel(int wordsDis, String uname, int animalName) {
 		this.animalName = animalName;
-		this.name = "wing-phone";
+		this.name = uname;
 		this.info = new HashMap<String, String>();
 		beginMatchMaking();
 		setWordsList();
@@ -82,7 +79,6 @@ public class MultiPlayerModel extends Observable {
 		currFirstLetters = new HashSet<Character>();
 		//initialize all the fields to default starting values
 		wordsDisplayed = new int[numWordsDisplayed];
-		score = 0;
 		nextWordIndex = 0;
 		currLetterIndex = -1;
 		currWordIndex = -1;
@@ -333,7 +329,7 @@ public class MultiPlayerModel extends Observable {
 	 * @return current score of the player
 	 */
 	public final int getScore() {
-		return score;
+		return match.getInt(info.get("score"));
 	}
 
 	/**
@@ -405,6 +401,7 @@ public class MultiPlayerModel extends Observable {
 				match.delete();
 			} else {
 				match.put(info.get("finished"), true);
+				match.save();
 			}
 		} catch (ParseException e) {
 			// TODO CONNECTION ERROR
