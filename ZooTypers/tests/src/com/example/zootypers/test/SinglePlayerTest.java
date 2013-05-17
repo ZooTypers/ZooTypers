@@ -66,7 +66,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		}
 	}
   	
-	public static List<TextView> getWordsPresented(Solo solo){
+	private static List<TextView> getWordsPresented(Solo solo){
 		solo.sleep(1000);
 		List<TextView> retVal = new ArrayList<TextView>();
 		retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
@@ -92,7 +92,8 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		}
 		
 	}
-	
+  	
+    @Test(timeout = TIMEOUT)
 	public void testInvalidCharacterPressed(){
 		List<TextView> views = getWordsPresented(solo);
 		String firstLetters = "";
@@ -112,21 +113,18 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 	public void testCorrectCharacterPressed(){
 		List<TextView> views = getWordsPresented(solo);
 		TextView s = views.get(0);
-		Log.v("words", s.getText().toString());
 		solo.sleep(5000);
 		sendKeys(s.getText().charAt(0) - 68);
-		Log.v("char typed", String.valueOf(Character.toUpperCase(s.getText().charAt(0))));
 		views = getWordsPresented(solo);
 		solo.sleep(1000);
 		CharSequence word = views.get(0).getText();
-		Log.v("word", word.toString());
 		SpannableString spanString = new SpannableString(word);
-		Log.v("Span", spanString.toString());
 		ForegroundColorSpan[] spans = spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
 		assertTrue(spans.length > 0);
 		goBackToMainMenu();
 	}
 	
+    @Test(timeout = TIMEOUT)
 	public void testChangeAWordWhenFinished(){
 		List<TextView> textList = getWordsPresented(solo);
 		TextView currTextView = textList.get(0);
