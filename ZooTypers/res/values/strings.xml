@@ -36,7 +36,7 @@
     <string name="title_activity_single_player_game">SinglePlayerGame</string>
     <string name="score">Score:</string>
     <string name="title_activity_post_game_screen">PostGameScreen</string>
-    <string name="final_score">Final Score: </string>
+    <string name="final_score">Your Score: </string>
     <string name="main_menu">Main Menu</string>
     <string name="new_game">New Game</string>
     <string name="cont">Continue</string>
@@ -64,5 +64,13 @@
     <string name="title_activity_post_game_screen_multi">PostGameScreenMulti</string>
     <string name="opp_final_score">Opponent\'s Score:</string>
     <string name="quit_game">Quit Game</string>
+    <string name="title_activity_connection_error">ConnectionError</string>
+    <string name="connection_error">It looks like there was a problem connecting you to the internet. Please try again!</string>
+    <string name="big_error">Oh, No!</string>
+    <string name="title_activity_no_opponent_error">NoOpponentError</string>
+    <string name="no_opponent_error">We couldn\'t find an opponent for you! Please try again in a few minutes.</string>
+    <string name="title_activity_interrupt_error">InterruptError</string>
+    <string name="interrupt_error">Panic! Something has gone terribly wrong! Please try again.</string>
+    <string name="game_over">Game Over!</string>
 
 </resources>
