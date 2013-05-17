@@ -238,7 +238,7 @@ public class SinglePlayer extends Activity implements Observer {
     public void goToPostGame() {
         Intent intent = new Intent(this, PostGameScreen.class);
         // pass score
-        intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
+        intent.putExtra("score", model.getScore());
         intent.putExtra("bg", bg);
         startActivity(intent);
     }
