@@ -30,7 +30,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 
     // Display result of game
     TextView resultMessage = (TextView) findViewById(R.id.game_result);
-    if (getIntent().getBooleanExtra("discon", true)) {
+    if (getIntent().getBooleanExtra("discon", false)) {
       // Opponent disconnected
       resultMessage.setText("Your Opponent Disconnected.");
       resultMessage.setTextSize(20);
