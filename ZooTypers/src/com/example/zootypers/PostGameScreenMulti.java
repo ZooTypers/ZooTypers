@@ -49,6 +49,8 @@ public class PostGameScreenMulti extends PostGameScreen {
         resultMessage.setText("You Lost.");
       }
     }
+    
+    username = getIntent().getStringExtra("username");
 
     // TODO store score
   }
