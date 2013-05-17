@@ -18,6 +18,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.parse.FindCallback;
@@ -276,11 +277,13 @@ public class TitlePage extends Activity {
      */
     private void makeViewsInvisible() {
     	// get all the logged in related views
+    	RelativeLayout loginBox = (RelativeLayout) findViewById(R.id.title_log_info);
     	TextView loggedInText = (TextView) findViewById(R.id.loggedin_text);
     	TextView currentUserText = (TextView) findViewById(R.id.current_user_text);
     	Button logoutButton = (Button) findViewById(R.id.logout_button);
     	
     	// set the views to be invisible
+    	loginBox.setVisibility(View.INVISIBLE);
     	loggedInText.setVisibility(View.INVISIBLE);
     	currentUserText.setVisibility(View.INVISIBLE);
     	logoutButton.setVisibility(View.INVISIBLE);

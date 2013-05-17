@@ -6,6 +6,41 @@
     android:background="@drawable/background_rainbow"
     tools:context=".TitlePage" >
 
+    <RelativeLayout
+    	android:id="@+id/title_log_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:id="@+id/loggedin_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:text="@string/loggedin_string" />
+
+        <TextView
+            android:id="@+id/current_user_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/loggedin_text"
+            android:text="" />
+        
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/logout_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:onClick="logoutUser"
+        android:padding="5dp"
+        android:text="@string/logout_string"
+        android:textSize="12sp" />
     
     <ImageView
         android:id="@+id/title"
@@ -87,37 +122,12 @@
         android:text="@string/options" />
 
     <ImageView
-        android:id="@+id/title_page_img4"
+        android:id="@+id/husky_soft_logo"
         android:layout_width="50sp"
         android:layout_height="50sp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:contentDescription="@string/husky_logo_alt"
         android:src="@drawable/husky_logo" />
-
-    <TextView
-        android:id="@+id/loggedin_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
-        android:text="@string/loggedin_string" />
-
-    <TextView
-        android:id="@+id/current_user_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignRight="@+id/title_page_img3"
-        android:layout_below="@+id/loggedin_text" />
-
-    <Button
-        android:id="@+id/logout_button"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/current_user_text"
-        android:text="@string/logout_string"
-        android:onClick="logoutUser"/>
 
 </RelativeLayout>

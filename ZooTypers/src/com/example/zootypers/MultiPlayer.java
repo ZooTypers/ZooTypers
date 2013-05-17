@@ -6,19 +6,24 @@ import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActionBar.LayoutParams;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.text.Html;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.parse.Parse;
@@ -31,55 +36,82 @@ import com.parse.Parse;
  */
 @SuppressLint("NewApi")
 public class MultiPlayer extends Activity implements Observer {
+	
+	// Loading popup
+	private PopupWindow ppw;
+	
+	private String username;
+	
 	private MultiPlayerModel model;
-	protected final int NUM_WORDS = 5;  
+	private final int NUM_WORDS = 5;  
 	protected int bg;
-   
+
 	// for the game timer
 	protected GameTimer gameTimer;
 	protected final long INTERVAL = 1000; // 1 second
 	public final static long START_TIME = 60000; // 1 minute
 	public static boolean paused = false;
 	private long currentTime;
+	
 
+	/**
+	 * @param id The id of the View to get as a String.
+	 * @return The View object with that id
+	 */
+	private final View getByStringId(final String id) {
+		return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
+	}
 
-  /**
-   * @param id The id of the View to get as a String.
-   * @return The View object with that id
-   */
-  private final View getByStringId(final String id) {
-    return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
-  }
-  
-  /**
-   * @param id The id of an animal ImageButton on the pregame screen.
-   * @return The resource if of the drawable image facing the opposite way
-   * (i.e. the opponent's version of the animal).
-   */
-  private int reverseDrawable(int id) {
-    if (id == R.id.giraffe_button) {
-      return R.drawable.animal_giraffe_opp;
-    } else if (id == R.id.kangaroo_button) {
-      return R.drawable.animal_kangaroo_opp;
-    } else if (id == R.id.lion_button) {
-      return R.drawable.animal_lion_opp;
-    } else if (id == R.id.monkey_button) {
-      return R.drawable.animal_monkey_opp;
-    } else if (id == R.id.panda_button) {
-      return R.drawable.animal_panda_opp;
-    } else if (id == R.id.penguin_button) {
-      return R.drawable.animal_penguin_opp;
-    } else if (id == R.id.turtle_button) {
-      return R.drawable.animal_turtle_opp;
-    } else {
-      return R.drawable.animal_elephant_opp;
+	/**
+	 * @param id The id of an animal ImageButton on the pregame screen.
+	 * @return The resource if of the drawable image facing the opposite way
+	 * (i.e. the opponent's version of the animal).
+	 */
+	private int reverseDrawable(int id) {
+		if (id == R.id.giraffe_button) {
+			return R.drawable.animal_giraffe_opp;
+		} else if (id == R.id.kangaroo_button) {
+			return R.drawable.animal_kangaroo_opp;
+		} else if (id == R.id.lion_button) {
+			return R.drawable.animal_lion_opp;
+		} else if (id == R.id.monkey_button) {
+			return R.drawable.animal_monkey_opp;
+		} else if (id == R.id.panda_button) {
+			return R.drawable.animal_panda_opp;
+		} else if (id == R.id.penguin_button) {
+			return R.drawable.animal_penguin_opp;
+		} else if (id == R.id.turtle_button) {
+			return R.drawable.animal_turtle_opp;
+		} else {
+			return R.drawable.animal_elephant_opp;
+		}
+	}
+    
+    /**
+     * Shows the loading popup window.
+     */
+	private void showLoadScreen() {
+		LayoutInflater layoutInflater = 
+				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		View popupView = layoutInflater.inflate(R.layout.login_popup, null);
+		ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+		// TODO problem here
+		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.pregame_layout);
+		// set the position and size of popup
+		ppw.showAtLocation(parentLayout, Gravity.CENTER, 0, 0);
+	}
+    
+    /**
+     * Exits the loading popup window.
+     */
+	private void dismissLoadScreen() {
+    	ppw.dismiss();
     }
-  }
-
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-	  super.onCreate(savedInstanceState);
+		super.onCreate(savedInstanceState);
+        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection_multi);
@@ -92,12 +124,16 @@ public class MultiPlayer extends Activity implements Observer {
 		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 
 		// Get the user name
-		String uname = getIntent().getStringExtra("username");
+		username = getIntent().getStringExtra("username");
 
+		//showLoadScreen();
+		
 		// Start model, passing number of words, user name, and selected animal
-		model = new MultiPlayerModel(NUM_WORDS, uname, anmID);
+		model = new MultiPlayerModel(NUM_WORDS, username, anmID);
 		model.addObserver(this);
-    
+		
+		//dismissLoadScreen();
+
 		// Get the opponent's animal from the model
 		int oppAnimal = reverseDrawable(model.getOpponentAnimal());
 
@@ -127,7 +163,7 @@ public class MultiPlayer extends Activity implements Observer {
 	  model.typedLetter(charTyped);
 	  return true;
 	}
-    
+
 	/**
 	 * @param wordIndex The index of the word to display; 0 <= wordIndex < 5.
    * @param word The word to display.
@@ -198,7 +234,7 @@ public class MultiPlayer extends Activity implements Observer {
 
 	  displayScore(0);
 	}
-    
+
 	/**
 	 * Updates the oppenent's score on the screen.
 	 * @param score The score to display.
@@ -251,22 +287,37 @@ public class MultiPlayer extends Activity implements Observer {
 	 * @author oaknguyen
 	 */
 	public final void keyboardButton(final View view) {
-	  InputMethodManager inputMgr = (InputMethodManager) 
-	      getSystemService(Context.INPUT_METHOD_SERVICE);
-	  inputMgr.toggleSoftInput(0, 0);
+		InputMethodManager inputMgr = (InputMethodManager) 
+				getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMgr.toggleSoftInput(0, 0);
+	}
+	
+	/**
+	 * Quits the game and goes to the title page.
+	 * @param view The button clicked.
+	 */
+	public final void goToTitlePage(final View view) {
+		// Clean up the database
+		model.deleteUser();
+		
+		Intent intent = new Intent(this, TitlePage.class);
+		startActivity(intent);
 	}
 
 	/**
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
 	public final void goToPostGame() {
-		Intent intent = new Intent(this, PostGameScreenMulti.class);
-		// pass score
-		intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
+	  model.setUserFinish();
+	  	  
+	  Intent intent = new Intent(this, PostGameScreenMulti.class);
 
-		// TODO get whether you won from the model
-		int myScore = model.getScore();
-		int oppScore = model.getOpponentScore();
+	  // Pass scores and if you won to post game screen
+	  // TODO get whether you won from the model
+	  int myScore = model.getScore();
+	  int oppScore = model.getOpponentScore();
+	  intent.putExtra("score", score);
+	  intent.putExtra("oppScore", oppScore);
 		if (myScore > oppScore) {
 			intent.putExtra("won", true);			
 		} else if (myScore == oppScore) {
@@ -276,9 +327,17 @@ public class MultiPlayer extends Activity implements Observer {
 			intent.putExtra("won", false);			
 		}
 
-		intent.putExtra("bg", bg);
-		model.deleteUser();
-		startActivity(intent);
+	  // Pass if opponent completed the game
+	  intent.putExtra("discon", !model.isOpponentFinished());
+
+	  // Pass background to post game screen
+	  intent.putExtra("bg", bg);
+
+	  // Pass username
+	  intent.putExtra("username", username);
+
+	  model.deleteUser();
+	  startActivity(intent);		
 	}
 
 
