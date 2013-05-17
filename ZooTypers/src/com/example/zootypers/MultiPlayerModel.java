@@ -114,6 +114,7 @@ public class MultiPlayerModel extends Observable {
 			query.whereNotEqualTo("p1name", name);
 			match = query.getFirst();
 			match.refresh();
+			checkIfInMatch();
 			return true;
 		} catch (ParseException e1) {
 			return false;
@@ -165,7 +166,8 @@ public class MultiPlayerModel extends Observable {
 		long endtime = starttime + QUEUE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
 			try {
-				match.refresh();  		  	
+				match.refresh();  	
+				checkIfInMatch();
 				if (!match.getString(info.get("oname")).equals("")) {
 					return true;
 				}
@@ -184,7 +186,6 @@ public class MultiPlayerModel extends Observable {
 	private void setWordsList() {
 		List<ParseObject> wordObjects = null;
 		try {
-//			match.refresh();
 			checkIfInMatch();
 			ParseQuery query = new ParseQuery("WordList");
 			query.setSkip(match.getInt("wordIndex"));
@@ -270,6 +271,7 @@ public class MultiPlayerModel extends Observable {
 	public int getOpponentAnimal() {
 		try {
 			match.refresh();
+			checkIfInMatch();
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -382,6 +384,7 @@ public class MultiPlayerModel extends Observable {
 			}
 			try {
 				match.refresh();
+				checkIfInMatch();
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e1) {
 				// TODO CONNECTION ERROR
@@ -397,6 +400,7 @@ public class MultiPlayerModel extends Observable {
 	public void deleteUser() {
 		try {
 			match.refresh();
+			checkIfInMatch();
 			if (match.getBoolean(info.get("ofinished"))) {
 				match.delete();
 			} else {
