@@ -113,8 +113,6 @@ public class MultiPlayerModel extends Observable {
 			query.whereEqualTo("p2name", "");
 			query.whereNotEqualTo("p1name", name);
 			match = query.getFirst();
-			match.refresh();
-			checkIfInMatch();
 			return true;
 		} catch (ParseException e1) {
 			return false;
