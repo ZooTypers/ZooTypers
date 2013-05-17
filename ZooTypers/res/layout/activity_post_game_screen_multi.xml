@@ -18,8 +18,7 @@
         android:gravity="center_horizontal"
         android:padding="20dp"
         android:text="@string/ad_text"
-        android:textColor="@color/white" />
-    
+        android:textColor="@color/white" />    
     
     <Button 
         android:id="@+id/main_menu_button"
