@@ -92,12 +92,14 @@ public class MultiPlayerModel extends Observable {
 				match.put("p2finished", false);
 				match.save();
 			} catch (ParseException e) {
-        notifyObservers(States.update.CONNECTION_ERROR);
+				setChanged();
+				notifyObservers(States.update.CONNECTION_ERROR);
 			}
 		} else {
 			addToQueue();
 			if (!checkStatus()) {
-        notifyObservers(States.update.NO_OPPONENT);
+				setChanged();
+				notifyObservers(States.update.NO_OPPONENT);
 			}
 		}
 	}
@@ -152,7 +154,8 @@ public class MultiPlayerModel extends Observable {
 			match.put("wordIndex", randy);
 			match.save();
 		} catch (ParseException e) {
-      notifyObservers(States.update.CONNECTION_ERROR);
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 	}
 
@@ -168,9 +171,11 @@ public class MultiPlayerModel extends Observable {
 				}
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e1) {
-        notifyObservers(States.update.CONNECTION_ERROR);
+				setChanged();
+				notifyObservers(States.update.CONNECTION_ERROR);
 			} catch (InterruptedException e) {
-        notifyObservers(States.update.REAL_ERROR);
+				setChanged();
+				notifyObservers(States.update.REAL_ERROR);
 			}
 		}
 		return false;
@@ -191,7 +196,8 @@ public class MultiPlayerModel extends Observable {
 				wordObjects.addAll(query2.find());
 			}
 		} catch (ParseException e1) {
-      notifyObservers(States.update.CONNECTION_ERROR);
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}	
 		// changing words from parse objects into a list of strings.
 		wordsList = new ArrayList<String>();
@@ -204,7 +210,8 @@ public class MultiPlayerModel extends Observable {
 	// checks if match online still has the same player in it.
 	private void checkIfInMatch() {
 		if (!match.getString(info.get("name")).equals(name)) {
-      notifyObservers(States.update.CONNECTION_ERROR);
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 	}
 
@@ -235,7 +242,8 @@ public class MultiPlayerModel extends Observable {
 			match.refresh();
 			checkIfInMatch();
 		} catch (ParseException e) {
-      notifyObservers(States.update.CONNECTION_ERROR);
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 		return match.getInt(info.get("oanimal"));
 	}
@@ -319,7 +327,8 @@ public class MultiPlayerModel extends Observable {
 			match.put(info.get("finished"), true);
 			match.save();
 		} catch (ParseException e) {
-      notifyObservers(States.update.CONNECTION_ERROR);
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 	}
 
@@ -337,9 +346,11 @@ public class MultiPlayerModel extends Observable {
 				checkIfInMatch();
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e1) {
-        notifyObservers(States.update.CONNECTION_ERROR);
+				setChanged();
+				notifyObservers(States.update.CONNECTION_ERROR);
 			} catch (InterruptedException e) {
-        notifyObservers(States.update.REAL_ERROR);
+				setChanged();
+				notifyObservers(States.update.REAL_ERROR);
 			}
 		}
 		return false;
@@ -363,7 +374,8 @@ public class MultiPlayerModel extends Observable {
 				match.save();
 			}
 		} catch (ParseException e) {
-      notifyObservers(States.update.CONNECTION_ERROR);
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 
 	}
