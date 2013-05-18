@@ -22,6 +22,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import com.example.zootypers.SinglePlayer;
 import com.example.zootypers.R;
+import com.example.zootypers.SinglePlayerModel;
 import com.jayway.android.robotium.solo.Solo;
 import com.example.zootypers.PreGameSelection;
 
@@ -120,17 +121,13 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
     public void testCorrectCharacterPressed(){
         List<TextView> views = getWordsPresented(solo);
         TextView s = views.get(0);
-        //Log.v("words", s.getText().toString());
         solo.sleep(5000);
         sendKeys(s.getText().charAt(0) - 68);
-        //Log.v("char typed", String.valueOf(Character.toUpperCase(s.getText().charAt(0))));
         views = getWordsPresented(solo);
         solo.sleep(3000);
         CharSequence word = views.get(0).getText();
-        //Log.v("word", word.toString());
         solo.sleep(1000);
         SpannableString spanString = new SpannableString(word);
-        //Log.v("Span", spanString.toString());
         ForegroundColorSpan[] spans = spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
         solo.sleep(3000);
         assertTrue(spans.length > 0);
@@ -228,6 +225,48 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.searchButton("Continue");
     }
     
+    @Test(timeout = TIMEOUT)
+	public void testModelInitial() {
+		solo.sleep(1000);
+		SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
+		assertEquals(0, model.getScore());
+		assertEquals(5, model.getWordsDisplayed().length);
+		assertEquals(-1, model.getCurrWordIndex());
+		assertEquals(-1, model.getCurrLetterIndex());
+	}
+	
+    @Test(timeout = TIMEOUT)
+	public void testModelAfterOneCharTyped() {
+		solo.sleep(1000);
+		SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
+		List<TextView> views = getWordsPresented(solo);
+		TextView s = views.get(0);
+		solo.sleep(1000);
+		sendKeys(s.getText().charAt(0) - 68);
+		assertEquals(0, model.getScore());
+		assertEquals(5, model.getWordsDisplayed().length);
+		assertEquals(0, model.getCurrWordIndex());
+		assertEquals(1, model.getCurrLetterIndex());
+	}
+	
+    @Test(timeout = TIMEOUT)
+	public void testModelAfterOneWordTyped() {
+		solo.sleep(1000);
+		SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
+		List<TextView> views = getWordsPresented(solo);
+		TextView s = views.get(0);
+		solo.sleep(1000);
+		for (int i = 0; i < s.getText().toString().length(); i++) {
+			char c = s.getText().charAt(i);
+			sendKeys(c - 68);
+			Log.v("current-letter", Character.toString(c));
+		}
+		assertEquals(s.getText().length(), model.getScore());
+		assertEquals(5, model.getWordsDisplayed().length);
+		assertEquals(-1, model.getCurrWordIndex());
+		assertEquals(-1, model.getCurrLetterIndex());
+	}
+	
     protected void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }
