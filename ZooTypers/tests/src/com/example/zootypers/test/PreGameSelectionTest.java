@@ -82,6 +82,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		assertEquals(expected, actual);
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testSelectingElephantButtonWorks() {
 		solo.waitForView(ImageButton.class);
 		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.elephant_button);

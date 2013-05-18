@@ -56,7 +56,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		EditText password = (EditText) solo.getView(R.id.password_login_input);
 		solo.enterText(password, "1234567");
 		solo.clickOnButton("Login");
-		solo.sleep(10000);
+		solo.sleep(5000);
 		solo.clickOnButton("Main Menu");
 		solo.clickOnButton("Logout");
 		solo.searchText("Logged Out");
