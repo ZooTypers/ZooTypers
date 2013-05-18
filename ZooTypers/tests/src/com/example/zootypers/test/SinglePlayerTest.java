@@ -66,7 +66,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		}
 	}
   	
-	public static List<TextView> getWordsPresented(Solo solo){
+	private static List<TextView> getWordsPresented(Solo solo){
 		solo.sleep(1000);
 		List<TextView> retVal = new ArrayList<TextView>();
 		retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
@@ -93,6 +93,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		
 	}
 	
+  	@Test(timeout = TIMEOUT)
 	public void testInvalidCharacterPressed(){
 		List<TextView> views = getWordsPresented(solo);
 		String firstLetters = "";
@@ -127,6 +128,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		goBackToMainMenu();
 	}
 	
+  	@Test(timeout = TIMEOUT)
 	public void testChangeAWordWhenFinished(){
 		List<TextView> textList = getWordsPresented(solo);
 		TextView currTextView = textList.get(0);
