@@ -432,4 +432,8 @@ public class MultiPlayerModel extends Observable {
 	public final int getOpponentScore() {
 		return match.getInt(info.get("oscore"));
 	}
+	
+	public final int[] getWordsDisplayed() {
+		return wordsDisplayed;
+	}
 }
