@@ -317,7 +317,7 @@ public class MultiPlayer extends Activity implements Observer {
 	  // TODO get whether you won from the model
 	  int myScore = model.getScore();
 	  int oppScore = model.getOpponentScore();
-	  intent.putExtra("score", score);
+	  intent.putExtra("score", myScore);
 	  intent.putExtra("oppScore", oppScore);
 		if (myScore > oppScore) {
 			intent.putExtra("won", true);			

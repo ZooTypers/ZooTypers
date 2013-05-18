@@ -311,7 +311,15 @@ public class SinglePlayer extends Activity implements Observer {
         startActivity(mainMenuIntent);
         paused = false;
     }
-  
+    
+    /**
+     * 
+     * @return the current SinglePlayerModel
+     */
+    public SinglePlayerModel getModel() {
+    	return model;
+    }
+    
     /**
     * Timer for game.
     * @author ZooTypers

@@ -230,4 +230,19 @@ public class SinglePlayerModel extends Observable {
 	public final int getCurrLetterIndex() {
 		return currLetterIndex;
 	}
+	
+	/**
+	 * @return the set words being displayed
+	 */
+	public final int[] getWordsDisplayed() {
+		return wordsDisplayed;
+	}
+	
+	/**
+	 * @return the list of words being used in the active game. 
+	 */
+	public final String[] getWordsList() {
+		return wordsList;
+	}
+
 }
