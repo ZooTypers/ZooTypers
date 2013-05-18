@@ -1,48 +1,53 @@
-//package com.example.zootypers.test;
-//
-//import static org.junit.Assert.*;
-//import org.junit.Test;
-//import com.example.zootypers.*;
-//
-///**
-// * LeaderBoard test class helps to test adding, deleteing, and checking whether or not
-// * the leaderboard is fully functional without any errors.
-// * 
-// * (A test that meets the "test-driven development" requirement, since the LeaderBoardModel is not yet completed.)
-// * 
-// * @author kobryan & dyxliang
-// *
-// */
-//public class LeaderBoardTest {
-//	
-//	private LeaderBoardModel lbm;
-//	
-//	@Test(timeout = 100)
-//	public void testLeaderBoard() {
+package com.example.zootypers.test;
+
+import junit.framework.TestCase;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import com.example.zootypers.*;
+
+/**
+ * LeaderBoard test class helps to test adding, deleteing, and checking whether or not
+ * the leaderboard is fully functional without any errors.
+ * 
+ * (A test that meets the "test-driven development" requirement, since the LeaderBoardModel is not yet completed.)
+ * 
+ * NOTE: The methods below are commented out because the LeaderBoardModel is not yet implemented.
+ * TODO: Uncomment the methods once the leaderboard model is implemented in the Version 1.0 Phase.
+ * 
+ * @author kobryan & dyxliang
+ *
+ */
+public class LeaderBoardTest extends TestCase {
+	
+	private LeaderBoardModel lbm;
+	private static final int TIMEOUT = 1000;
+	
+	@Test(timeout = TIMEOUT)
+	public void testLeaderBoard() {
 //		lbm = new LeaderBoardModel();
 //		assertEquals(50, lbm.getTopEntries());
 //		assertEquals(0, lbm.getEntryNumber());
-//	}
-//	
-//	@Test(timeout = 100)
-//	public void testLeaderBoardWithParam() {
+	}
+	
+	@Test(timeout = TIMEOUT)
+	public void testLeaderBoardWithParam() {
 //		lbm = new LeaderBoardModel(10);
 //		assertEquals(10, lbm.getTopEntries());
 //		assertEquals(0, lbm.getEntryNumber());
-//	}
-//	
-//	@Test(timeout = 100)
-//	public void testAddEntry(){
+	}
+	
+	@Test(timeout = TIMEOUT)
+	public void testAddEntry(){
 //		//Test 1
 //		lbm = new LeaderBoardModel(0);
 //		assertEquals(true, lbm.addEntry("Bryan", 1000000));
 //		//Test 2
 //		lbm = new LeaderBoardModel(5);
 //		assertEquals(true, lbm.addEntry("_", 0));
-//	}
-//	
-//	@Test(timeout = 100)
-//	public void testGetTopScoresNoCase(){
+	}
+	
+	@Test(timeout = TIMEOUT)
+	public void testGetTopScoresNoCase(){
 //		LeaderBoardModel lbm = new LeaderBoardModel(0);
 //		//Test once
 //		lbm.addEntry("Bryan", 1000000);
@@ -52,10 +57,10 @@
 //		lbm.addEntry("Oak", 0);
 //		entry = lbm.getTopScores();
 //		assertEquals(0, entry.length);
-//	}
-//	
-//	@Test(timeout = 100)
-//	public void testGetTopScoresMultipleCase(){
+	}
+	
+	@Test(timeout = TIMEOUT)
+	public void testGetTopScoresMultipleCase(){
 //		lbm = new LeaderBoardModel(3);
 //		//One input
 //		lbm.addEntry("Bryan", 100);
@@ -74,10 +79,10 @@
 //		assertEquals("Bryan", (entry[2]).getName());
 //		assertEquals(2, (entry[1]).getScore());
 //		assertEquals(3, entry.length);
-//	}
-//	
-//	@Test(timeout = 100)
-//	public void testDeleteLowestScore(){
+	}
+	
+	@Test(timeout = TIMEOUT)
+	public void testDeleteLowestScore(){
 //		//No case
 //		lbm = new LeaderBoardModel(0);
 //		for(int i = 0; i < 5 ; i ++){
@@ -104,10 +109,10 @@
 //		lbm.deleteLowestScore();
 //		entry = lbm.getTopScores();
 //		assertEquals(0, entry.length);
-//	}
-//	
-//	@Test(timeout = 100)
-//	public void testClearLeaderboard(){
+	}
+	
+	@Test(timeout = TIMEOUT)
+	public void testClearLeaderboard(){
 //		lbm = new LeaderBoardModel(5);
 //		for(int i = 0; i < 5 ; i ++){
 //			lbm.addEntry(("#" + i), i);
@@ -118,5 +123,5 @@
 //		lbm.getTopScores();
 //		assertEquals(0, lbm.getEntryNumber());
 //		assertEquals(0, entry.length);
-//	}
-//}
+	}
+}

@@ -103,22 +103,37 @@
     </LinearLayout>
     
     <TextView
-    	android:id="@+id/email_forgot_password"
+        android:id="@+id/email_forgot_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
         android:paddingLeft="20dp"
         android:paddingRight="38dp"
-        android:text="@string/forgot_password" />
+        android:text="@string/forgot_password"
+        android:textSize="15sp" />
 
-    <EditText
-        android:id="@+id/email_forgot_password_input"
-        android:layout_width="184dp"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textEmailAddress" >
+        android:orientation="horizontal" >
 
-        <requestFocus />
-    </EditText>
+        <TextView
+            android:id="@+id/email_reset"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="20dp"
+            android:paddingRight="10dp"
+            android:text="@string/email_string" />
+
+        <EditText
+            android:id="@+id/email_forgot_password_input"
+            android:layout_width="184dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="22dp"
+            android:ems="10"
+            android:inputType="textEmailAddress" />
+        
+    </LinearLayout>
 
     <Button
         android:id="@+id/reset_password_button"
@@ -135,6 +150,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
         android:textColor="@color/red"
+        android:text=""
         android:textSize="15sp" />
     
 </LinearLayout>

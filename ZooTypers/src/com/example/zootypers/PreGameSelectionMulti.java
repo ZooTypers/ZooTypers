@@ -7,19 +7,19 @@ import android.view.Window;
 import android.widget.TextView;
 
 /**
- *
- * UI / Activity for pre-game selection screen for a multiplayer game.
- * @author cdallas
- *
- */
+*
+* UI / Activity for pre-game selection screen for a multiplayer game.
+* @author cdallas
+*
+*/
 public class PreGameSelectionMulti extends PreGameSelection {
   
   String currentUser;
-	
-	@Override
-	protected final void storeSelected() {
-    	// TODO store selected animal & background
-		// (super.animal and super.background)
+
+@Override
+protected final void storeSelected() {
+     // TODO store selected animal & background
+// (super.animal and super.background)
     }
 
     @Override
@@ -37,15 +37,15 @@ public class PreGameSelectionMulti extends PreGameSelection {
         userIntent.getExtras();
         currentUser = userIntent.getStringExtra("username");
         
-        TextView usernameText = (TextView) findViewById(R.id.current_user);
-        usernameText.setText("You are logged in as " + currentUser);
+        TextView usernameText = (TextView) findViewById(R.id.current_user_text);
+        usernameText.setText(currentUser);
     }
 
     /**
-    * When continue is clicked, goes to the game play screen.
-    * Passes id of animal & background button selected.
-    * @param view The button clicked.
-    */
+* When continue is clicked, goes to the game play screen.
+* Passes id of animal & background button selected.
+* @param view The button clicked.
+*/
     public final void goToMultiPlayer(final View view) {
         Intent intent = new Intent(this, MultiPlayer.class);
     

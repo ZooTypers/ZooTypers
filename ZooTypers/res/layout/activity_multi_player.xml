@@ -1,13 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/game_layout"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/game_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MultiPlayer" >
 
-    <RelativeLayout 
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" >
 
         <TextView
             android:id="@+id/time_text"
@@ -15,10 +15,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:textSize="30sp"
-            android:text="60" />        
+            android:text="60"
+            android:textSize="30sp" />
     </RelativeLayout>
-    
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -29,12 +29,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-        	android:layout_centerHorizontal="true"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/oval_circle"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
-        
     </RelativeLayout>
 
     <RelativeLayout
@@ -42,19 +41,18 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="90dp" >
 
-         <TextView
-             android:id="@+id/word1"
-             android:layout_width="wrap_content"
-             android:layout_height="wrap_content"
-             android:layout_alignParentTop="true"
-        	android:layout_centerHorizontal="true"
-             android:background="@drawable/oval_circle"
-             android:padding="15dp"
-             android:text="6width"
-             android:textSize="20sp" />
-
+        <TextView
+            android:id="@+id/word1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/oval_circle"
+            android:padding="10dp"
+            android:text="6width"
+            android:textSize="20sp" />
     </RelativeLayout>
-   
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -65,12 +63,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-        	android:layout_centerHorizontal="true"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/oval_circle"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -83,12 +80,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-        	android:layout_centerHorizontal="true"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/oval_circle"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -101,12 +97,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-        	android:layout_centerHorizontal="true"
+            android:layout_centerHorizontal="true"
             android:background="@drawable/oval_circle"
-            android:padding="15dp"
+            android:padding="10dp"
             android:text="6width"
             android:textSize="20sp" />
-
     </RelativeLayout>
 
     <RelativeLayout
@@ -117,10 +112,10 @@
         <ImageView
             android:id="@+id/animal_image"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_alignParentBottom="false"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:contentDescription=""
             android:padding="0dp"
             android:src="@drawable/animal_elephant" />
@@ -143,43 +138,44 @@
             android:gravity="center_horizontal"
             android:text="0"
             android:textSize="30sp" />
-		<TextView 
-		    android:id="@+id/typedError_prompt"
-		    android:layout_width="match_parent"
+
+        <TextView
+            android:id="@+id/typedError_prompt"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/score"
             android:gravity="center_horizontal"
-		    android:textColor="@color/red"
-		    android:textSize="15sp"
-		    android:visibility="invisible"
-		    android:text="@string/typedError_prompt"/>
+            android:text="@string/typedError_prompt"
+            android:textColor="@color/red"
+            android:textSize="15sp"
+            android:visibility="invisible" />
+
         <Button
             android:id="@+id/keyboard_open_button"
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="false"
             android:layout_marginBottom="10dp"
             android:onClick="keyboardButton"
             android:text="@string/toggle_keyboard"
             android:textSize="12sp" />
-
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="130dp"
         android:layout_height="match_parent"
-        android:layout_marginTop="0dp"
-        android:layout_alignParentRight="true" >
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="0dp" >
 
         <ImageView
             android:id="@+id/opp_animal_image"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
+            android:layout_height="130dp"
             android:layout_alignParentBottom="false"
             android:layout_alignParentLeft="true"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="60dp"
             android:contentDescription=""
             android:padding="0dp" />
 
@@ -202,6 +198,30 @@
             android:text="0"
             android:textSize="30sp" />
 
+        <Button
+            android:id="@+id/quit_button"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="10dp"
+            android:onClick="goToTitlePage"
+            android:text="@string/quit_game"
+            android:textSize="12sp" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/game_over"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="90dp"
+        android:background="@color/white"
+        android:padding="40sp"
+        android:text="@string/game_over"
+        android:textSize="30sp"
+        android:visibility="invisible" />
 
 </RelativeLayout>

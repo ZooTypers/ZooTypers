@@ -238,7 +238,7 @@ public class SinglePlayer extends Activity implements Observer {
     public void goToPostGame() {
         Intent intent = new Intent(this, PostGameScreen.class);
         // pass score
-        intent.putExtra("score", ((TextView) findViewById(R.id.score)).getText().toString());
+        intent.putExtra("score", model.getScore());
         intent.putExtra("bg", bg);
         startActivity(intent);
     }
@@ -298,8 +298,8 @@ public class SinglePlayer extends Activity implements Observer {
     */
     public void pausedNewGame(View view) {
         final Intent restartIntent = new Intent(this, PreGameSelection.class);
-        startActivity(restartIntent);
         paused = false;
+        startActivity(restartIntent);
     }
   
     /**
@@ -308,8 +308,8 @@ public class SinglePlayer extends Activity implements Observer {
     */
     public void pausedMainMenu(View view) {
         final Intent mainMenuIntent = new Intent(this, TitlePage.class);
-        startActivity(mainMenuIntent);
         paused = false;
+        startActivity(mainMenuIntent);
     }
   
     /**
