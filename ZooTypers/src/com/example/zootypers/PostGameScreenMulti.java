@@ -43,12 +43,18 @@ public class PostGameScreenMulti extends PostGameScreen {
       TextView oppFinalScore = (TextView) findViewById(R.id.opp_final_score);
       oppFinalScore.setText(oppScore.toString());
 
-      if (getIntent().getBooleanExtra("won", true)) {
+     int result = getIntent().getIntExtra("result", 0);
+      
+      if (result == 1) {
         resultMessage.setText("You Won!");
+      } else if (result == 0) {
+        resultMessage.setText("You Tied!");
       } else {
         resultMessage.setText("You Lost.");
       }
     }
+    
+    username = getIntent().getStringExtra("username");
 
     // TODO store score
   }
