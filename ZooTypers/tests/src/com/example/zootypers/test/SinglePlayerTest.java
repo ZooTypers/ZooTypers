@@ -152,31 +152,31 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 //  goBackToMainMenu();
 //}
     
-    @Test(timeout = 60000)
-    public void testTypingCorrectWordsThreeTimesUpdateScore() {
-        int expectedScore = 0;
-        int actualScore = 0;
-        for (int i = 0; i < 3; i++) {
-            List<TextView> textList = getWordsPresented(solo);
-            TextView currTextView = textList.get(0);
-            String currWord = currTextView.getText().toString();
-            //Log.v("current-word", currWord);
-            for (int j = 0; j < currWord.length(); j++) {
-                char c = currWord.charAt(j);
-                sendKeys(c - 68);               
-                //Log.v("current-letter", Character.toString(c));
-            
-            }
-            TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
-            solo.sleep(1000);
-            String scoreString = score.getText().toString();
-            solo.sleep(1000);
-            expectedScore += currWord.length();
-            actualScore = Integer.parseInt(scoreString);
-
-        }
-        assertEquals(expectedScore, actualScore);
-    }
+//  @Test(timeout = 60000)
+//public void testTypingCorrectWordsThreeTimesUpdateScore() {
+//      int expectedScore = 0;
+//      int actualScore = 0;
+//      for (int i = 0; i < 3; i++) {
+//      List<TextView> textList = getWordsPresented(solo);
+//      TextView currTextView = textList.get(0);
+//      String currWord = currTextView.getText().toString();
+//      //Log.v("current-word", currWord);
+//      for (int j = 0; j < currWord.length(); j++) {
+//          char c = currWord.charAt(j);
+//          sendKeys(c - 68);               
+//          //Log.v("current-letter", Character.toString(c));
+//      
+//      }
+//      TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
+//      solo.sleep(1000);
+//      String scoreString = score.getText().toString();
+//      solo.sleep(1000);
+//      expectedScore += currWord.length();
+//      actualScore = Integer.parseInt(scoreString);
+//
+//      }
+//    assertEquals(expectedScore, actualScore);
+//}
     
 //      @Test(timeout = 70000)
 //  public void testSimulatePlayingAOneMinuteGame() {
