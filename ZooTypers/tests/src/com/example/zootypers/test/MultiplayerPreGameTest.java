@@ -2,6 +2,7 @@ package com.example.zootypers.test;
 
 import com.example.zootypers.*;
 
+import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 
 /**
@@ -18,6 +19,7 @@ import android.test.ActivityInstrumentationTestCase2;
 public class MultiplayerPreGameTest extends
         ActivityInstrumentationTestCase2<TitlePage> {
 
+    @SuppressLint("NewApi")
     public MultiplayerPreGameTest() {
         super(TitlePage.class);
     }
