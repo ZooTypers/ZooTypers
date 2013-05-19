@@ -99,6 +99,17 @@ public class MultiplayerTest extends ActivityInstrumentationTestCase2<TitlePage>
 	}
 	
 	//make it so that the opponent is set to finish the match knows to display final scores
+    private void setOpponentInGame() {
+        match.put("p1finished", false);
+        try {
+            match.save();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+	
+	//make it so that the opponent is set to finish the match knows to display final scores
 	private void setMyselfFinished() {
 	    match.put("p2finished", true);
 	    try {
@@ -182,32 +193,9 @@ public class MultiplayerTest extends ActivityInstrumentationTestCase2<TitlePage>
         setOpponentFinished();
         deleteThisMatch();
     }
-
-//    @Test(timeout = TIMEOUT)
-//    public void testInvalidCharacterPressed(){
-//        List<TextView> views = getWordsPresented(solo);
-//        solo.sleep(1000);
-//        String firstLetters = "";
-//        for(TextView s : views){
-//            firstLetters += s.getText().charAt(0);
-//        }
-//        solo.sleep(1000);
-//        for (char c : lowChanceLetters){
-//            if(firstLetters.indexOf(c) < 0 ){
-//                sendKeys(c - 68);
-//                assertTrue(solo.searchText("Invalid Letter Typed"));
-//                break;
-//            }
-//        }
-//        solo.sleep(1000);
-//        
-//        setMyselfFinished();
-//        setOpponentFinished();
-//        deleteThisMatch();
-//    }
     
     @Test(timeout = TIMEOUT)
-    public void testTypingCorrectWordsThreeTimesUpdateScore() {
+    public void testTypingCorrectWordOnceUpdateScore() {
         int expectedScore = 0;
         int actualScore = 0;
         List<TextView> textList = getWordsPresented(solo);
@@ -228,17 +216,51 @@ public class MultiplayerTest extends ActivityInstrumentationTestCase2<TitlePage>
         deleteThisMatch();
     }
     
-//	@Test(timeout = TIMEOUT)
-//	public void testTypingACorrectLetterInMultiplayer() {
-//	    List<String> wordsList = getWordsList();
-//	    
-//	    
-//	    
-//	    setOpponentToFinished();
-//	}
+    @Test(timeout = TIMEOUT)
+    public void testInvalidCharacterPressed(){
+        List<TextView> views = getWordsPresented(solo);
+        solo.sleep(1000);
+        String firstLetters = "";
+        for(TextView s : views){
+            firstLetters += s.getText().charAt(0);
+        }
+        solo.sleep(1000);
+        for (char c : lowChanceLetters){
+            if(firstLetters.indexOf(c) < 0 ){
+                sendKeys(c - 68);
+                assertTrue(solo.searchText("Invalid Letter Typed"));
+                break;
+            }
+        }
+        solo.sleep(1000);
+        
+        setMyselfFinished();
+        setOpponentFinished();
+        deleteThisMatch();
+    }
 	
+    @Test(timeout = TIMEOUT)
+    public void testingWinningAMultiplayerGame() {
+        boolean gameFlag = true;
+        while (gameFlag) {
+            setOpponentInGame();
+            automateKeyboardTyping();
+            if (solo.searchButton("New Game") == true) {
+                gameFlag = false;
+            }
+        }
+        solo.sleep(3000);
+        assertTrue(solo.searchButton("New Game"));
+        assertTrue(solo.searchButton("Main Menu"));
+        assertTrue(solo.searchText("Your Score:"));
+        assertTrue(solo.searchText("Opponent's Score:"));
+        assertTrue(solo.searchText("You Won!"));
+        solo.clickOnButton("New Game");
+        setOpponentFinished();
+    }
+    
 //	@Test(timeout = TIMEOUT)
-//	public void testingPlayingAMultiplayerGame() {
+//	public void testingTieingAMultiplayerGame() {
 //		boolean gameFlag = true;
 //		while (gameFlag) {
 //			automateKeyboardTyping();
@@ -248,6 +270,34 @@ public class MultiplayerTest extends ActivityInstrumentationTestCase2<TitlePage>
 //		}
 //		assertTrue(solo.searchButton("New Game"));
 //		assertTrue(solo.searchButton("Main Menu"));
+//		assertTrue(solo.searchText("You Tied!"));
+//		solo.clickOnButton("Main Menu");
+//	}
+//	
+//    @Test(timeout = TIMEOUT)
+//    public void testingLosingAMultiplayerGame() {
+//        boolean gameFlag = true;
+//        while (gameFlag) {
+//            automateKeyboardTyping();
+//            if (solo.searchButton("New Game") == true) {
+//                gameFlag = false;
+//            }
+//        }
+//        assertTrue(solo.searchButton("New Game"));
+//        assertTrue(solo.searchButton("Main Menu"));
+//        assertTrue(solo.searchText("You Lost!"));
+//        solo.clickOnButton("New Game");
+//    }
+	
+//	@Test(timeout = TIMEOUT)
+//	public void testTypingACorrectLetterInMultiplayer() {
+//	    List<String> wordsList = getWordsList();
+//
+//	    //TODO
+//
+//	    setOpponentFinished();
+//        setOpponentFinished();
+//        deleteThisMatch();
 //	}
 	
 	protected void tearDown() throws Exception {
