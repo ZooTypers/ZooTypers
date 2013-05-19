@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 /**
  *
- * UI / Activity for post-game screen.
+ * UI / Activity for single-player post-game screen.
  * @author cdallas
  *
  */

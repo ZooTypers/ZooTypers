@@ -6,10 +6,9 @@ import android.view.Menu;
 import android.view.Window;
 
 /**
- *
  * UI / Activity for leaderboard screen.
  * @author cdallas
- *
+ * 
  */
 public class Leaderboard extends Activity {
 
