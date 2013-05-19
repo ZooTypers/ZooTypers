@@ -31,13 +31,13 @@ import com.parse.Parse;
 
 /**
  * Activity / UI for MultiPlayer screen.
- * @author cdallas
+ * @author cdallas, winglam, nhlien93 
  *
  */
 @SuppressLint("NewApi")
 public class MultiPlayer extends Activity implements Observer {
 
-	// Loading popup
+	// Loading pop-up
 	private PopupWindow ppw;
 
 	private String username;
@@ -46,10 +46,10 @@ public class MultiPlayer extends Activity implements Observer {
 	private final int NUM_WORDS = 5;  
 	protected int bg;
 
-	// for the game timer
+	// For the game timer
 	protected GameTimer gameTimer;
 	protected final long INTERVAL = 1000; // 1 second
-	public final static long START_TIME = 61000; // we give them 61 seconds to tick 60 times 
+	public final static long START_TIME = 61000; // give 61 seconds to tick 60 times 
 	public static boolean paused = false;
 	private long currentTime;
 
