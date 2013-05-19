@@ -11,7 +11,11 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.zootypers.MultiPlayer;
+import com.example.zootypers.MultiPlayerModel;
 import com.example.zootypers.R;
+import com.example.zootypers.SinglePlayer;
+import com.example.zootypers.SinglePlayerModel;
 import com.example.zootypers.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
 import com.parse.Parse;
@@ -32,6 +36,7 @@ public class MultiplayerTest extends ActivityInstrumentationTestCase2<TitlePage>
 	
 	private Solo solo;
 	private static final int TIMEOUT = 30000;
+	private static final int GAME_TIME = 63000;
     private char[] lowChanceLetters = {'j', 'z', 'x', 'q', 'k', 'o'};
 	private ParseObject match;
 	// maximum number of words in wordLists on Parse database
@@ -130,6 +135,16 @@ public class MultiplayerTest extends ActivityInstrumentationTestCase2<TitlePage>
         }
 	}
 	
+	//save the match
+	private void saveMatch() {
+        try {
+            match.save();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+	}
+	
 	private static List<TextView> getWordsPresented(Solo solo){
         solo.sleep(3000);
 	    List<TextView> retVal = new ArrayList<TextView>();
@@ -192,102 +207,124 @@ public class MultiplayerTest extends ActivityInstrumentationTestCase2<TitlePage>
         setMyselfFinished();
         setOpponentFinished();
         deleteThisMatch();
+        
+        solo.clickOnButton("Quit Game");
     }
     
     @Test(timeout = TIMEOUT)
     public void testTypingCorrectWordOnceUpdateScore() {
-        int expectedScore = 0;
-        int actualScore = 0;
-        List<TextView> textList = getWordsPresented(solo);
-        TextView currTextView = textList.get(0);
-        String currWord = currTextView.getText().toString();
-        for (int j = 0; j < currWord.length(); j++) {
-            char c = currWord.charAt(j);
-            sendKeys(c - 68);
+        try {
+            int expectedScore = 0;
+            int actualScore = 0;
+            List<TextView> textList = getWordsPresented(solo);
+            TextView currTextView = textList.get(0);
+            String currWord = currTextView.getText().toString();
+            for (int j = 0; j < currWord.length(); j++) {
+                char c = currWord.charAt(j);
+                sendKeys(c - 68);
+            }
+            TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
+            String scoreString = score.getText().toString();
+            expectedScore += currWord.length();
+            actualScore = Integer.parseInt(scoreString);
+            assertEquals(expectedScore, actualScore);
+        } catch (Exception e) {
+            // exception
+        } finally {
+            setMyselfFinished();
+            setOpponentFinished();
+            deleteThisMatch();
+            solo.clickOnButton("Quit Game");
         }
-        TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
-        String scoreString = score.getText().toString();
-        expectedScore += currWord.length();
-        actualScore = Integer.parseInt(scoreString);
-        assertEquals(expectedScore, actualScore);
-        
-        setMyselfFinished();
-        setOpponentFinished();
-        deleteThisMatch();
     }
     
     @Test(timeout = TIMEOUT)
     public void testInvalidCharacterPressed(){
-        List<TextView> views = getWordsPresented(solo);
-        solo.sleep(1000);
-        String firstLetters = "";
-        for(TextView s : views){
-            firstLetters += s.getText().charAt(0);
-        }
-        solo.sleep(1000);
-        for (char c : lowChanceLetters){
-            if(firstLetters.indexOf(c) < 0 ){
-                sendKeys(c - 68);
-                assertTrue(solo.searchText("Invalid Letter Typed"));
-                break;
+        try {
+            List<TextView> views = getWordsPresented(solo);
+            solo.sleep(1000);
+            String firstLetters = "";
+            for(TextView s : views){
+                firstLetters += s.getText().charAt(0);
             }
+            solo.sleep(1000);
+            for (char c : lowChanceLetters){
+                if(firstLetters.indexOf(c) < 0 ){
+                    sendKeys(c - 68);
+                    assertTrue(solo.searchText("Invalid Letter Typed"));
+                    break;
+                }
+            }
+            solo.sleep(1000);
+        } catch (Exception e) {
+            // exception
+        } finally {
+            setMyselfFinished();
+            setOpponentFinished();
+            deleteThisMatch();
+            solo.clickOnButton("Quit Game");
         }
-        solo.sleep(1000);
+    }
+	
+    @Test(timeout = TIMEOUT)
+    public void testWinningAMultiplayerGamePlay() {
+        try {
+            automateKeyboardTyping();
+            solo.sleep(GAME_TIME);
+            setOpponentFinished();
+            assertTrue(solo.searchButton("New Game"));
+            assertTrue(solo.searchButton("Main Menu"));
+            assertTrue(solo.searchText("Your Score:"));
+            assertTrue(solo.searchText("Opponent's Score:"));
+            assertTrue(solo.searchText("You Won!"));
+            solo.clickOnButton("New Game");
+        } catch (Exception e) {
+            // exception
+        } finally {
+            deleteThisMatch();
+        }
+    }
+    
+	@Test(timeout = TIMEOUT)
+	public void testTieingAMultiplayerGamePlay() {
+        try {
+            solo.sleep(3000);
+            MultiPlayerModel model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
+            match.put("p1score", 0);
+            match.put("p2score", 0);
+            saveMatch();
+            int myScore = model.getScore();
+            int opponentScore = model.getOpponentScore();
+            assertTrue(myScore == opponentScore);
+        } catch (Exception e) {
+            // exception
+        } finally {
+            setMyselfFinished();
+            setOpponentFinished();
+            deleteThisMatch();
+        }
+
+	}
+	
+    @Test(timeout = TIMEOUT)
+    public void testLosingAMultiplayerGameWithModel() {
+        solo.sleep(3000);
+        MultiPlayerModel model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
+        
+        match.put("p1score", 100);
+        match.put("p2score", 5);
+        saveMatch();
+        
+        solo.sleep(3000);
+        
+        int myScore = model.getScore();
+        int opponentScore = model.getOpponentScore();
+        assertTrue(myScore < opponentScore);
         
         setMyselfFinished();
         setOpponentFinished();
         deleteThisMatch();
     }
-	
-    @Test(timeout = TIMEOUT)
-    public void testingWinningAMultiplayerGame() {
-        boolean gameFlag = true;
-        while (gameFlag) {
-            setOpponentInGame();
-            automateKeyboardTyping();
-            if (solo.searchButton("New Game") == true) {
-                gameFlag = false;
-            }
-        }
-        solo.sleep(3000);
-        assertTrue(solo.searchButton("New Game"));
-        assertTrue(solo.searchButton("Main Menu"));
-        assertTrue(solo.searchText("Your Score:"));
-        assertTrue(solo.searchText("Opponent's Score:"));
-        assertTrue(solo.searchText("You Won!"));
-        solo.clickOnButton("New Game");
-        setOpponentFinished();
-    }
-    
-//	@Test(timeout = TIMEOUT)
-//	public void testingTieingAMultiplayerGame() {
-//		boolean gameFlag = true;
-//		while (gameFlag) {
-//			automateKeyboardTyping();
-//			if (solo.searchButton("New Game") == true) {
-//				gameFlag = false;
-//			}
-//		}
-//		assertTrue(solo.searchButton("New Game"));
-//		assertTrue(solo.searchButton("Main Menu"));
-//		assertTrue(solo.searchText("You Tied!"));
-//		solo.clickOnButton("Main Menu");
-//	}
-//	
-//    @Test(timeout = TIMEOUT)
-//    public void testingLosingAMultiplayerGame() {
-//        boolean gameFlag = true;
-//        while (gameFlag) {
-//            automateKeyboardTyping();
-//            if (solo.searchButton("New Game") == true) {
-//                gameFlag = false;
-//            }
-//        }
-//        assertTrue(solo.searchButton("New Game"));
-//        assertTrue(solo.searchButton("Main Menu"));
-//        assertTrue(solo.searchText("You Lost!"));
-//        solo.clickOnButton("New Game");
-//    }
 	
 //	@Test(timeout = TIMEOUT)
 //	public void testTypingACorrectLetterInMultiplayer() {

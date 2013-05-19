@@ -413,6 +413,13 @@ public class MultiPlayer extends Activity implements Observer {
 		startActivity(intent);	
 	}
 
+    /**
+     * 
+     * @return the current MultiPlayerModel
+     */
+    public MultiPlayerModel getModel() {
+        return model;
+    }
 
 	/**
 	 * Timer for the game.

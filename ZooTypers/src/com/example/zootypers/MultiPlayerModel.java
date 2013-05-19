@@ -58,6 +58,9 @@ public class MultiPlayerModel extends Observable {
 
 	// maximum number of words in wordLists on Parse database
 	private static final int NUMOFWORDS = 709;
+	
+	//multiplayer model
+    private MultiPlayerModel model;
 
 	/**
 	 * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
