@@ -132,6 +132,8 @@ public class MultiPlayer extends Activity implements Observer {
     // Start model, passing number of words, user name, and selected animal
     model = new MultiPlayerModel(NUM_WORDS, username, anmID);
     model.addObserver(this);
+    model.beginMatchMaking();
+    model.setWordsList();
 
     //dismissLoadScreen();
 
@@ -275,7 +277,12 @@ public class MultiPlayer extends Activity implements Observer {
           //final RelativeLayout rl = (RelativeLayout) findViewById(R.id.single_game_layout);
           //tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
           tv.setVisibility(TextView.VISIBLE);
-
+        } else if (change == States.update.CONNECTION_ERROR) {
+          connectionError();
+        } else if (change == States.update.NO_OPPONENT) {
+          noOpponent();
+        } else if (change == States.update.REAL_ERROR) {
+          realError();
         }
 
       }
@@ -304,11 +311,56 @@ public class MultiPlayer extends Activity implements Observer {
     Intent intent = new Intent(this, TitlePage.class);
     startActivity(intent);
   }
+  
+  /**
+   * Called where there is a connection error.
+   * Quits the game and foes to the connection error page.
+   */
+  public final void connectionError() {
+    // Clean up the database
+    model.deleteUser();
+
+    Intent intent = new Intent(this, ConnectionError.class);
+    // Pass username
+    intent.putExtra("username", username);
+    startActivity(intent);
+  }
+  
+  /**
+   * Called where there is a connection error.
+   * Quits the game and foes to the connection error page.
+   */
+  public final void noOpponent() {
+    // Clean up the database
+    model.deleteUser();
+
+    Intent intent = new Intent(this, NoOpponentError.class);
+    // Pass username
+    intent.putExtra("username", username);
+    startActivity(intent);
+  }
+  
+  /**
+   * Called where there is a connection error.
+   * Quits the game and foes to the connection error page.
+   */
+  public final void realError() {
+    // Clean up the database
+    model.deleteUser();
+
+    Intent intent = new Intent(this, InterruptError.class);
+    // Pass username
+    intent.putExtra("username", username);
+    startActivity(intent);
+  }
 
   /**
    * Called when the timer runs out; goes to the post game screen.
    */
   public final void goToPostGame() {
+    // Show game over message before going to post game
+    findViewById(R.id.game_over).setVisibility(0);
+    
     model.setUserFinish();
 
     Intent intent = new Intent(this, PostGameScreenMulti.class);
@@ -320,12 +372,11 @@ public class MultiPlayer extends Activity implements Observer {
     intent.putExtra("score", myScore);
     intent.putExtra("oppScore", oppScore);
     if (myScore > oppScore) {
-      intent.putExtra("won", true);			
+      intent.putExtra("result", 1);			
     } else if (myScore == oppScore) {
-      // TODO need a display for tie
-      intent.putExtra("won", false);			
+      intent.putExtra("result", 0);			
     } else {			
-      intent.putExtra("won", false);			
+      intent.putExtra("result", -1);			
     }
 
     // Pass if opponent completed the game
@@ -357,7 +408,6 @@ public class MultiPlayer extends Activity implements Observer {
 
     @Override
     public final void onFinish() {
-      // TODO add game over message before going to post game
       goToPostGame();
     }
 

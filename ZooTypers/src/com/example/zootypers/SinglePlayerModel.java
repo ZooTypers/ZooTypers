@@ -230,4 +230,39 @@ public class SinglePlayerModel extends Observable {
 	public final int getCurrLetterIndex() {
 		return currLetterIndex;
 	}
+	
+	/**
+	 * @return the array of int indices of words displayed on the game screen
+	 */
+	public final int[] getWordsDisplayed() {
+	    return wordsDisplayed;
+	}
+	
+	/**
+	 * @return the number of words displayed on the screen
+	 */
+	public final int getNumWordsDisplayed() {
+	    return numWordsDisplayed;
+	}
+	
+	/**
+	 * @return the set of distinct first characters
+	 */
+	public final Set<Character> getCurrFirstLetters() {
+	    return currFirstLetters;
+	}
+	
+	/**
+	 * @return the next word index from the wordsList
+	 */
+	public final int getNextWordIndex() {
+	    return nextWordIndex;
+	}
+	
+	/**
+	 * @return the array of stored words (strings array)
+	 */
+	public final String[] getWordsList() {
+	    return wordsList;
+	}
 }

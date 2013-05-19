@@ -73,6 +73,8 @@ public class MultiPlayerModel extends Observable {
 		this.animalName = animalName;
 		this.name = uname;
 		this.info = new HashMap<String, String>();
+		beginMatchMaking();
+		setWordsList();
 		this.numWordsDisplayed = wordsDis;
 		currFirstLetters = new HashSet<Character>();
 		//initialize all the fields to default starting values
@@ -82,7 +84,7 @@ public class MultiPlayerModel extends Observable {
 		currWordIndex = -1;
 	}
 
-	private void beginMatchMaking() throws InternetConnectionException, EmptyQueueException, InternalErrorException {
+	public void beginMatchMaking() {
 		if (findOpponent()) {
 			setInfo(false);
 			try {
@@ -92,12 +94,14 @@ public class MultiPlayerModel extends Observable {
 				match.put("p2finished", false);
 				match.save();
 			} catch (ParseException e) {
-				throw new InternetConnectionException();
+				setChanged();
+				notifyObservers(States.update.CONNECTION_ERROR);
 			}
 		} else {
 			addToQueue();
 			if (!checkStatus()) {
-				throw new EmptyQueueException();
+				setChanged();
+				notifyObservers(States.update.NO_OPPONENT);
 			}
 		}
 	}
@@ -139,7 +143,7 @@ public class MultiPlayerModel extends Observable {
 
 	}
 
-	private void addToQueue() throws InternetConnectionException {
+	private void addToQueue() {
 		final int randy = (int) (Math.random() * (NUMOFWORDS));
 		try {
 			setInfo(true);
@@ -152,11 +156,12 @@ public class MultiPlayerModel extends Observable {
 			match.put("wordIndex", randy);
 			match.save();
 		} catch (ParseException e) {
-			throw new InternetConnectionException();
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 	}
 
-	private boolean checkStatus() throws InternetConnectionException, InternalErrorException {
+	private boolean checkStatus() {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + QUEUE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -168,18 +173,21 @@ public class MultiPlayerModel extends Observable {
 				}
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e1) {
-				throw new InternetConnectionException();
+				setChanged();
+				notifyObservers(States.update.CONNECTION_ERROR);
 			} catch (InterruptedException e) {
-				throw new InternalErrorException();
+				setChanged();
+				notifyObservers(States.update.REAL_ERROR);
 			}
 		}
 		return false;
 	}
 
 	// populates wordsList by contacting the database for LIST_SIZE amount of words
-	private void setWordsList() throws InternetConnectionException {
+	public void setWordsList() {
 		List<ParseObject> wordObjects = null;
 		try {
+			checkIfInMatch();
 			ParseQuery query = new ParseQuery("WordList");
 			query.setSkip(match.getInt("wordIndex"));
 			query.setLimit(LIST_SIZE); // limit to at most 20 results
@@ -190,7 +198,8 @@ public class MultiPlayerModel extends Observable {
 				wordObjects.addAll(query2.find());
 			}
 		} catch (ParseException e1) {
-			throw new InternetConnectionException();
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}	
 		// changing words from parse objects into a list of strings.
 		wordsList = new ArrayList<String>();
@@ -201,9 +210,10 @@ public class MultiPlayerModel extends Observable {
 
 
 	// checks if match online still has the same player in it.
-	private void checkIfInMatch() throws InternalErrorException {
+	private void checkIfInMatch() {
 		if (!match.getString(info.get("name")).equals(name)) {
-			throw new InternalErrorException();
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 	}
 
@@ -229,12 +239,13 @@ public class MultiPlayerModel extends Observable {
 		currWordIndex = -1;
 	}
 
-	public int getOpponentAnimal() throws InternalErrorException, InternetConnectionException {
+	public int getOpponentAnimal() {
 		try {
 			match.refresh();
 			checkIfInMatch();
 		} catch (ParseException e) {
-			throw new InternetConnectionException();
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 		return match.getInt(info.get("oanimal"));
 	}
@@ -313,17 +324,19 @@ public class MultiPlayerModel extends Observable {
 		notifyObservers(States.update.FINISHED_WORD);
 	}
 
-	public final void setUserFinish() throws InternetConnectionException {
+	public final void setUserFinish() {
 		try {
 			match.put(info.get("finished"), true);
 			match.save();
 		} catch (ParseException e) {
-			throw new InternetConnectionException();
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 	}
 
+	// TODO: this never gets called
 	// return true if my opponent has finished their game
-	public final boolean isOpponentFinished() throws InternalErrorException, InternetConnectionException {
+	public final boolean isOpponentFinished() {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + SCORE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -336,9 +349,11 @@ public class MultiPlayerModel extends Observable {
 				checkIfInMatch();
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e1) {
-				throw new InternetConnectionException();
+				setChanged();
+				notifyObservers(States.update.CONNECTION_ERROR);
 			} catch (InterruptedException e) {
-				throw new InternalErrorException();
+				setChanged();
+				notifyObservers(States.update.REAL_ERROR);
 			}
 		}
 		return false;
@@ -348,12 +363,10 @@ public class MultiPlayerModel extends Observable {
 	 * refreshes the match then tries to delete themselves from the queue
 	 * if the other player has not finished then just set their own finished field
 	 * in the match to true.
-	 * @throws InternalErrorException 
-	 * @throws InternetConnectionException 
 	 * 
 	 * @modifies this
 	 */
-	public void deleteUser() throws InternalErrorException, InternetConnectionException {
+	public void deleteUser() {
 		try {
 			match.refresh();
 			checkIfInMatch();
@@ -364,7 +377,8 @@ public class MultiPlayerModel extends Observable {
 				match.save();
 			}
 		} catch (ParseException e) {
-			throw new InternetConnectionException();
+			setChanged();
+			notifyObservers(States.update.CONNECTION_ERROR);
 		}
 
 	}
