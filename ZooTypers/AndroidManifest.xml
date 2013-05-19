@@ -13,7 +13,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -67,6 +67,18 @@
             android:name="com.example.zootypers.PostGameScreenMulti"
             android:label="@string/title_activity_post_game_screen_multi" >
         </activity>
-    </application>
+        <activity
+            android:name="com.example.zootypers.ConnectionError"
+            android:label="@string/title_activity_connection_error" >
+        </activity>
+        <activity
+            android:name="com.example.zootypers.InterruptError"
+            android:label="@string/title_activity_interrupt_error" >
+        </activity>
+        <activity
+            android:name="com.example.zootypers.NoOpponentError"
+            android:label="@string/title_activity_no_opponent_error" >
+        </activity>
+</application>
 
 </manifest>

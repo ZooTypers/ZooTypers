@@ -2,13 +2,11 @@ package com.example.zootypers.test;
 
 import org.junit.Test;
 
+import android.test.ActivityInstrumentationTestCase2;
+import android.widget.Button;
+
 import com.example.zootypers.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
-import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.SmallTest;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
 
 /**
  * Testing the title page using android unit tests and Robotium tests.
@@ -43,9 +41,9 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	
 	@Test(timeout = TIMEOUT)
 	public void testSearchAllButtonsExist() {
-        solo.searchText("Single Player");
-        solo.searchText("Multiplayer");
-        solo.searchText("Leaderboard");
+		solo.searchText("Single Player");
+		solo.searchText("Multiplayer");
+		solo.searchText("Leaderboard");
 	}
 
 	@Test(timeout = TIMEOUT)
@@ -109,9 +107,8 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
         assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.single_player_button));
         Button optionsButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.single_player_button);
         optionsButton.getText().equals("Options");
-    }
-
-
+	}
+	
 	protected void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }

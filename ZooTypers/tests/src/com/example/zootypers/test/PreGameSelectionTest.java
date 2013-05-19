@@ -2,18 +2,17 @@ package com.example.zootypers.test;
 
 import org.junit.Test;
 
-import com.example.zootypers.*;
-import com.example.zootypers.R;
-import com.jayway.android.robotium.solo.Solo;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.example.zootypers.PreGameSelection;
+import com.example.zootypers.TitlePage;
+import com.jayway.android.robotium.solo.Solo;
 
 /**
  * Testing the Pre-Game Selection screen by checking and clicking all the
@@ -58,6 +57,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	@Test(timeout = TIMEOUT)
 	public void testSelectingEasyDifficultyButton() {
 		solo.clickOnButton("Easy");
+		solo.sleep(1000);
 		View expected = solo.getView(com.example.zootypers.R.id.easy_difficulty_button);
 		View actual = getActivity().getDiffView();
 		assertEquals(expected, actual);
@@ -66,6 +66,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	@Test(timeout = TIMEOUT)
 	public void testSelectingMediumDifficultyButton() {
 		solo.clickOnButton("Medium");
+		solo.sleep(1000);
 		View expected = solo.getView(com.example.zootypers.R.id.medium_difficulty_button);
 		View actual = getActivity().getDiffView();
 		assertEquals(expected, actual);
@@ -74,15 +75,18 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	@Test(timeout = TIMEOUT)
 	public void testSelectingHardDifficultyButton() {
 		solo.clickOnButton("Hard");
+		solo.sleep(1000);
 		View expected = solo.getView(com.example.zootypers.R.id.hard_difficulty_button);
 		View actual = getActivity().getDiffView();
 		assertEquals(expected, actual);
 	}
 	
+	@Test(timeout = TIMEOUT)
 	public void testSelectingElephantButtonWorks() {
 		solo.waitForView(ImageButton.class);
 		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.elephant_button);
 		solo.clickOnView(imageButton);
+		solo.sleep(1000);
 		View expected = solo.getView(com.example.zootypers.R.id.elephant_button);
 		View actual = getActivity().getAnimalView();
 		assertEquals(expected, actual);
@@ -93,6 +97,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		solo.waitForView(ImageButton.class);
 		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.giraffe_button);
 		solo.clickOnView(imageButton);
+		solo.sleep(1000);
 		View expected = solo.getView(com.example.zootypers.R.id.giraffe_button);
 		View actual = getActivity().getAnimalView();
 		assertEquals(expected, actual);
@@ -203,6 +208,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	public void testingSelectingRainbowBackground() {
 		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.BG2_button);
 		solo.clickOnView(imageButton);
+		solo.sleep(1000);
 		View expected = solo.getView(com.example.zootypers.R.id.BG2_button);
 		View actual = getActivity().getBackgroundView();
 		assertEquals(expected, actual);
@@ -213,6 +219,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		solo.assertCurrentActivity("Check on current page activity.", PreGameSelection.class);
 		assertTrue(solo.searchButton("Main Menu"));
 		solo.clickOnButton("Main Menu");
+		solo.sleep(1000);
 		solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
 		solo.goBack();
 		solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
@@ -224,9 +231,12 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	    Button continueButton = (Button) solo.getView(com.example.zootypers.R.id.continue_button);
 		assertTrue(solo.searchButton("Continue"));
 	    solo.clickOnView(continueButton);
+	    solo.sleep(1000);
         Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
         solo.clickOnView(pauseButton);
+        solo.sleep(1000);
         solo.clickOnButton("Main Menu");
+        solo.sleep(1000);
         solo.searchButton("Single Player");
 	    solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
 	}

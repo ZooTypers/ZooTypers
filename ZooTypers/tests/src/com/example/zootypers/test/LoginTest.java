@@ -44,6 +44,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		EditText email = (EditText) solo.getView(R.id.email_input_register);
 		solo.enterText(email, "davidqwe123@hotmail.com");
 		solo.clickOnButton("Submit");
+		solo.sleep(5000);
 		solo.searchText("Username is already in use.");
 	}
 	
@@ -55,7 +56,8 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		EditText password = (EditText) solo.getView(R.id.password_login_input);
 		solo.enterText(password, "1234567");
 		solo.clickOnButton("Login");
-		solo.goBack();
+		solo.sleep(5000);
+		solo.clickOnButton("Main Menu");
 		solo.clickOnButton("Logout");
 		solo.searchText("Logged Out");
 	}
@@ -66,6 +68,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		EditText email = (EditText) solo.getView(R.id.email_forgot_password_input);
 		solo.enterText(email, "davidqwe123@hotmail.com");
 		solo.clickOnButton("Reset");
+		solo.sleep(5000);
 		solo.searchText("Password Reset Failed");
 	}
 	
