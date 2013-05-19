@@ -6,6 +6,7 @@ import java.util.Random;
 
 import org.junit.Test;
 
+import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
@@ -38,6 +39,7 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
     private char[] lowChanceLetters = {'j', 'z', 'x', 'q', 'k', 'o'};
     private static final int TIMEOUT = 30000;
     
+    @SuppressLint("NewApi")
     public SinglePlayerTest() {
         super(PreGameSelection.class);
     }
@@ -47,9 +49,12 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo = new Solo(getInstrumentation(), getActivity());
         solo.clickOnButton("Continue");
     }
-    
+
+    /**
+     * Uses the current words to figure out what to automatically type.
+     */
     private void automateKeyboardTyping() {
-        List<TextView> textList = getWordsPresented(solo);
+        List<TextView> textList = getWordsPresented();
         Random randy = new Random();
         int randomValue = randy.nextInt(5);
         TextView currTextView = textList.get(randomValue);
@@ -59,8 +64,11 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
             sendKeys(c - 68);
         }
     }
-    
-    private static List<TextView> getWordsPresented(Solo solo){
+
+    /**
+     * @return a list of the current presented words from the solo class activity.
+     */
+    private List<TextView> getWordsPresented(){
         solo.sleep(1000);
         List<TextView> retVal = new ArrayList<TextView>();
         retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
@@ -70,7 +78,10 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word4)));
         return retVal;
     }
-    
+
+    /**
+     * Makes robotium go back to the main screen. Sleeps are to ensure that the activity renders before solo acts.
+     */
     private void goBackToMainMenu() {
         Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
         solo.clickOnView(pauseButton);
@@ -80,19 +91,26 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.searchButton("Single Player");
         solo.sleep(1000);
     }
-    
+
+    /**
+     * Tests the amount of word onscreen
+     */
     @Test(timeout = TIMEOUT)
     public void testFiveWordsPresent(){
-        List<TextView> views = getWordsPresented(solo);
+        List<TextView> views = getWordsPresented();
         solo.sleep(3000);
         for(int i = 0; i < 5; i++){
             assertTrue(views.get(i).getText().length() > 0);
         }
     }
-    
+
+    /**
+     * Tests the words on the current screen and make sure to type an invalid character
+     * that will make the 'Invalid Letter Typed' appear.
+     */
     @Test(timeout = TIMEOUT)
     public void testInvalidCharacterPressed(){
-        List<TextView> views = getWordsPresented(solo);
+        List<TextView> views = getWordsPresented();
         solo.sleep(1000);
         String firstLetters = "";
         for(TextView s : views){
@@ -108,14 +126,17 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.sleep(1000);
         goBackToMainMenu();
     }
-    
+
+    /**
+     * Acquire the first letters on the current screen and type the first one to test a valid input.
+     */
     @Test(timeout = 60000)
     public void testCorrectCharacterPressed(){
-        List<TextView> views = getWordsPresented(solo);
+        List<TextView> views = getWordsPresented();
         TextView s = views.get(0);
         solo.sleep(5000);
         sendKeys(s.getText().charAt(0) - 68);
-        views = getWordsPresented(solo);
+        views = getWordsPresented();
         solo.sleep(3000);
         CharSequence word = views.get(0).getText();
         solo.sleep(1000);
@@ -124,10 +145,14 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.sleep(3000);
         assertTrue(spans.length > 0);
     }
-    
+
+    /**
+     * Gets the current word onscreen and then automatically finish the first one and tests to see if the word at the
+     * first position has changed.
+     */
     @Test(timeout = TIMEOUT)
     public void testChangeAWordWhenFinished(){
-        List<TextView> textList = getWordsPresented(solo);
+        List<TextView> textList = getWordsPresented();
         TextView currTextView = textList.get(0);
         String currWord = currTextView.getText().toString();
         //Log.v("current-word", currWord);
@@ -136,17 +161,20 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
             sendKeys(c - 68);
             //Log.v("current-letter", Character.toString(c));
         }
-        textList = getWordsPresented(solo);
+        textList = getWordsPresented();
         assertTrue(textList.get(0).getText().toString() != currWord);
         goBackToMainMenu();
     }
-    
+
+    /**
+     * Test that after automatically finishing words, player gets the correct score.
+     */
     @Test(timeout = 60000)
     public void testTypingCorrectWordsThreeTimesUpdateScore() {
         int expectedScore = 0;
         int actualScore = 0;
         for (int i = 0; i < 3; i++) {
-            List<TextView> textList = getWordsPresented(solo);
+            List<TextView> textList = getWordsPresented();
             TextView currTextView = textList.get(0);
             String currWord = currTextView.getText().toString();
             //Log.v("current-word", currWord);
@@ -166,7 +194,10 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         }
         assertEquals(expectedScore, actualScore);
     }
-    
+
+    /**
+     * Tests that the post game screen pops up after 1 min.
+     */
     @Test(timeout = 70000)
     public void testSimulatePlayingAOneMinuteGame() {
         boolean gameFlag = true;
@@ -180,7 +211,10 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         assertTrue(solo.searchButton("Main Menu"));
         assertTrue(solo.searchText("Your ad could be here!"));
     }
-    
+
+    /**
+     * Test the button 'Keyboard' brings the onscreen keyboard on and off window.
+     */
     @Test(timeout = TIMEOUT)
     public void testTheKeyboardButtonWorks() {
          Button keyboardButton = (Button) solo.getView(com.example.zootypers.R.id.keyboard_open_button);
@@ -188,15 +222,25 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
          solo.sleep(3000);
          solo.searchButton("Keyboard");
     }
-    
+
+    /**
+     * Tests the pause button to see if it pauses time as well can continue game.
+     */
     @Test(timeout = TIMEOUT)
     public void testPauseButtonWorksProperly() {
         Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
         solo.clickOnView(pauseButton);
         solo.sleep(3000);
+        TextView timer = (TextView) solo.getCurrentActivity().findViewById(R.id.time_text);
+        CharSequence time = timer.getText();
+        solo.sleep(3000);
+        assertTrue(time == ((TextView)solo.getCurrentActivity().findViewById(R.id.time_text)).getText());
         solo.clickOnButton("Continue");
     }
-    
+
+    /**
+     * Tests the button 'Pause' can go back to main menu
+     */
     @Test(timeout = TIMEOUT)
     public void testPauseButtonCanGoToMainMenu() {
         Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
@@ -206,7 +250,10 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.sleep(3000);
         solo.searchButton("Single Player");
     }
-    
+
+    /**
+     * Tests that the button 'Pause' can initiate a new game.
+     */
     @Test(timeout = TIMEOUT)
     public void testPauseButtonCanStartNewGame() {
         Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
@@ -216,7 +263,10 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         solo.sleep(3000);
         solo.searchButton("Continue");
     }
-    
+
+    /**
+     * Tests the initial model when a new game is started. There should be 5 words, 0 score, -1 on both index and word.
+     */
     @Test(timeout = TIMEOUT)
 	public void testModelInitial() {
 		solo.sleep(1000);
@@ -226,12 +276,15 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		assertEquals(-1, model.getCurrWordIndex());
 		assertEquals(-1, model.getCurrLetterIndex());
 	}
-	
+
+    /**
+     * Tests the model after one character is typed. There should still be 5 words, 0 score, and non -1 on both index and word.
+     */
     @Test(timeout = TIMEOUT)
 	public void testModelAfterOneCharTyped() {
 		solo.sleep(1000);
 		SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
-		List<TextView> views = getWordsPresented(solo);
+		List<TextView> views = getWordsPresented();
 		TextView s = views.get(0);
 		solo.sleep(1000);
 		sendKeys(s.getText().charAt(0) - 68);
@@ -240,12 +293,16 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
 		assertEquals(0, model.getCurrWordIndex());
 		assertEquals(1, model.getCurrLetterIndex());
 	}
-	
+
+    /**
+     * Tests the model after one word is finished typing. Should have 5 words displayed, score equal to the word length.
+     * The index and word should be back at -1.
+     */
     @Test(timeout = TIMEOUT)
 	public void testModelAfterOneWordTyped() {
 		solo.sleep(1000);
 		SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
-		List<TextView> views = getWordsPresented(solo);
+		List<TextView> views = getWordsPresented();
 		TextView s = views.get(0);
 		solo.sleep(1000);
 		for (int i = 0; i < s.getText().toString().length(); i++) {
