@@ -73,8 +73,6 @@ public class MultiPlayerModel extends Observable {
 		this.animalName = animalName;
 		this.name = uname;
 		this.info = new HashMap<String, String>();
-		beginMatchMaking();
-		setWordsList();
 		this.numWordsDisplayed = wordsDis;
 		currFirstLetters = new HashSet<Character>();
 		//initialize all the fields to default starting values
@@ -334,7 +332,6 @@ public class MultiPlayerModel extends Observable {
 		}
 	}
 
-	// TODO: this never gets called
 	// return true if my opponent has finished their game
 	public final boolean isOpponentFinished() {
 		long starttime = System.currentTimeMillis();
@@ -434,5 +431,9 @@ public class MultiPlayerModel extends Observable {
 
 	public final int getOpponentScore() {
 		return match.getInt(info.get("oscore"));
+	}
+	
+	public final int[] getWordsDisplayed() {
+		return wordsDisplayed;
 	}
 }
