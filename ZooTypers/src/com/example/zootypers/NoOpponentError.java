@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 
+/**
+ * Activity / UI displayed when there is no oppponent for a user.
+ * @author cdallas
+ */
 public class NoOpponentError extends Activity {
 
   String username;
