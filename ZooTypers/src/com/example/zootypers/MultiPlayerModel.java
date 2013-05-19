@@ -24,9 +24,9 @@ import com.parse.RefreshCallback;
 
 public class MultiPlayerModel extends Observable {
 
-	private static final int QUEUE_TIMEOUT = 50000; // timer set for 50 sec to wait before giving up in queue
-	private static final int SCORE_TIMEOUT = 10000; // timer set to 10 sec to wait for getting opponents score
-	private static final int RECHECK_TIME = 1000; // timer set to 1 sec to wait between checks
+	private static final int QUEUE_TIMEOUT = 15000; // timer set for 15 sec to wait before giving up in queue
+	private static final int SCORE_TIMEOUT = 50000; // timer set to 5 sec to wait for getting opponents score
+	private static final int RECHECK_TIME = 500; // timer set to 1/2 sec to wait between checks
 	private static final int LIST_SIZE = 100;
 	// number of words displayed on the view
 	private final int numWordsDisplayed;
@@ -82,7 +82,7 @@ public class MultiPlayerModel extends Observable {
 		currWordIndex = -1;
 	}
 
-	public void beginMatchMaking() {
+	public void beginMatchMaking() throws InternetConnectionException, EmptyQueueException, InternalErrorException {
 		if (findOpponent()) {
 			setInfo(false);
 			try {
@@ -92,14 +92,12 @@ public class MultiPlayerModel extends Observable {
 				match.put("p2finished", false);
 				match.save();
 			} catch (ParseException e) {
-				setChanged();
-				notifyObservers(States.update.CONNECTION_ERROR);
+				throw new InternetConnectionException();
 			}
 		} else {
 			addToQueue();
 			if (!checkStatus()) {
-				setChanged();
-				notifyObservers(States.update.NO_OPPONENT);
+				throw new EmptyQueueException();
 			}
 		}
 	}
@@ -138,10 +136,9 @@ public class MultiPlayerModel extends Observable {
 			info.put("oscore", "p1score");
 			info.put("ofinished", "p1finished");
 		}
-
 	}
 
-	private void addToQueue() {
+	private void addToQueue() throws InternetConnectionException {
 		final int randy = (int) (Math.random() * (NUMOFWORDS));
 		try {
 			setInfo(true);
@@ -154,12 +151,11 @@ public class MultiPlayerModel extends Observable {
 			match.put("wordIndex", randy);
 			match.save();
 		} catch (ParseException e) {
-			setChanged();
-			notifyObservers(States.update.CONNECTION_ERROR);
+			throw new InternetConnectionException();
 		}
 	}
 
-	private boolean checkStatus() {
+	private boolean checkStatus() throws InternetConnectionException, InternalErrorException {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + QUEUE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -171,18 +167,16 @@ public class MultiPlayerModel extends Observable {
 				}
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e1) {
-				setChanged();
-				notifyObservers(States.update.CONNECTION_ERROR);
+				throw new InternetConnectionException();
 			} catch (InterruptedException e) {
-				setChanged();
-				notifyObservers(States.update.REAL_ERROR);
+				throw new InternalErrorException();
 			}
 		}
 		return false;
 	}
 
 	// populates wordsList by contacting the database for LIST_SIZE amount of words
-	public void setWordsList() {
+	public void setWordsList() throws InternetConnectionException {
 		List<ParseObject> wordObjects = null;
 		try {
 			checkIfInMatch();
@@ -196,8 +190,7 @@ public class MultiPlayerModel extends Observable {
 				wordObjects.addAll(query2.find());
 			}
 		} catch (ParseException e1) {
-			setChanged();
-			notifyObservers(States.update.CONNECTION_ERROR);
+			throw new InternetConnectionException();
 		}	
 		// changing words from parse objects into a list of strings.
 		wordsList = new ArrayList<String>();
@@ -206,12 +199,10 @@ public class MultiPlayerModel extends Observable {
 		}
 	}
 
-
 	// checks if match online still has the same player in it.
-	private void checkIfInMatch() {
+	private void checkIfInMatch() throws InternetConnectionException {
 		if (!match.getString(info.get("name")).equals(name)) {
-			setChanged();
-			notifyObservers(States.update.CONNECTION_ERROR);
+			throw new InternetConnectionException();
 		}
 	}
 
@@ -237,13 +228,12 @@ public class MultiPlayerModel extends Observable {
 		currWordIndex = -1;
 	}
 
-	public int getOpponentAnimal() {
+	public int getOpponentAnimal() throws InternetConnectionException {
 		try {
 			match.refresh();
 			checkIfInMatch();
 		} catch (ParseException e) {
-			setChanged();
-			notifyObservers(States.update.CONNECTION_ERROR);
+			throw new InternetConnectionException();
 		}
 		return match.getInt(info.get("oanimal"));
 	}
@@ -322,18 +312,17 @@ public class MultiPlayerModel extends Observable {
 		notifyObservers(States.update.FINISHED_WORD);
 	}
 
-	public final void setUserFinish() {
+	public final void setUserFinish() throws InternetConnectionException {
 		try {
 			match.put(info.get("finished"), true);
 			match.save();
 		} catch (ParseException e) {
-			setChanged();
-			notifyObservers(States.update.CONNECTION_ERROR);
+			throw new InternetConnectionException();
 		}
 	}
 
 	// return true if my opponent has finished their game
-	public final boolean isOpponentFinished() {
+	public final boolean isOpponentFinished() throws InternetConnectionException, InternalErrorException {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + SCORE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -346,11 +335,9 @@ public class MultiPlayerModel extends Observable {
 				checkIfInMatch();
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e1) {
-				setChanged();
-				notifyObservers(States.update.CONNECTION_ERROR);
+				throw new InternetConnectionException();
 			} catch (InterruptedException e) {
-				setChanged();
-				notifyObservers(States.update.REAL_ERROR);
+				throw new InternalErrorException();
 			}
 		}
 		return false;
@@ -360,6 +347,7 @@ public class MultiPlayerModel extends Observable {
 	 * refreshes the match then tries to delete themselves from the queue
 	 * if the other player has not finished then just set their own finished field
 	 * in the match to true.
+	 * @throws InternetConnectionException 
 	 * 
 	 * @modifies this
 	 */
@@ -368,10 +356,8 @@ public class MultiPlayerModel extends Observable {
 			if (info.get("name").equals("p1name"))
 				match.delete();
 		} catch (ParseException e) {
-			setChanged();
-			notifyObservers(States.update.CONNECTION_ERROR);
+			// shouldn't need to worry about this since game is ending anyway
 		}
-
 	}
 
 	/**
