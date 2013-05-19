@@ -7,6 +7,10 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 
+/**
+ * Activity / UI displayed when there is an interrupt error.
+ * @author cdallas
+ */
 public class InterruptError extends Activity {
 
   String username;

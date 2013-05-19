@@ -33,15 +33,16 @@ import com.parse.RequestPasswordResetCallback;
 /**
  *
  * UI / Activity for title screen.
- * @author cdallas
+ * @author cdallas, littlpunk
  *
  */
 public class TitlePage extends Activity {
 
-  PopupWindow ppw; // for the multiplayer login popup
-  Intent multiIntent;  // used to go to MultiplayerPregameScreen
+  PopupWindow ppw; // For the multiplayer login popup
+  Intent multiIntent;  // Used to go to MultiplayerPregameScreen
   ParseUser currentUser;
-  // used for figuring out valid login inputs
+  
+  // Used for figuring out valid login inputs
   boolean foundUser;
   boolean foundPassword;
 
@@ -77,7 +78,7 @@ public class TitlePage extends Activity {
 
   /**
    * Called when the user clicks the "Single Player" button.
-   * @param view The button clicked
+   * @param view The button clicked.
    */
   public final void goToPreGameSelection(final View view) {
     Intent intent = new Intent(this, PreGameSelection.class);
@@ -86,7 +87,7 @@ public class TitlePage extends Activity {
 
   /**
    * Called when the user clicks the "Multiplayer" button.
-   * @param view The button clicked
+   * @param view The button clicked.
    */
   public final void goToPreGameSelectionMulti(final View view) {
     Intent intent = new Intent(this, PreGameSelectionMulti.class);
@@ -95,7 +96,7 @@ public class TitlePage extends Activity {
 
   /**
    * Called when the user clicks the "Leaderboard" button.
-   * @param view The button clicked
+   * @param view The button clicked.
    */
   public final void goToLeaderboard(final View view) {
     Intent intent = new Intent(this, Leaderboard.class);
@@ -104,7 +105,7 @@ public class TitlePage extends Activity {
 
   /**
    * Called when the user clicks the "Options" button.
-   * @param view The button clicked
+   * @param view The button clicked.
    */
   public final void goToOptions(final View view) {
     Intent intent = new Intent(this, Options.class);
@@ -113,13 +114,13 @@ public class TitlePage extends Activity {
 
   @Override
   public void onBackPressed() {
-    // TODO trigger pause screen!
+    // TODO trigger pause screen?
   }
 
   /**
    * Called when the user presses the "Multiplayer" button.
-   * Prompts a login screen if user is not logged in already
-   * @param view The button clicked
+   * Prompts a login screen if user is not logged in already.
+   * @param view The button clicked.
    */
   public final void multiplayerLogin(final View view) {
     if (currentUser != null) {
@@ -141,8 +142,8 @@ public class TitlePage extends Activity {
   }
 
   /**
-   * Handles what happens when user clicks the login button
-   * @param view Button that is pressed
+   * Handles what happens when user clicks the login button.
+   * @param view The button clicked.
    */
   public void loginButton(View view) {
     // get the username and password inputs
@@ -177,16 +178,16 @@ public class TitlePage extends Activity {
   }
 
   /**
-   * Exits the popup window
-   * @param view the button clicked
+   * Exits the popup window.
+   * @param view The button clicked.
    */
   public void exitPopup(View view) {
     ppw.dismiss();
   }
 
   /**
-   * Logs out the current user
-   * @param view the button clicked
+   * Logs out the current user.
+   * @param view The button clicked.
    */
   public void logoutUser(View view) {
     ParseUser.logOut();
@@ -200,7 +201,7 @@ public class TitlePage extends Activity {
 
   /**
    * Handles what happens when user wants to reset password.
-   * @param view the button clicked
+   * @param view The button clicked.
    */
   public void resetPassword(View view) {
     // get the contents of the popup window and get the email
@@ -233,8 +234,8 @@ public class TitlePage extends Activity {
   }
 
   /**
-   * Goes to the Registration page
-   * @param view the button clicked
+   * Goes to the Registration page.
+   * @param view The button clicked.
    */
   public void goToRegister(View view) {
     Intent registerIntent = new Intent(this, RegisterPage.class);
@@ -242,19 +243,18 @@ public class TitlePage extends Activity {
   }
 
   /**
-   * builds an AlertDialog popup with the given title and message
-   * @param title String representing title of the AlertDialog popup
-   * @param message String representing the message of the AlertDialog
-   * popup
+   * builds an AlertDialog popup with the given title and message.
+   * @param title String representing title of the AlertDialog popup.
+   * @param message String representing the message of the AlertDialog popup.
    */
   private void buildAlertDialog(String title, String message) {
     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
         this);
 
-    // set title
+    // Set title
     alertDialogBuilder.setTitle(title);
 
-    // set dialog message
+    // Set dialog message
     alertDialogBuilder
     .setMessage(message)
     .setCancelable(false)
@@ -265,24 +265,24 @@ public class TitlePage extends Activity {
       }
     });
 
-    // create alert dialog
+    // Create alert dialog
     AlertDialog alertDialog = alertDialogBuilder.create();
 
-    // show the message
+    // Show the message
     alertDialog.show();
   }
 
   /**
-   * helper method that sets the logged in status views to invisible
+   * Helper method that sets the logged in status views to invisible.
    */
   private void makeViewsInvisible() {
-    // get all the logged in related views
+    // Get all the logged in related views
     RelativeLayout loginBox = (RelativeLayout) findViewById(R.id.title_log_info);
     TextView loggedInText = (TextView) findViewById(R.id.loggedin_text);
     TextView currentUserText = (TextView) findViewById(R.id.current_user_text);
     Button logoutButton = (Button) findViewById(R.id.logout_button);
 
-    // set the views to be invisible
+    // Set the views to be invisible
     loginBox.setVisibility(View.INVISIBLE);
     loggedInText.setVisibility(View.INVISIBLE);
     currentUserText.setVisibility(View.INVISIBLE);
