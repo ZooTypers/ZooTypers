@@ -49,7 +49,7 @@ public class MultiPlayer extends Activity implements Observer {
   // for the game timer
   protected GameTimer gameTimer;
   protected final long INTERVAL = 1000; // 1 second
-  public final static long START_TIME = 60000; // 1 minute
+  public final static long START_TIME = 11000; // we give them 61 seconds to tick 60 times TODO change back to 61000
   public static boolean paused = false;
   private long currentTime;
 
@@ -232,7 +232,6 @@ public class MultiPlayer extends Activity implements Observer {
 
     model.populateDisplayedList();
 
-    // TODO figure out how to change milliseconds to seconds. it skips numbers
     displayTime(START_TIME / INTERVAL);
 
     displayScore(0);
@@ -318,11 +317,12 @@ public class MultiPlayer extends Activity implements Observer {
    */
   public final void connectionError() {
     // Clean up the database
-    model.deleteUser();
+//    model.deleteUser();
 
-    Intent intent = new Intent(this, ConnectionError.class);
+    Intent intent = new Intent(this, TitlePage.class);
+//    Intent intent = new Intent(this, ConnectionError.class);
     // Pass username
-    intent.putExtra("username", username);
+//    intent.putExtra("username", username);
     startActivity(intent);
   }
   
@@ -366,7 +366,6 @@ public class MultiPlayer extends Activity implements Observer {
     Intent intent = new Intent(this, PostGameScreenMulti.class);
 
     // Pass scores and if you won to post game screen
-    // TODO get whether you won from the model
     int myScore = model.getScore();
     int oppScore = model.getOpponentScore();
     intent.putExtra("score", myScore);
@@ -389,7 +388,7 @@ public class MultiPlayer extends Activity implements Observer {
     intent.putExtra("username", username);
 
     model.deleteUser();
-    startActivity(intent);		
+    startActivity(intent);	
   }
 
 
@@ -398,23 +397,24 @@ public class MultiPlayer extends Activity implements Observer {
    * @author ZooTypers
    */
   public class GameTimer extends CountDownTimer {
-    /**
-     * @param startTime Amount of time player starts with.
-     * @param interval Amount of time between ticks.
-     */
-    public GameTimer(final long startTime, final long interval) {
-      super(startTime, interval);
-    }
+	  /**
+	   * @param startTime Amount of time player starts with.
+	   * @param interval Amount of time between ticks.
+	   */
+	  public GameTimer(final long startTime, final long interval) {
+		  super(startTime, interval);
+	  }
 
-    @Override
-    public final void onFinish() {
-      goToPostGame();
-    }
+	  @Override
+	  public final void onFinish() {
+		  goToPostGame();
+	  }
 
     @Override
     public final void onTick(final long millisUntilFinished) {
       model.refreshInBackground();
-      currentTime = millisUntilFinished;
+      // edge case because 0 does not tick, in order to show 0 we have to -1000
+      currentTime = millisUntilFinished - 1000;
       displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
     }
   }

@@ -67,6 +67,11 @@
             android:name="com.example.zootypers.PostGameScreenMulti"
             android:label="@string/title_activity_post_game_screen_multi" >
         </activity>
+        <activity
+           android:name="com.example.zootypers.ConnectionError"
+           android:label="@string/connection_error" >
+
+        </activity>
     </application>
 
 </manifest>

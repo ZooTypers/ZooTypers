@@ -365,14 +365,8 @@ public class MultiPlayerModel extends Observable {
 	 */
 	public void deleteUser() {
 		try {
-			match.refresh();
-			checkIfInMatch();
-			if (match.getBoolean(info.get("ofinished"))) {
+			if (info.get("name").equals("p1name"))
 				match.delete();
-			} else {
-				match.put(info.get("finished"), true);
-				match.save();
-			}
 		} catch (ParseException e) {
 			setChanged();
 			notifyObservers(States.update.CONNECTION_ERROR);
