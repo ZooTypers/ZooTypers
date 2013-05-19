@@ -1,9 +1,10 @@
 package com.example.zootypers.test;
 
 import junit.framework.TestCase;
-import static org.junit.Assert.*;
+
 import org.junit.Test;
-import com.example.zootypers.*;
+
+import com.example.zootypers.LeaderBoardModel;
 
 /**
  * LeaderBoard test class helps to test adding, deleteing, and checking whether or not

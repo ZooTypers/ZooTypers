@@ -20,7 +20,7 @@ import junit.framework.TestCase;
  *
  */
 
-public class MultiplayerModelTest extends TestCase{
+public class MultiPlayerModelTest extends TestCase{
 	MultiPlayerModel model;
 	final int TIMEOUT = 10000;
 
@@ -37,6 +37,7 @@ public class MultiplayerModelTest extends TestCase{
 	}
 	@After
 	public void tearDown() throws Exception {
+	    
 	}
 
 

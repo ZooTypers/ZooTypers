@@ -2,18 +2,17 @@ package com.example.zootypers.test;
 
 import org.junit.Test;
 
-import com.example.zootypers.*;
-import com.example.zootypers.R;
-import com.jayway.android.robotium.solo.Solo;
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.test.ActivityInstrumentationTestCase2;
-import android.util.Log;
 import android.view.Display;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
+
+import com.example.zootypers.PreGameSelection;
+import com.example.zootypers.TitlePage;
+import com.jayway.android.robotium.solo.Solo;
 
 /**
  * Testing the Pre-Game Selection screen by checking and clicking all the

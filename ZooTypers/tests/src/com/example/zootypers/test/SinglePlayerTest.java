@@ -1,30 +1,23 @@
 package com.example.zootypers.test;
 
-import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 import org.junit.Test;
 
-import junit.framework.TestCase;
-import android.content.Intent;
-import android.graphics.Color;
-import android.renderscript.Sampler.Value;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.text.style.TextAppearanceSpan;
-import android.util.Log;    
-import android.view.View;
+import android.util.Log;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import com.example.zootypers.SinglePlayer;
+
+import com.example.zootypers.PreGameSelection;
 import com.example.zootypers.R;
+import com.example.zootypers.SinglePlayer;
 import com.example.zootypers.SinglePlayerModel;
 import com.jayway.android.robotium.solo.Solo;
-import com.example.zootypers.PreGameSelection;
 
 /**
  * Testing the single player game mode using robotium testing framework.
@@ -95,7 +88,6 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         for(int i = 0; i < 5; i++){
             assertTrue(views.get(i).getText().length() > 0);
         }
-        
     }
     
     @Test(timeout = TIMEOUT)
@@ -133,61 +125,61 @@ public class SinglePlayerTest extends  ActivityInstrumentationTestCase2<PreGameS
         assertTrue(spans.length > 0);
     }
     
-//  @Test(timeout = TIMEOUT)
-//public void testChangeAWordWhenFinished(){
-//  List<TextView> textList = getWordsPresented(solo);
-//  TextView currTextView = textList.get(0);
-//  String currWord = currTextView.getText().toString();
-//  //Log.v("current-word", currWord);
-//  for (int i = 0; i < currWord.length(); i++) {
-//      char c = currWord.charAt(i);
-//      sendKeys(c - 68);
-//      //Log.v("current-letter", Character.toString(c));
-//  }
-//  textList = getWordsPresented(solo);
-//  assertTrue(textList.get(0).getText().toString() != currWord);
-//  goBackToMainMenu();
-//}
+    @Test(timeout = TIMEOUT)
+    public void testChangeAWordWhenFinished(){
+        List<TextView> textList = getWordsPresented(solo);
+        TextView currTextView = textList.get(0);
+        String currWord = currTextView.getText().toString();
+        //Log.v("current-word", currWord);
+        for (int i = 0; i < currWord.length(); i++) {
+            char c = currWord.charAt(i);
+            sendKeys(c - 68);
+            //Log.v("current-letter", Character.toString(c));
+        }
+        textList = getWordsPresented(solo);
+        assertTrue(textList.get(0).getText().toString() != currWord);
+        goBackToMainMenu();
+    }
     
-//  @Test(timeout = 60000)
-//public void testTypingCorrectWordsThreeTimesUpdateScore() {
-//      int expectedScore = 0;
-//      int actualScore = 0;
-//      for (int i = 0; i < 3; i++) {
-//      List<TextView> textList = getWordsPresented(solo);
-//      TextView currTextView = textList.get(0);
-//      String currWord = currTextView.getText().toString();
-//      //Log.v("current-word", currWord);
-//      for (int j = 0; j < currWord.length(); j++) {
-//          char c = currWord.charAt(j);
-//          sendKeys(c - 68);               
-//          //Log.v("current-letter", Character.toString(c));
-//      
-//      }
-//      TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
-//      solo.sleep(1000);
-//      String scoreString = score.getText().toString();
-//      solo.sleep(1000);
-//      expectedScore += currWord.length();
-//      actualScore = Integer.parseInt(scoreString);
-//
-//      }
-//    assertEquals(expectedScore, actualScore);
-//}
+    @Test(timeout = 60000)
+    public void testTypingCorrectWordsThreeTimesUpdateScore() {
+        int expectedScore = 0;
+        int actualScore = 0;
+        for (int i = 0; i < 3; i++) {
+            List<TextView> textList = getWordsPresented(solo);
+            TextView currTextView = textList.get(0);
+            String currWord = currTextView.getText().toString();
+            //Log.v("current-word", currWord);
+            for (int j = 0; j < currWord.length(); j++) {
+                char c = currWord.charAt(j);
+                sendKeys(c - 68);               
+                //Log.v("current-letter", Character.toString(c));
+
+            }
+            TextView score = (TextView) solo.getCurrentActivity().findViewById(R.id.score);
+            solo.sleep(1000);
+            String scoreString = score.getText().toString();
+            solo.sleep(1000);
+            expectedScore += currWord.length();
+            actualScore = Integer.parseInt(scoreString);
+
+        }
+        assertEquals(expectedScore, actualScore);
+    }
     
-//      @Test(timeout = 70000)
-//  public void testSimulatePlayingAOneMinuteGame() {
-//      boolean gameFlag = true;
-//      while (gameFlag) {
-//          automateKeyboardTyping();
-//          if (solo.searchButton("New Game") == true) {
-//              gameFlag = false;
-//          }
-//      }
-//      assertTrue(solo.searchButton("New Game"));
-//      assertTrue(solo.searchButton("Main Menu"));
-//      assertTrue(solo.searchText("Your ad could be here!"));
-//  }
+    @Test(timeout = 70000)
+    public void testSimulatePlayingAOneMinuteGame() {
+        boolean gameFlag = true;
+        while (gameFlag) {
+            automateKeyboardTyping();
+            if (solo.searchButton("New Game") == true) {
+                gameFlag = false;
+            }
+        }
+        assertTrue(solo.searchButton("New Game"));
+        assertTrue(solo.searchButton("Main Menu"));
+        assertTrue(solo.searchText("Your ad could be here!"));
+    }
     
     @Test(timeout = TIMEOUT)
     public void testTheKeyboardButtonWorks() {
