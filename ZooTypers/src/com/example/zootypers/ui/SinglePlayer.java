@@ -38,19 +38,19 @@ public class SinglePlayer extends Player {
 
 	// the popup window
 	private PopupWindow ppw;
-	
+
 	// the popup parameters
 	public LayoutParams popUpParams;
-	
+
 	// the popup layout
 	public LinearLayout popUpLayout;
-	
+
 	// the time in which the game was paused
 	private long pausedTime = START_TIME;
 
 	// the game timer that will give a time limit
 	protected GameTimer gameTimer;
-	
+
 	// keeps track for if the game is paused or not
 	public static boolean paused = false;
 
@@ -70,7 +70,7 @@ public class SinglePlayer extends Player {
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection);
 		Drawable animal = ((ImageButton) findViewById
-				(getIntent().getIntExtra("anm", 0))).getDrawable();
+		(getIntent().getIntExtra("anm", 0))).getDrawable();
 		bg = getIntent().getIntExtra("bg", 0);
 		Drawable background = ((ImageButton) findViewById(bg)).getDrawable();
 
@@ -96,8 +96,8 @@ public class SinglePlayer extends Player {
 		gameTimer.start();
 
 	}
-	
-	
+
+
 	/**
 	 * Initialize the contents of the Activity's standard options menu. 
 	 * 
@@ -115,7 +115,7 @@ public class SinglePlayer extends Player {
 	 */
 	@Override
 	public final boolean onKeyDown(final int key, final KeyEvent event){
-		if (key == KeyEvent.KEYCODE_BACK && !paused) {
+		if ((key == KeyEvent.KEYCODE_BACK) && !paused) {
 			pauseGame(findViewById(R.id.pause_button));
 			return true;
 		}
@@ -133,7 +133,7 @@ public class SinglePlayer extends Player {
 	public void onPause() {
 		super.onPause();
 		if (!paused)
-			pauseGame(findViewById(R.id.pause_button));
+		pauseGame(findViewById(R.id.pause_button));
 	}
 
 	/**
@@ -187,7 +187,7 @@ public class SinglePlayer extends Player {
 
 		// create popup window
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		View popupView = layoutInflater.inflate(R.layout.pause_popup, null);
 		ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.game_layout);
