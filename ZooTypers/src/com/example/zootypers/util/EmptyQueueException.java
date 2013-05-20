@@ -1,7 +1,5 @@
 package com.example.zootypers.util;
 
-import java.lang.Exception;
-
 
 /** Exception that is thrown when a user is not able to find a match within a certian time. */
 public class EmptyQueueException extends Exception {

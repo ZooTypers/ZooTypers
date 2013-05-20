@@ -33,14 +33,14 @@ public class MultiPlayer extends Player {
 
 	// the username of the user currently trying to play a game
 	private String username;
-	
+
 	// the game timer that will give a time limit
 	private GameTimer gameTimer;
-	
+
 	// used for the communicating with model
 	private MultiPlayerModel model;
-	
-//	private PopupWindow ppw;
+
+	//  private PopupWindow ppw;
 
 	/*
 	 * flips the animal being displayed horizontally so that the animal
@@ -70,26 +70,26 @@ public class MultiPlayer extends Player {
 		}
 	}
 
-//	/**
-//	 * Shows the loading popup window.
-//	 */
-//	private void showLoadScreen() {
-//		LayoutInflater layoutInflater = 
-//				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-//		View popupView = layoutInflater.inflate(R.layout.login_popup, null);
-//		ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
-//		// TODO problem here
-//		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.pregame_layout);
-//		// set the position and size of popup
-//		ppw.showAtLocation(parentLayout, Gravity.CENTER, 0, 0);
-//	}
-//
-//	/**
-//	 * Exits the loading popup window.
-//	 */
-//	private void dismissLoadScreen() {
-//		ppw.dismiss();
-//	}
+	//  /**
+	//   * Shows the loading popup window.
+	//   */
+	//  private void showLoadScreen() {
+	//    LayoutInflater layoutInflater = 
+	//        (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+	//    View popupView = layoutInflater.inflate(R.layout.login_popup, null);
+	//    ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+	//    // TODO problem here
+	//    ViewGroup parentLayout = (ViewGroup) findViewById(R.id.pregame_layout);
+	//    // set the position and size of popup
+	//    ppw.showAtLocation(parentLayout, Gravity.CENTER, 0, 0);
+	//  }
+	//
+	//  /**
+	//   * Exits the loading popup window.
+	//   */
+	//  private void dismissLoadScreen() {
+	//    ppw.dismiss();
+	//  }
 
 
 	/*
@@ -115,7 +115,7 @@ public class MultiPlayer extends Player {
 
 		// Initialize the database
 		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-							   "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 
 		// Get the user name
 		username = getIntent().getStringExtra("username");
@@ -134,12 +134,15 @@ public class MultiPlayer extends Player {
 			setContentView(R.layout.activity_multi_player);
 			initialDisplay(animal, background, oppAnimal);
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			error(States.error.CONNECTION);
 			return;
 		} catch (EmptyQueueException e) {
+			e.fillInStackTrace();
 			error(States.error.NOOPPONENT);
 			return;
 		} catch (InternalErrorException e) {
+			e.fillInStackTrace();
 			error(States.error.INTERNAL);
 			return;
 		}
@@ -214,17 +217,17 @@ public class MultiPlayer extends Player {
 		Intent intent = new Intent(this, ErrorScreen.class);
 		// Pass username
 		intent.putExtra("username", username);
-		
+
 		if (err.equals(States.error.NOOPPONENT))
-			intent.putExtra("error", R.layout.activity_no_opponent_error);
+		intent.putExtra("error", R.layout.activity_no_opponent_error);
 		else if (err.equals(States.error.INTERNAL))
-			intent.putExtra("error", R.layout.activity_interrupt_error);
+		intent.putExtra("error", R.layout.activity_interrupt_error);
 		else 
-			intent.putExtra("error", R.layout.activity_connection_error);
-		
+		intent.putExtra("error", R.layout.activity_connection_error);
+
 		startActivity(intent);
 	}
-	
+
 	/**
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
@@ -236,6 +239,7 @@ public class MultiPlayer extends Player {
 		try {
 			model.setUserFinish();
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			error(States.error.CONNECTION);
 			return;
 		}
@@ -248,11 +252,11 @@ public class MultiPlayer extends Player {
 		intent.putExtra("score", myScore);
 		intent.putExtra("oppScore", oppScore);
 		if (myScore > oppScore) {
-			intent.putExtra("result", 1);			
+			intent.putExtra("result", 1);      
 		} else if (myScore == oppScore) {
-			intent.putExtra("result", 0);			
-		} else {			
-			intent.putExtra("result", -1);			
+			intent.putExtra("result", 0);      
+		} else {      
+			intent.putExtra("result", -1);      
 		}
 
 		// Pass if opponent completed the game
@@ -262,9 +266,11 @@ public class MultiPlayer extends Player {
 			}
 			//intent.putExtra("discon", !model.isOpponentFinished());
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			error(States.error.CONNECTION);
 			return;
 		} catch (InternalErrorException e) {
+			e.fillInStackTrace();
 			error(States.error.INTERNAL);
 			return;
 		}
@@ -276,20 +282,20 @@ public class MultiPlayer extends Player {
 		intent.putExtra("username", username);
 
 		model.deleteUser();
-		startActivity(intent);	
+		startActivity(intent);  
 	}
-	
+
 	@Override
 	/**
 	 * Called when the user types a letter; passes the letter to the model.
 	 */
-	public boolean onKeyDown(final int key, final KeyEvent event){ 	  
+	public boolean onKeyDown(final int key, final KeyEvent event){     
 		char charTyped = event.getDisplayLabel();
 		charTyped = Character.toLowerCase(charTyped);
 		model.typedLetter(charTyped);
 		return true;
 	}
-	
+
 	/**
 	 * Timer for the game.
 	 * @author ZooTypers

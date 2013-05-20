@@ -21,55 +21,55 @@ import com.example.zootypers.R;
  */
 public class PostGameScreen extends Activity {
 
-    @SuppressLint("NewApi")
-    @Override
-    protected void onCreate(final Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    
-        // get & display background
-        setContentView(R.layout.activity_pregame_selection);
-        Drawable background = ((ImageButton) 
-                findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
-    
-        setContentView(R.layout.activity_postgame_screen);
-        findViewById(R.id.postgame_layout).setBackground(background);
-        
-        // get and display score
-        Integer score = getIntent().getIntExtra("score", 0);
-        TextView finalScore = (TextView) findViewById(R.id.final_score);
-        finalScore.setText(score.toString());
-        
-        // TODO store score
-    }
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(final Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-    @Override
-    public void onBackPressed() {
-        // do nothing
-    }
-  
-    @Override
-    public final boolean onCreateOptionsMenu(final Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.postgame_screen, menu);
-        return true;
-    }
-  
-    /**
-    * Called when the user clicks the "Main Menu" button.
-    * @param view The button clicked
-    */
-    public final void goToTitlePage(final View view) {
-        Intent intent = new Intent(this, TitlePage.class);
-        startActivity(intent);
-    }
+		// get & display background
+		setContentView(R.layout.activity_pregame_selection);
+		Drawable background = ((ImageButton) 
+		findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
-    /**
-    * Called when the user clicks the "New Game" button.
-    * @param view The button clicked
-    */
-    public void goToPreGameSelection(final View view) {
-        Intent intent = new Intent(this, PreGameSelection.class);
-        startActivity(intent);
-    }
+		setContentView(R.layout.activity_postgame_screen);
+		findViewById(R.id.postgame_layout).setBackground(background);
+
+		// get and display score
+		Integer score = getIntent().getIntExtra("score", 0);
+		TextView finalScore = (TextView) findViewById(R.id.final_score);
+		finalScore.setText(score.toString());
+
+		// TODO store score
+	}
+
+	@Override
+	public void onBackPressed() {
+		// do nothing
+	}
+
+	@Override
+	public final boolean onCreateOptionsMenu(final Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.postgame_screen, menu);
+		return true;
+	}
+
+	/**
+	 * Called when the user clicks the "Main Menu" button.
+	 * @param view The button clicked
+	 */
+	public final void goToTitlePage(final View view) {
+		Intent intent = new Intent(this, TitlePage.class);
+		startActivity(intent);
+	}
+
+	/**
+	 * Called when the user clicks the "New Game" button.
+	 * @param view The button clicked
+	 */
+	public void goToPreGameSelection(final View view) {
+		Intent intent = new Intent(this, PreGameSelection.class);
+		startActivity(intent);
+	}
 }

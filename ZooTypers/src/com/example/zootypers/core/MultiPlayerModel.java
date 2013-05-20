@@ -26,26 +26,26 @@ public class MultiPlayerModel extends PlayerModel {
 
 	// timer set for 15 sec to wait before giving up in queue
 	private static final int QUEUE_TIMEOUT = 15000;
-	
+
 	// timer set to 5 sec to wait for getting opponents score
 	private static final int SCORE_TIMEOUT = 5000;
-	
+
 	// timer set to 1/2 sec to wait between checks
 	private static final int RECHECK_TIME = 500;
-	
+
 	// total number of words in wordLists on Parse database
 	private static final int TOTAL_WORDS = 709;
-	
+
 	// size of the list to get from the Parse database
 	private static final int LIST_SIZE = 100;
 
 	// the object on the database that has all info of the match
 	// on the Parse database
 	private ParseObject match;
-	
+
 	// username of the player which was passed in
 	private String name;
-	
+
 	// the ID of the animal the user picked
 	private int animalID;
 
@@ -75,8 +75,9 @@ public class MultiPlayerModel extends PlayerModel {
 	 * @throws InternetConnectionException if disconnected from Internet
 	 * @throws EmptyQueueException if no opponent is found on database
 	 * @throws InternalErrorException if there was an internal error
-	 */	
-	public void beginMatchMaking() throws InternetConnectionException, EmptyQueueException, InternalErrorException {
+	 */  
+	public void beginMatchMaking() throws InternetConnectionException, 
+	EmptyQueueException, InternalErrorException {
 		// if an opponent is waiting in the database to play
 		if (findOpponent()) {
 			setInfo(false);
@@ -89,7 +90,7 @@ public class MultiPlayerModel extends PlayerModel {
 			} catch (ParseException e) {
 				throw new InternetConnectionException();
 			}
-		// if no opponent was added then create a match and wait for an opponent to join
+			// if no opponent was added then create a match and wait for an opponent to join
 		} else {
 			addToQueue();
 			if (!checkStatus()) {
@@ -110,6 +111,7 @@ public class MultiPlayerModel extends PlayerModel {
 			match = query.getFirst();
 			return true;
 		} catch (ParseException e1) {
+			e1.fillInStackTrace();
 			return false;
 		}
 	}
@@ -172,7 +174,7 @@ public class MultiPlayerModel extends PlayerModel {
 		long endtime = starttime + QUEUE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
 			try {
-				match.refresh();  	
+				match.refresh();    
 				checkIfInMatch();
 				if (!match.getString(info.get("oname")).equals("")) {
 					return true;
@@ -192,7 +194,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 * with LIST_SIZE words from the Parse database
 	 * 
 	 * @throws InternetConnectionException if disconnected from Internet
-	 */	
+	 */  
 	public void setWordsList() throws InternetConnectionException {
 		List<ParseObject> wordObjects = null;
 		try {
@@ -209,14 +211,14 @@ public class MultiPlayerModel extends PlayerModel {
 			}
 		} catch (ParseException e1) {
 			throw new InternetConnectionException();
-		}	
+		}  
 		// changing words from parse objects into a list of strings.
 		wordsList = new ArrayList<String>();
 		for (ParseObject o : wordObjects) {
 			wordsList.add(o.getString("word"));
 		}
 	}
-	
+
 	/*
 	 * Checks if the user is still in the match they were originally a part of
 	 */
@@ -231,7 +233,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 * 
 	 * @throws InternetConnectionException if disconnected from Internet
 	 * @return the int ID of a animal that is selected by the user's opponent
-	 */	
+	 */  
 	public int getOpponentAnimal() throws InternetConnectionException {
 		try {
 			match.refresh();
@@ -312,7 +314,8 @@ public class MultiPlayerModel extends PlayerModel {
 	 * @throws InternalErrorException if there was an internal error
 	 * @return true if opponent is done, false otherwise
 	 */
-	public final boolean isOpponentFinished() throws InternetConnectionException, InternalErrorException {
+	public final boolean isOpponentFinished() throws 
+	InternetConnectionException, InternalErrorException {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + SCORE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -344,9 +347,10 @@ public class MultiPlayerModel extends PlayerModel {
 	public void deleteUser() {
 		try {
 			if (info.get("name").equals("p1name"))
-				match.delete();
+			match.delete();
 		} catch (ParseException e) {
 			// shouldn't need to worry about this since game is ending anyway
+			e.fillInStackTrace();
 		}
 	}
 
