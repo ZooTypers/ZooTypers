@@ -1,4 +1,4 @@
-package com.example.zootypers;
+package com.example.zootypers.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -8,20 +8,16 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-/**
- *
- * UI / Activity for mutliplayer post-game screen.
- * @author cdallas
- *
- */
+import com.example.zootypers.R;
+
 public class PostGameScreenMulti extends PostGameScreen {
 
-  String username;
+	String username;
 
-  @SuppressLint("NewApi")
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
     // Get & display background
     setContentView(R.layout.activity_pregame_selection_multi);
@@ -45,13 +41,12 @@ public class PostGameScreenMulti extends PostGameScreen {
       TextView opp = (TextView) findViewById(R.id.opp_final_score_text);
       opp.setText("");
     } else {
-      // Get opponents score and the game's result
       Integer oppScore = getIntent().getIntExtra("oppScore", 0);
       TextView oppFinalScore = (TextView) findViewById(R.id.opp_final_score);
       oppFinalScore.setText(oppScore.toString());
 
-      int result = getIntent().getIntExtra("result", 0);
-
+     int result = getIntent().getIntExtra("result", 0);
+      
       if (result == 1) {
         resultMessage.setText("You Won!");
       } else if (result == 0) {
@@ -60,17 +55,17 @@ public class PostGameScreenMulti extends PostGameScreen {
         resultMessage.setText("You Lost.");
       }
     }
-
+    
     username = getIntent().getStringExtra("username");
 
     // TODO store score
   }
 
-  @Override
-  public final void goToPreGameSelection(final View view) {
-    Intent intent = new Intent(this, PreGameSelectionMulti.class);
-    intent.putExtra("username", username);
-    startActivity(intent);
-  }
+	@Override
+	public final void goToPreGameSelection(final View view) {
+		Intent intent = new Intent(this, PreGameSelectionMulti.class);
+		intent.putExtra("username", username);
+		startActivity(intent);
+	}
 
 }
