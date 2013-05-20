@@ -1,4 +1,4 @@
-package com.example.zootypers;
+package com.example.zootypers.ui;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -6,9 +6,25 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.*;
-import android.widget.*;
-import com.parse.*;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.example.zootypers.R;
+import com.parse.LogInCallback;
+import com.parse.Parse;
+import com.parse.ParseException;
+import com.parse.ParseUser;
+import com.parse.RequestPasswordResetCallback;
 
 /**
  *
@@ -18,8 +34,7 @@ import com.parse.*;
  */
 public class TitlePage extends Activity {
 
-  PopupWindow login_ppw; // for the multiplayer login popup
-  PopupWindow password_ppw;
+  PopupWindow ppw; // for the multiplayer login popup
   Intent multiIntent;  // used to go to MultiplayerPregameScreen
   ParseUser currentUser;
   // used for figuring out valid login inputs
@@ -34,9 +49,7 @@ public class TitlePage extends Activity {
     setContentView(R.layout.activity_title_page);
     // initialize the Intent to go to Pregame selection
     multiIntent = new Intent(this, PreGameSelectionMulti.class);
-    Parse.initialize(this, "yUgc5n1ws3KrVpdSnagD" +
-        "5vwHvaGKpq00KUP3Kkak", "e9tvSeC8GtMEE3ux" +
-        "3B4phnWNtL9QRjmk7VG1zdZI");
+    Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
     currentUser = ParseUser.getCurrentUser();
     if (currentUser == null) {
       // there is no current user so dont display logged in views
@@ -109,45 +122,25 @@ public class TitlePage extends Activity {
       multiIntent.putExtra("username", currentUserString);
       startActivity(multiIntent);
     } else {
-        buildPopup(true);
+      // there is no one logged in. prompt the login screen
+      // make the login popup screen with the login_popup layout
+      LayoutInflater layoutInflater = 
+          (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+      View popupView = layoutInflater.inflate(R.layout.login_popup, null);
+      ppw = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+      ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
+      // set the position and size of popup
+      ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
     }
   }
 
-  private void buildPopup(boolean isLogin) {
-    // set up the layout inflater to inflate the popup layout
-    LayoutInflater layoutInflater =
-              (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-    View popupView;
-
-    // the parent layout to put the layout in
-    ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
-
-    // inflate either the login layout or password layout depending on parameter
-    if (isLogin) {
-        popupView = layoutInflater.inflate(R.layout.login_popup, null);
-        login_ppw = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-        login_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
-    } else {
-        popupView = layoutInflater.inflate(R.layout.reset_pw_layout, null);
-        password_ppw = new PopupWindow(popupView, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-        password_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
-    }
-  }
-  /**
-   * Handles what happens when user clicks the "Forgot your password" link
-   * @param view Button that is pressed
-   */
-  public final void forgotPassword(View view) {
-    buildPopup(false);
-    login_ppw.dismiss();
-  }
   /**
    * Handles what happens when user clicks the login button
    * @param view Button that is pressed
    */
   public void loginButton(View view) {
     // get the username and password inputs
-    final View contentView = login_ppw.getContentView();
+    final View contentView = ppw.getContentView();
     EditText usernameInput = (EditText) contentView.findViewById(R.id.username_login_input);
     EditText passwordInput = (EditText) contentView.findViewById(R.id.password_login_input);
 
@@ -167,8 +160,6 @@ public class TitlePage extends Activity {
             startActivity(multiIntent);
           } else {
             errorMessage.setText("Email is not verified");
-            ParseUser.logOut();
-            currentUser = ParseUser.getCurrentUser();
           }
         } else {
           // an error occured. Figure out if invalid username or password
@@ -180,21 +171,13 @@ public class TitlePage extends Activity {
   }
 
   /**
-   * Exits the login popup window
+   * Exits the popup window
    * @param view the button clicked
    */
-  public void exitLoginPopup(View view) {
-    login_ppw.dismiss();
+  public void exitPopup(View view) {
+    ppw.dismiss();
   }
 
-  /**
-   * Exits the password popup window
-   * @param view the button clicked
-   */
-  public void exitPasswordPopup(View view) {
-    password_ppw.dismiss();
-    buildPopup(true);
-  }
   /**
    * Logs out the current user
    * @param view the button clicked
@@ -216,7 +199,7 @@ public class TitlePage extends Activity {
   public void resetPassword(View view) {
     // get the contents of the popup window and get the email
     // user typed in
-    final View contentView = password_ppw.getContentView();
+    final View contentView = ppw.getContentView();
     EditText emailReset = (EditText) contentView.findViewById(R.id.email_forgot_password_input);
     final String emailString = emailReset.getText().toString();
 
@@ -241,8 +224,6 @@ public class TitlePage extends Activity {
         }
       }
     });
-    password_ppw.dismiss();
-    buildPopup(true);
   }
 
   /**

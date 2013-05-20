@@ -1,13 +1,14 @@
-package com.example.zootypers;
+package com.example.zootypers.core;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
-import java.util.Set;
 
+import com.example.zootypers.util.EmptyQueueException;
+import com.example.zootypers.util.InternalErrorException;
+import com.example.zootypers.util.InternetConnectionException;
+import com.example.zootypers.util.States;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -22,14 +23,14 @@ import com.parse.RefreshCallback;
  * 
  */
 
-public class MultiPlayerModel extends Observable {
+public class MultiPlayerModel extends PlayerModel {
 
 	private static final int QUEUE_TIMEOUT = 15000; // timer set for 15 sec to wait before giving up in queue
 	private static final int SCORE_TIMEOUT = 50000; // timer set to 5 sec to wait for getting opponents score
 	private static final int RECHECK_TIME = 500; // timer set to 1/2 sec to wait between checks
+	
 	private static final int LIST_SIZE = 100;
-	// number of words displayed on the view
-	private final int numWordsDisplayed;
+	private static final int NUMOFWORDS = 709; // maximum number of words in wordLists on Parse database
 
 	private String name;
 
@@ -37,27 +38,8 @@ public class MultiPlayerModel extends Observable {
 
 	private Map<String, String> info;
 
-	// stores an array of words 
-	private List<String> wordsList;
-
-	// array of indices that refers to strings inside wordsList
-	private int[] wordsDisplayed;
-
-	private Set<Character> currFirstLetters;
-
-	// index of the next word to pull from wordsList, (should ONLY be used with wordsList)
-	private int nextWordIndex;
-
-	// index of a string inside wordsDisplayed (should NEVER be used on wordsList!)
-	private int currWordIndex;
-
-	// index of letter that has been parsed from the currWordIndex
-	private int currLetterIndex;
-
 	private int animalName;
 
-	// maximum number of words in wordLists on Parse database
-	private static final int NUMOFWORDS = 709;
 
 	/**
 	 * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
@@ -70,16 +52,10 @@ public class MultiPlayerModel extends Observable {
 	 * @throws ParseException 
 	 */
 	public MultiPlayerModel(int wordsDis, String uname, int animalName) {
+		super(wordsDis);
 		this.animalName = animalName;
 		this.name = uname;
 		this.info = new HashMap<String, String>();
-		this.numWordsDisplayed = wordsDis;
-		currFirstLetters = new HashSet<Character>();
-		//initialize all the fields to default starting values
-		wordsDisplayed = new int[numWordsDisplayed];
-		nextWordIndex = 0;
-		currLetterIndex = -1;
-		currWordIndex = -1;
 	}
 
 	public void beginMatchMaking() throws InternetConnectionException, EmptyQueueException, InternalErrorException {
@@ -206,28 +182,6 @@ public class MultiPlayerModel extends Observable {
 		}
 	}
 
-	/**
-	 * The populateDisplayedList method gets called once by MultiPlayer after
-	 * it added itself as an observer of this class. The method populates the
-	 * displayed word list with numWordsDisplayed amount of words. 
-	 */
-	public void populateDisplayedList() {
-		// putting first five words into wordsDisplayed
-		currFirstLetters = new HashSet<Character>();
-		for (int i = 0; i < numWordsDisplayed; i++) {
-			while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
-				nextWordIndex++;
-			}
-			currFirstLetters.add(wordsList.get(nextWordIndex).charAt(0));
-			wordsDisplayed[i] = nextWordIndex;
-			currWordIndex = i;
-			setChanged();
-			notifyObservers(States.update.FINISHED_WORD);
-		}
-		nextWordIndex++;
-		currWordIndex = -1;
-	}
-
 	public int getOpponentAnimal() throws InternetConnectionException {
 		try {
 			match.refresh();
@@ -284,32 +238,6 @@ public class MultiPlayerModel extends Observable {
 		// wrong letter typed
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
-	}
-
-
-	/*
-	 *  Replace the current word on display with a new word from list making
-	 *  sure that the new word will not start with the same letter as any of
-	 *  the other words being displayed.
-	 *  post: nextWordIndex will always be set to a valid index of wordsList
-	 */
-	private void updateWordsDisplayed() {
-		currFirstLetters.remove(wordsList.get(wordsDisplayed[currWordIndex]).charAt(0));
-		while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
-			nextWordIndex++;
-			if (nextWordIndex >= wordsList.size()) {
-				nextWordIndex = 0;
-			}
-		}
-		currFirstLetters.add(wordsList.get(nextWordIndex).charAt(0));
-		wordsDisplayed[currWordIndex] = nextWordIndex;
-		nextWordIndex++;
-		if (nextWordIndex >= wordsList.size()) {
-			nextWordIndex = 0;
-		}
-
-		setChanged();
-		notifyObservers(States.update.FINISHED_WORD);
 	}
 
 	public final void setUserFinish() throws InternetConnectionException {
@@ -384,50 +312,7 @@ public class MultiPlayerModel extends Observable {
 		return match.getInt(info.get("score"));
 	}
 
-	/**
-	 * @return the string representation of the current word the player is locked to,
-	 * null if player is not locked to a word
-	 */
-	public final String getCurrWord() {
-		if (currWordIndex == -1) {
-			return null;
-		}
-		return wordsList.get(wordsDisplayed[currWordIndex]);
-	}
-
-	/**
-	 * @return the index of the word the player is currently locked to within the words displayed
-	 */
-	public final int getCurrWordIndex() {
-		return currWordIndex;
-	}
-
-	/**
-	 * @return the index of the letter the player is expected to type in the locked word
-	 */
-	public final int getCurrLetterIndex() {
-		return currLetterIndex;
-	}
-
-	/**
-	 * @return opponent's score from database
-	 */
 	public final int getOpponentScore() {
 		return match.getInt(info.get("oscore"));
-	}
-	
-	/**
-	 * @return int array of the words displayed
-	 */
-	public final int[] getWordsDisplayed() {
-		return wordsDisplayed;
-	}
-	
-	/**
-	 * 
-	 * @return the next word index that we are using in the database
-	 */
-	public final int getNextWordIndex() {
-	    return nextWordIndex;
 	}
 }
