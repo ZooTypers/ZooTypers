@@ -1,4 +1,4 @@
-package com.example.zootypers;
+package com.example.zootypers.core;
 
 
 /**

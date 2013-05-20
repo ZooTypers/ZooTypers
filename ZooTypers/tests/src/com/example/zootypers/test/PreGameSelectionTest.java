@@ -2,6 +2,7 @@ package com.example.zootypers.test;
 
 import org.junit.Test;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.test.ActivityInstrumentationTestCase2;
 import android.view.Display;
@@ -10,8 +11,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.zootypers.PreGameSelection;
-import com.example.zootypers.TitlePage;
+import com.example.zootypers.ui.PreGameSelection;
+import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
 
 /**
@@ -33,9 +34,11 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	private Display display;
 	private static final int TIMEOUT = 10000;
 	
-	public PreGameSelectionTest() {
+	@SuppressLint("NewApi")
+    public PreGameSelectionTest() {
 		super(PreGameSelection.class);
 	}
+
 
 	protected void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
@@ -43,7 +46,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 	    screenWidth = display.getWidth(); 
 	    screenHeight = display.getHeight();
 	}
-	
+
+    /**
+     * Test to see if all the buttons are in view.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testCorrectButtonAndTextDisplayed() {
 		 assertTrue(solo.searchButton("Easy"));
@@ -53,7 +59,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		 assertTrue(solo.searchButton("Continue"));
 		 assertFalse(solo.searchButton("WRONG_BUTTON"));
 	}
-	
+
+    /**
+     * Tests to see if 'Easy' can be pushed.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testSelectingEasyDifficultyButton() {
 		solo.clickOnButton("Easy");
@@ -62,7 +71,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		View actual = getActivity().getDiffView();
 		assertEquals(expected, actual);
 	}
-	
+
+    /**
+     * Tests to see if 'Medium' can be pushed.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testSelectingMediumDifficultyButton() {
 		solo.clickOnButton("Medium");
@@ -71,7 +83,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		View actual = getActivity().getDiffView();
 		assertEquals(expected, actual);
 	}
-	
+
+    /**
+     * Tests to see if 'Hard' can be pushed.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testSelectingHardDifficultyButton() {
 		solo.clickOnButton("Hard");
@@ -80,7 +95,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		View actual = getActivity().getDiffView();
 		assertEquals(expected, actual);
 	}
-	
+
+    /**
+     * Tests to see if Elelphant avatar can be pushed.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testSelectingElephantButtonWorks() {
 		solo.waitForView(ImageButton.class);
@@ -91,7 +109,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		View actual = getActivity().getAnimalView();
 		assertEquals(expected, actual);
 	}
-	
+
+    /**
+     * Tests to see if Giraffe avatar can be pushed.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testSelectionGiraffeButtonWorks() {
 		solo.waitForView(ImageButton.class);
@@ -102,7 +123,11 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		View actual = getActivity().getAnimalView();
 		assertEquals(expected, actual);
 	}
-	
+
+    /**
+     * Tests to see if Kangaroo avatar can be pushed. This requires Robotium to automatically swipe to the right
+     * to access Kangaroo avatar.
+     */
 	@Test(timeout = TIMEOUT)
     public void testSelectionKangarooButtonWorks() {
         int expectedValue = 0; // 0=VISIBLE, 4=INVISIBLE, 8=GONE
@@ -122,7 +147,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
         View actual = getActivity().getAnimalView();
         assertEquals(expected, actual);
     }
-	
+
+    /**
+     * Commented out because it is in the same testing domain as testSelectionKangarooButtonWorks method.
+     */
 //	@Test(timeout = TIMEOUT)
 //	public void testSelectionTurtleButtonWorks() {
 //		
@@ -194,7 +222,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 //		View actual = getActivity().getAnimalView();
 //		assertEquals(expected, actual);
 //	}
-	
+
+    /**
+     * Tests to see if Grassland terrain can be pushed.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testSelectingGrasslandBackground() {
 		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.BG1_button);
@@ -203,7 +234,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		View actual = getActivity().getBackgroundView();
 		assertEquals(expected, actual);
 	}
-	
+
+    /**
+     * Tests to see if Rainbow terrain can be pushed.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testingSelectingRainbowBackground() {
 		ImageButton imageButton = (ImageButton) solo.getView(com.example.zootypers.R.id.BG2_button);
@@ -213,7 +247,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		View actual = getActivity().getBackgroundView();
 		assertEquals(expected, actual);
 	}
-	
+
+    /**
+     * Tests to see if we can go back to Main Menu with the button 'Main Menu'.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testingSelectingMainMenuButton() {
 		solo.assertCurrentActivity("Check on current page activity.", PreGameSelection.class);
@@ -224,7 +261,10 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
 		solo.goBack();
 		solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
 	}
-	
+
+    /**
+     * Tests to see if the button 'Continue' works with the selected options.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testingSelectingContinueButton() {
 		solo.assertCurrentActivity("Check on current page activity.", PreGameSelection.class);
@@ -238,7 +278,6 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
         solo.clickOnButton("Main Menu");
         solo.sleep(1000);
         solo.searchButton("Single Player");
-	    solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
 	}
 	
 	protected void tearDown() throws Exception {

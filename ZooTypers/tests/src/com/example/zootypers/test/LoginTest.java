@@ -1,11 +1,14 @@
 package com.example.zootypers.test;
 
-import org.junit.*;
-import com.example.zootypers.*;
-import com.example.zootypers.R;
-import com.jayway.android.robotium.solo.Solo;
+import org.junit.Test;
+
+import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
+
+import com.example.zootypers.R;
+import com.example.zootypers.ui.TitlePage;
+import com.jayway.android.robotium.solo.Solo;
 
 /**
  * Testing to see if the login feature works correctly by logging into
@@ -23,18 +26,26 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	private Solo solo;
 	private static final int TIMEOUT = 10000;
 	
-	public LoginTest() {
+	@SuppressLint("NewApi")
+    public LoginTest() {
 		super(TitlePage.class);
 	}
 
+    /**
+     * create a new solo class to use robotium
+     * @throws Exception if activity isn't instantiated
+     */
 	protected void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
+    /**
+     * Goes to Multiplayer activity, click Register and putting in record that is already used
+     */
 	@Test(timeout = TIMEOUT)
 	public void testingRegisteringForAccountInUse() {
 		solo.clickOnButton("Multiplayer");
-		solo.clickOnButton("Register");
+		solo.clickOnText("Join now!");
 		EditText username = (EditText) solo.getView(R.id.username_register_input);
 		solo.enterText(username, "David");
 		EditText password = (EditText) solo.getView(R.id.password_input_register);
@@ -46,8 +57,12 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		solo.clickOnButton("Submit");
 		solo.sleep(5000);
 		solo.searchText("Username is already in use.");
+	    solo.finishOpenedActivities();
 	}
-	
+
+    /**
+     * Goes to Multiplayer activity and login with an active account then logout.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testingLoginToExistingUserAndLoggingOut() {
 		solo.clickOnButton("Multiplayer");
@@ -60,17 +75,20 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		solo.clickOnButton("Main Menu");
 		solo.clickOnButton("Logout");
 		solo.searchText("Logged Out");
+	    solo.finishOpenedActivities();
 	}
-	
-	@Test(timeout = TIMEOUT)
-	public void testingForgotPasswordInputFailure() {
-		solo.clickOnButton("Multiplayer");
-		EditText email = (EditText) solo.getView(R.id.email_forgot_password_input);
-		solo.enterText(email, "davidqwe123@hotmail.com");
-		solo.clickOnButton("Reset");
-		solo.sleep(5000);
-		solo.searchText("Password Reset Failed");
-	}
+
+//    /**
+//     * Goes to Multiplayer activity and request an invalid email for a password reset.
+//     */
+//	@Test(timeout = TIMEOUT)
+//	public void testingForgotPasswordInputFailure() {
+//	    solo.clickOnButton("Multiplayer");
+//		solo.clickOnText("Forgot your password?");
+//		EditText email = (EditText) solo.getView(R.id.email_forgot_password_input);
+//		solo.enterText(email, "davidqwe123@hotmail.com");
+//		solo.clickOnButton("Reset");
+//	}
 	
 	protected void tearDown() throws Exception {
 		solo.finishOpenedActivities();

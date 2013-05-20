@@ -1,13 +1,15 @@
-package com.example.zootypers;
+package com.example.zootypers.ui;
 
-import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff.Mode;
+import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+
+import com.example.zootypers.R;
 
 /**
  *
