@@ -221,6 +221,7 @@ public class RegisterPage extends Activity {
 					currentUser = username;
 					final String title = "Account Created Successfully!";
 					final String message = "Please verify your email before playing.";
+                    ParseUser.logOut();
 					buildAlertDialog(title, message, true);
 				} else {
 					// sign up didnt succed. //TODO: figure out how do deal with error
