@@ -23,39 +23,39 @@ public abstract class Player extends Activity implements Observer {
 
 	// the total amount of time given to the user to type. (61 seconds to tick 60 times)
 	public final static long START_TIME = 61000;
-	
+
 	// the interval for each time the clock ticks. (interval will be 1 second)
 	protected final static long INTERVAL = 1000;
-	
+
 	// the number of words being displayed on the screen
 	protected final int NUM_WORDS = 5;
-	
+
 	// the background ID the user chose in the pre-game selection
 	protected int bg;
 
 	// the current time on the game.
 	protected long currentTime;
-	
+
 	/**
 	 * Called when the timer runs out; starts the post game screen
 	 * activity with the correct data to pass.
 	 */
 	public abstract void goToPostGame();
-	
+
 	/**
 	 * Called where there is a error.
 	 * Quits the game and goes to the corresponding error page.
 	 */
 	public abstract void error(States.error err);
-	
-    /**
-    * @param id The id of the View to get as a String.
-    * @return The View object with that id
-    */
-    public final View getByStringId(final String id) {
-        return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
-    }
-     
+
+	/**
+	 * @param id The id of the View to get as a String.
+	 * @return The View object with that id
+	 */
+	public final View getByStringId(final String id) {
+		return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
+	}
+
 	/**
 	 * Observer for model.
 	 * @param arg0 Thing being observes.
@@ -69,14 +69,14 @@ public abstract class Player extends Activity implements Observer {
 
 			if (arg1 instanceof States.update) {
 				States.update change = (States.update) arg1;
-				TextView tv = (TextView)findViewById(R.id.typedError_prompt);
+				TextView tv = (TextView) findViewById(R.id.typedError_prompt);
 				if (change == States.update.FINISHED_WORD) {
 					displayScore(pM.getScore());
 					displayWord(pM.getCurrWordIndex(), pM.getCurrWord());
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.HIGHLIGHT) {
 					highlightWord(pM.getCurrWordIndex(), pM.getCurrWord(), 
-							pM.getCurrLetterIndex());
+					pM.getCurrLetterIndex());
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.WRONG_LETTER) {
 					//final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
@@ -89,14 +89,14 @@ public abstract class Player extends Activity implements Observer {
 		if (arg0 instanceof MultiPlayerModel && arg1 instanceof States.update) {
 			MultiPlayerModel mpM = (MultiPlayerModel) arg0;
 			States.update change = (States.update) arg1;
-			TextView tv = (TextView)findViewById(R.id.typedError_prompt);
+			TextView tv = (TextView) findViewById(R.id.typedError_prompt);
 			if (change == States.update.OPPONENT_SCORE) {
 				displayOpponentScore(mpM.getOpponentScore());
 				tv.setVisibility(TextView.INVISIBLE);
 			}
 		}
 	}
-	
+
 	/**
 	 * Updates the oppenent's score on the screen.
 	 * @param score The score to display.
@@ -105,7 +105,7 @@ public abstract class Player extends Activity implements Observer {
 		TextView currentScore = (TextView) findViewById(R.id.opp_score);
 		currentScore.setText(Integer.toString(score));
 	}
-	
+
 	/**
 	 * @param wordIndex The index of the word to display; 0 <= wordIndex < 5.
 	 * @param word The word to display.
@@ -118,16 +118,16 @@ public abstract class Player extends Activity implements Observer {
 		TextView wordBox = (TextView) getByStringId("word" + wordIndex);
 		wordBox.setText(word);
 	}
-	
-    /**
-    * Updates the timer on the screen.
-    * @param secondsLeft The number of seconds to display.
-    */
-    public final void displayTime(final long secondsLeft) {
-        TextView timerBox = (TextView) findViewById(R.id.time_text);
-        timerBox.setText(Long.toString(secondsLeft));
-    }
-    
+
+	/**
+	 * Updates the timer on the screen.
+	 * @param secondsLeft The number of seconds to display.
+	 */
+	public final void displayTime(final long secondsLeft) {
+		TextView timerBox = (TextView) findViewById(R.id.time_text);
+		timerBox.setText(Long.toString(secondsLeft));
+	}
+
 	/**
 	 * Updates the score on the screen.
 	 * @param score The score to display.
@@ -136,28 +136,28 @@ public abstract class Player extends Activity implements Observer {
 		TextView currentScore = (TextView) findViewById(R.id.score);
 		currentScore.setText(Integer.toString(score));
 	}
-	
-    /**
-    * Highlights the letterIndex letter of the wordIndex word. letterIndex must
-    * not be beyond the scope of the word.
-    * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
-    * @param letterIndex The index of the letter in the word to highlight.
-    */
-    public void highlightWord(final int wordIndex, final String word, final int letterIndex) {
-        TextView wordBox = (TextView) getByStringId("word" + wordIndex);
-        String highlighted  = word.substring(0, letterIndex);
-        String rest = word.substring(letterIndex);
-        wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
-    }
-	
-    /**
-    * Reopens keyboard when it is closed
-    * @param view The button clicked.
-    * @author oaknguyen
-    */
-    public final void keyboardButton(final View view) {
-        InputMethodManager inputMgr = (InputMethodManager) 
-        getSystemService(Context.INPUT_METHOD_SERVICE);
-        inputMgr.toggleSoftInput(0, 0);
-    }	
+
+	/**
+	 * Highlights the letterIndex letter of the wordIndex word. letterIndex must
+	 * not be beyond the scope of the word.
+	 * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
+	 * @param letterIndex The index of the letter in the word to highlight.
+	 */
+	public void highlightWord(final int wordIndex, final String word, final int letterIndex) {
+		TextView wordBox = (TextView) getByStringId("word" + wordIndex);
+		String highlighted  = word.substring(0, letterIndex);
+		String rest = word.substring(letterIndex);
+		wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
+	}
+
+	/**
+	 * Reopens keyboard when it is closed
+	 * @param view The button clicked.
+	 * @author oaknguyen
+	 */
+	public final void keyboardButton(final View view) {
+		InputMethodManager inputMgr = (InputMethodManager) 
+		getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMgr.toggleSoftInput(0, 0);
+	}  
 }

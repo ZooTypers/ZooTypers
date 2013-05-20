@@ -7,9 +7,6 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 
-import com.example.zootypers.ui.PreGameSelectionMulti;
-import com.example.zootypers.ui.TitlePage;
-
 public class ErrorScreen extends Activity {
 
 	private int error;
