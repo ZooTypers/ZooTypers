@@ -1,13 +1,14 @@
 package com.example.zootypers.test;
 
-import org.junit.*;
-import com.example.zootypers.*;
-import com.example.zootypers.R;
-import com.jayway.android.robotium.solo.Solo;
+import org.junit.Test;
 
 import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
+
+import com.example.zootypers.R;
+import com.example.zootypers.ui.TitlePage;
+import com.jayway.android.robotium.solo.Solo;
 
 /**
  * Testing to see if the login feature works correctly by logging into
@@ -44,7 +45,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	@Test(timeout = TIMEOUT)
 	public void testingRegisteringForAccountInUse() {
 		solo.clickOnButton("Multiplayer");
-		solo.clickOnButton("Register");
+		solo.clickOnText("Join now!");
 		EditText username = (EditText) solo.getView(R.id.username_register_input);
 		solo.enterText(username, "David");
 		EditText password = (EditText) solo.getView(R.id.password_input_register);
@@ -56,6 +57,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		solo.clickOnButton("Submit");
 		solo.sleep(5000);
 		solo.searchText("Username is already in use.");
+	    solo.finishOpenedActivities();
 	}
 
     /**
@@ -73,20 +75,20 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		solo.clickOnButton("Main Menu");
 		solo.clickOnButton("Logout");
 		solo.searchText("Logged Out");
+	    solo.finishOpenedActivities();
 	}
 
-    /**
-     * Goes to Multiplayer activity and request an invalid email for a password reset.
-     */
-	@Test(timeout = TIMEOUT)
-	public void testingForgotPasswordInputFailure() {
-		solo.clickOnButton("Multiplayer");
-		EditText email = (EditText) solo.getView(R.id.email_forgot_password_input);
-		solo.enterText(email, "davidqwe123@hotmail.com");
-		solo.clickOnButton("Reset");
-		solo.sleep(5000);
-		solo.searchText("Password Reset Failed");
-	}
+//    /**
+//     * Goes to Multiplayer activity and request an invalid email for a password reset.
+//     */
+//	@Test(timeout = TIMEOUT)
+//	public void testingForgotPasswordInputFailure() {
+//	    solo.clickOnButton("Multiplayer");
+//		solo.clickOnText("Forgot your password?");
+//		EditText email = (EditText) solo.getView(R.id.email_forgot_password_input);
+//		solo.enterText(email, "davidqwe123@hotmail.com");
+//		solo.clickOnButton("Reset");
+//	}
 	
 	protected void tearDown() throws Exception {
 		solo.finishOpenedActivities();

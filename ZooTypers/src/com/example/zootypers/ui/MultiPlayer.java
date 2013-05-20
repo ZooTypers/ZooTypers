@@ -322,4 +322,12 @@ public class MultiPlayer extends Player {
 			displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
 		}
 	}
+
+	/**
+	 * 
+	 * @return multiplayer model
+	 */
+	public final MultiPlayerModel getModel() {
+		return model;
+	}
 }

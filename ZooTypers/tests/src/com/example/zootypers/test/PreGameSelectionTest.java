@@ -11,8 +11,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 
-import com.example.zootypers.PreGameSelection;
-import com.example.zootypers.TitlePage;
+import com.example.zootypers.ui.PreGameSelection;
+import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
 
 /**
