@@ -1,4 +1,4 @@
-package com.example.zootypers;
+package com.example.zootypers.core;
 
 
 /**
@@ -13,22 +13,22 @@ public class LeaderBoardModel {
 	//Number of Entries that is already in the database
 	private int entryNumber;
 	//Number of Entries that we are allowed in the database
-	private int maxEntries;
+	private int topEntries;
 	
 	/**
 	 * @effect : initialize field to default values
 	 */
 	public LeaderBoardModel(){
 		entryNumber = 0;
-		maxEntries = 50;
+		topEntries = 50;
 	}
 	
 	/**
 	 * @effect : initialize fields to the params and default values
-	 * @param maxEntries
+	 * @param top 
 	 */
-	public LeaderBoardModel(int maxEntries){
-		this.maxEntries = maxEntries;
+	public LeaderBoardModel(int topEntries){
+		this.topEntries = topEntries;
 		entryNumber = 0;
 	}
 	
@@ -73,10 +73,10 @@ public class LeaderBoardModel {
 	}
 	
 	/**
-	 * @ return max;
+	 * @ return top;
 	 */
-	public int getMaxEntries(){
-		return maxEntries;
+	public int getTopEntries(){
+		return topEntries;
 	}
 	/**
 	 * @return entry
