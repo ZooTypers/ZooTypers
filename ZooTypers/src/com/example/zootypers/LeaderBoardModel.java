@@ -13,22 +13,22 @@ public class LeaderBoardModel {
 	//Number of Entries that is already in the database
 	private int entryNumber;
 	//Number of Entries that we are allowed in the database
-	private int topEntries;
+	private int maxEntries;
 	
 	/**
 	 * @effect : initialize field to default values
 	 */
 	public LeaderBoardModel(){
 		entryNumber = 0;
-		topEntries = 50;
+		maxEntries = 50;
 	}
 	
 	/**
 	 * @effect : initialize fields to the params and default values
-	 * @param top 
+	 * @param maxEntries
 	 */
-	public LeaderBoardModel(int topEntries){
-		this.topEntries = topEntries;
+	public LeaderBoardModel(int maxEntries){
+		this.maxEntries = maxEntries;
 		entryNumber = 0;
 	}
 	
@@ -73,10 +73,10 @@ public class LeaderBoardModel {
 	}
 	
 	/**
-	 * @ return top;
+	 * @ return max;
 	 */
-	public int getTopEntries(){
-		return topEntries;
+	public int getMaxEntries(){
+		return maxEntries;
 	}
 	/**
 	 * @return entry

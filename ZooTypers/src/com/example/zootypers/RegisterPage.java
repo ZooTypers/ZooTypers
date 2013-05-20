@@ -9,7 +9,6 @@ import android.view.Menu;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -222,6 +221,7 @@ public class RegisterPage extends Activity {
 					currentUser = username;
 					final String title = "Account Created Successfully!";
 					final String message = "Please verify your email before playing.";
+                    ParseUser.logOut();
 					buildAlertDialog(title, message, true);
 				} else {
 					// sign up didnt succed. //TODO: figure out how do deal with error
