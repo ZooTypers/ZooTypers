@@ -70,5 +70,7 @@
     <string name="title_activity_error">Error</string>
     <string name="interrupt_error">Panic! Something has gone terribly wrong! Please try again.</string>
     <string name="game_over">Game Over!</string>
+    <string name="join_now_string"><u>join now</u></string>
+    <string name="forgot_pw_string"><u>Forgot your password?</u></string>
 
 </resources>

@@ -4,6 +4,8 @@ import org.junit.*;
 import com.example.zootypers.*;
 import com.example.zootypers.R;
 import com.jayway.android.robotium.solo.Solo;
+
+import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.EditText;
 
@@ -23,14 +25,22 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	private Solo solo;
 	private static final int TIMEOUT = 10000;
 	
-	public LoginTest() {
+	@SuppressLint("NewApi")
+    public LoginTest() {
 		super(TitlePage.class);
 	}
 
+    /**
+     * create a new solo class to use robotium
+     * @throws Exception if activity isn't instantiated
+     */
 	protected void setUp() throws Exception {
 		solo = new Solo(getInstrumentation(), getActivity());
 	}
 
+    /**
+     * Goes to Multiplayer activity, click Register and putting in record that is already used
+     */
 	@Test(timeout = TIMEOUT)
 	public void testingRegisteringForAccountInUse() {
 		solo.clickOnButton("Multiplayer");
@@ -47,7 +57,10 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		solo.sleep(5000);
 		solo.searchText("Username is already in use.");
 	}
-	
+
+    /**
+     * Goes to Multiplayer activity and login with an active account then logout.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testingLoginToExistingUserAndLoggingOut() {
 		solo.clickOnButton("Multiplayer");
@@ -61,7 +74,10 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 		solo.clickOnButton("Logout");
 		solo.searchText("Logged Out");
 	}
-	
+
+    /**
+     * Goes to Multiplayer activity and request an invalid email for a password reset.
+     */
 	@Test(timeout = TIMEOUT)
 	public void testingForgotPasswordInputFailure() {
 		solo.clickOnButton("Multiplayer");
