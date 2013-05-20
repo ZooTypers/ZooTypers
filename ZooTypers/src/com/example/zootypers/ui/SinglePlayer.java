@@ -30,23 +30,38 @@ import com.example.zootypers.util.States.difficulty;
  *
  * UI / Activity and controller for single player game screen.
  * @author cdallas, littlpunk, kobyran
- *
  */
 public class SinglePlayer extends Player {
 
 	// used for the communicating with model
 	private SinglePlayerModel model;
 
-	// for the popup window
+	// the popup window
 	private PopupWindow ppw;
+	
+	// the popup parameters
 	public LayoutParams popUpParams;
+	
+	// the popup layout
 	public LinearLayout popUpLayout;
+	
+	// the time in which the game was paused
 	private long pausedTime = START_TIME;
 
-	// for the game timer
+	// the game timer that will give a time limit
 	protected GameTimer gameTimer;
+	
+	// keeps track for if the game is paused or not
 	public static boolean paused = false;
 
+	/*
+	 *  Called when the activity is starting. uses the information that was picked
+	 *  in the pre selection screen and sets a background, animal, and difficulty
+	 *  also creates a single player model and does the initial display.
+	 *  
+	 *  @params savedInstanceState, the state of the intent before exiting
+	 *  this activity before
+	 */
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,7 +96,13 @@ public class SinglePlayer extends Player {
 		gameTimer.start();
 
 	}
-
+	
+	
+	/**
+	 * Initialize the contents of the Activity's standard options menu. 
+	 * 
+	 * @params menu, that uses added to the action bar if it is present.
+	 */
 	@Override
 	public final boolean onCreateOptionsMenu(final Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -89,10 +110,10 @@ public class SinglePlayer extends Player {
 		return true;
 	}
 
-	@Override
 	/**
 	 * When the user types a letter, this listens for it.
 	 */
+	@Override
 	public final boolean onKeyDown(final int key, final KeyEvent event){
 		if (key == KeyEvent.KEYCODE_BACK && !paused) {
 			pauseGame(findViewById(R.id.pause_button));
@@ -105,6 +126,9 @@ public class SinglePlayer extends Player {
 		return true;
 	}
 
+	/**
+	 * This is called when the activity is on pause
+	 */
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -113,11 +137,12 @@ public class SinglePlayer extends Player {
 	}
 
 	/**
-	 * Displays the initial screen of the single player game.
+	 * Displays the initial screen of the single player game. This includes
+	 * the background, animal, as well as the initial words displayed on the screen.
+	 * 
 	 * @param animalID Drawable referring to the id of the selected animal image,
 	 * e.g. R.drawable.elephant_color.
 	 * @param backgroudID Drawable referring to the id of the selected background image.
-	 * @param words An array of the words to display. Must have a length of 5.
 	 */
 	public void initialDisplay(Drawable animalID, Drawable backgroundID) {
 		// display animal
@@ -148,6 +173,7 @@ public class SinglePlayer extends Player {
 
 	/**
 	 * When the pause button is pressed, pauses the game and shows a pop-up window.
+	 * 
 	 * @param view The button clicked.
 	 */
 	public void pauseGame(View view) {
@@ -173,6 +199,7 @@ public class SinglePlayer extends Player {
 
 	/**
 	 * When the user clicks the continue button while paused, continues the game.
+	 * 
 	 * @param view The button clicked.
 	 */
 	public void pausedContinue(View view){
@@ -180,7 +207,6 @@ public class SinglePlayer extends Player {
 		findViewById(R.id.keyboard_open_button).setEnabled(true);
 		findViewById(R.id.pause_button).setEnabled(true);
 		// keyboardButton(findViewById(R.id.keyboard_open_button));
-
 		gameTimer = new GameTimer(pausedTime, INTERVAL);
 		gameTimer.start();
 		ppw.dismiss();
@@ -189,6 +215,7 @@ public class SinglePlayer extends Player {
 
 	/**
 	 * When the user clicks the new game button while paused, starts a new game.
+	 * 
 	 * @param view The button clicked.
 	 */
 	public void pausedNewGame(View view) {
@@ -199,6 +226,7 @@ public class SinglePlayer extends Player {
 
 	/**
 	 * When the user clicks the main menu button while paused, goes to the title screen.
+	 * 
 	 * @param view The button clicked.
 	 */
 	public void pausedMainMenu(View view) {
@@ -228,7 +256,8 @@ public class SinglePlayer extends Player {
 
 		@Override
 		public final void onTick(final long millisUntilFinished) {
-			currentTime = millisUntilFinished;
+			// edge case because 0 does not tick, in order to show 0 we have to -1000
+			currentTime = millisUntilFinished - 1000;
 			displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
 		}
 	}

@@ -23,7 +23,6 @@ import com.example.zootypers.util.InternetConnectionException;
 import com.example.zootypers.util.States;
 import com.parse.Parse;
 
-
 /**
  * Activity / UI for MultiPlayer screen.
  * @author cdallas
@@ -32,16 +31,23 @@ import com.parse.Parse;
 @SuppressLint("NewApi")
 public class MultiPlayer extends Player {
 
-//	// Loading popup
+	// the username of the user currently trying to play a game
+	private String username;
+	
+	// the game timer that will give a time limit
+	private GameTimer gameTimer;
+	
+	// used for the communicating with model
+	private MultiPlayerModel model;
+	
 //	private PopupWindow ppw;
 
-	private String username;
-	private GameTimer gameTimer;
-	private MultiPlayerModel model;
-
-	/**
+	/*
+	 * flips the animal being displayed horizontally so that the animal
+	 * is facing the other direction.
+	 * 
 	 * @param id The id of an animal ImageButton on the pregame screen.
-	 * @return The resource if of the drawable image facing the opposite way
+	 * @return The resource id of the drawable image facing the opposite way
 	 * (i.e. the opponent's version of the animal).
 	 */
 	private int reverseDrawable(int id) {
@@ -86,6 +92,15 @@ public class MultiPlayer extends Player {
 //	}
 
 
+	/*
+	 *  Called when the activity is starting. uses the information that was picked
+	 *  in the pre selection screen and sets a background, animal, and opponent's
+	 *  also creates a multi player model and does the initial display.
+	 *  once done created there should already be an opponent ready to play.
+	 *  
+	 *  @params savedInstanceState, the state of the intent before exiting
+	 *  this activity before
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -99,7 +114,8 @@ public class MultiPlayer extends Player {
 		Drawable background = ((ImageButton) findViewById(bg)).getDrawable();
 
 		// Initialize the database
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+							   "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 
 		// Get the user name
 		username = getIntent().getStringExtra("username");
@@ -135,6 +151,12 @@ public class MultiPlayer extends Player {
 		gameTimer.start();
 	}
 
+
+	/**
+	 * Initialize the contents of the Activity's standard options menu. 
+	 * 
+	 * @params menu, that uses added to the action bar if it is present.
+	 */
 	@Override
 	public final boolean onCreateOptionsMenu(final Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -210,6 +232,7 @@ public class MultiPlayer extends Player {
 		// Show game over message before going to post game
 		findViewById(R.id.game_over).setVisibility(0);
 
+		// sets themselves as done with the game
 		try {
 			model.setUserFinish();
 		} catch (InternetConnectionException e) {
@@ -234,7 +257,10 @@ public class MultiPlayer extends Player {
 
 		// Pass if opponent completed the game
 		try {
-			intent.putExtra("discon", !model.isOpponentFinished());
+			if (!model.isOpponentFinished()) {
+				error(States.error.CONNECTION);
+			}
+			//intent.putExtra("discon", !model.isOpponentFinished());
 		} catch (InternetConnectionException e) {
 			error(States.error.CONNECTION);
 			return;

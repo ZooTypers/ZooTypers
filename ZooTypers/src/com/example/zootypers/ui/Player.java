@@ -15,16 +15,37 @@ import com.example.zootypers.core.MultiPlayerModel;
 import com.example.zootypers.core.PlayerModel;
 import com.example.zootypers.util.States;
 
+/**
+ * Activity / UI for Player screen
+ * @author cdallas, littlpunk, kobyran
+ */
 public abstract class Player extends Activity implements Observer {
 
-	protected final int NUM_WORDS = 5;  
-	protected int bg;
+	// the total amount of time given to the user to type. (61 seconds to tick 60 times)
+	public final static long START_TIME = 61000;
 	
-	protected final long INTERVAL = 1000; // 1 second
-	public final static long START_TIME = 61000; // we give them 61 seconds to tick 60 times 
+	// the interval for each time the clock ticks. (interval will be 1 second)
+	protected final static long INTERVAL = 1000;
+	
+	// the number of words being displayed on the screen
+	protected final int NUM_WORDS = 5;
+	
+	// the background ID the user chose in the pre-game selection
+	protected int bg;
+
+	// the current time on the game.
 	protected long currentTime;
 	
+	/**
+	 * Called when the timer runs out; starts the post game screen
+	 * activity with the correct data to pass.
+	 */
 	public abstract void goToPostGame();
+	
+	/**
+	 * Called where there is a error.
+	 * Quits the game and goes to the corresponding error page.
+	 */
 	public abstract void error(States.error err);
 	
     /**
@@ -34,39 +55,7 @@ public abstract class Player extends Activity implements Observer {
     public final View getByStringId(final String id) {
         return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
     }
-    
-	
-    /**
-    * Updates the timer on the screen.
-    * @param secondsLeft The number of seconds to display.
-    */
-    public final void displayTime(final long secondsLeft) {
-        TextView timerBox = (TextView) findViewById(R.id.time_text);
-        timerBox.setText(Long.toString(secondsLeft));
-    }
-    
-	/**
-	 * Updates the score on the screen.
-	 * @param score The score to display.
-	 */
-	public final void displayScore(final int score) {
-		TextView currentScore = (TextView) findViewById(R.id.score);
-		currentScore.setText(Integer.toString(score));
-	}
-	
-    /**
-    * Highlights the letterIndex letter of the wordIndex word. letterIndex must
-    * not be beyond the scope of the word.
-    * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
-    * @param letterIndex The index of the letter in the word to highlight.
-    */
-    public void highlightWord(final int wordIndex, final String word, final int letterIndex) {
-        TextView wordBox = (TextView) getByStringId("word" + wordIndex);
-        String highlighted  = word.substring(0, letterIndex);
-        String rest = word.substring(letterIndex);
-        wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
-    }
-    
+     
 	/**
 	 * Observer for model.
 	 * @param arg0 Thing being observes.
@@ -97,7 +86,7 @@ public abstract class Player extends Activity implements Observer {
 				} 
 			}
 		} 
-		if (arg0 instanceof MultiPlayerModel&& arg1 instanceof States.update) {
+		if (arg0 instanceof MultiPlayerModel && arg1 instanceof States.update) {
 			MultiPlayerModel mpM = (MultiPlayerModel) arg0;
 			States.update change = (States.update) arg1;
 			TextView tv = (TextView)findViewById(R.id.typedError_prompt);
@@ -129,6 +118,37 @@ public abstract class Player extends Activity implements Observer {
 		TextView wordBox = (TextView) getByStringId("word" + wordIndex);
 		wordBox.setText(word);
 	}
+	
+    /**
+    * Updates the timer on the screen.
+    * @param secondsLeft The number of seconds to display.
+    */
+    public final void displayTime(final long secondsLeft) {
+        TextView timerBox = (TextView) findViewById(R.id.time_text);
+        timerBox.setText(Long.toString(secondsLeft));
+    }
+    
+	/**
+	 * Updates the score on the screen.
+	 * @param score The score to display.
+	 */
+	public final void displayScore(final int score) {
+		TextView currentScore = (TextView) findViewById(R.id.score);
+		currentScore.setText(Integer.toString(score));
+	}
+	
+    /**
+    * Highlights the letterIndex letter of the wordIndex word. letterIndex must
+    * not be beyond the scope of the word.
+    * @param wordIndex The index of the word to highlight; 0 <= wordIndex < 5.
+    * @param letterIndex The index of the letter in the word to highlight.
+    */
+    public void highlightWord(final int wordIndex, final String word, final int letterIndex) {
+        TextView wordBox = (TextView) getByStringId("word" + wordIndex);
+        String highlighted  = word.substring(0, letterIndex);
+        String rest = word.substring(letterIndex);
+        wordBox.setText(Html.fromHtml("<font color=#00FF00>" + highlighted + "</font>" + rest));
+    }
 	
     /**
     * Reopens keyboard when it is closed
