@@ -16,60 +16,80 @@ import com.parse.RefreshCallback;
 
 /** 
  * 
- * The Model class for Single Player store a list of words for the UI to display.
+ * The Model class for Multi-Player store a list of words for the UI to display.
  * It keeps track of word and letter the user has typed and updates the view accordingly.
  * 
  * @author winglam, nhlien93, dyxliang
  * 
  */
-
 public class MultiPlayerModel extends PlayerModel {
 
-	private static final int QUEUE_TIMEOUT = 15000; // timer set for 15 sec to wait before giving up in queue
-	private static final int SCORE_TIMEOUT = 50000; // timer set to 5 sec to wait for getting opponents score
-	private static final int RECHECK_TIME = 500; // timer set to 1/2 sec to wait between checks
+	// timer set for 15 sec to wait before giving up in queue
+	private static final int QUEUE_TIMEOUT = 15000;
 	
+	// timer set to 5 sec to wait for getting opponents score
+	private static final int SCORE_TIMEOUT = 5000;
+	
+	// timer set to 1/2 sec to wait between checks
+	private static final int RECHECK_TIME = 500;
+	
+	// total number of words in wordLists on Parse database
+	private static final int TOTAL_WORDS = 709;
+	
+	// size of the list to get from the Parse database
 	private static final int LIST_SIZE = 100;
-	private static final int NUMOFWORDS = 709; // maximum number of words in wordLists on Parse database
 
-	private String name;
-
+	// the object on the database that has all info of the match
+	// on the Parse database
 	private ParseObject match;
+	
+	// username of the player which was passed in
+	private String name;
+	
+	// the ID of the animal the user picked
+	private int animalID;
 
+	// maps the info to the correct key (between if the player was p1 or p2)
 	private Map<String, String> info;
-
-	private int animalName;
-
 
 	/**
 	 * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
 	 * and also what the difficulty level is. The constructor will initialize the words list
 	 * and fills in what words the view should display on the screen.
 	 * 
-	 * @param animalID, the string ID of a animal that is selected by the user
-	 * @param backgroudID, the string ID of a background that is selected by the user
-	 * @param diff, the difficulty level that is selected by the user
-	 * @throws ParseException 
+	 * @param wordsDis, the number of words being displayed on the screen
+	 * @param uname, the username of the user
+	 * @param animalID, the int ID of a animal that is selected by the user
 	 */
 	public MultiPlayerModel(int wordsDis, String uname, int animalName) {
 		super(wordsDis);
-		this.animalName = animalName;
+		this.animalID = animalName;
 		this.name = uname;
 		this.info = new HashMap<String, String>();
 	}
 
+	/**
+	 * Begins matchmaking the user by trying to find an opponent on the Parse
+	 * database.
+	 * 
+	 * @throws InternetConnectionException if disconnected from Internet
+	 * @throws EmptyQueueException if no opponent is found on database
+	 * @throws InternalErrorException if there was an internal error
+	 */	
 	public void beginMatchMaking() throws InternetConnectionException, EmptyQueueException, InternalErrorException {
+		// if an opponent is waiting in the database to play
 		if (findOpponent()) {
 			setInfo(false);
 			try {
 				match.put("p2name", name);
-				match.put("p2animal", animalName);
+				match.put("p2animal", animalID);
 				match.put("p2score", 0);
 				match.put("p2finished", false);
 				match.save();
 			} catch (ParseException e) {
 				throw new InternetConnectionException();
 			}
+		// if no opponent was added then create a match and wait for an opponent to join
 		} else {
 			addToQueue();
 			if (!checkStatus()) {
@@ -78,8 +98,10 @@ public class MultiPlayerModel extends PlayerModel {
 		}
 	}
 
-	// checks whether name can be matched to an opponent
-	// returns true if matched, false otherwise
+	/*
+	 * checks whether user can be matched to an opponent
+	 * returns true if matched, false otherwise
+	 */
 	private boolean findOpponent() {
 		try {
 			ParseQuery query = new ParseQuery("Matches");
@@ -92,6 +114,10 @@ public class MultiPlayerModel extends PlayerModel {
 		}
 	}
 
+	/*
+	 * matches the correct key to the correct key on the
+	 * Parse database depending on of the user is player 1 or 2
+	 */
 	private void setInfo(boolean isPOne) {
 		if (isPOne) {
 			info.put("name", "p1name");
@@ -114,13 +140,18 @@ public class MultiPlayerModel extends PlayerModel {
 		}
 	}
 
+	/*
+	 * Creates a new match online and adds the user to queue
+	 * as player 1. Match doesn't start until another opponent joins the match
+	 */
 	private void addToQueue() throws InternetConnectionException {
-		final int randy = (int) (Math.random() * (NUMOFWORDS));
+		// sets the starting word index on the database to a random integer
+		final int randy = (int) (Math.random() * (TOTAL_WORDS));
 		try {
 			setInfo(true);
 			match = new ParseObject("Matches");
 			match.put("p1name", name);
-			match.put("p1animal", animalName);
+			match.put("p1animal", animalID);
 			match.put("p1score", 0);
 			match.put("p1finished", false);
 			match.put("p2name", "");
@@ -131,6 +162,11 @@ public class MultiPlayerModel extends PlayerModel {
 		}
 	}
 
+	/*
+	 * Checks online to see if an opponent has added themselves to the match
+	 * as player 2. there is a time limit to how long the user will wait to
+	 * find an opponent before model gives up.
+	 */
 	private boolean checkStatus() throws InternetConnectionException, InternalErrorException {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + QUEUE_TIMEOUT;
@@ -151,15 +187,21 @@ public class MultiPlayerModel extends PlayerModel {
 		return false;
 	}
 
-	// populates wordsList by contacting the database for LIST_SIZE amount of words
+	/**
+	 * Using the starting index of the match from online, make the words list array
+	 * with LIST_SIZE words from the Parse database
+	 * 
+	 * @throws InternetConnectionException if disconnected from Internet
+	 */	
 	public void setWordsList() throws InternetConnectionException {
 		List<ParseObject> wordObjects = null;
 		try {
 			checkIfInMatch();
 			ParseQuery query = new ParseQuery("WordList");
 			query.setSkip(match.getInt("wordIndex"));
-			query.setLimit(LIST_SIZE); // limit to at most 20 results
+			query.setLimit(LIST_SIZE);
 			wordObjects= query.find();
+			// if not enough words were in the query than get more words
 			if (wordObjects.size() < LIST_SIZE) {
 				ParseQuery query2 = new ParseQuery("WordList");
 				query2.setLimit(LIST_SIZE - wordObjects.size());
@@ -174,14 +216,22 @@ public class MultiPlayerModel extends PlayerModel {
 			wordsList.add(o.getString("word"));
 		}
 	}
-
-	// checks if match online still has the same player in it.
+	
+	/*
+	 * Checks if the user is still in the match they were originally a part of
+	 */
 	private void checkIfInMatch() throws InternetConnectionException {
 		if (!match.getString(info.get("name")).equals(name)) {
 			throw new InternetConnectionException();
 		}
 	}
 
+	/**
+	 * gets the opponent's animal ID from the Parse database
+	 * 
+	 * @throws InternetConnectionException if disconnected from Internet
+	 * @return the int ID of a animal that is selected by the user's opponent
+	 */	
 	public int getOpponentAnimal() throws InternetConnectionException {
 		try {
 			match.refresh();
@@ -234,12 +284,15 @@ public class MultiPlayerModel extends PlayerModel {
 			}
 			return;
 		}
-
 		// wrong letter typed
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
 	}
 
+	/**
+	 * sets the user to being done with the match
+	 *
+	 */
 	public final void setUserFinish() throws InternetConnectionException {
 		try {
 			match.put(info.get("finished"), true);
@@ -250,6 +303,15 @@ public class MultiPlayerModel extends PlayerModel {
 	}
 
 	// return true if my opponent has finished their game
+	/**
+	 * checks to see if the opponent is finished for a maximum of 
+	 * SCORE_TIMEOUT milliseconds. If the opponent is finished then
+	 * return true, false otherwise
+	 * 
+	 * @throws InternetConnectionException if disconnected from Internet
+	 * @throws InternalErrorException if there was an internal error
+	 * @return true if opponent is done, false otherwise
+	 */
 	public final boolean isOpponentFinished() throws InternetConnectionException, InternalErrorException {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + SCORE_TIMEOUT;
@@ -306,12 +368,15 @@ public class MultiPlayerModel extends PlayerModel {
 	}
 
 	/**
-	 * @return current score of the player
+	 * {@inheritDoc}
 	 */
 	public final int getScore() {
 		return match.getInt(info.get("score"));
 	}
 
+	/**
+	 * @return current score of the user's opponent
+	 */
 	public final int getOpponentScore() {
 		return match.getInt(info.get("oscore"));
 	}

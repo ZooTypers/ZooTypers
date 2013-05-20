@@ -10,7 +10,7 @@ public class ScoreEntry {
 	private int playerScore;
 	
 	/**
-	 * Constructs player's given name and score recived.
+	 * Constructs player's given name and score received.
 	 * 
 	 * @param playerName
 	 * @param playerScore
@@ -26,6 +26,7 @@ public class ScoreEntry {
 	public String getName(){
 		return playerName;
 	}
+	
 	/**
 	 * @return playerScore
 	 */

@@ -7,6 +7,14 @@ import java.util.Set;
 
 import com.example.zootypers.util.States;
 
+/** 
+ * 
+ * The abstract class for a Player that stores a list of words for the UI to display.
+ * It keeps track of word and letter the user has typed and updates the view accordingly.
+ * 
+ * @author winglam, nhlien93, dyxliang
+ * 
+ */
 public abstract class PlayerModel extends Observable {
 
 	// number of words displayed on the view
@@ -27,10 +35,17 @@ public abstract class PlayerModel extends Observable {
 	// index of the next word to pull from wordsList, (should ONLY be used with wordsList)
 	protected int nextWordIndex;
 	
+	// set of first character of each word currently being displayed
 	protected Set<Character> currFirstLetters;
 	
+
+	/**
+	 * Constructs a new model that takes in the number of words being displayed.
+	 * 
+	 * @param wordsDis, the number of words being displayed on the screen
+	 */
 	public PlayerModel(int wordsDis) {
-		this.numWordsDisplayed = wordsDis;
+		numWordsDisplayed = wordsDis;
 		currFirstLetters = new HashSet<Character>();
 		//initialize all the fields to default starting values
 		wordsDisplayed = new int[numWordsDisplayed];
@@ -45,9 +60,11 @@ public abstract class PlayerModel extends Observable {
 	 * displayed word list with numWordsDisplayed amount of words. 
 	 */
 	public void populateDisplayedList() {
-		// putting first five words into wordsDisplayed
-		currFirstLetters = new HashSet<Character>();
+		// adds a total of numWordsDisplayed words to the original display list
 		for (int i = 0; i < numWordsDisplayed; i++) {
+			// checks to see if any of the words start with the same letter as the 
+			// current word that might be added, if it does than increment to the next
+			// potential word
 			while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
 				nextWordIndex++;
 			}
@@ -69,12 +86,15 @@ public abstract class PlayerModel extends Observable {
 	 */
 	protected void updateWordsDisplayed() {
 		currFirstLetters.remove(wordsList.get(wordsDisplayed[currWordIndex]).charAt(0));
+		// checks if the remaining words being displayed has the same first letter as the
+		// first letter of the potential next word, increment if it does and check again.
 		while (currFirstLetters.contains(wordsList.get(nextWordIndex).charAt(0))) {
 			nextWordIndex++;
 			if (nextWordIndex >= wordsList.size()) {
 				nextWordIndex = 0;
 			}
 		}
+		// by this point the next word should not have the same first letter
 		currFirstLetters.add(wordsList.get(nextWordIndex).charAt(0));
 		wordsDisplayed[currWordIndex] = nextWordIndex;
 		nextWordIndex++;
@@ -106,6 +126,9 @@ public abstract class PlayerModel extends Observable {
 	 */
 	public abstract void typedLetter(final char letter);
 	
+	/**
+	 * @return current score of the user
+	 */
 	public abstract int getScore();
 	
 	/**
@@ -122,6 +145,9 @@ public abstract class PlayerModel extends Observable {
 		return currLetterIndex;
 	}
 	
+	/**
+	 * @return the array of all the index of the words currently being displayed.
+	 */
 	public final int[] getWordsDisplayed() {
 		return wordsDisplayed;
 	}
