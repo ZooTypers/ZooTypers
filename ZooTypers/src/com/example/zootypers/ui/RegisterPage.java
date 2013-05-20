@@ -1,4 +1,4 @@
-package com.example.zootypers;
+package com.example.zootypers.ui;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.zootypers.R;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -29,9 +30,7 @@ public class RegisterPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_page);
-		Parse.initialize(this, "yUgc5n1ws3KrVpdSnagD" +
-		  		"5vwHvaGKpq00KUP3Kkak", "e9tvSeC8GtMEE3ux" +
-		  				"3B4phnWNtL9QRjmk7VG1zdZI");
+		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 	}
 
 	@Override

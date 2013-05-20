@@ -1,6 +1,4 @@
-package com.example.zootypers;
-
-import java.util.List;
+package com.example.zootypers.ui;
 
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
@@ -21,12 +19,10 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.parse.FindCallback;
+import com.example.zootypers.R;
 import com.parse.LogInCallback;
 import com.parse.Parse;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 import com.parse.ParseUser;
 import com.parse.RequestPasswordResetCallback;
 
@@ -53,9 +49,7 @@ public class TitlePage extends Activity {
     setContentView(R.layout.activity_title_page);
     // initialize the Intent to go to Pregame selection
     multiIntent = new Intent(this, PreGameSelectionMulti.class);
-    Parse.initialize(this, "yUgc5n1ws3KrVpdSnagD" +
-        "5vwHvaGKpq00KUP3Kkak", "e9tvSeC8GtMEE3ux" +
-        "3B4phnWNtL9QRjmk7VG1zdZI");
+    Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
     currentUser = ParseUser.getCurrentUser();
     if (currentUser == null) {
       // there is no current user so dont display logged in views

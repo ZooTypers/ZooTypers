@@ -1,4 +1,4 @@
-package com.example.zootypers;
+package com.example.zootypers.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.example.zootypers.R;
 
 /**
  *

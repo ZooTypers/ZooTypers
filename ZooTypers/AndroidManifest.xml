@@ -17,7 +17,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.example.zootypers.TitlePage"
+            android:name=".ui.TitlePage"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,59 +26,48 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.example.zootypers.ZeroFeature"
-            android:label="@string/title_activity_zero_feature" >
-        </activity>
-        <activity
-            android:name="com.example.zootypers.SinglePlayer"
+            android:name=".ui.SinglePlayer"
             android:label="@string/title_activity_single_player"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize|adjustPan" >
         </activity>
         <activity
-            android:name="com.example.zootypers.PreGameSelection"
+            android:name=".ui.PreGameSelection"
             android:label="@string/title_activity_pre_game_selection" >
         </activity>
         <activity
-            android:name="com.example.zootypers.PreGameSelectionMulti"
+            android:name=".ui.PreGameSelectionMulti"
             android:label="@string/title_activity_pre_game_selection_multi" >
         </activity>
         <activity
-            android:name="com.example.zootypers.Options"
+            android:name=".ui.Options"
             android:label="@string/title_activity_options" >
         </activity>
         <activity
-            android:name="com.example.zootypers.Leaderboard"
+            android:name=".ui.Leaderboard"
             android:label="@string/title_activity_leaderboard" >
         </activity>
         <activity
-            android:name="com.example.zootypers.PostGameScreen"
+            android:name=".ui.PostGameScreen"
             android:label="@string/title_activity_post_game_screen" >
         </activity>
         <activity
-            android:name="com.example.zootypers.RegisterPage"
+            android:name=".ui.RegisterPage"
             android:label="@string/title_activity_register_page" >
         </activity>
         <activity
-            android:name="com.example.zootypers.MultiPlayer"
+            android:name=".ui.MultiPlayer"
             android:label="@string/title_activity_multi_player"
             android:windowSoftInputMode="stateAlwaysVisible|adjustResize|adjustPan" >
         </activity>
         <activity
-            android:name="com.example.zootypers.PostGameScreenMulti"
+            android:name=".ui.PostGameScreenMulti"
             android:label="@string/title_activity_post_game_screen_multi" >
         </activity>
         <activity
-            android:name="com.example.zootypers.ConnectionError"
-            android:label="@string/title_activity_connection_error" >
+            android:name=".ui.ErrorScreen"
+            android:label="@string/title_activity_error" >
         </activity>
-        <activity
-            android:name="com.example.zootypers.InterruptError"
-            android:label="@string/title_activity_interrupt_error" >
-        </activity>
-        <activity
-            android:name="com.example.zootypers.NoOpponentError"
-            android:label="@string/title_activity_no_opponent_error" >
-        </activity>
+
 </application>
 
 </manifest>

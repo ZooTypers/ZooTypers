@@ -1,4 +1,4 @@
-package com.example.zootypers;
+package com.example.zootypers.core;
 
 /**
  * A data class that help to store the name and score of a user in the leaderboard.
