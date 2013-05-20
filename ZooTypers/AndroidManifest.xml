@@ -16,6 +16,7 @@
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <uses-library android:name="android.test.runner" />
         <activity
             android:name="com.example.zootypers.TitlePage"
             android:label="@string/app_name" >
@@ -79,6 +80,10 @@
             android:name="com.example.zootypers.NoOpponentError"
             android:label="@string/title_activity_no_opponent_error" >
         </activity>
-</application>
+	</application>
 
+    <instrumentation
+        android:name="android.test.InstrumentationTestRunner"
+        android:targetPackage="com.example.zootypers" />
+    
 </manifest>

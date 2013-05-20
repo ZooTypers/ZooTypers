@@ -409,11 +409,25 @@ public class MultiPlayerModel extends Observable {
 		return currLetterIndex;
 	}
 
+	/**
+	 * @return opponent's score from database
+	 */
 	public final int getOpponentScore() {
 		return match.getInt(info.get("oscore"));
 	}
 	
+	/**
+	 * @return int array of the words displayed
+	 */
 	public final int[] getWordsDisplayed() {
 		return wordsDisplayed;
+	}
+	
+	/**
+	 * 
+	 * @return the next word index that we are using in the database
+	 */
+	public final int getNextWordIndex() {
+	    return nextWordIndex;
 	}
 }
