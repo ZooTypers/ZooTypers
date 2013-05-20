@@ -1,10 +1,8 @@
 package com.example.zootypers.test;
 
-import junit.framework.TestCase;
-
+import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
-
 import com.example.zootypers.LeaderBoardModel;
 import com.example.zootypers.ScoreEntry;
 
@@ -20,8 +18,7 @@ import com.example.zootypers.ScoreEntry;
  * @author kobryan & dyxliang
  *
  */
-@Ignore
-public class LeaderBoardTest extends TestCase {
+public class LeaderBoardTest {
 	
 	private LeaderBoardModel lbm;
 	private static final int TIMEOUT = 1000;
@@ -29,6 +26,7 @@ public class LeaderBoardTest extends TestCase {
     /**
      * Tests the model of the leader and that defaults is correct.
      */
+	@Ignore("leader board model is not yet fully implemented")
 	@Test(timeout = TIMEOUT)
 	public void testLeaderBoard() {
 		lbm = new LeaderBoardModel();
@@ -39,6 +37,7 @@ public class LeaderBoardTest extends TestCase {
     /**
      * Tests the leaderboard model constructor with 10.
      */
+	@Ignore("leader board model is not yet fully implemented")
 	@Test(timeout = TIMEOUT)
 	public void testLeaderBoardWithParam() {
 		lbm = new LeaderBoardModel(10);
@@ -49,6 +48,7 @@ public class LeaderBoardTest extends TestCase {
     /**
      * Tests that we can add an entry to the model.
      */
+	@Ignore("leader board model is not yet fully implemented")
 	@Test(timeout = TIMEOUT)
 	public void testAddEntry(){
 		//Test 1
@@ -62,6 +62,7 @@ public class LeaderBoardTest extends TestCase {
     /**
      * Test that we can get the top score in the current model.
      */
+	@Ignore("leader board model is not yet fully implemented")
 	@Test(timeout = TIMEOUT)
 	public void testGetTopScoresNoCase(){
 		LeaderBoardModel lbm = new LeaderBoardModel(0);
@@ -78,6 +79,7 @@ public class LeaderBoardTest extends TestCase {
     /**
      * Test that we can pull certain top entries.
      */
+	@Ignore("leader board model is not yet fully implemented")
 	@Test(timeout = TIMEOUT)
 	public void testGetTopScoresMultipleCase(){
 		lbm = new LeaderBoardModel(3);
@@ -103,6 +105,7 @@ public class LeaderBoardTest extends TestCase {
     /**
      * Test that we can delete the lowest entry in the model.
      */
+	@Ignore("leader board model is not yet fully implemented")
 	@Test(timeout = TIMEOUT)
 	public void testDeleteLowestScore(){
 		//No case
@@ -136,6 +139,7 @@ public class LeaderBoardTest extends TestCase {
     /**
      * Test that we can wipe all the data in the board.
      */
+	@Ignore("leader board model is not yet fully implemented")
 	@Test(timeout = TIMEOUT)
 	public void testClearLeaderboard(){
 		lbm = new LeaderBoardModel(5);

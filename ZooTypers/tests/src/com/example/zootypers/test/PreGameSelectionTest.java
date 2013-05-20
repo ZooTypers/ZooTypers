@@ -278,7 +278,6 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
         solo.clickOnButton("Main Menu");
         solo.sleep(1000);
         solo.searchButton("Single Player");
-	    solo.assertCurrentActivity("Check on current page activity.", TitlePage.class);
 	}
 	
 	protected void tearDown() throws Exception {
