@@ -19,8 +19,8 @@ import com.example.zootypers.util.States;
  * @author winglam, nhlien93, dyxliang
  * 
  */
-
 public class SinglePlayerModel extends PlayerModel {
+	
 	// keep track of the user's current score
 	private int score;
 
@@ -31,19 +31,18 @@ public class SinglePlayerModel extends PlayerModel {
 	 * Constructs a new SinglePlayerModel that takes in the ID of an animal and background,
 	 * and also what the difficulty level is. The constructor will initialize the words list
 	 * and fills in what words the view should display on the screen.
-	 * 
-	 * @param animalID, the string ID of a animal that is selected by the user
-	 * @param backgroudID, the string ID of a background that is selected by the user
+	 *
 	 * @param diff, the difficulty level that is selected by the user
+	 * @param am, the asset manager of the SinglePlayer that gives the model to 
+	 * access to the words stored in the asset folder
+	 * @param wordsDis, the number of words being displayed on the screen
 	 */
 	public SinglePlayerModel(final States.difficulty diff, AssetManager am, int wordsDis) {
 		super(wordsDis);
 		this.am = am;
+		score = 0;
 		// generates the words list according to difficulty chosen
 		getWordsList(diff);
-
-		//initialize all the fields to default starting values
-		score = 0;
 	}
 
 	/*
@@ -116,7 +115,6 @@ public class SinglePlayerModel extends PlayerModel {
 			}
 			return;
 		}
-
 		// wrong letter typed
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
