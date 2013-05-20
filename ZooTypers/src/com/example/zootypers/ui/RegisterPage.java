@@ -30,7 +30,8 @@ public class RegisterPage extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_page);
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", 
+		"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 	}
 
 	@Override
@@ -39,14 +40,14 @@ public class RegisterPage extends Activity {
 		getMenuInflater().inflate(R.menu.activity_register_page, menu);
 		return true;
 	}
-	
+
 	/**
 	 * Cancel registering and go back to the title page.
 	 * @param view The button clicked.
 	 */
 	public final void cancel(View view) {
-        Intent intent = new Intent(this, TitlePage.class);
-        startActivity(intent);		
+		Intent intent = new Intent(this, TitlePage.class);
+		startActivity(intent);    
 	}
 
 	/**
@@ -71,9 +72,9 @@ public class RegisterPage extends Activity {
 		EditText emailEdit = (EditText) findViewById(R.id.email_input_register);
 		String emailString = emailEdit.getText().toString();
 
-		if (usernameString.length() == 0 || passwordString.length() == 0
-				|| confirmPWString.length() == 0
-				|| emailString.length() == 0) {
+		if ((((usernameString.length() == 0) || (passwordString.length() == 0))
+		|| (confirmPWString.length() == 0))
+		|| (emailString.length() == 0)) {
 			// case where everything is not filled out 
 			final String title = "Missing Information";
 			final String message = "Please fill in all of the fields.";
@@ -114,7 +115,7 @@ public class RegisterPage extends Activity {
 				indicateError(usernameText, false);
 				indicateError(emailText, false);
 			} else {
-				if (usernameString.length() >= 4 && passwordString.length() >= 4) {
+				if ((usernameString.length() >= 4) && (passwordString.length() >= 4)) {
 					// make sure username and pw is reasonable length, for security purposes
 					// need to put the color back to normal
 					indicateError(usernameText, false);
@@ -152,9 +153,8 @@ public class RegisterPage extends Activity {
 	 * case where it goes back to titlepage
 	 */
 	private void buildAlertDialog(String title, String message,
-			final boolean goToTitle) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-				this);
+	final boolean goToTitle) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		if (goToTitle) {
 			titleIntent = new Intent(this, TitlePage.class);
@@ -165,18 +165,18 @@ public class RegisterPage extends Activity {
 
 		// set dialog message
 		alertDialogBuilder
-			.setMessage(message)
-			.setCancelable(false)
-			.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-				public void onClick(DialogInterface dialog, int id) {
-					// if this button is clicked, close the dialog box
-					dialog.cancel();
-					if (goToTitle) {
-						// allowed to go back to title page
-						startActivity(titleIntent);
-					}
+		.setMessage(message)
+		.setCancelable(false)
+		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// if this button is clicked, close the dialog box
+				dialog.cancel();
+				if (goToTitle) {
+					// allowed to go back to title page
+					startActivity(titleIntent);
 				}
-			});
+			}
+		});
 
 		// create alert dialog
 		AlertDialog alertDialog = alertDialogBuilder.create();
@@ -221,7 +221,7 @@ public class RegisterPage extends Activity {
 					currentUser = username;
 					final String title = "Account Created Successfully!";
 					final String message = "Please verify your email before playing.";
-                    ParseUser.logOut();
+					ParseUser.logOut();
 					buildAlertDialog(title, message, true);
 				} else {
 					// sign up didnt succed. //TODO: figure out how do deal with error
