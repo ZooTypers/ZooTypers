@@ -140,6 +140,7 @@ public class TitlePage extends Activity {
 			password_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
 		}
 	}
+	
 	/**
 	 * Handles what happens when user clicks the "Forgot your password" link
 	 * @param view Button that is pressed
