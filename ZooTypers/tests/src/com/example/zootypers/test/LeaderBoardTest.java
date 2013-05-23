@@ -1,10 +1,13 @@
 package com.example.zootypers.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+
 import org.junit.Ignore;
 import org.junit.Test;
-import com.example.zootypers.LeaderBoardModel;
-import com.example.zootypers.ScoreEntry;
+
+import com.example.zootypers.core.LeaderBoardModel;
+import com.example.zootypers.core.ScoreEntry;
+
 
 /**
  * LeaderBoard test class helps to test adding, deleteing, and checking whether or not
@@ -30,7 +33,7 @@ public class LeaderBoardTest {
 	@Test(timeout = TIMEOUT)
 	public void testLeaderBoard() {
 		lbm = new LeaderBoardModel();
-		assertEquals(50, lbm.getMaxEntries());
+		assertEquals(50, lbm.getTopEntries());
 		assertEquals(0, lbm.getEntryNumber());
 	}
 
@@ -41,7 +44,7 @@ public class LeaderBoardTest {
 	@Test(timeout = TIMEOUT)
 	public void testLeaderBoardWithParam() {
 		lbm = new LeaderBoardModel(10);
-		assertEquals(10, lbm.getMaxEntries());
+		assertEquals(10, lbm.getTopEntries());
 		assertEquals(0, lbm.getEntryNumber());
 	}
 

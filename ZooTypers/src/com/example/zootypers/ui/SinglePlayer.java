@@ -266,4 +266,13 @@ public class SinglePlayer extends Player {
 	public void error(com.example.zootypers.util.States.error err) {
 		// TODO Auto-generated method stub
 	}
+
+
+	/**
+	 * 
+	 * @return single player model
+	 */
+	public final SinglePlayerModel getModel() {
+		return model;
+	}
 }

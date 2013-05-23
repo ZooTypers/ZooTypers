@@ -10,15 +10,13 @@ import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.zootypers.PreGameSelection;
 import com.example.zootypers.R;
-import com.example.zootypers.SinglePlayer;
-import com.example.zootypers.SinglePlayerModel;
-import com.example.zootypers.*;
+import com.example.zootypers.core.SinglePlayerModel;
+import com.example.zootypers.ui.SinglePlayer;
+import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
 
 /**

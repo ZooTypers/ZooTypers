@@ -6,7 +6,7 @@ import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 
-import com.example.zootypers.TitlePage;
+import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
 
 /**

@@ -1,10 +1,14 @@
 package com.example.zootypers.ui;
 
+
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.KeyEvent;
@@ -38,10 +42,12 @@ public class MultiPlayer extends Player {
 	private GameTimer gameTimer;
 
 	// used for the communicating with model
-	private MultiPlayerModel model;
+	private static MultiPlayerModel model;
 
-	//  private PopupWindow ppw;
-
+	private Drawable animal;
+	private Drawable background;
+	private int oppAnimal;
+	private ProgressDialog progressDialog;
 	/*
 	 * flips the animal being displayed horizontally so that the animal
 	 * is facing the other direction.
@@ -70,28 +76,6 @@ public class MultiPlayer extends Player {
 		}
 	}
 
-	//  /**
-	//   * Shows the loading popup window.
-	//   */
-	//  private void showLoadScreen() {
-	//    LayoutInflater layoutInflater = 
-	//        (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-	//    View popupView = layoutInflater.inflate(R.layout.login_popup, null);
-	//    ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
-	//    // TODO problem here
-	//    ViewGroup parentLayout = (ViewGroup) findViewById(R.id.pregame_layout);
-	//    // set the position and size of popup
-	//    ppw.showAtLocation(parentLayout, Gravity.CENTER, 0, 0);
-	//  }
-	//
-	//  /**
-	//   * Exits the loading popup window.
-	//   */
-	//  private void dismissLoadScreen() {
-	//    ppw.dismiss();
-	//  }
-
-
 	/*
 	 *  Called when the activity is starting. uses the information that was picked
 	 *  in the pre selection screen and sets a background, animal, and opponent's
@@ -107,11 +91,15 @@ public class MultiPlayer extends Player {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// Get animal & background selected by user
-		setContentView(R.layout.activity_pregame_selection_multi);
+
+		View inflatedView = 
+				getLayoutInflater().inflate(R.layout.activity_pregame_selection_multi, null);
+		
+		// Get animal & background selected by user
 		int anmID = getIntent().getIntExtra("anm", 0);
-		Drawable animal = ((ImageButton) findViewById(anmID)).getDrawable();
+		animal = ((ImageButton) inflatedView.findViewById(anmID)).getDrawable();
 		bg = getIntent().getIntExtra("bg", 0);
-		Drawable background = ((ImageButton) findViewById(bg)).getDrawable();
+		background = ((ImageButton) inflatedView.findViewById(bg)).getDrawable();
 
 		// Initialize the database
 		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
@@ -120,38 +108,17 @@ public class MultiPlayer extends Player {
 		// Get the user name
 		username = getIntent().getStringExtra("username");
 
-		//showLoadScreen();
-
 		// Start model, passing number of words, user name, and selected animal
 		model = new MultiPlayerModel(NUM_WORDS, username, anmID);
 		model.addObserver(this);
-		try {
-			model.beginMatchMaking();
-			model.setWordsList();
-			// Get the opponent's animal from the model
-			int oppAnimal = reverseDrawable(model.getOpponentAnimal());
-			// Display the multiplayer screen
-			setContentView(R.layout.activity_multi_player);
-			initialDisplay(animal, background, oppAnimal);
-		} catch (InternetConnectionException e) {
-			e.fillInStackTrace();
-			error(States.error.CONNECTION);
-			return;
-		} catch (EmptyQueueException e) {
-			e.fillInStackTrace();
-			error(States.error.NOOPPONENT);
-			return;
-		} catch (InternalErrorException e) {
-			e.fillInStackTrace();
-			error(States.error.INTERNAL);
-			return;
-		}
 
-		//dismissLoadScreen();
+		new LoadTask().execute();
 
+//		setContentView(R.layout.activity_multi_player);
+		//initialDisplay(animal, background, oppAnimal);
 		// Create and start timer
-		gameTimer = new GameTimer(START_TIME, INTERVAL);
-		gameTimer.start();
+//		gameTimer = new GameTimer(START_TIME, INTERVAL);
+//		gameTimer.start();
 	}
 
 
@@ -321,5 +288,62 @@ public class MultiPlayer extends Player {
 			currentTime = millisUntilFinished - 1000;
 			displayTime(TimeUnit.MILLISECONDS.toSeconds(currentTime));
 		}
+	}
+
+	private class LoadTask extends AsyncTask<Void, Integer, Void> {
+		
+		// called before running code in a separate thread
+		private boolean quitFlag;
+		@Override
+		protected void onPreExecute() {
+			progressDialog = ProgressDialog.show(MultiPlayer.this,"Finding a Game...",  
+				    "Searching for opponent, please wait...", false, false);
+		}
+		
+		@Override
+		protected Void doInBackground(Void... params) {
+			synchronized (this) {
+				try {
+					model.beginMatchMaking();
+					model.setWordsList();
+					// Get the opponent's animal from the model
+					oppAnimal = reverseDrawable(model.getOpponentAnimal());
+					// Display the multiplayer screen
+				} catch (InternetConnectionException e) {
+					e.fillInStackTrace();
+					quitFlag = true;
+					error(States.error.CONNECTION);
+					return null;
+				} catch (EmptyQueueException e) {
+					e.fillInStackTrace();
+					quitFlag = true;
+					error(States.error.NOOPPONENT);
+					return null;
+				} catch (InternalErrorException e) {
+					e.fillInStackTrace();
+					quitFlag = true;
+					error(States.error.INTERNAL);
+					return null;
+				}
+			}
+			return null;
+		}
+		
+		@Override
+		protected void onPostExecute(Void result) {
+			if (!quitFlag) {
+			  progressDialog.dismiss();
+//			  gameTimer = new GameTimer(START_TIME, INTERVAL);
+//			  gameTimer.start();
+			}
+		}
+	}
+
+	/**
+	 * 
+	 * @return multiplayer model
+	 */
+	public final MultiPlayerModel getModel() {
+		return model;
 	}
 }

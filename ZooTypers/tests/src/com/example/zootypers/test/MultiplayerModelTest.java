@@ -4,19 +4,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.junit.*;
+import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.zootypers.MultiPlayer;
-import com.example.zootypers.MultiPlayerModel;
 import com.example.zootypers.R;
-import com.example.zootypers.SinglePlayer;
-import com.example.zootypers.SinglePlayerModel;
-import com.example.zootypers.TitlePage;
+import com.example.zootypers.core.MultiPlayerModel;
+import com.example.zootypers.ui.MultiPlayer;
+import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -181,7 +179,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
 	    assertEquals(5, model.getWordsDisplayed().length);
 	    assertEquals(-1, model.getCurrWordIndex());
 	    assertEquals(-1, model.getCurrLetterIndex());
-	    assertEquals(0, model.getNextWordIndex());
 	}
 	
 	/*
@@ -236,7 +233,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             if(firstLetters.indexOf(c) < 0 ){
                 sendKeys(c - 68);
                 assertTrue(solo.searchText("Invalid Letter Typed"));
-                break;
+                break;	
             }
         }
         solo.sleep(1000);
