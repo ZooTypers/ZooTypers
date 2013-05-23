@@ -370,6 +370,13 @@ public class MultiPlayerModel extends PlayerModel {
 			}
 		});
 	}
+	
+	/**
+	 * @return user name of the user's opponent
+	 */
+	public final String getOpponentName() {
+		return match.getString(info.get("oname"));
+	}
 
 	/**
 	 * {@inheritDoc}
