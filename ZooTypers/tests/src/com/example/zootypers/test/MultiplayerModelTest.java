@@ -3,14 +3,12 @@ package com.example.zootypers.test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import org.junit.Test;
-
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiPlayerModel;
 import com.example.zootypers.ui.MultiPlayer;
@@ -33,6 +31,7 @@ import com.parse.ParseQuery;
  *
  */
 
+@Suppress
 public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	
 	private Solo solo;

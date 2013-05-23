@@ -3,16 +3,14 @@ package com.example.zootypers.test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import org.junit.Test;
-
 import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.widget.Button;
 import android.widget.TextView;
-
 import com.example.zootypers.R;
 import com.example.zootypers.core.SinglePlayerModel;
 import com.example.zootypers.ui.SinglePlayer;
@@ -32,6 +30,7 @@ import com.jayway.android.robotium.solo.Solo;
  *
  */
 
+@Suppress
 public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<TitlePage> {
 
     private Solo solo;

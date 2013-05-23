@@ -1,11 +1,10 @@
 package com.example.zootypers.test;
 
 import org.junit.Test;
-
 import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.widget.EditText;
-
 import com.example.zootypers.R;
 import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
@@ -21,6 +20,7 @@ import com.jayway.android.robotium.solo.Solo;
  *
  */
 
+@Suppress
 public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 	
 	private Solo solo;

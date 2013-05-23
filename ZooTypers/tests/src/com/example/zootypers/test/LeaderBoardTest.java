@@ -4,7 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Ignore;
 import org.junit.Test;
-
+import android.test.suitebuilder.annotation.Suppress;
 import com.example.zootypers.core.LeaderBoardModel;
 import com.example.zootypers.core.ScoreEntry;
 
@@ -21,6 +21,7 @@ import com.example.zootypers.core.ScoreEntry;
  * @author kobryan & dyxliang
  *
  */
+@Suppress
 public class LeaderBoardTest {
 	
 	private LeaderBoardModel lbm;
