@@ -1,10 +1,15 @@
 package com.example.zootypers.test;
 
 import org.junit.Test;
-import com.jayway.android.robotium.solo.Solo;
+
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
-import com.example.zootypers.ui.*;
+
+import com.example.zootypers.ui.Leaderboard;
+import com.example.zootypers.ui.Options;
+import com.example.zootypers.ui.PreGameSelection;
+import com.example.zootypers.ui.TitlePage;
+import com.jayway.android.robotium.solo.Solo;
 
 /**
  * Testing the title page using android unit tests and Robotium tests.
@@ -14,7 +19,6 @@ import com.example.zootypers.ui.*;
  * @author dyxliang
  *
  */
-
 public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
     private Solo solo;
@@ -153,7 +157,7 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
         solo.sleep(1000);
         solo.assertCurrentActivity("Check on the current activity.", Options.class);
     }
-    
+
     /**
      * tear doen any opened activities
      */

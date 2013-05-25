@@ -36,13 +36,14 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Tit
     private Solo solo;
     private char[] lowChanceLetters = {'j', 'z', 'x', 'q', 'k', 'o'};
     private static final int TIMEOUT = 30000;
-    
+
     @SuppressLint("NewApi")
     public SinglePlayerModelTest() {
         super(TitlePage.class);
     }
 
     protected void setUp() throws Exception {
+        super.setUp();
         //this.setActivityInitialTouchMode(false);
         solo = new Solo(getInstrumentation(), getActivity());
         solo.clickOnButton("Single Player");
@@ -93,11 +94,11 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Tit
      */
     @Test(timeout = TIMEOUT)
     public void testTheKeyboardButtonWorks() {
-         Button keyboardButton = (Button) solo.getView(com.example.zootypers.R.id.keyboard_open_button);
-         solo.clickOnView(keyboardButton);
-         solo.sleep(3000);
-         solo.searchButton("Keyboard");
-         goBackToMainMenu();
+        Button keyboardButton = (Button) solo.getView(com.example.zootypers.R.id.keyboard_open_button);
+        solo.clickOnView(keyboardButton);
+        solo.sleep(3000);
+        solo.searchButton("Keyboard");
+        goBackToMainMenu();
     }
 
     /**
@@ -141,7 +142,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Tit
         solo.sleep(1000);
         solo.searchButton("Continue");
     }
-    
+
     /**
      * Tests the amount of word onscreen
      */
@@ -269,57 +270,57 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Tit
      * Tests the initial model when a new game is started. There should be 5 words, 0 score, -1 on both index and word.
      */
     @Test(timeout = TIMEOUT)
-	public void testModelInitial() {
-		solo.sleep(1000);
-		SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
-		assertEquals(0, model.getScore());
-		assertEquals(5, model.getWordsDisplayed().length);
-		assertEquals(-1, model.getCurrWordIndex());
-		assertEquals(-1, model.getCurrLetterIndex());
-		goBackToMainMenu();
-	}
+    public void testModelInitial() {
+        solo.sleep(1000);
+        SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
+        assertEquals(0, model.getScore());
+        assertEquals(5, model.getWordsDisplayed().length);
+        assertEquals(-1, model.getCurrWordIndex());
+        assertEquals(-1, model.getCurrLetterIndex());
+        goBackToMainMenu();
+    }
 
     /**
      * Tests the model after one character is typed. There should still be 5 words, 0 score, and non -1 on both index and word.
      */
     @Test(timeout = TIMEOUT)
-	public void testModelAfterOneCharTyped() {
-		solo.sleep(1000);
-		SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
-		List<TextView> views = getWordsPresented();
-		TextView s = views.get(0);
-		solo.sleep(1000);
-		sendKeys(s.getText().charAt(0) - 68);
-		assertEquals(0, model.getScore());
-		assertEquals(5, model.getWordsDisplayed().length);
-		assertEquals(0, model.getCurrWordIndex());
-		assertEquals(1, model.getCurrLetterIndex());
-		goBackToMainMenu();
-	}
+    public void testModelAfterOneCharTyped() {
+        solo.sleep(1000);
+        SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
+        List<TextView> views = getWordsPresented();
+        TextView s = views.get(0);
+        solo.sleep(1000);
+        sendKeys(s.getText().charAt(0) - 68);
+        assertEquals(0, model.getScore());
+        assertEquals(5, model.getWordsDisplayed().length);
+        assertEquals(0, model.getCurrWordIndex());
+        assertEquals(1, model.getCurrLetterIndex());
+        goBackToMainMenu();
+    }
 
     /**
      * Tests the model after one word is finished typing. Should have 5 words displayed, score equal to the word length.
      * The index and word should be back at -1.
      */
     @Test(timeout = TIMEOUT)
-	public void testModelAfterOneWordTyped() {
-		solo.sleep(1000);
-		SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
-		List<TextView> views = getWordsPresented();
-		TextView s = views.get(0);
-		solo.sleep(1000);
-		for (int i = 0; i < s.getText().toString().length(); i++) {
-			char c = s.getText().charAt(i);
-			sendKeys(c - 68);
-			//Log.v("current-letter", Character.toString(c));
-		}
-		assertEquals(s.getText().length(), model.getScore());
-		assertEquals(5, model.getWordsDisplayed().length);
-		assertEquals(-1, model.getCurrWordIndex());
-		assertEquals(-1, model.getCurrLetterIndex());
-		goBackToMainMenu();
-	}
-	
+    public void testModelAfterOneWordTyped() {
+        solo.sleep(1000);
+        SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
+        List<TextView> views = getWordsPresented();
+        TextView s = views.get(0);
+        solo.sleep(1000);
+        for (int i = 0; i < s.getText().toString().length(); i++) {
+            char c = s.getText().charAt(i);
+            sendKeys(c - 68);
+            //Log.v("current-letter", Character.toString(c));
+        }
+        assertEquals(s.getText().length(), model.getScore());
+        assertEquals(5, model.getWordsDisplayed().length);
+        assertEquals(-1, model.getCurrWordIndex());
+        assertEquals(-1, model.getCurrLetterIndex());
+        goBackToMainMenu();
+    }
+
     protected void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }
