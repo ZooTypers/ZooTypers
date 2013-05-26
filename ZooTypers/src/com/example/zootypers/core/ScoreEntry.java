@@ -1,8 +1,7 @@
-package com.example.zootypers;
+package com.example.zootypers.core;
 
 /**
- * A data class that stores one instance of a name and score of a user
- * in the leaderboard.
+ * A data class that help to store the name and score of a user in the leaderboard.
  * 
  * @author kobryan & dyxliang
  */
@@ -11,10 +10,10 @@ public class ScoreEntry {
 	private int playerScore;
 	
 	/**
-	 * Constructs with given name and score.
+	 * Constructs player's given name and score received.
 	 * 
-	 * @param playerName The player's name.
-	 * @param playerScore The player's score.
+	 * @param playerName
+	 * @param playerScore
 	 */
 	public ScoreEntry(String playerName, int playerScore){
 		this.playerName = playerName;
@@ -22,13 +21,14 @@ public class ScoreEntry {
 	}
 	
 	/**
-	 * @return The player's name.
+	 * @return playerName
 	 */
 	public String getName(){
 		return playerName;
 	}
+	
 	/**
-	 * @return The player's score.
+	 * @return playerScore
 	 */
 	public int getScore(){
 		return playerScore;

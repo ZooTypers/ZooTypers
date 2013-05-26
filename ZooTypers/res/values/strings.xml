@@ -64,13 +64,13 @@
     <string name="title_activity_post_game_screen_multi">PostGameScreenMulti</string>
     <string name="opp_final_score">Opponent\'s Score:</string>
     <string name="quit_game">Quit Game</string>
-    <string name="title_activity_connection_error">ConnectionError</string>
     <string name="connection_error">It looks like there was a problem connecting you to the internet. Please try again!</string>
     <string name="big_error">Oh, No!</string>
-    <string name="title_activity_no_opponent_error">NoOpponentError</string>
     <string name="no_opponent_error">We couldn\'t find an opponent for you! Please try again in a few minutes.</string>
-    <string name="title_activity_interrupt_error">InterruptError</string>
+    <string name="title_activity_error">Error</string>
     <string name="interrupt_error">Panic! Something has gone terribly wrong! Please try again.</string>
     <string name="game_over">Game Over!</string>
+    <string name="join_now_string"><u>Join now!</u></string>
+    <string name="forgot_pw_string"><u>Forgot your password?</u></string>
 
 </resources>

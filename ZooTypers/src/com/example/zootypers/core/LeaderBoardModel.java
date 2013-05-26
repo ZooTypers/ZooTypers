@@ -1,35 +1,38 @@
-package com.example.zootypers;
+package com.example.zootypers.core;
 
 
 /**
  * A leaderboard model class that keep track of entries on the leaderboard
  * with name and score, and ranked according to the highest score.
  * 
- * @author kobryan & dyxliang
+ * @author nhlien93
  *
  */
 public class LeaderBoardModel {
+	private static final int DEFAULT_ENTRIES = 10;
 	
 	//Number of Entries that is already in the database
 	private int entryNumber;
-	//Number of Entries that we are allowed in the database
+	//Number of Entries that we allow in the database
 	private int topEntries;
 	
 	/**
 	 * @effect : initialize field to default values
 	 */
 	public LeaderBoardModel(){
+		topEntries = DEFAULT_ENTRIES;
 		entryNumber = 0;
-		topEntries = 50;
 	}
 	
 	/**
 	 * @effect : initialize fields to the params and default values
-	 * @param top 
+	 * @requires topEntries is a positive number
+	 * @param topEntries the max number of entries that are saved in the database 
 	 */
 	public LeaderBoardModel(int topEntries){
 		this.topEntries = topEntries;
 		entryNumber = 0;
+		//gets the current leaderboard from database and stores it into a list
 	}
 	
 	/**
@@ -39,6 +42,7 @@ public class LeaderBoardModel {
 	 * @param score, palyer score
 	 */
 	public boolean addEntry(String name, int score){
+		//only adds the entry if the score is within the range of the current top scores
 		entryNumber++;
 		return true;
 		//TODO: finish up the addEntry method
@@ -63,6 +67,7 @@ public class LeaderBoardModel {
 		entryNumber--;
 		return true;
 		//TODO: finish up deleting the lowest score when you have more than 50 entries
+		//this will probably be a private method
 	}
 	
 	/**
@@ -70,6 +75,7 @@ public class LeaderBoardModel {
 	 */
 	public void clearLeaderboard(){
 		entryNumber = 0;
+		//this clears the whole file into nothing
 	}
 	
 	/**
