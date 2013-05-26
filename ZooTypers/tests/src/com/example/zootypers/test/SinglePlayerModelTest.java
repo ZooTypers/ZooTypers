@@ -122,7 +122,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         });
         solo.sleep(1000);
-        //goBackToMainMenu();
+        goBackToMainMenu();
     }
 
     /**
@@ -223,7 +223,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         for(int i = 0; i < 5; i++){
             assertTrue(views.get(i).getText().length() > 0);
         }
-        //goBackToMainMenu();
+        goBackToMainMenu();
     }
 
     /**
@@ -246,7 +246,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         }
         solo.sleep(1000);
-        //goBackToMainMenu();
+        goBackToMainMenu();
     }
 
     /**
@@ -266,7 +266,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         ForegroundColorSpan[] spans = spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
         solo.sleep(3000);
         assertTrue(spans.length > 0);
-        //goBackToMainMenu();
+        goBackToMainMenu();
     }
 
     /**
@@ -286,7 +286,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         }
         textList = getWordsPresented();
         assertTrue(textList.get(0).getText().toString() != currWord);
-        //goBackToMainMenu();
+        goBackToMainMenu();
     }
 
     /**
@@ -314,7 +314,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             actualScore = Integer.parseInt(scoreString);
         }
         assertEquals(15, actualScore);
-        //goBackToMainMenu();
+        goBackToMainMenu();
     }
 
     /**
@@ -345,7 +345,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(-1, model.getCurrWordIndex());
         assertEquals(-1, model.getCurrLetterIndex());
-        //goBackToMainMenu();
+        goBackToMainMenu();
     }
 
     /**
@@ -363,7 +363,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(0, model.getCurrWordIndex());
         assertEquals(1, model.getCurrLetterIndex());
-        //goBackToMainMenu();
+        goBackToMainMenu();
     }
 
     /**
@@ -387,7 +387,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(-1, model.getCurrWordIndex());
         assertEquals(-1, model.getCurrLetterIndex());
-        //goBackToMainMenu();
+        goBackToMainMenu();
     }
 
     @Override
