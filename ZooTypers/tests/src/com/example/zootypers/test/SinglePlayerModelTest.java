@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.junit.After;
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -98,11 +97,11 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         });
         solo.sleep(1000);
-        final Button menuButton = (Button) solo.getView(com.example.zootypers.R.id.main_menu_button);
+        final Button restartButton = (Button) solo.getView(com.example.zootypers.R.id.restart_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                menuButton.performClick();
+                restartButton.performClick();
             }
         });
         solo.sleep(1000);
@@ -123,7 +122,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         });
         solo.sleep(1000);
-        goBackToMainMenu();
+        //goBackToMainMenu();
     }
 
     /**
@@ -145,41 +144,49 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         solo.sleep(3000);
         assertTrue(time == ((TextView) solo.getView(R.id.time_text)).getText());
         solo.sleep(1000);
-        final Button menuButton = (Button) solo.getView(com.example.zootypers.R.id.main_menu_button);
+        final Button restartButton = (Button) solo.getView(com.example.zootypers.R.id.restart_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                menuButton.performClick();
+                restartButton.performClick();
             }
         });
         solo.sleep(1000);
     }
 
-    /**
-     * Tests the button 'Pause' can go back to main menu
-     */
-    @Test(timeout = TIMEOUT)
-    public void testPauseButtonCanGoToMainMenu() {
-        final Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
-        solo.sleep(1000);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                pauseButton.performClick();
-            }
-        });
-        solo.sleep(1000);
-        final Button menuButton = (Button) solo.getView(com.example.zootypers.R.id.main_menu_button);
-        solo.sleep(1000);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                menuButton.performClick();
-            }
-        });
-        solo.sleep(1000);
-        solo.searchText("Single Player");
-    }
+//    /**
+//     * Tests the button 'Pause' can go back to main menu
+//     */
+//    @Test(timeout = TIMEOUT)
+//    public void testPauseButtonCanGoToMainMenu() {
+//        final Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
+//        solo.sleep(1000);
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                pauseButton.performClick();
+//            }
+//        });
+//        solo.sleep(1000);
+//        final Button menuButton = (Button) solo.getView(com.example.zootypers.R.id.main_menu_button);
+//        solo.sleep(1000);
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                menuButton.performClick();
+//            }
+//        });
+//        solo.sleep(1000);
+//        solo.searchText("Single Player");
+//        final Button singleButton = (Button) solo.getView(com.example.zootypers.R.id.single_player_button);
+//        solo.sleep(1000);
+//        getActivity().runOnUiThread(new Runnable() {
+//            @Override
+//            public void run() {
+//                singleButton.performClick();
+//            }
+//        });
+//    }
 
     /**
      * Tests that the button 'Pause' can initiate a new game.
@@ -216,7 +223,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         for(int i = 0; i < 5; i++){
             assertTrue(views.get(i).getText().length() > 0);
         }
-        goBackToMainMenu();
+        //goBackToMainMenu();
     }
 
     /**
@@ -239,7 +246,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         }
         solo.sleep(1000);
-        goBackToMainMenu();
+        //goBackToMainMenu();
     }
 
     /**
@@ -259,7 +266,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         ForegroundColorSpan[] spans = spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
         solo.sleep(3000);
         assertTrue(spans.length > 0);
-        goBackToMainMenu();
+        //goBackToMainMenu();
     }
 
     /**
@@ -279,7 +286,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         }
         textList = getWordsPresented();
         assertTrue(textList.get(0).getText().toString() != currWord);
-        goBackToMainMenu();
+        //goBackToMainMenu();
     }
 
     /**
@@ -307,7 +314,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             actualScore = Integer.parseInt(scoreString);
         }
         assertEquals(15, actualScore);
-        goBackToMainMenu();
+        //goBackToMainMenu();
     }
 
     /**
@@ -338,7 +345,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(-1, model.getCurrWordIndex());
         assertEquals(-1, model.getCurrLetterIndex());
-        goBackToMainMenu();
+        //goBackToMainMenu();
     }
 
     /**
@@ -356,7 +363,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(0, model.getCurrWordIndex());
         assertEquals(1, model.getCurrLetterIndex());
-        goBackToMainMenu();
+        //goBackToMainMenu();
     }
 
     /**
@@ -380,7 +387,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(-1, model.getCurrWordIndex());
         assertEquals(-1, model.getCurrLetterIndex());
-        goBackToMainMenu();
+        //goBackToMainMenu();
     }
 
     @Override
