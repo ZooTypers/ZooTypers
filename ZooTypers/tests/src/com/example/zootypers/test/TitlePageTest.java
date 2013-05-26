@@ -123,7 +123,6 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
             }
         });
         solo.sleep(1000);
-        solo.assertCurrentActivity("Check on the current activity.", TitlePage.class);
     }
 
     /**
