@@ -3,7 +3,6 @@ package com.example.zootypers.test;
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.UiThreadTest;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -36,6 +35,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
      * create a new solo class to use robotium
      * @throws Exception if activity isn't instantiated
      */
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
@@ -130,14 +130,15 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
         solo.sleep(1000);
         final Button resetButton = (Button) solo.getView(com.example.zootypers.R.id.reset_password_button);
         solo.sleep(1000);
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                resetButton.performClick();
-//            }
-//        });
+        //        getActivity().runOnUiThread(new Runnable() {
+        //            @Override
+        //            public void run() {
+        //                resetButton.performClick();
+        //            }
+        //        });
     }
 
+    @Override
     protected void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }

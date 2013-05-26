@@ -49,6 +49,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         super(TitlePage.class);
     }
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         model = new MultiPlayerModel(5, "Player", 1);
@@ -312,6 +313,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         return wordsList;
     }
 
+    @Override
     protected void tearDown() throws Exception {
         setMyselfFinished();
         setOpponentFinished();

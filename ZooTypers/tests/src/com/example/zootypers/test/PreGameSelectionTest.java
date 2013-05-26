@@ -36,6 +36,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
         super(PreGameSelection.class);
     }
 
+    @Override
     protected void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
@@ -53,16 +54,16 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
     public void testCorrectButtonAndTextDisplayed() {
         assertNotNull(easyButton);
         easyButton.getText().equals("Easy");
-        
+
         assertNotNull(mediumButton);
         mediumButton.getText().equals("Medium");
-        
+
         assertNotNull(hardButton);
         hardButton.getText().equals("Hard");
-        
+
         assertNotNull(menuButton);
         menuButton.getText().equals("Main Menu");
-        
+
         assertNotNull(continueButton);
         continueButton.getText().equals("Continue");
     }
@@ -241,6 +242,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
         solo.assertCurrentActivity("Check on current page activity.", SinglePlayer.class);
     }
 
+    @Override
     protected void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }

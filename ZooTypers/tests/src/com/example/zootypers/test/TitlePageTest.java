@@ -161,6 +161,7 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
     /**
      * tear doen any opened activities
      */
+    @Override
     protected void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }
