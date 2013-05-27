@@ -8,9 +8,21 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Options" >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/clearSingle"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/options" />
+        android:layout_marginTop="20dp"
+        android:text="@string/clear_single"
+        android:onClick="clearSingle" />
+
+    <Button
+        android:id="@+id/clearMulti"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clearSingle"
+        android:layout_marginTop="20dp"
+        android:text="@string/clear_multi"
+        android:onClick="clearMulti" />
 
 </RelativeLayout>
