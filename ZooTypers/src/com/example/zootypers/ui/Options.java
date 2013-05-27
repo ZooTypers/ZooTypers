@@ -71,7 +71,7 @@ public class Options extends Activity {
       MultiLeaderBoardModel sl = new MultiLeaderBoardModel(currentUser.getString("username"));
       sl.clearLeaderboard();
       final String title = "Cleared Leaderboard";
-      final String message = "Your multiplayer leaderboard has been successfully cleared.";
+      final String message = "Your multiplayer scores have been successfully cleared.";
       buildAlertDialog(title, message);
     }
   }
