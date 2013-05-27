@@ -1,16 +1,11 @@
 package com.example.zootypers.ui;
 
 import com.example.zootypers.R;
-import com.parse.LogInCallback;
 import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.RequestPasswordResetCallback;
 
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.*;
@@ -24,8 +19,8 @@ import android.widget.*;
  */
 public class TitlePage extends Activity {
 
-	PopupWindow login_ppw; // for the multiplayer login popup
-	PopupWindow password_ppw;
+  LoginPopup lp;
+  
 	Intent multiIntent;  // used to go to MultiplayerPregameScreen
 	ParseUser currentUser;
 	// used for figuring out valid login inputs
@@ -52,6 +47,7 @@ public class TitlePage extends Activity {
 			String currentUserString = currentUser.getString("username");
 			currentUserText.setText(currentUserString);
 		}
+    lp = new LoginPopup(currentUser);
 	}
 
 	@Override
@@ -114,31 +110,20 @@ public class TitlePage extends Activity {
 			multiIntent.putExtra("username", currentUserString);
 			startActivity(multiIntent);
 		} else {
-			buildPopup(true);
+			buildPopup(false);
 		}
 	}
 
-	private void buildPopup(boolean isLogin) {
+	private void buildPopup(boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
 		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-		View popupView;
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
 
-		// inflate either the login layout or password layout depending on parameter
-		if (isLogin) {
-			popupView = layoutInflater.inflate(R.layout.login_popup, null);
-			login_ppw = new PopupWindow(popupView, 
-			LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-			login_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
-		} else {
-			popupView = layoutInflater.inflate(R.layout.reset_pw_layout, null);
-			password_ppw = new PopupWindow(popupView, 
-			LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-			password_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
-		}
+		// inflate either the login layout
+		lp.buildLoginPopup(layoutInflater, parentLayout, dismisspsw);
 	}
 	
 	/**
@@ -146,45 +131,29 @@ public class TitlePage extends Activity {
 	 * @param view Button that is pressed
 	 */
 	public final void forgotPassword(View view) {
-		buildPopup(false);
-		login_ppw.dismiss();
+    // set up the layout inflater to inflate the popup layout
+    LayoutInflater layoutInflater =
+    (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+    // the parent layout to put the layout in
+    ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
+
+    // inflate the password layout
+    lp.buildResetPopup(layoutInflater, parentLayout);
 	}
+	
 	/**
 	 * Handles what happens when user clicks the login button
 	 * @param view Button that is pressed
 	 */
 	public void loginButton(View view) {
-		// get the username and password inputs
-		final View contentView = login_ppw.getContentView();
-		EditText usernameInput = (EditText) contentView.findViewById(R.id.username_login_input);
-		EditText passwordInput = (EditText) contentView.findViewById(R.id.password_login_input);
-
-		final String usernameString = usernameInput.getText().toString();
-		final String passwordString = passwordInput.getText().toString();
-
-		// intent to go to the pregame multiplayer screen
-		final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
-		// try to login with the given inputs
-		ParseUser.logInInBackground(usernameString, passwordString, new LogInCallback() {
-			public void done(ParseUser user, ParseException e) {
-				if (user != null) {
-					// login successful
-					boolean emailVerified = user.getBoolean("emailVerified");
-					if (emailVerified) {
-						multiIntent.putExtra("username", usernameString);
-						startActivity(multiIntent);
-					} else {
-						errorMessage.setText("Email is not verified");
-						ParseUser.logOut();
-						currentUser = ParseUser.getCurrentUser();
-					}
-				} else {
-					// an error occured. Figure out if invalid username or password
-					// or another error 
-					errorMessage.setText("An Error has Occured");
-				}
-			}
-		}); 
+	  // Try to login
+	  String usernameString = lp.loginButton();
+	  // If login was successful, go to the multiplayer game
+	  if (!usernameString.equals("")) {
+	    multiIntent.putExtra("username", usernameString);
+	    startActivity(multiIntent);
+	  }
 	}
 
 	/**
@@ -192,7 +161,7 @@ public class TitlePage extends Activity {
 	 * @param view the button clicked
 	 */
 	public void exitLoginPopup(View view) {
-		login_ppw.dismiss();
+		lp.exitLoginPopup();
 	}
 
 	/**
@@ -200,21 +169,22 @@ public class TitlePage extends Activity {
 	 * @param view the button clicked
 	 */
 	public void exitPasswordPopup(View view) {
-		password_ppw.dismiss();
 		buildPopup(true);
 	}
+	
 	/**
 	 * Logs out the current user
 	 * @param view the button clicked
 	 */
 	public void logoutUser(View view) {
-		ParseUser.logOut();
-		currentUser = ParseUser.getCurrentUser();
-		final String title = "Logged Out";
-		final String message = "You have successfully logged out";
-		buildAlertDialog(title, message);
-		// make the views disappear
-		makeViewsInvisible();
+	  // Log the user out
+    ParseUser.logOut();
+    currentUser = ParseUser.getCurrentUser();
+    
+    // Display appropriate message / etc
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		lp.logoutUser(alertDialogBuilder);
+    makeViewsInvisible();
 	}
 
 	/**
@@ -222,33 +192,10 @@ public class TitlePage extends Activity {
 	 * @param view the button clicked
 	 */
 	public void resetPassword(View view) {
-		// get the contents of the popup window and get the email
-		// user typed in
-		final View contentView = password_ppw.getContentView();
-		EditText emailReset = (EditText) contentView.findViewById(R.id.email_forgot_password_input);
-		final String emailString = emailReset.getText().toString();
-
-		final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
-		// try to reset the password by sending an email
-		ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
-			public void done(ParseException e) {
-				if (e == null) {
-					// success
-					final String title = "Password Reset";
-					final String message = "An email has been sent to " + emailString;
-					buildAlertDialog(title, message);
-				} else {
-					// failure
-					int errorCode = e.getCode();
-					if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
-						errorMessage.setText("Invalid Email Address");
-					} else {
-						errorMessage.setText("Password Reset Failed");
-					}
-				}
-			}
-		});
-		password_ppw.dismiss();
+	  // Sort through the reset info
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+	  lp.resetPassword(alertDialogBuilder);		
+	  // Go back to the login popup
 		buildPopup(true);
 	}
 
@@ -259,36 +206,6 @@ public class TitlePage extends Activity {
 	public void goToRegister(View view) {
 		Intent registerIntent = new Intent(this, RegisterPage.class);
 		startActivity(registerIntent);
-	}
-
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
 	}
 
 	/**
