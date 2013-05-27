@@ -1,6 +1,5 @@
 package com.example.zootypers.core;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +12,7 @@ import java.util.List;
 import org.apache.commons.io.IOUtils;
 
 import android.content.Context;
+import android.util.Log;
 
 
 /**
@@ -61,15 +61,14 @@ public class SingleLeaderBoardModel {
 	 * Parses the file and keeps a list of the current entries in the leaderboard
 	 */
 	private void parseFile() {
+		Log.i("ZooTypers", "Begin reading file for single player scores");
 		String[] tempArr = null;
 		try {
 			InputStream stream =  context.openFileInput(FILE_NAME);
 			String contents = IOUtils.toString(stream, "UTF-8");
 			tempArr = contents.split(" ");
-		} catch (FileNotFoundException e) {
-			tempArr = new String[0];
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("ZooTypers", "error locating file for single player scores", e);
 		}
 
 		for (int i = 0; i < tempArr.length; i++) {
@@ -83,6 +82,7 @@ public class SingleLeaderBoardModel {
 	 * @param score, user's score to potentially be added
 	 */
 	public void addEntry(int newScore){
+		Log.i("ZooTypers", "single player adding the user's entry");
 		//only adds the entry if the score is within the range of the current top scores
 		int size = scores.size();
 		if (size == 0 || size < topEntries) {
@@ -105,6 +105,7 @@ public class SingleLeaderBoardModel {
 	 * After updating the list, save the list back into the file by writing
 	 */
 	private void save() {
+		Log.i("ZooTypers", "Begin writing file for single player scores");
 		StringBuffer write = new StringBuffer();
 		for (int j = 0; j < scores.size() - 1; j++) {
 			write.append(scores.get(j) + " ");
@@ -121,8 +122,7 @@ public class SingleLeaderBoardModel {
 			osw.flush();
 			osw.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.e("ZooTypers", "error writing to file for single player scores", e);
 		}
 	}
 
@@ -140,6 +140,8 @@ public class SingleLeaderBoardModel {
 	 * Clear every thing in the database
 	 */
 	public void clearLeaderboard(){
+		Log.i("ZooTypers", "single player removing all scores");
+
 		context.deleteFile(FILE_NAME);
 		scores.clear();
 	}

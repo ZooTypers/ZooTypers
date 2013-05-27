@@ -6,6 +6,7 @@ import java.util.Observer;
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
@@ -156,6 +157,7 @@ public abstract class Player extends Activity implements Observer {
 	 * @author oaknguyen
 	 */
 	public final void keyboardButton(final View view) {
+		Log.i("ZooTypers", "user has clicked on keyboard button");
 		InputMethodManager inputMgr = (InputMethodManager) 
 		getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMgr.toggleSoftInput(0, 0);
