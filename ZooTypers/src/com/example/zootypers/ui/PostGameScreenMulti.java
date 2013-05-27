@@ -9,6 +9,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
+import com.example.zootypers.core.MultiLeaderBoardModel;
+import com.example.zootypers.core.SingleLeaderBoardModel;
 
 public class PostGameScreenMulti extends PostGameScreen {
 
@@ -28,7 +30,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 		findViewById(R.id.postgame_layout).setBackground(background);
 
 		// Get and display score
-		Integer score = getIntent().getIntExtra("score", 0);
+		score = getIntent().getIntExtra("score", 0);
 		TextView finalScore = (TextView) findViewById(R.id.final_score);
 		finalScore.setText(score.toString());
 
@@ -57,8 +59,6 @@ public class PostGameScreenMulti extends PostGameScreen {
 		}
 
 		username = getIntent().getStringExtra("username");
-
-		// TODO store score
 	}
 
 	@Override
@@ -66,6 +66,13 @@ public class PostGameScreenMulti extends PostGameScreen {
 		Intent intent = new Intent(this, PreGameSelectionMulti.class);
 		intent.putExtra("username", username);
 		startActivity(intent);
+	}
+
+	@Override
+	public final void saveScore(final View view) {
+		MultiLeaderBoardModel sl = new MultiLeaderBoardModel(username);
+    	sl.addEntry(score);
+    	/// TODO make notifying popup
 	}
 
 }
