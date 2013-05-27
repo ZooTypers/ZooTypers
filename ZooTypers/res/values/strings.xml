@@ -72,5 +72,15 @@
     <string name="game_over">Game Over!</string>
     <string name="join_now_string"><u>Join now!</u></string>
     <string name="forgot_pw_string"><u>Forgot your password?</u></string>
+    <string name="friends_lb_title">Friends Leaderboard</string>
+    <string name="rank_string">Rank</string>
+    <string name="player_name_string">Player Name</string>
+    <string name="score_string">Score</string>
+    <string name="default_string">Default</string>
+    <string name="default_score">0</string>
+    <string name="multiplayer_lb_title">Multiplayer Leaderboard</string>
+    <string name="singleplayer_lb_title">Singleplayer Leaderboard</string>
+    <string name="animal_used_string">Animal Used</string>
+    <string name="title_activity_leaderboard_ui">LeaderboardUi</string>
 
 </resources>
