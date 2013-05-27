@@ -1,6 +1,9 @@
 package com.example.zootypers.ui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -42,7 +45,9 @@ public class Options extends Activity {
     	// TODO get context (?)
     	SingleLeaderBoardModel sl = new SingleLeaderBoardModel(null);
     	sl.clearLeaderboard();
-    	/// TODO make notifying popup
+		final String title = "Cleared Leaderboard";
+		final String message = "The single player leaderboard has been successfully cleared.";
+		buildAlertDialog(title, message);
     }
     
     /**
@@ -58,8 +63,51 @@ public class Options extends Activity {
     		return;
     	}
     	MultiLeaderBoardModel sl = new MultiLeaderBoardModel("username");
-    	sl.clearLeaderboard();   
-    	/// TODO make notifying popup 	
+    	sl.clearLeaderboard();
+		final String title = "Cleared Leaderboard";
+		final String message = "Your multiplayer leaderboard has been successfully cleared.";
+		buildAlertDialog(title, message);
     }
+
+	/**
+	 * Called when the user clicks the "Main Menu" button.
+	 * @param view The button clicked
+	 */
+	public final void goToTitlePage(final View view) {
+		Intent intent = new Intent(this, TitlePage.class);
+		startActivity(intent);
+	}
+
+    
+    // TODO remove repetition from title page / post game
+	/**
+	 * builds an AlertDialog popup with the given title and message
+	 * @param title String representing title of the AlertDialog popup
+	 * @param message String representing the message of the AlertDialog
+	 * popup
+	 */
+	private void buildAlertDialog(String title, String message) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+		// set title
+		alertDialogBuilder.setTitle(title);
+
+		// set dialog message
+		alertDialogBuilder
+		.setMessage(message)
+		.setCancelable(false)
+		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// if this button is clicked, close the dialog box
+				dialog.cancel();
+			}
+		});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show the message
+		alertDialog.show();
+	}
 
 }
