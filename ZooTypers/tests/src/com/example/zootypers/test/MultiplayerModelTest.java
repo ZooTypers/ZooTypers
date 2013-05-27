@@ -3,14 +3,12 @@ package com.example.zootypers.test;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import org.junit.Test;
-
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiPlayerModel;
 import com.example.zootypers.ui.MultiPlayer;
@@ -33,54 +31,57 @@ import com.parse.ParseQuery;
  *
  */
 
+@Suppress
 public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<TitlePage> {
-	
-	private Solo solo;
+
+    private Solo solo;
     private MultiPlayerModel model;
-	private static final int TIMEOUT = 30000;
-	private static final int GAME_TIME = 63000;
+    private static final int TIMEOUT = 30000;
+    private static final int GAME_TIME = 63000;
     private char[] lowChanceLetters = {'j', 'z', 'x', 'q', 'k', 'o'};
-	private ParseObject match;
-	// maximum number of words in wordLists on Parse database
-	private static final int NUMOFWORDS = 709;
-	private static final int LIST_SIZE = 100;
+    private ParseObject match;
+    // maximum number of words in wordLists on Parse database
+    private static final int NUMOFWORDS = 709;
+    private static final int LIST_SIZE = 100;
     private static boolean loginFlag = true;
-	
-	public MultiplayerModelTest() {
-		super(TitlePage.class);
-	}
-	
-	protected void setUp() throws Exception {
-	    model = new MultiPlayerModel(5, "Player", 1);
-	    solo = new Solo(getInstrumentation(), getActivity());
-	    
-	    //initial login for running all the multiplayer tests
-	    if (loginFlag) {
-    	    solo.clickOnButton("Multiplayer");
-    	    solo.sleep(1000);
-    	    EditText username = (EditText) solo.getView(R.id.username_login_input);
-    	    solo.enterText(username, "David");
-    	    EditText password = (EditText) solo.getView(R.id.password_login_input);
-    	    solo.enterText(password, "1234567");
-    	    solo.clickOnButton("Login");
-    	    solo.sleep(3000);
-    	    loginFlag = false;
-    	     
-	    } else {
-	        solo.clickOnButton("Multiplayer");
-	        solo.sleep(1000);
-	    }
-	    
-	    setUpOpponent();
+
+    public MultiplayerModelTest() {
+        super(TitlePage.class);
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        model = new MultiPlayerModel(5, "Player", 1);
+        solo = new Solo(getInstrumentation(), getActivity());
+
+        //initial login for running all the multiplayer tests
+        if (loginFlag) {
+            solo.clickOnButton("Multiplayer");
+            solo.sleep(1000);
+            EditText username = (EditText) solo.getView(R.id.username_login_input);
+            solo.enterText(username, "David");
+            EditText password = (EditText) solo.getView(R.id.password_login_input);
+            solo.enterText(password, "1234567");
+            solo.clickOnButton("Login");
+            solo.sleep(3000);
+            loginFlag = false;
+
+        } else {
+            solo.clickOnButton("Multiplayer");
+            solo.sleep(1000);
+        }
+
+        setUpOpponent();
         solo.sleep(3000);
         solo.clickOnButton("Continue");
-	}
-	
-	/*
-	 * set up the opponent bot for testing multiplayer
-	 */
-	public void setUpOpponent() {
-	    // Initialize the database
+    }
+
+    /*
+     * set up the opponent bot for testing multiplayer
+     */
+    public void setUpOpponent() {
+        // Initialize the database
         Parse.initialize(this.getActivity(), "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
         final int randy = (int) (Math.random() * (NUMOFWORDS));
         try {
@@ -95,95 +96,95 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         } catch (ParseException e) {
             // TODO do something
         }
-	}
-	
-	/*
-	 * make it so that the opponent is set to finish the match knows to display final scores
-	 */
-	private void setOpponentFinished() {
-	    match.put("p1finished", true);
-	    try {
-	        match.save();
-	    } catch (ParseException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    }
-	}
-	
-	/*
-	 * make it so that the myself is set to finish the match knows to display final scores
-	 */
-	private void setMyselfFinished() {
-	    match.put("p2finished", true);
-	    try {
-	        match.save();
-	    } catch (ParseException e) {
-	        // TODO Auto-generated catch block
-	        e.printStackTrace();
-	    }
-	}
-	
-	/*
-	 * delete a match after testing
-	 */
-	private void deleteThisMatch() {
-	    try {
-            match.delete();
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-	}
-	
-	/*
-	 * save the match results
-	 */
-	private void saveMatch() {
+    }
+
+    /*
+     * make it so that the opponent is set to finish the match knows to display final scores
+     */
+    private void setOpponentFinished() {
+        match.put("p1finished", true);
         try {
             match.save();
         } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-	}
-	
-	private static List<TextView> getWordsPresented(Solo solo){
+    }
+
+    /*
+     * make it so that the myself is set to finish the match knows to display final scores
+     */
+    private void setMyselfFinished() {
+        match.put("p2finished", true);
+        try {
+            match.save();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * delete a match after testing
+     */
+    private void deleteThisMatch() {
+        try {
+            match.delete();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * save the match results
+     */
+    private void saveMatch() {
+        try {
+            match.save();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private static List<TextView> getWordsPresented(Solo solo){
         solo.sleep(3000);
-	    List<TextView> retVal = new ArrayList<TextView>();
-	    retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
-	    retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word1)));
-	    retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word2)));
-	    retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word3)));
-	    retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word4)));
+        List<TextView> retVal = new ArrayList<TextView>();
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word1)));
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word2)));
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word3)));
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word4)));
         solo.sleep(3000);
-	    return retVal;
-	}
-	
-	private void automateKeyboardTyping() {
-		List<TextView> textList = getWordsPresented(solo);
-		Random randy = new Random();
-		int randomValue = randy.nextInt(5);
-		TextView currTextView = textList.get(randomValue);
-		String currWord = currTextView.getText().toString();
-		for (int i = 0; i < currWord.length(); i++) {
-			char c = currWord.charAt(i);
-			sendKeys(c - 68);
-		}
-	}
-	
-	/*
-	 * make sure that when you create a model, all the fields are at default values
-	 */
-	@Test(timeout = TIMEOUT)
-	public void testInitialValues() {
-	    assertEquals(5, model.getWordsDisplayed().length);
-	    assertEquals(-1, model.getCurrWordIndex());
-	    assertEquals(-1, model.getCurrLetterIndex());
-	}
-	
-	/*
-	 * check to see if the first 5 words are displayd in multiplayer screen
-	 */
+        return retVal;
+    }
+
+    private void automateKeyboardTyping() {
+        List<TextView> textList = getWordsPresented(solo);
+        Random randy = new Random();
+        int randomValue = randy.nextInt(5);
+        TextView currTextView = textList.get(randomValue);
+        String currWord = currTextView.getText().toString();
+        for (int i = 0; i < currWord.length(); i++) {
+            char c = currWord.charAt(i);
+            sendKeys(c - 68);
+        }
+    }
+
+    /*
+     * make sure that when you create a model, all the fields are at default values
+     */
+    @Test(timeout = TIMEOUT)
+    public void testInitialValues() {
+        assertEquals(5, model.getWordsDisplayed().length);
+        assertEquals(-1, model.getCurrWordIndex());
+        assertEquals(-1, model.getCurrLetterIndex());
+    }
+
+    /*
+     * check to see if the first 5 words are displayd in multiplayer screen
+     */
     @Test(timeout = TIMEOUT)
     public void testFiveWordsPresentInMulti(){
         List<TextView> views = getWordsPresented(solo);
@@ -195,7 +196,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             assertTrue(expectedLength > 0);
         }
     }
-    
+
     /*
      * test if typing a correct word would update the multiplayer score
      */
@@ -216,7 +217,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         actualScore = Integer.parseInt(scoreString);
         assertEquals(expectedScore, actualScore);
     }
-    
+
     /*
      * testing if typing an invalid letter would display the red error string
      */
@@ -238,7 +239,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         }
         solo.sleep(1000);
     }
-	
+
     /*
      * testing manually making the player 1 win the game and get score methods
      */
@@ -254,12 +255,12 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         int opponentScore = model.getOpponentScore();
         assertTrue(myScore > opponentScore);
     }
-    
+
     /*
      * testing manually making the player 1 tie the game and get score methods
      */
-	@Test(timeout = TIMEOUT)
-	public void testTieingAMultiplayerGamePlay() {
+    @Test(timeout = TIMEOUT)
+    public void testTieingAMultiplayerGamePlay() {
         solo.sleep(3000);
         MultiPlayerModel model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
         match.put("p1score", 0);
@@ -268,8 +269,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         int myScore = model.getScore();
         int opponentScore = model.getOpponentScore();
         assertTrue(myScore == opponentScore);
-	}
-	
+    }
+
     /*
      * testing manually making the player 1 lose the game and get score methods
      */
@@ -285,7 +286,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         int opponentScore = model.getOpponentScore();
         assertTrue(myScore < opponentScore);
     }
-	
+
     /*
      *  populates wordsList by contacting the database for LIST_SIZE amount of words
      */
@@ -311,12 +312,13 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         }
         return wordsList;
     }
-    
-	protected void tearDown() throws Exception {
+
+    @Override
+    protected void tearDown() throws Exception {
         setMyselfFinished();
         setOpponentFinished();
         deleteThisMatch();
         solo.sleep(3000);
-		solo.finishOpenedActivities();
-	}
+        solo.finishOpenedActivities();
+    }
 }

@@ -2,10 +2,12 @@ package com.example.zootypers.test;
 
 import org.junit.Test;
 
-import android.annotation.SuppressLint;
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
 
+import com.example.zootypers.ui.Leaderboard;
+import com.example.zootypers.ui.Options;
+import com.example.zootypers.ui.PreGameSelection;
 import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
 
@@ -17,131 +19,149 @@ import com.jayway.android.robotium.solo.Solo;
  * @author dyxliang
  *
  */
-
 public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
-	
-	private Solo solo;
-	private static final int TIMEOUT = 10000;
-	
-	@SuppressLint("NewApi")
+
+    private Solo solo;
+    private static final int TIMEOUT = 10000;
+    private Button singlePlayerButton;
+    private Button multiplayerButton;
+    private Button leaderboardButton;
+    private Button optionsButton;
+
     public TitlePageTest() {
-		super(TitlePage.class);
-	}
-	
-	protected void setUp() throws Exception {
-		solo = new Solo(getInstrumentation(), getActivity());
-	}
+        super(TitlePage.class);
+    }
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        solo = new Solo(getInstrumentation(), getActivity());
+
+        //initialize the buttons for testing purposes
+        singlePlayerButton = (Button) getActivity().findViewById
+                (com.example.zootypers.R.id.single_player_button);
+        multiplayerButton = (Button) getActivity().findViewById
+                (com.example.zootypers.R.id.multiplayer_button);
+        leaderboardButton = (Button) getActivity().findViewById
+                (com.example.zootypers.R.id.leaderboard_button);
+        optionsButton = (Button) getActivity().findViewById
+                (com.example.zootypers.R.id.options_button);
+    }
 
     /**
-     * Tests the back button of android devices to not go to any other screen.
+     * Test clicking the back button stays in title page screen.
      */
-	@Test(timeout = TIMEOUT)
-	public void testBackButtonStayInTitlePage() {
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-		solo.goBack();
-		solo.goBack();
-		solo.goBack();
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-	}
-
-    /**
-     * Tests the title page to have all the required buttons.
-     */
-	@Test(timeout = TIMEOUT)
-	public void testSearchAllButtonsExist() {
-		solo.searchText("Single Player");
-		solo.searchText("Multiplayer");
-		solo.searchText("Leaderboard");
-	}
-
-    /**
-     * Tests the button 'Single Player'.
-     */
-	@Test(timeout = TIMEOUT)
-	public void testSinglePlayerButtonWorks() {
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-		solo.clickOnButton("Single Player");
-		solo.goBack();
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-	}
-
-    /**
-     * Tests the button 'Multiplayer' and see that it works.
-     */
-	@Test(timeout = TIMEOUT)
-	public void testMultiplayerButtonWorks() {
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-		solo.clickOnButton("Multiplayer");
-		Button xButton = (Button) solo.getView(com.example.zootypers.R.id.exit_login_button);
-		solo.clickOnView(xButton);
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-	}
-
-    /**
-     * Tests the button 'Leaderboard' and see that it works.
-     */
-	@Test(timeout = TIMEOUT)
-	public void testLeaderboardButtonWorks() {
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-		solo.clickOnButton("Leaderboard");
-		solo.goBack();
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-	}
-
-    /**
-     * Tests the button 'Options' and see that it works.
-     */
-	@Test(timeout = TIMEOUT)
-	public void testOptionsButtonWorks() {
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-		solo.clickOnButton("Options");
-		solo.goBack();
-		solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
-	}
+    @Test(timeout = TIMEOUT)
+    public void testBackButtonStayInTitlePage() {
+        solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+        solo.goBack();
+        solo.assertCurrentActivity("Check on title page activity.", TitlePage.class);
+    }
 
     /**
      * Tests the button 'Single Player' and see if it displays the right view.
      */
-   @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT)
     public void testSinglePlayerButtonExistsAndDisplayCorrectText() {
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.single_player_button));
-        Button singlePlayerButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.single_player_button);
+        assertNotNull(singlePlayerButton);
         singlePlayerButton.getText().equals("Single Player");
     }
 
     /**
      * Tests the button 'Multiplayer' and see if it displays the right view.
      */
-	@Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT)
     public void testMultiPlayerButtonExistsAndDisplayCorrectText() {
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button));
-        Button multiPlayerButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button);
-        multiPlayerButton.getText().equals("Multiplayer");
+        assertNotNull(multiplayerButton);
+        multiplayerButton.getText().equals("Multiplayer");
     }
 
     /**
      * Tests the button 'Leaderboard' and see if it displays the right view.
      */
-	@Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT)
     public void testLeaderboardButtonExistsAndDisplayCorrectText() {
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button));
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.single_player_button));
-        Button leaderboardButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.single_player_button);
+        assertNotNull(leaderboardButton);
         leaderboardButton.getText().equals("Leaderboard");
     }
 
     /**
      * Tests the button 'Options' and see if it displays the right view.
      */
-	@Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT)
     public void testOptionsButtonExistsAndDisplayCorrectText() {
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.options_button));
-        assertNotNull(getActivity().findViewById(com.example.zootypers.R.id.single_player_button));
-        Button optionsButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.single_player_button);
+        assertNotNull(optionsButton);
         optionsButton.getText().equals("Options");
-	}
-	
-	protected void tearDown() throws Exception {
+    }
+
+    /**
+     * Tests the button 'Single Player' and see if it leads to the next page.
+     */
+    @Test(timeout = TIMEOUT)
+    public void testSinglePlayerButtonAndScreenWorks() {
+        solo.assertCurrentActivity("Check on the current activity.", TitlePage.class);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                singlePlayerButton.performClick();
+            }
+        });
+        solo.sleep(1000);
+        solo.assertCurrentActivity("Check on the current activity.", PreGameSelection.class);
+    }
+
+    /**
+     * Tests the button 'Multiplayer' and see that it works.
+     */
+    @Test(timeout = TIMEOUT)
+    public void testMultiplayerButtonAndScreenWorks() {
+        solo.assertCurrentActivity("Check on the current activity.", TitlePage.class);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                multiplayerButton.performClick();
+            }
+        });
+        solo.sleep(1000);
+    }
+
+    /**
+     * Tests the button 'Leaderboard' and see that it works.
+     */
+    @Test(timeout = TIMEOUT)
+    public void testLeaderboardButtonAndScreenWorks() {
+        solo.assertCurrentActivity("Check on the current activity.", TitlePage.class);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                leaderboardButton.performClick();
+            }
+        });
+        solo.sleep(1000);
+        solo.assertCurrentActivity("Check on the current activity.", Leaderboard.class);
+    }
+
+    /**
+     * Tests the button 'Options' and see that it works.
+     */
+    @Test(timeout = TIMEOUT)
+    public void testOptionsButtonAndScreenWorks() {
+        solo.assertCurrentActivity("Check on the current activity.", TitlePage.class);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                optionsButton.performClick();
+            }
+        });
+        solo.sleep(1000);
+        solo.assertCurrentActivity("Check on the current activity.", Options.class);
+    }
+
+    /**
+     * tear doen any opened activities
+     */
+    @Override
+    protected void tearDown() throws Exception {
         solo.finishOpenedActivities();
     }
 }
