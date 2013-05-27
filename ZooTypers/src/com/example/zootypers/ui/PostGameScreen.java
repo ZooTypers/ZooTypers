@@ -12,6 +12,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
+import com.example.zootypers.core.SingleLeaderBoardModel;
 
 /**
  *
@@ -20,6 +21,8 @@ import com.example.zootypers.R;
  *
  */
 public class PostGameScreen extends Activity {
+	
+	Integer score;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -36,11 +39,9 @@ public class PostGameScreen extends Activity {
 		findViewById(R.id.postgame_layout).setBackground(background);
 
 		// get and display score
-		Integer score = getIntent().getIntExtra("score", 0);
+		score = getIntent().getIntExtra("score", 0);
 		TextView finalScore = (TextView) findViewById(R.id.final_score);
 		finalScore.setText(score.toString());
-
-		// TODO store score
 	}
 
 	@Override
@@ -53,6 +54,17 @@ public class PostGameScreen extends Activity {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.postgame_screen, menu);
 		return true;
+	}
+
+	/**
+	 * Saves the current score.
+	 * @param view The button clicked
+	 */
+	public void saveScore(final View view) {
+    	// TODO get context (?)
+    	SingleLeaderBoardModel sl = new SingleLeaderBoardModel(null);
+    	sl.addEntry(score);
+    	/// TODO make notifying popup
 	}
 
 	/**
