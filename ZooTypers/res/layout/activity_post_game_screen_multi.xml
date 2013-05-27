@@ -48,8 +48,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/new_game_button"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="50dp"
-        android:text="You Won!"
+        android:layout_marginTop="20dp"
         android:textSize="40sp" />
 
     <TextView
@@ -58,7 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/game_result"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:text="@string/final_score"
         android:textSize="25sp" />
     
@@ -70,13 +69,24 @@
         android:layout_centerHorizontal="true"
         android:textSize="35sp" />
 
-    <TextView
-        android:id="@+id/opp_final_score_text"
+    <Button
+        android:id="@+id/save_score_button"
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/final_score"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="5dp"
+        android:onClick="saveScore"
+        android:text="@string/save_score" />
+
+    <TextView
+        android:id="@+id/opp_final_score_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/save_score_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
         android:text="@string/opp_final_score"
         android:textSize="20sp" />
     
