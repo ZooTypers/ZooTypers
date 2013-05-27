@@ -71,7 +71,7 @@ public class TitlePage extends Activity {
 	}
 
 	/**
-	 * Called when the user clicks the "Multiplayer" button.
+	 * Called when the user clicks the "Multiplayer" button, if they are logged in.
 	 * @param view The button clicked
 	 */
 	public final void goToPreGameSelectionMulti(final View view) {

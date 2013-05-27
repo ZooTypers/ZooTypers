@@ -2,6 +2,8 @@ package com.example.zootypers.ui;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -64,7 +66,9 @@ public class PostGameScreen extends Activity {
     	// TODO get context (?)
     	SingleLeaderBoardModel sl = new SingleLeaderBoardModel(null);
     	sl.addEntry(score);
-    	/// TODO make notifying popup
+		final String title = "Saved Score";
+		final String message = "Your score has been successfully saved!";
+		buildAlertDialog(title, message);
 	}
 
 	/**
@@ -83,5 +87,37 @@ public class PostGameScreen extends Activity {
 	public void goToPreGameSelection(final View view) {
 		Intent intent = new Intent(this, PreGameSelection.class);
 		startActivity(intent);
+	}
+
+    
+    // TODO remove repetition from title page / options
+	/**
+	 * builds an AlertDialog popup with the given title and message
+	 * @param title String representing title of the AlertDialog popup
+	 * @param message String representing the message of the AlertDialog
+	 * popup
+	 */
+	private void buildAlertDialog(String title, String message) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+		// set title
+		alertDialogBuilder.setTitle(title);
+
+		// set dialog message
+		alertDialogBuilder
+		.setMessage(message)
+		.setCancelable(false)
+		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// if this button is clicked, close the dialog box
+				dialog.cancel();
+			}
+		});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show the message
+		alertDialog.show();
 	}
 }
