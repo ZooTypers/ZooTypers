@@ -8,6 +8,7 @@ import java.util.Collections;
 import org.apache.commons.io.IOUtils;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import com.example.zootypers.util.States;
 
@@ -53,6 +54,8 @@ public class SinglePlayerModel extends PlayerModel {
 	 * @param diff, the difficulty level that the user has chosen
 	 */
 	private void getWordsList(final States.difficulty diff) {
+		Log.i("ZooTypers", "Begin reading file for single player words list");
+
 		String file;
 		if (diff == States.difficulty.EASY) {
 			file = "4words.txt";
@@ -69,7 +72,7 @@ public class SinglePlayerModel extends PlayerModel {
 			String[] tempArr = contents.split(System.getProperty("line.separator"));
 			wordsList = Arrays.asList(tempArr);
 		} catch (IOException e) {
-			e.printStackTrace();
+			Log.e("ZooTypers", "error reading file for single player words list", e);
 		}
 
 		// Shuffle the elements in the array
@@ -84,6 +87,7 @@ public class SinglePlayerModel extends PlayerModel {
 	 * @param letter, the letter that the user typed on the Android soft-keyboard
 	 */
 	public final void typedLetter(final char letter) {
+		Log.i("ZooTypers", "single player typed the letter: " + letter);
 		// currently not locked on to a word
 		if (currWordIndex == -1) {
 			for (int i = 0; i < wordsDisplayed.length; i++) {
