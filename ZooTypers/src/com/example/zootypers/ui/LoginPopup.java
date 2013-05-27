@@ -17,8 +17,12 @@ import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+/**
+ * Utility for login / register / resert password.
+ * @author cdallas, littlpunk
+ */
 public class LoginPopup {
-  
+
   @SuppressWarnings("unused")
   private ParseUser currentUser;
 
@@ -27,11 +31,10 @@ public class LoginPopup {
   private PopupWindow password_ppw;
 
   @SuppressLint("InlinedApi")
-  public LoginPopup(ParseUser u) {
+  public LoginPopup(final ParseUser u) {
     currentUser = u;
   }
 
-  @SuppressLint("InlinedApi")
   /**
    * Builds and displays the login popup.
    * @param layoutInflater The LayoutInflater to use.
@@ -39,29 +42,31 @@ public class LoginPopup {
    * @param dispsw If the password popup is currently being displayed
    * (and therefore should be dismissed).
    */
-  public void buildLoginPopup(LayoutInflater layoutInflater, ViewGroup parentLayout, boolean dispsw) {
+  @SuppressLint("InlinedApi")
+  public final void buildLoginPopup(LayoutInflater layoutInflater, ViewGroup parentLayout,
+      final boolean dispsw) {
     // If need be, dismiss the password popup
     if (dispsw) {
       password_ppw.dismiss();
     }
-    
+
     // Build the login poup
     View popupView = layoutInflater.inflate(R.layout.login_popup, null);
-    login_ppw = new PopupWindow(popupView, 
+    login_ppw = new PopupWindow(popupView,
         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-    login_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);  
+    login_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
   }
 
-  @SuppressLint("InlinedApi")
   /**
    * Builds and displays the reset password popup.
    * @param layoutInflater The LayoutInflater to use.
    * @param parentLayout The parent layout to display the popup in.
    */
+  @SuppressLint("InlinedApi")
   public void buildResetPopup(LayoutInflater layoutInflater, ViewGroup parentLayout) {
     // Build the reset password popup
     View popupView = layoutInflater.inflate(R.layout.reset_pw_layout, null);
-    password_ppw = new PopupWindow(popupView, 
+    password_ppw = new PopupWindow(popupView,
         LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
     password_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
     // dismiss the login popup
@@ -69,21 +74,21 @@ public class LoginPopup {
   }
 
   /**
-   * Handles what happens when user clicks the login button
+   * Handles what happens when user clicks the login button.
    * @return the username to pass to the multiplayer activity.
    * If this is "", the activity should NOT continue to the multiplayer screen.
    */
-  public String loginButton() {
+  public final String loginButton() {
     // Get the username and password inputs
     final View contentView = login_ppw.getContentView();
     EditText usernameInput = (EditText) contentView.findViewById(R.id.username_login_input);
     EditText passwordInput = (EditText) contentView.findViewById(R.id.password_login_input);
     String usernameString = usernameInput.getText().toString();
     final String passwordString = passwordInput.getText().toString();
-    
+
     // Where to display an error message
     final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
-        
+
     // Try to login with the given inputs
     ParseUser user;
     try {
@@ -104,22 +109,22 @@ public class LoginPopup {
     } else {
       currentUser = user;
     }
-    
+
     return usernameString;
   }
 
   /**
-   * Exits the login popup window
+   * Exits the login popup window.
    */
-  public void exitLoginPopup() {
+  public final void exitLoginPopup() {
     login_ppw.dismiss();
   }
 
   /**
-   * Logs out the current user
+   * Logs out the current user.
    * @param alertDialogBuilder The AlertDialog.Builder
    */
-  public void logoutUser(AlertDialog.Builder alertDialogBuilder) {
+  public final void logoutUser(final AlertDialog.Builder alertDialogBuilder) {
     ParseUser.logOut();
     currentUser = ParseUser.getCurrentUser();
     final String title = "Logged Out";
@@ -132,7 +137,7 @@ public class LoginPopup {
    * Handles what happens when user wants to their reset password.
    * @param alertDialogBuilder The AlertDialog.Builder
    */
-  public void resetPassword(final AlertDialog.Builder alertDialogBuilder) {
+  public final void resetPassword(final AlertDialog.Builder alertDialogBuilder) {
     // get the contents of the popup window and get the email the user typed in
     final View contentView = password_ppw.getContentView();
     EditText emailReset = (EditText) contentView.findViewById(R.id.email_forgot_password_input);
@@ -141,7 +146,7 @@ public class LoginPopup {
     final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
     // try to reset the password by sending an email
     ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
-      public void done(ParseException e) {
+      public void done(final ParseException e) {
         if (e == null) {
           // success
           final String title = "Password Reset";
@@ -161,13 +166,14 @@ public class LoginPopup {
   }
 
   /**
-   * Builds an AlertDialog popup with the given title and message
+   * Builds an AlertDialog popup with the given title and message.
    * @param alertDialogBuilder The AlertDialog.Builder
    * @param title The title of the popup.
    * @param message The message in the popup.
    */
-  private void buildAlertDialog(AlertDialog.Builder alertDialogBuilder, String title, String message) {
-   // set title
+  private void buildAlertDialog(final AlertDialog.Builder alertDialogBuilder, final String title,
+      final String message) {
+    // set title
     alertDialogBuilder.setTitle(title);
 
     // set dialog message
@@ -175,7 +181,7 @@ public class LoginPopup {
     .setMessage(message)
     .setCancelable(false)
     .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int id) {
+      public void onClick(final DialogInterface dialog, final int id) {
         // if this button is clicked, close the dialog box
         dialog.cancel();
       }
