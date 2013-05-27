@@ -42,8 +42,7 @@ public class Options extends Activity {
      * @param view The button clicked.
      */
     public final void clearSingle(final View view) {
-    	// TODO get context (?)
-    	SingleLeaderBoardModel sl = new SingleLeaderBoardModel(null);
+    	SingleLeaderBoardModel sl = new SingleLeaderBoardModel(this.getApplicationContext());
     	sl.clearLeaderboard();
 		final String title = "Cleared Leaderboard";
 		final String message = "The single player leaderboard has been successfully cleared.";
