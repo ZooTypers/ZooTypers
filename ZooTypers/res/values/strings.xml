@@ -36,7 +36,7 @@
     <string name="title_activity_single_player_game">SinglePlayerGame</string>
     <string name="score">Score:</string>
     <string name="title_activity_post_game_screen">PostGameScreen</string>
-    <string name="final_score">Final Score: </string>
+    <string name="final_score">Your Score: </string>
     <string name="main_menu">Main Menu</string>
     <string name="new_game">New Game</string>
     <string name="cont">Continue</string>
@@ -64,5 +64,26 @@
     <string name="title_activity_post_game_screen_multi">PostGameScreenMulti</string>
     <string name="opp_final_score">Opponent\'s Score:</string>
     <string name="quit_game">Quit Game</string>
+    <string name="connection_error">It looks like there was a problem connecting you to the internet. Please try again!</string>
+    <string name="big_error">Oh, No!</string>
+    <string name="no_opponent_error">We couldn\'t find an opponent for you! Please try again in a few minutes.</string>
+    <string name="title_activity_error">Error</string>
+    <string name="interrupt_error">Panic! Something has gone terribly wrong! Please try again.</string>
+    <string name="game_over">Game Over!</string>
+    <string name="join_now_string"><u>Join now!</u></string>
+    <string name="forgot_pw_string"><u>Forgot your password?</u></string>
+    <string name="friends_lb_title">Friends Leaderboard</string>
+    <string name="rank_string">Rank</string>
+    <string name="player_name_string">Player Name</string>
+    <string name="score_string">Score</string>
+    <string name="default_string">Default</string>
+    <string name="default_score">0</string>
+    <string name="multiplayer_lb_title">Multiplayer Leaderboard</string>
+    <string name="singleplayer_lb_title">Singleplayer Leaderboard</string>
+    <string name="animal_used_string">Animal Used</string>
+    <string name="title_activity_leaderboard_ui">LeaderboardUi</string>
+    <string name="clear_single">Clear Single Player Leaderboard</string>
+    <string name="clear_multi">Clear Multiplayer Leaderboard</string>
+    <string name="save_score">Save Your Score</string>
 
 </resources>

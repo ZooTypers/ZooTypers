@@ -61,4 +61,15 @@
         android:text=""
         android:textSize="40sp" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:id="@+id/save_score_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:layout_below="@id/final_score"
+        android:onClick="saveScore"
+        android:text="@string/save_score" />
+
 </RelativeLayout>
