@@ -82,5 +82,8 @@
     <string name="singleplayer_lb_title">Singleplayer Leaderboard</string>
     <string name="animal_used_string">Animal Used</string>
     <string name="title_activity_leaderboard_ui">LeaderboardUi</string>
+    <string name="clear_single">Clear Single Player Leaderboard</string>
+    <string name="clear_multi">Clear Multiplayer Leaderboard</string>
+    <string name="save_score">Save Your Score</string>
 
 </resources>
