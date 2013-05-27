@@ -17,7 +17,7 @@ public class LeaderboardSPModelTest extends AndroidTestCase {
 	private SingleLeaderBoardModel model;
 	private static final int TIMEOUT = 10000;
 	
-    @Before
+    @Before @Override
     public void setUp() throws Exception {
         context = getContext();
     	model = new SingleLeaderBoardModel(context);
