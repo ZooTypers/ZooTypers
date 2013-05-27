@@ -33,7 +33,6 @@ public class SingleLeaderBoardModel {
 	private Context context;
 
 	//private Map<Integer, Integer> score;
-	private List<Integer> scores;
 	private List<ScoreEntry> scoreEntries;
 
 	/**
@@ -151,6 +150,6 @@ public class SingleLeaderBoardModel {
 	public void clearLeaderboard(){
 		Log.i("ZooTypers", "single player removing all scores");
 		context.deleteFile(FILE_NAME);
-		scores.clear();
+		scoreEntries.clear();
 	}
 }
