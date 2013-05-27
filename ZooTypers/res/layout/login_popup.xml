@@ -47,13 +47,13 @@
             android:layout_marginLeft="26dp"
             android:layout_alignParentTop="true" android:layout_alignParentLeft="true"/>
     <TextView
+            android:id="@+id/join_now"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:text="@string/join_now_string"
             android:textColor="@color/blue"
             android:layout_marginLeft="5dp"
-            android:id="@+id/textView"
             android:clickable="true"
             android:onClick="goToRegister"
             android:layout_alignParentTop="true" android:layout_toRightOf="@+id/account_text"/>
@@ -110,6 +110,7 @@
 	</LinearLayout>
 
     <TextView
+        android:id="@+id/forgot_pw"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
