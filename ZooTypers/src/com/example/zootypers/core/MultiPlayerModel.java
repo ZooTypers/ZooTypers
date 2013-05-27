@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.util.Log;
+
 import com.example.zootypers.util.EmptyQueueException;
 import com.example.zootypers.util.InternalErrorException;
 import com.example.zootypers.util.InternetConnectionException;
@@ -78,6 +80,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 */  
 	public void beginMatchMaking() throws InternetConnectionException, 
 	EmptyQueueException, InternalErrorException {
+		Log.i("ZooTypers", "multiplayer user begins waiting in queue");
 		// if an opponent is waiting in the database to play
 		if (findOpponent()) {
 			setInfo(false);
@@ -88,12 +91,14 @@ public class MultiPlayerModel extends PlayerModel {
 				match.put("p2finished", false);
 				match.save();
 			} catch (ParseException e) {
+				Log.e("ZooTypers", "multiplayer parse error while joining a match", e);
 				throw new InternetConnectionException();
 			}
 			// if no opponent was added then create a match and wait for an opponent to join
 		} else {
 			addToQueue();
 			if (!checkStatus()) {
+				Log.w("ZooTypers", "multiplayer timed out waiting for an opponent");
 				throw new EmptyQueueException();
 			}
 		}
@@ -109,9 +114,10 @@ public class MultiPlayerModel extends PlayerModel {
 			query.whereEqualTo("p2name", "");
 			query.whereNotEqualTo("p1name", name);
 			match = query.getFirst();
+			Log.i("ZooTypers", "multiplayer can be matched");
 			return true;
 		} catch (ParseException e1) {
-			e1.fillInStackTrace();
+			Log.i("ZooTypers", "multiplayer cannot be matched");
 			return false;
 		}
 	}
@@ -148,6 +154,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 */
 	private void addToQueue() throws InternetConnectionException {
 		// sets the starting word index on the database to a random integer
+		Log.i("ZooTypers", "multiplayer adding to queue as player 1");
 		final int randy = (int) (Math.random() * (TOTAL_WORDS));
 		try {
 			setInfo(true);
@@ -160,6 +167,7 @@ public class MultiPlayerModel extends PlayerModel {
 			match.put("wordIndex", randy);
 			match.save();
 		} catch (ParseException e) {
+			Log.e("ZooTypers", "multiplayer parse error while creating a match", e);
 			throw new InternetConnectionException();
 		}
 	}
@@ -170,6 +178,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 * find an opponent before model gives up.
 	 */
 	private boolean checkStatus() throws InternetConnectionException, InternalErrorException {
+		Log.i("ZooTypers", "multiplayer begin waiting in queue");
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + QUEUE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -180,9 +189,11 @@ public class MultiPlayerModel extends PlayerModel {
 					return true;
 				}
 				Thread.sleep(RECHECK_TIME);
-			} catch (ParseException e1) {
+			} catch (ParseException e) {
+				Log.e("ZooTypers", "multiplayer parse error while checking for a match", e);
 				throw new InternetConnectionException();
 			} catch (InterruptedException e) {
+				Log.e("ZooTypers", "multiplayer thread error while sleeping", e);
 				throw new InternalErrorException();
 			}
 		}
@@ -194,8 +205,11 @@ public class MultiPlayerModel extends PlayerModel {
 	 * with LIST_SIZE words from the Parse database
 	 * 
 	 * @throws InternetConnectionException if disconnected from Internet
+	 * @throws InternalErrorException 
 	 */  
-	public void setWordsList() throws InternetConnectionException {
+	public void setWordsList() throws InternetConnectionException, InternalErrorException {
+		Log.i("ZooTypers", "multiplayer get words list from parse");
+
 		List<ParseObject> wordObjects = null;
 		try {
 			checkIfInMatch();
@@ -209,7 +223,8 @@ public class MultiPlayerModel extends PlayerModel {
 				query2.setLimit(LIST_SIZE - wordObjects.size());
 				wordObjects.addAll(query2.find());
 			}
-		} catch (ParseException e1) {
+		} catch (ParseException e) {
+			Log.e("ZooTypers", "multiplayer error getting words list from parse", e);
 			throw new InternetConnectionException();
 		}  
 		// changing words from parse objects into a list of strings.
@@ -222,9 +237,11 @@ public class MultiPlayerModel extends PlayerModel {
 	/*
 	 * Checks if the user is still in the match they were originally a part of
 	 */
-	private void checkIfInMatch() throws InternetConnectionException {
+	private void checkIfInMatch() throws InternalErrorException {
 		if (!match.getString(info.get("name")).equals(name)) {
-			throw new InternetConnectionException();
+			Log.e("ZooTypers", 
+			"multiplayer got replaced by someone else, concurrency error");
+			throw new InternalErrorException();
 		}
 	}
 
@@ -233,12 +250,15 @@ public class MultiPlayerModel extends PlayerModel {
 	 * 
 	 * @throws InternetConnectionException if disconnected from Internet
 	 * @return the int ID of a animal that is selected by the user's opponent
+	 * @throws InternalErrorException 
 	 */  
-	public int getOpponentAnimal() throws InternetConnectionException {
+	public int getOpponentAnimal() throws InternetConnectionException, InternalErrorException {
+		Log.i("ZooTypers", "multiplayer getting opponent's animal");
 		try {
 			match.refresh();
 			checkIfInMatch();
 		} catch (ParseException e) {
+			Log.e("ZooTypers", "multiplayer error getting opponent's animal", e);
 			throw new InternetConnectionException();
 		}
 		return match.getInt(info.get("oanimal"));
@@ -252,6 +272,8 @@ public class MultiPlayerModel extends PlayerModel {
 	 * @param letter, the letter that the user typed on the Android soft-keyboard
 	 */
 	public final void typedLetter(final char letter) {
+		Log.i("ZooTypers", "multiplayer typed the letter: " + letter);
+
 		// currently not locked on to a word
 		if (currWordIndex == -1) {
 			for (int i = 0; i < wordsDisplayed.length; i++) {
@@ -296,10 +318,12 @@ public class MultiPlayerModel extends PlayerModel {
 	 *
 	 */
 	public final void setUserFinish() throws InternetConnectionException {
+		Log.i("ZooTypers", "multiplayer just finished");
 		try {
 			match.put(info.get("finished"), true);
 			match.save();
 		} catch (ParseException e) {
+			Log.e("ZooTypers", "multiplayer parse error setting user to finish", e);
 			throw new InternetConnectionException();
 		}
 	}
@@ -316,6 +340,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 */
 	public final boolean isOpponentFinished() throws 
 	InternetConnectionException, InternalErrorException {
+		Log.i("ZooTypers", "multiplayer waiting on opponent to finish");
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + SCORE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -327,9 +352,12 @@ public class MultiPlayerModel extends PlayerModel {
 				match.refresh();
 				checkIfInMatch();
 				Thread.sleep(RECHECK_TIME);
-			} catch (ParseException e1) {
+			} catch (ParseException e) {
+				Log.e("ZooTypers", 
+				"multiplayer parse error while checking if opponent is finished or not", e);
 				throw new InternetConnectionException();
 			} catch (InterruptedException e) {
+				Log.e("ZooTypers", "multiplayer thread error while sleeping", e);
 				throw new InternalErrorException();
 			}
 		}
@@ -337,20 +365,16 @@ public class MultiPlayerModel extends PlayerModel {
 	}
 
 	/**
-	 * refreshes the match then tries to delete themselves from the queue
-	 * if the other player has not finished then just set their own finished field
-	 * in the match to true.
-	 * @throws InternetConnectionException 
-	 * 
-	 * @modifies this
+	 * deletes the match from the database if this user is player 1
 	 */
 	public void deleteUser() {
 		try {
-			if (info.get("name").equals("p1name"))
-			match.delete();
+			if (info.get("name").equals("p1name")) {
+				Log.i("ZooTypers", "multiplayer has deleted match from database");
+				match.delete();
+			}
 		} catch (ParseException e) {
-			// shouldn't need to worry about this since game is ending anyway
-			e.fillInStackTrace();
+			Log.e("ZooTypers", "multiplayer error deleting match from parse", e);
 		}
 	}
 
