@@ -26,7 +26,7 @@ import android.util.Log;
 public class SingleLeaderBoardModel {
 	private static final int DEFAULT_ENTRIES = 10;
 	private static final String FILE_NAME = "single_player_leaderboard.txt";
-
+	private static final String DELIM = "\t";
 	//Number of Entries that we allow in the database
 	private int topEntries;
 	// allows files in assets to be accessed
@@ -78,7 +78,7 @@ public class SingleLeaderBoardModel {
 
 		for (int i = 0; i < tempArr.length; i++) {
 			// splitting the entry into two strings that represent the name and score
-			String[] tempSE = tempArr[i].split("\t");
+			String[] tempSE = tempArr[i].toString().split(DELIM);
 			// making the actual score entries;
 			scoreEntries.add(new ScoreEntry (tempSE[0], Integer.parseInt(tempSE[1])));
 		}
@@ -115,9 +115,11 @@ public class SingleLeaderBoardModel {
 		Log.i("ZooTypers", "Begin writing file for single player scores");
 		StringBuffer write = new StringBuffer();
 		for (int j = 0; j < scoreEntries.size() - 1; j++) {
-			write.append(scoreEntries.get(j) + "\n");
+			ScoreEntry currentSE = scoreEntries.get(j);
+			write.append(currentSE.getName() + DELIM + currentSE.getScore() + "\n");
 		}
-		write.append(scoreEntries.get(scoreEntries.size() - 1));
+		ScoreEntry lastSE = scoreEntries.get(scoreEntries.size() - 1);
+		write.append(lastSE.getName() + DELIM + lastSE.getScore());
 		
 		try {
 			FileOutputStream fOut = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
