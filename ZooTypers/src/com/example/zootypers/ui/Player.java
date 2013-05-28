@@ -5,6 +5,7 @@ import java.util.Observer;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -84,6 +85,8 @@ public abstract class Player extends Activity implements Observer {
 					//final RelativeLayout rl = (RelativeLayout) findViewById(R.id.single_game_layout);
 					//tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
 					tv.setVisibility(TextView.VISIBLE);
+					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+					v.vibrate(500);
 				} 
 			}
 		} 
