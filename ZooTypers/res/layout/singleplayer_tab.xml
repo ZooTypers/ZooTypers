@@ -1,9 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-	xmlns:tools="http://schemas.android.com/tools"
-	android:background="@color/greyish"
-	android:gravity="center_horizontal"
-	android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/greyish"
+    android:gravity="center_horizontal" >
 	
 	<TableLayout
 	    android:layout_gravity="center_horizontal"
@@ -35,13 +35,13 @@
 	            android:textSize="20sp" />
 	        
 	        <TextView
-	            android:background="@drawable/table_border"
 	            android:id="@+id/player_name"
-	            android:text="@string/animal_used_string"
-	            android:textSize="20sp"
 	            android:layout_width="wrap_content"
+	            android:background="@drawable/table_border"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/player_name_lb"
+	            android:textSize="20sp" />
 	
 	        <TextView
 	            android:background="@drawable/table_border"
@@ -67,23 +67,26 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name0"
-	            android:text="TextView"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score0"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	           
 	    <TableRow
 	        android:id="@+id/tableRow1"
-	        android:paddingTop="10dp"
 	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" >
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal"
+	        android:paddingTop="10dp" >
 	        
 	        <TextView
 	            android:id="@+id/rank1"
@@ -92,15 +95,17 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name1"
-	            android:text="TextView"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score1"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	    
@@ -117,15 +122,17 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name2"
-	            android:text="TextView"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score2"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	    
@@ -142,15 +149,17 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name3"
-	            android:text="TextView"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score3"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	    
@@ -167,15 +176,17 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name4"
-	            android:text="TextView"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score4"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	    
@@ -192,15 +203,17 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name5"
-	            android:text="TextView"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score5"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	    
@@ -217,15 +230,17 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name6"
-	            android:text="TextView"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score6"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	    
@@ -242,15 +257,17 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name7"
-	            android:text="TextView"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score7"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	    
@@ -267,15 +284,17 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name8"
-	            android:text="@string/default_string"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score8"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	    
@@ -292,15 +311,17 @@
 	        
 	        <TextView
 	            android:id="@+id/player_name9"
-	            android:text="@string/default_string"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_name" />
 	        
 	        <TextView
 	            android:id="@+id/player_score9"
-	            android:text="@string/default_score"
+	            android:layout_gravity="center_horizontal"
 	            android:paddingLeft="20dp"
-	            android:paddingRight="20dp" />
+	            android:paddingRight="20dp"
+	            android:text="@string/default_ldbd_score" />
 	        
 	    </TableRow>
 	
