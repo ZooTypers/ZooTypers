@@ -63,9 +63,8 @@ public class PostGameScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public void saveScore(final View view) {
-    	// TODO get context (?)
-    	SingleLeaderBoardModel sl = new SingleLeaderBoardModel(null);
-    	sl.addEntry(score);
+    	SingleLeaderBoardModel sl = new SingleLeaderBoardModel(getApplicationContext());
+    	sl.addEntry("name" ,score);
 		final String title = "Saved Score";
 		final String message = "Your score has been successfully saved!";
 		buildAlertDialog(title, message);

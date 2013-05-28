@@ -5,6 +5,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -112,7 +113,8 @@ public class MultiPlayer extends Player {
 		model = new MultiPlayerModel(NUM_WORDS, username, anmID);
 		model.addObserver(this);
 
-		new LoadTask().execute();
+		LoadTask task = new LoadTask(this);
+		task.execute();
 
 //		setContentView(R.layout.activity_multi_player);
 		//initialDisplay(animal, background, oppAnimal);
@@ -294,6 +296,11 @@ public class MultiPlayer extends Player {
 		
 		// called before running code in a separate thread
 		private boolean quitFlag;
+		private Activity activity;
+		
+		public LoadTask(Activity activity) {
+			this.activity = activity;
+		}
 		@Override
 		protected void onPreExecute() {
 			progressDialog = ProgressDialog.show(MultiPlayer.this,"Finding a Game...",  
@@ -302,29 +309,27 @@ public class MultiPlayer extends Player {
 		
 		@Override
 		protected Void doInBackground(Void... params) {
-			synchronized (this) {
-				try {
-					model.beginMatchMaking();
-					model.setWordsList();
-					// Get the opponent's animal from the model
-					oppAnimal = reverseDrawable(model.getOpponentAnimal());
-					// Display the multiplayer screen
-				} catch (InternetConnectionException e) {
-					e.fillInStackTrace();
-					quitFlag = true;
-					error(States.error.CONNECTION);
-					return null;
-				} catch (EmptyQueueException e) {
-					e.fillInStackTrace();
-					quitFlag = true;
-					error(States.error.NOOPPONENT);
-					return null;
-				} catch (InternalErrorException e) {
-					e.fillInStackTrace();
-					quitFlag = true;
-					error(States.error.INTERNAL);
-					return null;
-				}
+			try {
+				model.beginMatchMaking();
+				model.setWordsList();
+				// Get the opponent's animal from the model
+				oppAnimal = reverseDrawable(model.getOpponentAnimal());
+				// Display the multiplayer screen
+			} catch (InternetConnectionException e) {
+				e.fillInStackTrace();
+				quitFlag = true;
+				error(States.error.CONNECTION);
+				return null;
+			} catch (EmptyQueueException e) {
+				e.fillInStackTrace();
+				quitFlag = true;
+				error(States.error.NOOPPONENT);
+				return null;
+			} catch (InternalErrorException e) {
+				e.fillInStackTrace();
+				quitFlag = true;
+				error(States.error.INTERNAL);
+				return null;
 			}
 			return null;
 		}
@@ -332,9 +337,12 @@ public class MultiPlayer extends Player {
 		@Override
 		protected void onPostExecute(Void result) {
 			if (!quitFlag) {
-			  progressDialog.dismiss();
-//			  gameTimer = new GameTimer(START_TIME, INTERVAL);
-//			  gameTimer.start();
+				progressDialog.dismiss();
+				activity.setContentView(R.layout.activity_multi_player);
+				initialDisplay(animal, background, oppAnimal);
+				// Create and start timer
+				gameTimer = new GameTimer(START_TIME, INTERVAL);
+				gameTimer.start();
 			}
 		}
 	}

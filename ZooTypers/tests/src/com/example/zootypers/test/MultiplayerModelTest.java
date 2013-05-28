@@ -7,6 +7,7 @@ import org.junit.Test;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import com.example.zootypers.R;
@@ -30,7 +31,6 @@ import com.parse.ParseQuery;
  * @author dyxliang
  *
  */
-
 @Suppress
 public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
@@ -40,6 +40,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     private static final int GAME_TIME = 63000;
     private char[] lowChanceLetters = {'j', 'z', 'x', 'q', 'k', 'o'};
     private ParseObject match;
+    private Button multiButton;
     // maximum number of words in wordLists on Parse database
     private static final int NUMOFWORDS = 709;
     private static final int LIST_SIZE = 100;
@@ -54,27 +55,49 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         super.setUp();
         model = new MultiPlayerModel(5, "Player", 1);
         solo = new Solo(getInstrumentation(), getActivity());
-
-        //initial login for running all the multiplayer tests
+        multiButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button);
+        //initial login for running all the multi-player tests
         if (loginFlag) {
-            solo.clickOnButton("Multiplayer");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    multiButton.performClick();
+                }
+            });
             solo.sleep(1000);
             EditText username = (EditText) solo.getView(R.id.username_login_input);
             solo.enterText(username, "David");
             EditText password = (EditText) solo.getView(R.id.password_login_input);
             solo.enterText(password, "1234567");
-            solo.clickOnButton("Login");
-            solo.sleep(3000);
+            final Button loginButton = (Button) solo.getView(com.example.zootypers.R.id.login_button);
+            solo.sleep(1000);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    loginButton.performClick();
+                }
+            });
+            solo.sleep(1000);
             loginFlag = false;
-
         } else {
-            solo.clickOnButton("Multiplayer");
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    multiButton.performClick();
+                }
+            });
             solo.sleep(1000);
         }
-
         setUpOpponent();
         solo.sleep(3000);
-        solo.clickOnButton("Continue");
+        final Button continueButton = (Button) solo.getView(com.example.zootypers.R.id.continue_button);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                continueButton.performClick();
+            }
+        });
     }
 
     /*

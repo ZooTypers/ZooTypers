@@ -79,7 +79,7 @@ public class MultiLeaderBoardModel {
 			query.whereEqualTo("name", name);
 			entry = query.getFirst();
 		} catch (ParseException e) {
-			Log.e("ZooTypers", "error getting this player's score from parse", e);
+			Log.i("ZooTypers", "this player's has no scores score from parse");
 			// making a new entry for this player
 			entry = new ParseObject("MultiLeaderBoard");
 			entry.put("name", name);
@@ -104,13 +104,13 @@ public class MultiLeaderBoardModel {
 	 * The list will return a total of numOfEntries entries.
 	 * @return a list of size numOfEntries with the top score entries
 	 */
-	public List<ScoreEntry> getTopScores(){
-		List<ScoreEntry> scoreEntries = new ArrayList<ScoreEntry>();
-		int size = allScores.size();
-		for (int i = 0; i < numOfEntries && i < size; i++) {
-			scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
+	public ScoreEntry[] getTopScores(){
+		int size = Math.min(numOfEntries, allScores.size());
+		ScoreEntry[] scores = new ScoreEntry[size];
+		for (int i = 0; i < size; i++) {
+			scores[i] = new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score"));
 		}
-		return scoreEntries;
+		return scores;
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class MultiLeaderBoardModel {
 	 * @param numOfRelatives the number of scores above and below user's score to return in list
 	 * @return a list of size numOfEntries with the top score entries
 	 */
-	public List<ScoreEntry> getRelativeScores(int numOfRelatives) {
+	public ScoreEntry[] getRelativeScores(int numOfRelatives) {
 		if (numOfRelatives < 0) {
 			numOfRelatives *= -1;
 		}
@@ -149,7 +149,7 @@ public class MultiLeaderBoardModel {
 				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
 			}
 		}
-		return scoreEntries;
+		return scoreEntries.toArray(new ScoreEntry[scoreEntries.size()]);
 	}
 
 	/**
