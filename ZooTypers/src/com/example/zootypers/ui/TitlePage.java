@@ -198,9 +198,11 @@ public class TitlePage extends Activity {
   public final void resetPassword(final View view) {
     // Sort through the reset info
     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-    lp.resetPassword(alertDialogBuilder);
+    boolean reset = lp.resetPassword(alertDialogBuilder);
     // Go back to the login popup
-    buildPopup(true);
+    if (reset) {
+      buildPopup(true);
+    }
   }
 
   /**
