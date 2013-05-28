@@ -78,7 +78,8 @@ public class SingleLeaderBoardModel {
 
 		for (int i = 0; i < tempArr.length; i++) {
 			// splitting the entry into two strings that represent the name and score
-			String[] tempSE = tempArr[i].split(" ");
+			System.out.println(tempArr[i]);
+			String[] tempSE = tempArr[i].split("\t");
 			// making the actual score entries;
 			scoreEntries.add(new ScoreEntry (tempSE[0], Integer.parseInt(tempSE[1])));
 		}

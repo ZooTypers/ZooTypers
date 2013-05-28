@@ -3,14 +3,20 @@ package com.example.zootypers.ui;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ActionBar.LayoutParams;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
@@ -25,6 +31,7 @@ import com.example.zootypers.core.SingleLeaderBoardModel;
 public class PostGameScreen extends Activity {
 	
 	Integer score;
+	PopupWindow ppw;
 
 	@SuppressLint("NewApi")
 	@Override
@@ -63,11 +70,7 @@ public class PostGameScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public void saveScore(final View view) {
-    	SingleLeaderBoardModel sl = new SingleLeaderBoardModel(getApplicationContext());
-    	sl.addEntry("name" ,score);
-		final String title = "Saved Score";
-		final String message = "Your score has been successfully saved!";
-		buildAlertDialog(title, message);
+		buildSavePopup();
 	}
 
 	/**
@@ -88,7 +91,7 @@ public class PostGameScreen extends Activity {
 		startActivity(intent);
 	}
 
-    
+
     // TODO remove repetition from title page / options
 	/**
 	 * builds an AlertDialog popup with the given title and message
@@ -118,5 +121,49 @@ public class PostGameScreen extends Activity {
 
 		// show the message
 		alertDialog.show();
+	}
+
+	/**
+	 * Helper method to build a popup screen for the
+	 * save score popup
+	 */
+	private void buildSavePopup() {
+		LayoutInflater layoutInflater =
+		        (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+		// the parent layout to put the layout in
+		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.postgame_layout);
+		View popupView = layoutInflater.inflate(R.layout.save_score_screen, null);
+		ppw = new PopupWindow(popupView,
+		    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+		ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
+	}
+
+	/**
+	 * Called when the user wants to exit out of the save name
+	 * popup
+	 * @param view the button that is clicked
+	 */
+	public void exitPopup(View view) {
+		ppw.dismiss();
+	}
+	
+	/**
+	 * Called when the user clicks the "Submit" button when
+	 * a name is typed in
+	 * @param view the button that is clicked
+	 */
+	public void submitName(View view) {
+		// get the input from the user
+		final View contentView = ppw.getContentView();
+	    EditText savedNameInput = (EditText) contentView.findViewById(R.id.saved_name_input);
+	    String savedNameString = savedNameInput.getText().toString();
+	    // send the input the the leaderboard model
+	    SingleLeaderBoardModel sl = new SingleLeaderBoardModel(getApplicationContext());
+    	sl.addEntry(savedNameString ,score);
+		final String title = "Saved Score";
+		final String message = "Your score has been successfully saved!";
+		buildAlertDialog(title, message);
+		ppw.dismiss();
 	}
 }
