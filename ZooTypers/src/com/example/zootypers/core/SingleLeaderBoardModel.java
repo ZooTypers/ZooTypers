@@ -1,5 +1,6 @@
 package com.example.zootypers.core;
 
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +33,7 @@ public class SingleLeaderBoardModel {
 	private Context context;
 
 	//private Map<Integer, Integer> score;
-	private List<Integer> scores;
+	private List<ScoreEntry> scoreEntries;
 
 	/**
 	 * @effect : initialize field to default values
@@ -53,7 +54,7 @@ public class SingleLeaderBoardModel {
 	public SingleLeaderBoardModel(Context context, int topEntries){
 		this.context = context;
 		this.topEntries = topEntries;
-		scores = new ArrayList<Integer>();
+		scoreEntries = new ArrayList<ScoreEntry>();
 		parseFile();
 	}
 
@@ -66,14 +67,20 @@ public class SingleLeaderBoardModel {
 		try {
 			InputStream stream =  context.openFileInput(FILE_NAME);
 			String contents = IOUtils.toString(stream, "UTF-8");
-			tempArr = contents.split(" ");
+			//splitting up each score entry
+			tempArr = contents.split("\n");
+		} catch (FileNotFoundException e) {
+			tempArr = new String[0];
+			Log.i("ZooTypers", "no single player scores in system", e);
 		} catch (IOException e) {
 			Log.e("ZooTypers", "error locating file for single player scores", e);
 		}
 
 		for (int i = 0; i < tempArr.length; i++) {
-			// to make the rankings start from 1 not 0
-			scores.add(Integer.parseInt(tempArr[i]));
+			// splitting the entry into two strings that represent the name and score
+			String[] tempSE = tempArr[i].split(" ");
+			// making the actual score entries;
+			scoreEntries.add(new ScoreEntry (tempSE[0], Integer.parseInt(tempSE[1])));
 		}
 	}
 
@@ -81,20 +88,20 @@ public class SingleLeaderBoardModel {
 	 * Add a new entry(score) to the database
 	 * @param score, user's score to potentially be added
 	 */
-	public void addEntry(int newScore){
+	public void addEntry(String name, int newScore){
 		Log.i("ZooTypers", "single player adding the user's entry");
 		//only adds the entry if the score is within the range of the current top scores
-		int size = scores.size();
+		int size = scoreEntries.size();
 		if (size == 0 || size < topEntries) {
-			scores.add(newScore);
-		} else if (scores.get(size - 1) < newScore) {
-			scores.set(size - 1, newScore);
+			scoreEntries.add(new ScoreEntry(name, newScore));
+		} else if (scoreEntries.get(size - 1).getScore() < newScore) {
+			scoreEntries.set(size - 1, new ScoreEntry(name, newScore));
 		}
-		Collections.sort(scores, new Comparator<Integer>() {
+		Collections.sort(scoreEntries, new Comparator<ScoreEntry>() {
 
 			@Override
-			public int compare(Integer intOne, Integer intTwo) {
-				return intTwo - intOne;
+			public int compare(ScoreEntry one, ScoreEntry two) {
+				return two.getScore() - one.getScore();
 			}
 			
 		});
@@ -107,10 +114,10 @@ public class SingleLeaderBoardModel {
 	private void save() {
 		Log.i("ZooTypers", "Begin writing file for single player scores");
 		StringBuffer write = new StringBuffer();
-		for (int j = 0; j < scores.size() - 1; j++) {
-			write.append(scores.get(j) + " ");
+		for (int j = 0; j < scoreEntries.size() - 1; j++) {
+			write.append(scoreEntries.get(j) + "\n");
 		}
-		write.append(scores.get(scores.size() - 1));
+		write.append(scoreEntries.get(scoreEntries.size() - 1));
 		
 		try {
 			FileOutputStream fOut = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
@@ -132,8 +139,9 @@ public class SingleLeaderBoardModel {
 	 * Also in timestamp order(Early achieve has higher rank)
 	 * @return An unmodifiable list of the scores in the correct rank order
 	 */
-	public List<Integer> getTopScores(){	
-		return Collections.unmodifiableList(scores);
+	public ScoreEntry[] getTopScores(){
+		//ScoreEntry[] array = scoreEntries.toArray(new ScoreEntry[scoreEntries.size()]);		
+		return scoreEntries.toArray(new ScoreEntry[scoreEntries.size()]);
 	}
 
 	/**
@@ -141,8 +149,7 @@ public class SingleLeaderBoardModel {
 	 */
 	public void clearLeaderboard(){
 		Log.i("ZooTypers", "single player removing all scores");
-
 		context.deleteFile(FILE_NAME);
-		scores.clear();
+		scoreEntries.clear();
 	}
 }
