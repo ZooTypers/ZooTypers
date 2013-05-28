@@ -79,7 +79,7 @@ public class MultiLeaderBoardModel {
 			query.whereEqualTo("name", name);
 			entry = query.getFirst();
 		} catch (ParseException e) {
-			Log.e("ZooTypers", "error getting this player's score from parse", e);
+			Log.i("ZooTypers", "this player's has no scores score from parse");
 			// making a new entry for this player
 			entry = new ParseObject("MultiLeaderBoard");
 			entry.put("name", name);
