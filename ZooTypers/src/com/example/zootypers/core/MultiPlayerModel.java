@@ -415,4 +415,11 @@ public class MultiPlayerModel extends PlayerModel {
 	public final int getOpponentScore() {
 		return match.getInt(info.get("oscore"));
 	}
+	
+	/**
+	 * @return the words list of all the words
+	 */
+	public final List<String> getWordsList() {
+	    return wordsList;
+	}
 }

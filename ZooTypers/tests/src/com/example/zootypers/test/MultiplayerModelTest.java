@@ -1,19 +1,25 @@
 package com.example.zootypers.test;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
+
 import org.junit.Test;
+
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiPlayerModel;
 import com.example.zootypers.ui.MultiPlayer;
 import com.example.zootypers.ui.TitlePage;
+import com.example.zootypers.util.InternalErrorException;
+import com.example.zootypers.util.InternetConnectionException;
 import com.jayway.android.robotium.solo.Solo;
 import com.parse.Parse;
 import com.parse.ParseException;
@@ -31,7 +37,6 @@ import com.parse.ParseQuery;
  * @author dyxliang
  *
  */
-@Suppress
 public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
     private Solo solo;
@@ -53,7 +58,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        model = new MultiPlayerModel(5, "Player", 1);
+        model = new MultiPlayerModel(5, "David", 2131296288);
         solo = new Solo(getInstrumentation(), getActivity());
         multiButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button);
         //initial login for running all the multi-player tests
@@ -99,102 +104,50 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             }
         });
     }
-
+    
     /*
-     * set up the opponent bot for testing multiplayer
+     * Make sure that you can create a default constructor properly
      */
-    public void setUpOpponent() {
-        // Initialize the database
-        Parse.initialize(this.getActivity(), "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
-        final int randy = (int) (Math.random() * (NUMOFWORDS));
-        try {
-            match = new ParseObject("Matches");
-            match.put("p1name", "TestOpponent");
-            match.put("p1animal", 2131296288);
-            match.put("p1score", 0);
-            match.put("p1finished", false);
-            match.put("p2name", "");
-            match.put("wordIndex", randy);
-            match.save();
-        } catch (ParseException e) {
-            // TODO do something
-        }
+    @Test(timeout = TIMEOUT)
+    public void testCreatingDefaultConstructor() {
+        new MultiPlayerModel(5, "David", 2131296288);
     }
-
+    
     /*
-     * make it so that the opponent is set to finish the match knows to display final scores
+     * Make sure that the words list is at the expected size.
      */
-    private void setOpponentFinished() {
-        match.put("p1finished", true);
-        try {
-            match.save();
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+    @Test(timeout = TIMEOUT)
+    public void testMakingSureWordsListCorrectSize() throws InternetConnectionException, InternalErrorException {
+        List<String> wordsList = model.getWordsList();
+        int expected = 100;
+        assertEquals(expected, wordsList.size());
+    }
+    
+    /*
+     * Make sure that you can get the opponent's animal ID.
+     */
+    @Test(timeout = TIMEOUT)
+    public void testGettingTheOpponentAnimalID() throws InternetConnectionException, InternalErrorException {
+        int opponentAnimalID = model.getOpponentAnimal();
+        int expected = 2131296288;
+        assertEquals(expected, opponentAnimalID);
     }
 
     /*
-     * make it so that the myself is set to finish the match knows to display final scores
+     * Make sure that you can type a single character in multiplayer mode.
      */
-    private void setMyselfFinished() {
-        match.put("p2finished", true);
-        try {
-            match.save();
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+    @Test(timeout = TIMEOUT)
+    public void testTypingASingleCharInMulti() {
+        List<String> wordsList = model.getWordsList();
+        List<Character> charList = new ArrayList<Character>();
+        for (int i = 0; i < 5; i++) {
+            char temp = wordsList.get(i).charAt(0);
+            charList.add(temp);
         }
+        model.typedLetter(charList.get(0));
+        
     }
-
-    /*
-     * delete a match after testing
-     */
-    private void deleteThisMatch() {
-        try {
-            match.delete();
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    /*
-     * save the match results
-     */
-    private void saveMatch() {
-        try {
-            match.save();
-        } catch (ParseException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-
-    private static List<TextView> getWordsPresented(Solo solo){
-        solo.sleep(3000);
-        List<TextView> retVal = new ArrayList<TextView>();
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word1)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word2)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word3)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word4)));
-        solo.sleep(3000);
-        return retVal;
-    }
-
-    private void automateKeyboardTyping() {
-        List<TextView> textList = getWordsPresented(solo);
-        Random randy = new Random();
-        int randomValue = randy.nextInt(5);
-        TextView currTextView = textList.get(randomValue);
-        String currWord = currTextView.getText().toString();
-        for (int i = 0; i < currWord.length(); i++) {
-            char c = currWord.charAt(i);
-            sendKeys(c - 68);
-        }
-    }
-
+    
     /*
      * make sure that when you create a model, all the fields are at default values
      */
@@ -336,6 +289,101 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         return wordsList;
     }
 
+    /*
+     * set up the opponent bot for testing multiplayer
+     */
+    private void setUpOpponent() {
+        // Initialize the database
+        Parse.initialize(this.getActivity(), "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+        final int randy = (int) (Math.random() * (NUMOFWORDS));
+        try {
+            match = new ParseObject("Matches");
+            match.put("p1name", "TestOpponent");
+            match.put("p1animal", 2131296288);
+            match.put("p1score", 0);
+            match.put("p1finished", false);
+            match.put("p2name", "");
+            match.put("wordIndex", randy);
+            match.save();
+        } catch (ParseException e) {
+            // TODO do something
+        }
+    }
+
+    /*
+     * make it so that the opponent is set to finish the match knows to display final scores
+     */
+    private void setOpponentFinished() {
+        match.put("p1finished", true);
+        try {
+            match.save();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * make it so that the myself is set to finish the match knows to display final scores
+     */
+    private void setMyselfFinished() {
+        match.put("p2finished", true);
+        try {
+            match.save();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * delete a match after testing
+     */
+    private void deleteThisMatch() {
+        try {
+            match.delete();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    /*
+     * save the match results
+     */
+    private void saveMatch() {
+        try {
+            match.save();
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
+
+    private static List<TextView> getWordsPresented(Solo solo){
+        solo.sleep(3000);
+        List<TextView> retVal = new ArrayList<TextView>();
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word1)));
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word2)));
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word3)));
+        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word4)));
+        solo.sleep(3000);
+        return retVal;
+    }
+
+    private void automateKeyboardTyping() {
+        List<TextView> textList = getWordsPresented(solo);
+        Random randy = new Random();
+        int randomValue = randy.nextInt(5);
+        TextView currTextView = textList.get(randomValue);
+        String currWord = currTextView.getText().toString();
+        for (int i = 0; i < currWord.length(); i++) {
+            char c = currWord.charAt(i);
+            sendKeys(c - 68);
+        }
+    }
+    
     @Override
     protected void tearDown() throws Exception {
         setMyselfFinished();
