@@ -42,7 +42,6 @@ public class Leaderboard extends FragmentActivity {
 		ActionBar.Tab friendsLBTab = actionBar.newTab().setText("Friends");
 		
 		// get the list of scores from the model and send it to each of the tabs
-		// NEEDS TO BE A MAP BECAUSE CANT SEND OBJECTS IN BUNDLES
 		
 		SingleLeaderBoardModel lb = new SingleLeaderBoardModel(getApplicationContext());	
 		//need to get the username to pass into the leaderboard

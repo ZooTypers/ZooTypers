@@ -7,9 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 
 import android.test.AndroidTestCase;
+import android.test.suitebuilder.annotation.Suppress;
 
 import com.example.zootypers.core.MultiLeaderBoardModel;
 
+@Suppress
 public class LeaderboardMPModelTest extends AndroidTestCase {
 
     private MultiLeaderBoardModel model;
