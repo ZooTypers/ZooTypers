@@ -272,8 +272,6 @@ public class MultiPlayerModel extends PlayerModel {
 	 * @param letter, the letter that the user typed on the Android soft-keyboard
 	 */
 	public final void typedLetter(final char letter) {
-		Log.i("ZooTypers", "multiplayer typed the letter: " + letter);
-
 		// currently not locked on to a word
 		if (currWordIndex == -1) {
 			for (int i = 0; i < wordsDisplayed.length; i++) {
@@ -283,6 +281,7 @@ public class MultiPlayerModel extends PlayerModel {
 					currLetterIndex = 1;
 					setChanged();
 					notifyObservers(States.update.HIGHLIGHT);
+					Log.i("ZooTypers", "multiplayer typed the letter: " + letter);
 					return;
 				}
 			}
@@ -294,6 +293,7 @@ public class MultiPlayerModel extends PlayerModel {
 
 			// word is completed after final letter is typed
 			if ((currLetterIndex + 1) >= wordLen) {
+				Log.i("ZooTypers", "multiplayer completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]));
 				int curScore = match.getInt(info.get("score"));
 				curScore += wordLen;
 				match.put(info.get("score"), curScore);
@@ -304,11 +304,14 @@ public class MultiPlayerModel extends PlayerModel {
 			} else {
 				currLetterIndex += 1;
 				setChanged();
+				Log.i("ZooTypers", "multiplayer typed the letter: " + letter);
 				notifyObservers(States.update.HIGHLIGHT);
 			}
 			return;
 		}
+
 		// wrong letter typed
+		Log.i("ZooTypers", "multiplayer typed the wrong letter: " + letter);
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
 	}

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -95,6 +96,7 @@ public class SinglePlayer extends Player {
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
 
+		Log.i("ZooTypers", "Begin single player game");
 	}
 
 
@@ -164,6 +166,8 @@ public class SinglePlayer extends Player {
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
 	public void goToPostGame() {
+		Log.i("ZooTypers", "Ending single player game");
+
 		Intent intent = new Intent(this, PostGameScreen.class);
 		// pass score
 		intent.putExtra("score", model.getScore());
@@ -177,6 +181,8 @@ public class SinglePlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public void pauseGame(View view) {
+		Log.i("ZooTypers", "single player game is paused");
+
 		// save & stop time
 		pausedTime = currentTime;
 		gameTimer.cancel();
@@ -203,6 +209,8 @@ public class SinglePlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public void pausedContinue(View view){
+		Log.i("ZooTypers", "continue is selected from single player game");
+
 		// re-enable buttons & keyboard
 		findViewById(R.id.keyboard_open_button).setEnabled(true);
 		findViewById(R.id.pause_button).setEnabled(true);
@@ -219,6 +227,8 @@ public class SinglePlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public void pausedNewGame(View view) {
+		Log.i("ZooTypers", "new game is selected from single player game");
+
 		final Intent restartIntent = new Intent(this, PreGameSelection.class);
 		paused = false;
 		startActivity(restartIntent);
@@ -230,6 +240,8 @@ public class SinglePlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public void pausedMainMenu(View view) {
+		Log.i("ZooTypers", "main menu is selected from single player game");
+
 		final Intent mainMenuIntent = new Intent(this, TitlePage.class);
 		paused = false;
 		startActivity(mainMenuIntent);
@@ -266,7 +278,6 @@ public class SinglePlayer extends Player {
 	public void error(com.example.zootypers.util.States.error err) {
 		// TODO Auto-generated method stub
 	}
-
 
 	/**
 	 * 
