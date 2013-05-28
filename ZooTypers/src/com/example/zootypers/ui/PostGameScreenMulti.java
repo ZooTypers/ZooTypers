@@ -1,6 +1,8 @@
 package com.example.zootypers.ui;
 
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -10,7 +12,6 @@ import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
-import com.example.zootypers.core.SingleLeaderBoardModel;
 
 public class PostGameScreenMulti extends PostGameScreen {
 
@@ -60,6 +61,14 @@ public class PostGameScreenMulti extends PostGameScreen {
 
 		username = getIntent().getStringExtra("username");
 	}
+	@Override
+	public final void saveScore(final View view) {
+		MultiLeaderBoardModel sl = new MultiLeaderBoardModel(username);
+    	sl.addEntry(score);
+		final String title = "Saved Score";
+		final String message = "Your score has been successfully saved!";
+		buildAlertDialog(title, message);
+	}
 
 	@Override
 	public final void goToPreGameSelection(final View view) {
@@ -68,11 +77,37 @@ public class PostGameScreenMulti extends PostGameScreen {
 		startActivity(intent);
 	}
 
-	@Override
-	public final void saveScore(final View view) {
-		MultiLeaderBoardModel sl = new MultiLeaderBoardModel(username);
-    	sl.addEntry(score);
-    	/// TODO make notifying popup
+    
+    // TODO remove repetition from title page / options
+	/**
+	 * builds an AlertDialog popup with the given title and message
+	 * @param title String representing title of the AlertDialog popup
+	 * @param message String representing the message of the AlertDialog
+	 * popup
+	 */
+	private void buildAlertDialog(String title, String message) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+		// set title
+		alertDialogBuilder.setTitle(title);
+
+		// set dialog message
+		alertDialogBuilder
+		.setMessage(message)
+		.setCancelable(false)
+		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// if this button is clicked, close the dialog box
+				dialog.cancel();
+			}
+		});
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show the message
+		alertDialog.show();
 	}
+
 
 }
