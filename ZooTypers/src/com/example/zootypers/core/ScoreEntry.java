@@ -61,7 +61,7 @@ public class ScoreEntry implements Parcelable {
 	
 	@Override
 	public String toString() {
-		return playerName + " " + playerScore;
+		return playerName + "\t" + playerScore;
 	}
 	
 	@SuppressWarnings("rawtypes")

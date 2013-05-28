@@ -93,6 +93,7 @@ public class LoginPopup {
     try {
       user = ParseUser.logIn(usernameString, passwordString);
     } catch (ParseException e) {
+      
       // TODO figure out if username and/or password is wrong
       errorMessage.setText("Could not login");
       return "";

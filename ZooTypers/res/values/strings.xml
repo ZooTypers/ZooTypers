@@ -88,5 +88,6 @@
     <string name="default_ldbd_name">------</string>
     <string name="default_ldbd_score">--</string>
     <string name="player_name_lb">Player Name</string>
+    <string name="enter_name_string">Please enter your name :</string>
 
 </resources>
