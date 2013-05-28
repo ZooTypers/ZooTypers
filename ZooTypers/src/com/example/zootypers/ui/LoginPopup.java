@@ -3,7 +3,6 @@ package com.example.zootypers.ui;
 import com.example.zootypers.R;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.RequestPasswordResetCallback;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
@@ -137,32 +136,50 @@ public class LoginPopup {
    * Handles what happens when user wants to their reset password.
    * @param alertDialogBuilder The AlertDialog.Builder
    */
-  public final void resetPassword(final AlertDialog.Builder alertDialogBuilder) {
+  public final boolean resetPassword(final AlertDialog.Builder alertDialogBuilder) {
     // get the contents of the popup window and get the email the user typed in
     final View contentView = password_ppw.getContentView();
     EditText emailReset = (EditText) contentView.findViewById(R.id.email_forgot_password_input);
     final String emailString = emailReset.getText().toString();
 
-    final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
+    final TextView errorMessage = (TextView) contentView.findViewById(R.id.reset_error_message);
     // try to reset the password by sending an email
-    ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
-      public void done(final ParseException e) {
-        if (e == null) {
-          // success
-          final String title = "Password Reset";
-          final String message = "An email has been sent to " + emailString;
-          buildAlertDialog(alertDialogBuilder, title, message);
-        } else {
-          // failure
-          int errorCode = e.getCode();
-          if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
-            errorMessage.setText("Invalid Email Address");
-          } else {
-            errorMessage.setText("Password Reset Failed");
-          }
-        }
+    try {
+      ParseUser.requestPasswordReset(emailString);
+      // success
+      final String title = "Password Reset";
+      final String message = "An email has been sent to " + emailString;
+      buildAlertDialog(alertDialogBuilder, title, message);
+      return true;
+    } catch (ParseException e) {
+      // failure
+      int errorCode = e.getCode();
+      if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
+        errorMessage.setText("Invalid Email Address");
+      } else {
+        errorMessage.setText("Password Reset Failed");
       }
-    });
+      return false;
+    }
+    
+//    ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
+//      public void done(final ParseException e) {
+//        if (e == null) {
+//          // success
+//          final String title = "Password Reset";
+//          final String message = "An email has been sent to " + emailString;
+//          buildAlertDialog(alertDialogBuilder, title, message);
+//        } else {
+//          // failure
+//          int errorCode = e.getCode();
+//          if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
+//            errorMessage.setText("Invalid Email Address");
+//          } else {
+//            errorMessage.setText("Password Reset Failed");
+//          }
+//        }
+//      }
+//    });
   }
 
   /**
