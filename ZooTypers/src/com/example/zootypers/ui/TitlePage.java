@@ -1,18 +1,14 @@
 package com.example.zootypers.ui;
 
 import com.example.zootypers.R;
-import com.parse.LogInCallback;
 import com.parse.Parse;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.RequestPasswordResetCallback;
 
-import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 
@@ -24,8 +20,8 @@ import android.widget.*;
  */
 public class TitlePage extends Activity {
 
-	PopupWindow login_ppw; // for the multiplayer login popup
-	PopupWindow password_ppw;
+	LoginPopup lp;
+
 	Intent multiIntent;  // used to go to MultiplayerPregameScreen
 	ParseUser currentUser;
 	// used for figuring out valid login inputs
@@ -40,8 +36,8 @@ public class TitlePage extends Activity {
 		setContentView(R.layout.activity_title_page);
 		// initialize the Intent to go to Pregame selection
 		multiIntent = new Intent(this, PreGameSelectionMulti.class);
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", 
-		"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+				"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
 			// there is no current user so dont display logged in views
@@ -52,6 +48,8 @@ public class TitlePage extends Activity {
 			String currentUserString = currentUser.getString("username");
 			currentUserText.setText(currentUserString);
 		}
+		lp = new LoginPopup(currentUser);
+		Log.i("ZooTypers", "User entered title screen");
 	}
 
 	@Override
@@ -66,6 +64,7 @@ public class TitlePage extends Activity {
 	 * @param view The button clicked
 	 */
 	public final void goToPreGameSelection(final View view) {
+		Log.i("ZooTypers", "Proceeding to single player pre game");
 		Intent intent = new Intent(this, PreGameSelection.class);
 		startActivity(intent);
 	}
@@ -75,6 +74,7 @@ public class TitlePage extends Activity {
 	 * @param view The button clicked
 	 */
 	public final void goToPreGameSelectionMulti(final View view) {
+		Log.i("ZooTypers", "Proceeding to multiplayer player pre game");
 		Intent intent = new Intent(this, PreGameSelectionMulti.class);
 		startActivity(intent);
 	}
@@ -84,6 +84,7 @@ public class TitlePage extends Activity {
 	 * @param view The button clicked
 	 */
 	public final void goToLeaderboard(final View view) {
+		Log.i("ZooTypers", "Proceeding to leaderboard");
 		Intent intent = new Intent(this, Leaderboard.class);
 		startActivity(intent);
 	}
@@ -93,6 +94,7 @@ public class TitlePage extends Activity {
 	 * @param view The button clicked
 	 */
 	public final void goToOptions(final View view) {
+		Log.i("ZooTypers", "Proceeding to options menu");
 		Intent intent = new Intent(this, Options.class);
 		startActivity(intent);
 	}
@@ -109,111 +111,98 @@ public class TitlePage extends Activity {
 	 */
 	public final void multiplayerLogin(final View view) {
 		if (currentUser != null) {
+			Log.i("ZooTypers", "user is logged in");
 			// someone is already logged in
 			String currentUserString = currentUser.getString("username");
 			multiIntent.putExtra("username", currentUserString);
 			startActivity(multiIntent);
 		} else {
-			buildPopup(true);
+			Log.i("ZooTypers", "user begins logging in");
+			buildPopup(false);
 		}
 	}
 
-	private void buildPopup(boolean isLogin) {
+	/**
+	 * Build the login popup.
+	 * @param dismisspsw Whether or not the reset popup is currently displayed.
+	 */
+	private void buildPopup(final boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
-		View popupView;
+				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
 
-		// inflate either the login layout or password layout depending on parameter
-		if (isLogin) {
-			popupView = layoutInflater.inflate(R.layout.login_popup, null);
-			login_ppw = new PopupWindow(popupView, 
-			LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-			login_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
-		} else {
-			popupView = layoutInflater.inflate(R.layout.reset_pw_layout, null);
-			password_ppw = new PopupWindow(popupView, 
-			LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
-			password_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
+		// inflate either the login layout
+		lp.buildLoginPopup(layoutInflater, parentLayout, dismisspsw);
+	}
+
+	/**
+	 * Handles what happens when user clicks the "Forgot your password" link.
+	 * @param view Button that is pressed
+	 */
+	public final void forgotPassword(final View view) {
+		Log.i("ZooTypers", "user has forgotten password");
+		
+		// set up the layout inflater to inflate the popup layout
+		LayoutInflater layoutInflater =
+				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+		// the parent layout to put the layout in
+		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
+
+		// inflate the password layout
+		lp.buildResetPopup(layoutInflater, parentLayout);
+	}
+
+	/**
+	 * Handles what happens when user clicks the login button.
+	 * @param view Button that is pressed
+	 */
+	public final void loginButton(final View view) {
+		// Try to login
+		String usernameString = lp.loginButton();
+		// If login was successful, go to the multiplayer game
+		if (!usernameString.equals("")) {
+			multiIntent.putExtra("username", usernameString);
+			startActivity(multiIntent);
+			Log.i("ZooTypers", "user has logged in");
 		}
 	}
-	
-	/**
-	 * Handles what happens when user clicks the "Forgot your password" link
-	 * @param view Button that is pressed
-	 */
-	public final void forgotPassword(View view) {
-		buildPopup(false);
-		login_ppw.dismiss();
-	}
-	/**
-	 * Handles what happens when user clicks the login button
-	 * @param view Button that is pressed
-	 */
-	public void loginButton(View view) {
-		// get the username and password inputs
-		final View contentView = login_ppw.getContentView();
-		EditText usernameInput = (EditText) contentView.findViewById(R.id.username_login_input);
-		EditText passwordInput = (EditText) contentView.findViewById(R.id.password_login_input);
-
-		final String usernameString = usernameInput.getText().toString();
-		final String passwordString = passwordInput.getText().toString();
-
-		// intent to go to the pregame multiplayer screen
-		final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
-		// try to login with the given inputs
-		ParseUser.logInInBackground(usernameString, passwordString, new LogInCallback() {
-			public void done(ParseUser user, ParseException e) {
-				if (user != null) {
-					// login successful
-					boolean emailVerified = user.getBoolean("emailVerified");
-					if (emailVerified) {
-						multiIntent.putExtra("username", usernameString);
-						startActivity(multiIntent);
-					} else {
-						errorMessage.setText("Email is not verified");
-						ParseUser.logOut();
-						currentUser = ParseUser.getCurrentUser();
-					}
-				} else {
-					// an error occured. Figure out if invalid username or password
-					// or another error 
-					errorMessage.setText("An Error has Occured");
-				}
-			}
-		}); 
-	}
 
 	/**
-	 * Exits the login popup window
+	 * Exits the login popup window.
 	 * @param view the button clicked
 	 */
-	public void exitLoginPopup(View view) {
-		login_ppw.dismiss();
+	public final void exitLoginPopup(final View view) {
+		Log.i("ZooTypers", "user exits log in");
+		lp.exitLoginPopup();
 	}
 
 	/**
-	 * Exits the password popup window
+	 * Exits the password popup window.
 	 * @param view the button clicked
 	 */
-	public void exitPasswordPopup(View view) {
-		password_ppw.dismiss();
+	public final void exitPasswordPopup(final View view) {
+		Log.i("ZooTypers", "user exits password popup");
 		buildPopup(true);
 	}
+
 	/**
-	 * Logs out the current user
+	 * Logs out the current user.
 	 * @param view the button clicked
 	 */
-	public void logoutUser(View view) {
+	public final void logoutUser(final View view) {
+		Log.i("ZooTypers", "user has logged out");
+
+		// Log the user out
 		ParseUser.logOut();
 		currentUser = ParseUser.getCurrentUser();
-		final String title = "Logged Out";
-		final String message = "You have successfully logged out";
-		buildAlertDialog(title, message);
-		// make the views disappear
+
+		// Display appropriate message / etc
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		lp.logoutUser(alertDialogBuilder);
 		makeViewsInvisible();
 	}
 
@@ -221,78 +210,30 @@ public class TitlePage extends Activity {
 	 * Handles what happens when user wants to reset password.
 	 * @param view the button clicked
 	 */
-	public void resetPassword(View view) {
-		// get the contents of the popup window and get the email
-		// user typed in
-		final View contentView = password_ppw.getContentView();
-		EditText emailReset = (EditText) contentView.findViewById(R.id.email_forgot_password_input);
-		final String emailString = emailReset.getText().toString();
+	public final void resetPassword(final View view) {
+		Log.i("ZooTypers", "user resets password");
 
-		final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
-		// try to reset the password by sending an email
-		ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
-			public void done(ParseException e) {
-				if (e == null) {
-					// success
-					final String title = "Password Reset";
-					final String message = "An email has been sent to " + emailString;
-					buildAlertDialog(title, message);
-				} else {
-					// failure
-					int errorCode = e.getCode();
-					if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
-						errorMessage.setText("Invalid Email Address");
-					} else {
-						errorMessage.setText("Password Reset Failed");
-					}
-				}
-			}
-		});
-		password_ppw.dismiss();
-		buildPopup(true);
+		// Sort through the reset info
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		boolean reset = lp.resetPassword(alertDialogBuilder);
+		// Go back to the login popup
+		if (reset) {
+			buildPopup(true);
+		}
 	}
 
 	/**
-	 * Goes to the Registration page
+	 * Goes to the Registration page.
 	 * @param view the button clicked
 	 */
-	public void goToRegister(View view) {
+	public final void goToRegister(final View view) {
+		Log.i("ZooTypers", "proceeding to register page");
 		Intent registerIntent = new Intent(this, RegisterPage.class);
 		startActivity(registerIntent);
 	}
 
 	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
-	}
-
-	/**
-	 * helper method that sets the logged in status views to invisible
+	 * helper method that sets the logged in status views to invisible.
 	 */
 	private void makeViewsInvisible() {
 		// get all the logged in related views

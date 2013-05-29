@@ -85,5 +85,13 @@
     <string name="clear_single">Clear Single Player Leaderboard</string>
     <string name="clear_multi">Clear Multiplayer Leaderboard</string>
     <string name="save_score">Save Your Score</string>
+    <string name="default_ldbd_name">------</string>
+    <string name="default_ldbd_score">--</string>
+    <string name="player_name_lb">Player Name</string>
+    <string name="enter_name_string">Please enter your name :</string>
+    <string name="see_score_string">See your position in the leaderboard</string>
+    <string name="relative_score_string">Your relative leaderboard\nposition :</string>
+    <string name="close_string">Close</string>
+    <string name="title_activity_relative_user_score">RelativeUserScore</string>
 
 </resources>
