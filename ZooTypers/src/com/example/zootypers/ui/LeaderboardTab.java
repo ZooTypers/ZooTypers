@@ -16,7 +16,6 @@ import android.widget.TextView;
  *
  */
 public class LeaderboardTab extends Fragment {
-
 	
 	/**
 	 * create a new view for the fragment
@@ -38,18 +37,18 @@ public class LeaderboardTab extends Fragment {
 	protected void setupLBList(View view, ScoreEntry[] seArray) {
 		for (int i = 0; i < seArray.length; i++) {
 			// get the text boxes with for the leaderboard
-			TextView currentFriendText = (TextView) getByStringId(view, 
+			TextView currentPlayerText = (TextView) getByStringId(view, 
 					"player_name" + i);
 			TextView currentScoreText = (TextView) getByStringId(view,
 					"player_score" + i);
 			
 			// get the entries from the ScoreEntry
 			ScoreEntry currentSE = seArray[i];
-			String currentFriend = currentSE.getName();
+			String currentPlayer = currentSE.getName();
 			String currentScore = currentSE.getScore() + "";
 			
 			// set the text fields
-			currentFriendText.setText(currentFriend);
+			currentPlayerText.setText(currentPlayer);
 			currentScoreText.setText(currentScore);
 		}
 	}
