@@ -9,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -39,6 +40,9 @@ public class PostGameScreen extends Activity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		Log.i("SinglePlayer", "entered post game");
+		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		savedScore = false;
@@ -73,6 +77,7 @@ public class PostGameScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public void saveScore(final View view) {
+		Log.i("SinglePlayer", "saving score post game");
 		buildSavePopup();
 	}
 
@@ -81,6 +86,7 @@ public class PostGameScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public final void goToTitlePage(final View view) {
+		Log.i("SinglePlayer", "going to title page from post game");
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
 	}
@@ -90,6 +96,7 @@ public class PostGameScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public void goToPreGameSelection(final View view) {
+		Log.i("SinglePlayer", "going to pre game from post game");
 		Intent intent = new Intent(this, PreGameSelection.class);
 		startActivity(intent);
 	}
@@ -155,7 +162,9 @@ public class PostGameScreen extends Activity {
 	 * @param view the button that is clicked
 	 */
 	public void exitPopup(View view) {
+		Log.i("SinglePlayer", "exiting popup to save score");
 		ppw.dismiss();
+		savedScore = false;
 	}
 	
 	/**
@@ -164,6 +173,8 @@ public class PostGameScreen extends Activity {
 	 * @param view the button that is clicked
 	 */
 	public void submitName(View view) {
+		Log.i("SinglePlayer", "submitting name to be saved");
+		
 		// get the input from the user
 		final View contentView = ppw.getContentView();
 	    EditText savedNameInput = (EditText) contentView.findViewById(R.id.saved_name_input);
