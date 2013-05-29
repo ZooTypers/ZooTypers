@@ -54,7 +54,7 @@ public class SinglePlayerModel extends PlayerModel {
 	 * @param diff, the difficulty level that the user has chosen
 	 */
 	private void getWordsList(final States.difficulty diff) {
-		Log.i("ZooTypers", "Begin reading file for single player words list");
+		Log.i("SinglePlayer", "reading file for words list");
 
 		String file;
 		if (diff == States.difficulty.EASY) {
@@ -72,7 +72,7 @@ public class SinglePlayerModel extends PlayerModel {
 			String[] tempArr = contents.split(System.getProperty("line.separator"));
 			wordsList = Arrays.asList(tempArr);
 		} catch (IOException e) {
-			Log.e("ZooTypers", "error reading file for single player words list", e);
+			Log.e("SinglePlayer", "error reading file for words list", e);
 		}
 
 		// Shuffle the elements in the array
@@ -87,7 +87,6 @@ public class SinglePlayerModel extends PlayerModel {
 	 * @param letter, the letter that the user typed on the Android soft-keyboard
 	 */
 	public final void typedLetter(final char letter) {
-		Log.i("ZooTypers", "single player typed the letter: " + letter);
 		// currently not locked on to a word
 		if (currWordIndex == -1) {
 			for (int i = 0; i < wordsDisplayed.length; i++) {
@@ -96,6 +95,7 @@ public class SinglePlayerModel extends PlayerModel {
 					currWordIndex = i;
 					currLetterIndex = 1;
 					setChanged();
+					Log.i("SinglePlayer", "typed the letter: " + letter);
 					notifyObservers(States.update.HIGHLIGHT);
 					return;
 				}
@@ -106,9 +106,12 @@ public class SinglePlayerModel extends PlayerModel {
 			// store length of current word
 			int wordLen = wordsList.get(wordsDisplayed[currWordIndex]).trim().length();
 
+			Log.i("SinglePlayer", "typed the letter: " + letter);
 			// word is completed after final letter is typed
 			if ((currLetterIndex + 1) >= wordLen) {
 				score += wordLen;
+				Log.i("SinglePlayer", "completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]) 
+						+ "\nscore increased to: " + score);
 				updateWordsDisplayed();
 				currLetterIndex = -1;
 				currWordIndex = -1;
@@ -120,6 +123,7 @@ public class SinglePlayerModel extends PlayerModel {
 			return;
 		}
 		// wrong letter typed
+		Log.i("SinglePlayer", "typed the wrong letter: " + letter);
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
 	}

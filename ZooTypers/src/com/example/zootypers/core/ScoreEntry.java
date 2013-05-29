@@ -59,6 +59,12 @@ public class ScoreEntry implements Parcelable {
 		playerScore = in.readInt();
 	}
 	
+	@Override
+	public String toString() {
+		return playerName + " " + playerScore;
+	}
+	
+	@SuppressWarnings("rawtypes")
 	public static final Parcelable.Creator CREATOR =
 		new Parcelable.Creator() {
 		public ScoreEntry createFromParcel(Parcel in) {

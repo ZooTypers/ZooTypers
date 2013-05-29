@@ -55,7 +55,7 @@ public class MultiLeaderBoardModel {
 	 * scores are equal than rank alphabetically.
 	 */
 	private void getAllScores() {
-		Log.i("ZooTypers", "multiplayer getting all scores from parse");
+		Log.i("Multiplayer", "multiplayer getting all scores from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
 			query = query.orderByDescending("score");
@@ -64,7 +64,7 @@ public class MultiLeaderBoardModel {
 			allScores = query.find();
 		} catch (ParseException e) {
 			allScores = new ArrayList<ParseObject>();
-			Log.e("ZooTypers", "error getting all scores from parse for multiplayer", e);
+			Log.e("Multiplayer", "error getting all scores from parse for multiplayer", e);
 		}
 	}
 
@@ -73,13 +73,13 @@ public class MultiLeaderBoardModel {
 	 * can be made if a score is added.
 	 */
 	private void getPlayerEntry(String name) {
-		Log.i("ZooTypers", "multiplayer getting this player's score from parse");
+		Log.i("Multiplayer", "multiplayer getting this player's score from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
 			query.whereEqualTo("name", name);
 			entry = query.getFirst();
 		} catch (ParseException e) {
-			Log.e("ZooTypers", "error getting this player's score from parse", e);
+			Log.i("Multiplayer", "this player's has no scores score from parse");
 			// making a new entry for this player
 			entry = new ParseObject("MultiLeaderBoard");
 			entry.put("name", name);
@@ -92,7 +92,7 @@ public class MultiLeaderBoardModel {
 	 * @param score, user's score to potentially be added
 	 */
 	public void addEntry(int score){
-		Log.i("ZooTypers", "multiplayer leaderboard adding the user's entry");
+		Log.i("Multiplayer", "multiplayer leaderboard adding the user's entry");
 		int highScore = Math.max(score, entry.getInt("score"));
 		entry.put("score", highScore);
 		entry.saveInBackground();
@@ -104,13 +104,13 @@ public class MultiLeaderBoardModel {
 	 * The list will return a total of numOfEntries entries.
 	 * @return a list of size numOfEntries with the top score entries
 	 */
-	public List<ScoreEntry> getTopScores(){
-		List<ScoreEntry> scoreEntries = new ArrayList<ScoreEntry>();
-		int size = allScores.size();
-		for (int i = 0; i < numOfEntries && i < size; i++) {
-			scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
+	public ScoreEntry[] getTopScores(){
+		int size = Math.min(numOfEntries, allScores.size());
+		ScoreEntry[] scores = new ScoreEntry[size];
+		for (int i = 0; i < size; i++) {
+			scores[i] = new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score"));
 		}
-		return scoreEntries;
+		return scores;
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class MultiLeaderBoardModel {
 	 * @param numOfRelatives the number of scores above and below user's score to return in list
 	 * @return a list of size numOfEntries with the top score entries
 	 */
-	public List<ScoreEntry> getRelativeScores(int numOfRelatives) {
+	public ScoreEntry[] getRelativeScores(int numOfRelatives) {
 		if (numOfRelatives < 0) {
 			numOfRelatives *= -1;
 		}
@@ -149,14 +149,14 @@ public class MultiLeaderBoardModel {
 				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
 			}
 		}
-		return scoreEntries;
+		return scoreEntries.toArray(new ScoreEntry[scoreEntries.size()]);
 	}
 
 	/**
 	 * Clears the users scores from the database
 	 */
 	public void clearLeaderboard(){
-		Log.i("ZooTypers", "multiplayer leaderboard deleting the user's entry");
+		Log.i("Multiplayer", "multiplayer leaderboard deleting the user's entry");
 		entry.deleteInBackground();
 	}
 
