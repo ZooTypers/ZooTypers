@@ -80,7 +80,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 */  
 	public void beginMatchMaking() throws InternetConnectionException, 
 	EmptyQueueException, InternalErrorException {
-		Log.i("Multiplayer", "multiplayer user begins waiting in queue");
+		Log.i("Multiplayer", "user begins waiting in queue");
 		// if an opponent is waiting in the database to play
 		if (findOpponent()) {
 			setInfo(false);
@@ -91,14 +91,14 @@ public class MultiPlayerModel extends PlayerModel {
 				match.put("p2finished", false);
 				match.save();
 			} catch (ParseException e) {
-				Log.e("Multiplayer", "multiplayer parse error while joining a match", e);
+				Log.e("Multiplayer", "parse error while joining a match", e);
 				throw new InternetConnectionException();
 			}
 			// if no opponent was added then create a match and wait for an opponent to join
 		} else {
 			addToQueue();
 			if (!checkStatus()) {
-				Log.w("Multiplayer", "multiplayer timed out waiting for an opponent");
+				Log.w("Multiplayer", "timed out waiting for an opponent");
 				throw new EmptyQueueException();
 			}
 		}
@@ -114,10 +114,10 @@ public class MultiPlayerModel extends PlayerModel {
 			query.whereEqualTo("p2name", "");
 			query.whereNotEqualTo("p1name", name);
 			match = query.getFirst();
-			Log.i("Multiplayer", "multiplayer can be matched");
+			Log.i("Multiplayer", "matched has been found for player");
 			return true;
 		} catch (ParseException e1) {
-			Log.i("Multiplayer", "multiplayer cannot be matched");
+			Log.i("Multiplayer", "no matches are found");
 			return false;
 		}
 	}
@@ -154,7 +154,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 */
 	private void addToQueue() throws InternetConnectionException {
 		// sets the starting word index on the database to a random integer
-		Log.i("Multiplayer", "multiplayer adding to queue as player 1");
+		Log.i("Multiplayer", "creating match for player");
 		final int randy = (int) (Math.random() * (TOTAL_WORDS));
 		try {
 			setInfo(true);
@@ -167,7 +167,7 @@ public class MultiPlayerModel extends PlayerModel {
 			match.put("wordIndex", randy);
 			match.save();
 		} catch (ParseException e) {
-			Log.e("Multiplayer", "multiplayer parse error while creating a match", e);
+			Log.e("Multiplayer", "parse error while creating a match", e);
 			throw new InternetConnectionException();
 		}
 	}
@@ -178,7 +178,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 * find an opponent before model gives up.
 	 */
 	private boolean checkStatus() throws InternetConnectionException, InternalErrorException {
-		Log.i("Multiplayer", "multiplayer begin waiting in queue");
+		Log.i("Multiplayer", "begin waiting in queue");
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + QUEUE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -190,10 +190,10 @@ public class MultiPlayerModel extends PlayerModel {
 				}
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e) {
-				Log.e("Multiplayer", "multiplayer parse error while checking for a match", e);
+				Log.e("Multiplayer", "parse error while checking for a match", e);
 				throw new InternetConnectionException();
 			} catch (InterruptedException e) {
-				Log.e("Multiplayer", "multiplayer thread error while sleeping", e);
+				Log.e("Multiplayer", "thread error while sleeping", e);
 				throw new InternalErrorException();
 			}
 		}
@@ -208,7 +208,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 * @throws InternalErrorException 
 	 */  
 	public void setWordsList() throws InternetConnectionException, InternalErrorException {
-		Log.i("Multiplayer", "multiplayer get words list from parse");
+		Log.i("Multiplayer", "getting words list from parse");
 
 		List<ParseObject> wordObjects = null;
 		try {
@@ -224,7 +224,7 @@ public class MultiPlayerModel extends PlayerModel {
 				wordObjects.addAll(query2.find());
 			}
 		} catch (ParseException e) {
-			Log.e("Multiplayer", "multiplayer error getting words list from parse", e);
+			Log.e("Multiplayer", "error getting words list from parse", e);
 			throw new InternetConnectionException();
 		}  
 		// changing words from parse objects into a list of strings.
@@ -240,7 +240,7 @@ public class MultiPlayerModel extends PlayerModel {
 	private void checkIfInMatch() throws InternalErrorException {
 		if (!match.getString(info.get("name")).equals(name)) {
 			Log.e("Multiplayer", 
-			"multiplayer got replaced by someone else, concurrency error");
+			"got replaced by someone else, concurrency error");
 			throw new InternalErrorException();
 		}
 	}
@@ -253,12 +253,12 @@ public class MultiPlayerModel extends PlayerModel {
 	 * @throws InternalErrorException 
 	 */  
 	public int getOpponentAnimal() throws InternetConnectionException, InternalErrorException {
-		Log.i("Multiplayer", "multiplayer getting opponent's animal");
+		Log.i("Multiplayer", "getting opponent's animal");
 		try {
 			match.refresh();
 			checkIfInMatch();
 		} catch (ParseException e) {
-			Log.e("Multiplayer", "multiplayer error getting opponent's animal", e);
+			Log.e("Multiplayer", "error getting opponent's animal", e);
 			throw new InternetConnectionException();
 		}
 		return match.getInt(info.get("oanimal"));
@@ -281,7 +281,7 @@ public class MultiPlayerModel extends PlayerModel {
 					currLetterIndex = 1;
 					setChanged();
 					notifyObservers(States.update.HIGHLIGHT);
-					Log.i("Multiplayer", "multiplayer typed the letter: " + letter);
+					Log.i("Multiplayer", "typed the letter: " + letter);
 					return;
 				}
 			}
@@ -290,12 +290,15 @@ public class MultiPlayerModel extends PlayerModel {
 
 			// store length of current word
 			int wordLen = wordsList.get(wordsDisplayed[currWordIndex]).trim().length();
+			Log.i("Multiplayer", "typed the letter: " + letter);
 
 			// word is completed after final letter is typed
 			if ((currLetterIndex + 1) >= wordLen) {
-				Log.i("Multiplayer", "multiplayer completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]));
 				int curScore = match.getInt(info.get("score"));
 				curScore += wordLen;
+				Log.i("Multiplayer", "completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]) 
+						+ "\nscore increased to: " + curScore);
+
 				match.put(info.get("score"), curScore);
 				match.saveInBackground();
 				updateWordsDisplayed();
@@ -304,14 +307,13 @@ public class MultiPlayerModel extends PlayerModel {
 			} else {
 				currLetterIndex += 1;
 				setChanged();
-				Log.i("Multiplayer", "multiplayer typed the letter: " + letter);
 				notifyObservers(States.update.HIGHLIGHT);
 			}
 			return;
 		}
 
 		// wrong letter typed
-		Log.i("Multiplayer", "multiplayer typed the wrong letter: " + letter);
+		Log.i("Multiplayer", "typed the wrong letter: " + letter);
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
 	}
@@ -321,12 +323,12 @@ public class MultiPlayerModel extends PlayerModel {
 	 *
 	 */
 	public final void setUserFinish() throws InternetConnectionException {
-		Log.i("Multiplayer", "multiplayer just finished");
+		Log.i("Multiplayer", "player set to finished");
 		try {
 			match.put(info.get("finished"), true);
 			match.save();
 		} catch (ParseException e) {
-			Log.e("Multiplayer", "multiplayer parse error setting user to finish", e);
+			Log.e("Multiplayer", "parse error setting user to finish", e);
 			throw new InternetConnectionException();
 		}
 	}
@@ -343,7 +345,7 @@ public class MultiPlayerModel extends PlayerModel {
 	 */
 	public final boolean isOpponentFinished() throws 
 	InternetConnectionException, InternalErrorException {
-		Log.i("Multiplayer", "multiplayer waiting on opponent to finish");
+		Log.i("Multiplayer", "waiting on opponent to finish");
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + SCORE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
@@ -357,10 +359,10 @@ public class MultiPlayerModel extends PlayerModel {
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e) {
 				Log.e("Multiplayer", 
-				"multiplayer parse error while checking if opponent is finished or not", e);
+				"parse error while checking if opponent is finished or not", e);
 				throw new InternetConnectionException();
 			} catch (InterruptedException e) {
-				Log.e("Multiplayer", "multiplayer thread error while sleeping", e);
+				Log.e("Multiplayer", "thread error while sleeping", e);
 				throw new InternalErrorException();
 			}
 		}
@@ -372,12 +374,13 @@ public class MultiPlayerModel extends PlayerModel {
 	 */
 	public void deleteUser() {
 		try {
-			if (info.get("name").equals("p1name")) {
-				Log.i("Multiplayer", "multiplayer has deleted match from database");
+			if (info.get("name").equals("p1name") && match != null) {
+				Log.i("Multiplayer", "deleted match from database");
 				match.delete();
+				match = null;
 			}
 		} catch (ParseException e) {
-			Log.e("Multiplayer", "multiplayer error deleting match from parse", e);
+			Log.e("Multiplayer", "error deleting match from parse", e);
 		}
 	}
 
