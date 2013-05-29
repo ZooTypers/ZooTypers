@@ -3,6 +3,7 @@ package com.example.zootypers.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.Window;
@@ -34,6 +35,7 @@ public class ErrorScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public final void goToTitlePage(final View view) {
+		Log.i("ZooTypers", "leaving error screen to title page");
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
 	}
@@ -43,6 +45,7 @@ public class ErrorScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public void goToPreGameSelection(final View view) {
+		Log.i("ZooTypers", "leaving error screen to multiplayer pre game page");
 		Intent intent = new Intent(this, PreGameSelectionMulti.class);
 		intent.putExtra("username", username);
 		startActivity(intent);

@@ -52,7 +52,7 @@ public class SinglePlayer extends Player {
 	// the game timer that will give a time limit
 	protected GameTimer gameTimer;
 
-	// keeps track for if the game is paused or not
+	// keeps track of if the game is paused or not
 	public static boolean paused = false;
 
 	/*
@@ -84,6 +84,8 @@ public class SinglePlayer extends Player {
 			d = States.difficulty.HARD;
 		}
 
+		paused = false; 
+		
 		// start model
 		model = new SinglePlayerModel(d, this.getAssets(), NUM_WORDS);
 		model.addObserver(this);
@@ -96,7 +98,7 @@ public class SinglePlayer extends Player {
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
 
-		Log.i("ZooTypers", "Begin single player game");
+		Log.i("SinglePlayer", "game has begun");
 	}
 
 
@@ -166,8 +168,9 @@ public class SinglePlayer extends Player {
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
 	public void goToPostGame() {
-		Log.i("ZooTypers", "Ending single player game");
+		Log.i("SinglePlayer", "Ending game");
 
+		paused = true;
 		Intent intent = new Intent(this, PostGameScreen.class);
 		// pass score
 		intent.putExtra("score", model.getScore());
@@ -181,7 +184,7 @@ public class SinglePlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public void pauseGame(View view) {
-		Log.i("ZooTypers", "single player game is paused");
+		Log.i("SinglePlayer", "game is paused");
 
 		// save & stop time
 		pausedTime = currentTime;
@@ -209,7 +212,7 @@ public class SinglePlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public void pausedContinue(View view){
-		Log.i("ZooTypers", "continue is selected from single player game");
+		Log.i("SinglePlayer", "continue is selected from pause");
 
 		// re-enable buttons & keyboard
 		findViewById(R.id.keyboard_open_button).setEnabled(true);
@@ -227,7 +230,7 @@ public class SinglePlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public void pausedNewGame(View view) {
-		Log.i("ZooTypers", "new game is selected from single player game");
+		Log.i("SinglePlayer", "new game is selected from pause");
 
 		final Intent restartIntent = new Intent(this, PreGameSelection.class);
 		paused = false;
@@ -240,7 +243,7 @@ public class SinglePlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public void pausedMainMenu(View view) {
-		Log.i("ZooTypers", "main menu is selected from single player game");
+		Log.i("SinglePlayer", "main menu is selected from pause");
 
 		final Intent mainMenuIntent = new Intent(this, TitlePage.class);
 		paused = false;
@@ -249,7 +252,6 @@ public class SinglePlayer extends Player {
 
 	/**
 	 * Timer for game.
-	 * @author ZooTypers
 	 */
 	public class GameTimer extends CountDownTimer {
 		/**
@@ -262,7 +264,6 @@ public class SinglePlayer extends Player {
 
 		@Override
 		public final void onFinish() {
-			// TODO add game over message before going to post game
 			goToPostGame();
 		}
 

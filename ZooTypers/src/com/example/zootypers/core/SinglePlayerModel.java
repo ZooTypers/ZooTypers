@@ -54,7 +54,7 @@ public class SinglePlayerModel extends PlayerModel {
 	 * @param diff, the difficulty level that the user has chosen
 	 */
 	private void getWordsList(final States.difficulty diff) {
-		Log.i("ZooTypers", "Begin reading file for single player words list");
+		Log.i("SinglePlayer", "reading file for words list");
 
 		String file;
 		if (diff == States.difficulty.EASY) {
@@ -72,7 +72,7 @@ public class SinglePlayerModel extends PlayerModel {
 			String[] tempArr = contents.split(System.getProperty("line.separator"));
 			wordsList = Arrays.asList(tempArr);
 		} catch (IOException e) {
-			Log.e("ZooTypers", "error reading file for single player words list", e);
+			Log.e("SinglePlayer", "error reading file for words list", e);
 		}
 
 		// Shuffle the elements in the array
@@ -95,7 +95,7 @@ public class SinglePlayerModel extends PlayerModel {
 					currWordIndex = i;
 					currLetterIndex = 1;
 					setChanged();
-					Log.i("ZooTypers", "single player typed the letter: " + letter);
+					Log.i("SinglePlayer", "typed the letter: " + letter);
 					notifyObservers(States.update.HIGHLIGHT);
 					return;
 				}
@@ -108,7 +108,7 @@ public class SinglePlayerModel extends PlayerModel {
 
 			// word is completed after final letter is typed
 			if ((currLetterIndex + 1) >= wordLen) {
-				Log.i("ZooTypers", "single player completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]));
+				Log.i("SinglePlayer", "completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]));
 				score += wordLen;
 				updateWordsDisplayed();
 				currLetterIndex = -1;
@@ -116,13 +116,13 @@ public class SinglePlayerModel extends PlayerModel {
 			} else {
 				currLetterIndex += 1;
 				setChanged();
-				Log.i("ZooTypers", "single player typed the letter: " + letter);
+				Log.i("SinglePlayer", "typed the letter: " + letter);
 				notifyObservers(States.update.HIGHLIGHT);
 			}
 			return;
 		}
 		// wrong letter typed
-		Log.i("ZooTypers", "single player typed the wrong letter: " + letter);
+		Log.i("SinglePlayer", "typed the wrong letter: " + letter);
 		setChanged();
 		notifyObservers(States.update.WRONG_LETTER);
 	}
