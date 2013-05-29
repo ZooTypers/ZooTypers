@@ -41,7 +41,7 @@ public class PostGameScreen extends Activity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		Log.i("SinglePlayer", "entered post game");
+		Log.i("ZooTypers", "entered post game");
 		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
@@ -77,7 +77,7 @@ public class PostGameScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public void saveScore(final View view) {
-		Log.i("SinglePlayer", "saving score post game");
+		Log.i("ZooTypers", "saving score post game");
 		buildSavePopup();
 	}
 
@@ -86,7 +86,7 @@ public class PostGameScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public final void goToTitlePage(final View view) {
-		Log.i("SinglePlayer", "going to title page from post game");
+		Log.i("ZooTypers", "going to title page from post game");
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
 	}
@@ -96,7 +96,7 @@ public class PostGameScreen extends Activity {
 	 * @param view The button clicked
 	 */
 	public void goToPreGameSelection(final View view) {
-		Log.i("SinglePlayer", "going to pre game from post game");
+		Log.i("ZooTypers", "going to pre game from post game");
 		Intent intent = new Intent(this, PreGameSelection.class);
 		startActivity(intent);
 	}
@@ -162,7 +162,7 @@ public class PostGameScreen extends Activity {
 	 * @param view the button that is clicked
 	 */
 	public void exitPopup(View view) {
-		Log.i("SinglePlayer", "exiting popup to save score");
+		Log.i("ZooTypers", "exiting popup to save score");
 		ppw.dismiss();
 		savedScore = false;
 	}
@@ -173,7 +173,7 @@ public class PostGameScreen extends Activity {
 	 * @param view the button that is clicked
 	 */
 	public void submitName(View view) {
-		Log.i("SinglePlayer", "submitting name to be saved");
+		Log.i("ZooTypers", "submitting name to be saved");
 		
 		// get the input from the user
 		final View contentView = ppw.getContentView();
