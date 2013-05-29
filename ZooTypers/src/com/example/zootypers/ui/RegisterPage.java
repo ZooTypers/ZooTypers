@@ -47,8 +47,7 @@ public class RegisterPage extends Activity {
    * @param view The button clicked.
    */
   public final void cancel(final View view) {
-    Intent intent = new Intent(this, TitlePage.class);
-    startActivity(intent);
+	finish();
   }
 
   /**
