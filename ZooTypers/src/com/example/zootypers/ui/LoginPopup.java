@@ -1,13 +1,10 @@
 package com.example.zootypers.ui;
 
-import com.example.zootypers.R;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.RequestPasswordResetCallback;
+import java.util.List;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.app.ActionBar.LayoutParams;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -16,6 +13,12 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
+import com.example.zootypers.R;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 /**
  * Utility for login / register / resert password.
@@ -91,11 +94,45 @@ public class LoginPopup {
 
     // Try to login with the given inputs
     ParseUser user;
+    List<ParseObject> usernameResults = null;
+    List<ParseObject> passwordResults = null;
     try {
       user = ParseUser.logIn(usernameString, passwordString);
     } catch (ParseException e) {
-      // TODO figure out if username and/or password is wrong
-      errorMessage.setText("Could not login");
+      
+      ParseQuery query = ParseUser.getQuery();
+      // try to find the username that the user typed in
+      query.whereEqualTo("username", usernameString);
+      try {
+		usernameResults = query.find();
+      } catch (ParseException e1) {
+		// error occured trying to find the username
+		e1.printStackTrace();
+      }
+      
+      // try to find the password that the user typed in
+      // associated with that username
+      query.whereEqualTo("username", usernameString);
+      query.whereEqualTo("password", passwordString);
+      try {
+    	  passwordResults = query.find();
+      } catch (ParseException e1) {
+    	  // error occured trying to find the password
+    	  e1.printStackTrace();
+      }
+      
+      // figure out the error
+      if (usernameResults.size() == 0 && passwordResults.size() == 0) {
+    	  errorMessage.setText("Invalid username / password combination");
+      } else if (usernameResults.size() == 0 && passwordResults.size() != 0) {
+    	  errorMessage.setText("Invalid username");
+      } else if (usernameResults.size() != 0 && passwordResults.size() == 0) {
+    	  errorMessage.setText("Invalid password for username");
+      } else {
+    	  // unexpected error occured
+    	  errorMessage.setText("Unexpected error occured, could not login");
+      }
+      // signals an error occured
       return "";
     }
 
@@ -137,32 +174,50 @@ public class LoginPopup {
    * Handles what happens when user wants to their reset password.
    * @param alertDialogBuilder The AlertDialog.Builder
    */
-  public final void resetPassword(final AlertDialog.Builder alertDialogBuilder) {
+  public final boolean resetPassword(final AlertDialog.Builder alertDialogBuilder) {
     // get the contents of the popup window and get the email the user typed in
     final View contentView = password_ppw.getContentView();
     EditText emailReset = (EditText) contentView.findViewById(R.id.email_forgot_password_input);
     final String emailString = emailReset.getText().toString();
 
-    final TextView errorMessage = (TextView) contentView.findViewById(R.id.login_error_message);
+    final TextView errorMessage = (TextView) contentView.findViewById(R.id.reset_error_message);
     // try to reset the password by sending an email
-    ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
-      public void done(final ParseException e) {
-        if (e == null) {
-          // success
-          final String title = "Password Reset";
-          final String message = "An email has been sent to " + emailString;
-          buildAlertDialog(alertDialogBuilder, title, message);
-        } else {
-          // failure
-          int errorCode = e.getCode();
-          if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
-            errorMessage.setText("Invalid Email Address");
-          } else {
-            errorMessage.setText("Password Reset Failed");
-          }
-        }
+    try {
+      ParseUser.requestPasswordReset(emailString);
+      // success
+      final String title = "Password Reset";
+      final String message = "An email has been sent to " + emailString;
+      buildAlertDialog(alertDialogBuilder, title, message);
+      return true;
+    } catch (ParseException e) {
+      // failure
+      int errorCode = e.getCode();
+      if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
+        errorMessage.setText("Invalid Email Address");
+      } else {
+        errorMessage.setText("Password Reset Failed");
       }
-    });
+      return false;
+    }
+    
+//    ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
+//      public void done(final ParseException e) {
+//        if (e == null) {
+//          // success
+//          final String title = "Password Reset";
+//          final String message = "An email has been sent to " + emailString;
+//          buildAlertDialog(alertDialogBuilder, title, message);
+//        } else {
+//          // failure
+//          int errorCode = e.getCode();
+//          if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
+//            errorMessage.setText("Invalid Email Address");
+//          } else {
+//            errorMessage.setText("Password Reset Failed");
+//          }
+//        }
+//      }
+//    });
   }
 
   /**

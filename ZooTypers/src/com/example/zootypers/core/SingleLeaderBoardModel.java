@@ -26,7 +26,7 @@ import android.util.Log;
 public class SingleLeaderBoardModel {
 	private static final int DEFAULT_ENTRIES = 10;
 	private static final String FILE_NAME = "single_player_leaderboard.txt";
-
+	private static final String DELIM = "\t";
 	//Number of Entries that we allow in the database
 	private int topEntries;
 	// allows files in assets to be accessed
@@ -62,7 +62,7 @@ public class SingleLeaderBoardModel {
 	 * Parses the file and keeps a list of the current entries in the leaderboard
 	 */
 	private void parseFile() {
-		Log.i("ZooTypers", "Begin reading file for single player scores");
+		Log.i("SinglePlayer", "reading file for scores");
 		String[] tempArr = null;
 		try {
 			InputStream stream =  context.openFileInput(FILE_NAME);
@@ -71,14 +71,14 @@ public class SingleLeaderBoardModel {
 			tempArr = contents.split("\n");
 		} catch (FileNotFoundException e) {
 			tempArr = new String[0];
-			Log.i("ZooTypers", "no single player scores in system", e);
+			Log.i("SinglePlayer", "no scores in system");
 		} catch (IOException e) {
-			Log.e("ZooTypers", "error locating file for single player scores", e);
+			Log.e("SinglePlayer", "error locating file for scores", e);
 		}
 
 		for (int i = 0; i < tempArr.length; i++) {
 			// splitting the entry into two strings that represent the name and score
-			String[] tempSE = tempArr[i].split(" ");
+			String[] tempSE = tempArr[i].toString().split(DELIM);
 			// making the actual score entries;
 			scoreEntries.add(new ScoreEntry (tempSE[0], Integer.parseInt(tempSE[1])));
 		}
@@ -89,7 +89,7 @@ public class SingleLeaderBoardModel {
 	 * @param score, user's score to potentially be added
 	 */
 	public void addEntry(String name, int newScore){
-		Log.i("ZooTypers", "single player adding the user's entry");
+		Log.i("SinglePlayer", "adding the user's entry");
 		//only adds the entry if the score is within the range of the current top scores
 		int size = scoreEntries.size();
 		if (size == 0 || size < topEntries) {
@@ -112,12 +112,14 @@ public class SingleLeaderBoardModel {
 	 * After updating the list, save the list back into the file by writing
 	 */
 	private void save() {
-		Log.i("ZooTypers", "Begin writing file for single player scores");
+		Log.i("SinglePlayer", "saving scores");
 		StringBuffer write = new StringBuffer();
 		for (int j = 0; j < scoreEntries.size() - 1; j++) {
-			write.append(scoreEntries.get(j) + "\n");
+			ScoreEntry currentSE = scoreEntries.get(j);
+			write.append(currentSE.getName() + DELIM + currentSE.getScore() + "\n");
 		}
-		write.append(scoreEntries.get(scoreEntries.size() - 1));
+		ScoreEntry lastSE = scoreEntries.get(scoreEntries.size() - 1);
+		write.append(lastSE.getName() + DELIM + lastSE.getScore());
 		
 		try {
 			FileOutputStream fOut = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
@@ -129,7 +131,7 @@ public class SingleLeaderBoardModel {
 			osw.flush();
 			osw.close();
 		} catch (IOException e) {
-			Log.e("ZooTypers", "error writing to file for single player scores", e);
+			Log.e("SinglePlayer", "error writing to file for single player scores", e);
 		}
 	}
 
@@ -148,7 +150,7 @@ public class SingleLeaderBoardModel {
 	 * Clear every thing in the database
 	 */
 	public void clearLeaderboard(){
-		Log.i("ZooTypers", "single player removing all scores");
+		Log.i("SinglePlayer", "removing all scores");
 		context.deleteFile(FILE_NAME);
 		scoreEntries.clear();
 	}

@@ -1,16 +1,17 @@
 package com.example.zootypers.ui;
 
 
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
@@ -112,13 +113,8 @@ public class MultiPlayer extends Player {
 		model = new MultiPlayerModel(NUM_WORDS, username, anmID);
 		model.addObserver(this);
 
-		new LoadTask().execute();
-
-//		setContentView(R.layout.activity_multi_player);
-		//initialDisplay(animal, background, oppAnimal);
-		// Create and start timer
-//		gameTimer = new GameTimer(START_TIME, INTERVAL);
-//		gameTimer.start();
+		LoadTask task = new LoadTask(this);
+		task.execute();
 	}
 
 
@@ -166,6 +162,8 @@ public class MultiPlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public final void goToTitlePage(final View view) {
+		Log.i("Multiplayer", "leaving game to title page");
+		
 		// Clean up the database
 		model.deleteUser();
 
@@ -185,13 +183,16 @@ public class MultiPlayer extends Player {
 		// Pass username
 		intent.putExtra("username", username);
 
-		if (err.equals(States.error.NOOPPONENT))
-		intent.putExtra("error", R.layout.activity_no_opponent_error);
-		else if (err.equals(States.error.INTERNAL))
-		intent.putExtra("error", R.layout.activity_interrupt_error);
-		else 
-		intent.putExtra("error", R.layout.activity_connection_error);
-
+		if (err.equals(States.error.NOOPPONENT)) {
+			Log.i("Multiplayer", "triggering no opponent error screen");
+			intent.putExtra("error", R.layout.activity_no_opponent_error);
+		} else if (err.equals(States.error.INTERNAL)) {
+			Log.i("Multiplayer", "triggering internal error screen");
+			intent.putExtra("error", R.layout.activity_interrupt_error);
+		} else {
+			Log.i("Multiplayer", "triggering internet connection error screen");
+			intent.putExtra("error", R.layout.activity_connection_error);
+		}
 		startActivity(intent);
 	}
 
@@ -199,6 +200,8 @@ public class MultiPlayer extends Player {
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
 	public final void goToPostGame() {
+		Log.i("Multiplayer", "Ending game");
+		
 		// Show game over message before going to post game
 		findViewById(R.id.game_over).setVisibility(0);
 
@@ -229,15 +232,15 @@ public class MultiPlayer extends Player {
 		// Pass if opponent completed the game
 		try {
 			if (!model.isOpponentFinished()) {
+				Log.w("Multiplayer", "timed out waiting for opponent to finish");
 				error(States.error.CONNECTION);
+				return;
 			}
 			//intent.putExtra("discon", !model.isOpponentFinished());
 		} catch (InternetConnectionException e) {
-			e.fillInStackTrace();
 			error(States.error.CONNECTION);
 			return;
 		} catch (InternalErrorException e) {
-			e.fillInStackTrace();
 			error(States.error.INTERNAL);
 			return;
 		}
@@ -265,7 +268,7 @@ public class MultiPlayer extends Player {
 
 	/**
 	 * Timer for the game.
-	 * @author ZooTypers
+	 * @author Multiplayer
 	 */
 	public class GameTimer extends CountDownTimer {
 		/**
@@ -294,6 +297,11 @@ public class MultiPlayer extends Player {
 		
 		// called before running code in a separate thread
 		private boolean quitFlag;
+		private Activity activity;
+		
+		public LoadTask(Activity activity) {
+			this.activity = activity;
+		}
 		@Override
 		protected void onPreExecute() {
 			progressDialog = ProgressDialog.show(MultiPlayer.this,"Finding a Game...",  
@@ -302,29 +310,28 @@ public class MultiPlayer extends Player {
 		
 		@Override
 		protected Void doInBackground(Void... params) {
-			synchronized (this) {
-				try {
-					model.beginMatchMaking();
-					model.setWordsList();
-					// Get the opponent's animal from the model
-					oppAnimal = reverseDrawable(model.getOpponentAnimal());
-					// Display the multiplayer screen
-				} catch (InternetConnectionException e) {
-					e.fillInStackTrace();
-					quitFlag = true;
-					error(States.error.CONNECTION);
-					return null;
-				} catch (EmptyQueueException e) {
-					e.fillInStackTrace();
-					quitFlag = true;
-					error(States.error.NOOPPONENT);
-					return null;
-				} catch (InternalErrorException e) {
-					e.fillInStackTrace();
-					quitFlag = true;
-					error(States.error.INTERNAL);
-					return null;
-				}
+			Log.i("Multiplayer", "trigger loading popup and wait for opponent");
+			try {
+				model.beginMatchMaking();
+				model.setWordsList();
+				// Get the opponent's animal from the model
+				oppAnimal = reverseDrawable(model.getOpponentAnimal());
+				// Display the multiplayer screen
+			} catch (InternetConnectionException e) {
+				e.fillInStackTrace();
+				quitFlag = true;
+				error(States.error.CONNECTION);
+				return null;
+			} catch (EmptyQueueException e) {
+				e.fillInStackTrace();
+				quitFlag = true;
+				error(States.error.NOOPPONENT);
+				return null;
+			} catch (InternalErrorException e) {
+				e.fillInStackTrace();
+				quitFlag = true;
+				error(States.error.INTERNAL);
+				return null;
 			}
 			return null;
 		}
@@ -332,9 +339,13 @@ public class MultiPlayer extends Player {
 		@Override
 		protected void onPostExecute(Void result) {
 			if (!quitFlag) {
-			  progressDialog.dismiss();
-//			  gameTimer = new GameTimer(START_TIME, INTERVAL);
-//			  gameTimer.start();
+				Log.i("Multiplayer", "opponent has been found, beginning game");
+				progressDialog.dismiss();
+				activity.setContentView(R.layout.activity_multi_player);
+				initialDisplay(animal, background, oppAnimal);
+				// Create and start timer
+				gameTimer = new GameTimer(START_TIME, INTERVAL);
+				gameTimer.start();
 			}
 		}
 	}

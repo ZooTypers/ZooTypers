@@ -2,6 +2,7 @@ package com.example.zootypers.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -48,6 +49,8 @@ public class PreGameSelectionMulti extends PreGameSelection {
 	 * @param view The button clicked.
 	 */
 	public final void goToMultiPlayer(final View view) {
+    	Log.i("ZooTypers", "begin multiplayer game");
+
 		Intent intent = new Intent(this, MultiPlayer.class);
 
 		// pass animal and background

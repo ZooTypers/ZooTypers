@@ -55,7 +55,7 @@ public class MultiLeaderBoardModel {
 	 * scores are equal than rank alphabetically.
 	 */
 	private void getAllScores() {
-		Log.i("ZooTypers", "multiplayer getting all scores from parse");
+		Log.i("Multiplayer", "multiplayer getting all scores from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
 			query = query.orderByDescending("score");
@@ -64,7 +64,7 @@ public class MultiLeaderBoardModel {
 			allScores = query.find();
 		} catch (ParseException e) {
 			allScores = new ArrayList<ParseObject>();
-			Log.e("ZooTypers", "error getting all scores from parse for multiplayer", e);
+			Log.e("Multiplayer", "error getting all scores from parse for multiplayer", e);
 		}
 	}
 
@@ -73,13 +73,13 @@ public class MultiLeaderBoardModel {
 	 * can be made if a score is added.
 	 */
 	private void getPlayerEntry(String name) {
-		Log.i("ZooTypers", "multiplayer getting this player's score from parse");
+		Log.i("Multiplayer", "multiplayer getting this player's score from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
 			query.whereEqualTo("name", name);
 			entry = query.getFirst();
 		} catch (ParseException e) {
-			Log.e("ZooTypers", "error getting this player's score from parse", e);
+			Log.i("Multiplayer", "this player's has no scores score from parse");
 			// making a new entry for this player
 			entry = new ParseObject("MultiLeaderBoard");
 			entry.put("name", name);
@@ -92,7 +92,7 @@ public class MultiLeaderBoardModel {
 	 * @param score, user's score to potentially be added
 	 */
 	public void addEntry(int score){
-		Log.i("ZooTypers", "multiplayer leaderboard adding the user's entry");
+		Log.i("Multiplayer", "multiplayer leaderboard adding the user's entry");
 		int highScore = Math.max(score, entry.getInt("score"));
 		entry.put("score", highScore);
 		entry.saveInBackground();
@@ -156,7 +156,7 @@ public class MultiLeaderBoardModel {
 	 * Clears the users scores from the database
 	 */
 	public void clearLeaderboard(){
-		Log.i("ZooTypers", "multiplayer leaderboard deleting the user's entry");
+		Log.i("Multiplayer", "multiplayer leaderboard deleting the user's entry");
 		entry.deleteInBackground();
 	}
 
