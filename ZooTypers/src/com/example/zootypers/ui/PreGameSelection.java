@@ -32,7 +32,7 @@ public class PreGameSelection extends Activity {
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.i("SinglePlayer", "entered pre game");
+        Log.i("ZooTypers", "entered pre game");
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -43,7 +43,6 @@ public class PreGameSelection extends Activity {
         setAnimal(animal);
         background = findViewById(R.id.BG1_button);
         setBackground(background);
-        
     }
 
     @Override
@@ -60,7 +59,7 @@ public class PreGameSelection extends Activity {
     * @param view The button clicked.
     */
     public final void goToSinglePlayer(final View view) {
-    	Log.i("SinglePlayer", "begin game");
+    	Log.i("ZooTypers", "begin single player game");
     	storeSelected();
     	
         Intent intent = new Intent(this, SinglePlayer.class);
@@ -86,7 +85,7 @@ public class PreGameSelection extends Activity {
     * @param view The button clicked
     */
     public final void goToTitlePage(final View view) {
-    	Log.i("SinglePlayer", "back to title page from pre game");
+    	Log.i("ZooTypers", "back to title page from pre game");
         Intent intent = new Intent(this, TitlePage.class);
         startActivity(intent);
     }
@@ -103,7 +102,7 @@ public class PreGameSelection extends Activity {
     * @param view The button clicked
     */
     public final void setDiff(final View view) {
-    	Log.i("SinglePlayer", "difficulty changed");
+    	Log.i("ZooTypers", "difficulty changed");
         if (diff != null) {
             diff.getBackground().clearColorFilter();
         }
@@ -117,7 +116,7 @@ public class PreGameSelection extends Activity {
     * @param view The button clicked
     */
     public final void setAnimal(final View view) {
-    	Log.i("SinglePlayer", "animal changed");
+    	Log.i("ZooTypers", "animal changed");
         if (animal != null) {
             animal.getBackground().clearColorFilter();
         }
@@ -131,7 +130,7 @@ public class PreGameSelection extends Activity {
     * @param view The button clicked
     */
     public final void setBackground(final View view) {
-    	Log.i("SinglePlayer", "background changed");
+    	Log.i("ZooTypers", "background changed");
         if (background != null) {
             background.getBackground().clearColorFilter();
         }

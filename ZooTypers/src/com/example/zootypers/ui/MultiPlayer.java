@@ -115,8 +115,6 @@ public class MultiPlayer extends Player {
 
 		LoadTask task = new LoadTask(this);
 		task.execute();
-
-		Log.i("ZooTypers", "Begin multiplayer game");
 	}
 
 
@@ -164,7 +162,7 @@ public class MultiPlayer extends Player {
 	 * @param view The button clicked.
 	 */
 	public final void goToTitlePage(final View view) {
-		Log.i("ZooTypers", "leaving multiplayer to title page");
+		Log.i("Multiplayer", "leaving game to title page");
 		
 		// Clean up the database
 		model.deleteUser();
@@ -186,13 +184,13 @@ public class MultiPlayer extends Player {
 		intent.putExtra("username", username);
 
 		if (err.equals(States.error.NOOPPONENT)) {
-			Log.i("ZooTypers", "triggering no opponent error screen");
+			Log.i("Multiplayer", "triggering no opponent error screen");
 			intent.putExtra("error", R.layout.activity_no_opponent_error);
 		} else if (err.equals(States.error.INTERNAL)) {
-			Log.i("ZooTypers", "triggering internal error screen");
+			Log.i("Multiplayer", "triggering internal error screen");
 			intent.putExtra("error", R.layout.activity_interrupt_error);
 		} else {
-			Log.i("ZooTypers", "triggering internet connection error screen");
+			Log.i("Multiplayer", "triggering internet connection error screen");
 			intent.putExtra("error", R.layout.activity_connection_error);
 		}
 		startActivity(intent);
@@ -202,7 +200,7 @@ public class MultiPlayer extends Player {
 	 * Called when the timer runs out; goes to the post game screen.
 	 */
 	public final void goToPostGame() {
-		Log.i("ZooTypers", "Ending multiplayer game");
+		Log.i("Multiplayer", "Ending game");
 		
 		// Show game over message before going to post game
 		findViewById(R.id.game_over).setVisibility(0);
@@ -234,15 +232,15 @@ public class MultiPlayer extends Player {
 		// Pass if opponent completed the game
 		try {
 			if (!model.isOpponentFinished()) {
+				Log.w("Multiplayer", "timed out waiting for opponent to finish");
 				error(States.error.CONNECTION);
+				return;
 			}
 			//intent.putExtra("discon", !model.isOpponentFinished());
 		} catch (InternetConnectionException e) {
-			e.fillInStackTrace();
 			error(States.error.CONNECTION);
 			return;
 		} catch (InternalErrorException e) {
-			e.fillInStackTrace();
 			error(States.error.INTERNAL);
 			return;
 		}
@@ -270,7 +268,7 @@ public class MultiPlayer extends Player {
 
 	/**
 	 * Timer for the game.
-	 * @author ZooTypers
+	 * @author Multiplayer
 	 */
 	public class GameTimer extends CountDownTimer {
 		/**
@@ -312,7 +310,7 @@ public class MultiPlayer extends Player {
 		
 		@Override
 		protected Void doInBackground(Void... params) {
-			Log.i("ZooTypers", "trigger loading popup and wait for opponent");
+			Log.i("Multiplayer", "trigger loading popup and wait for opponent");
 			try {
 				model.beginMatchMaking();
 				model.setWordsList();
@@ -341,7 +339,7 @@ public class MultiPlayer extends Player {
 		@Override
 		protected void onPostExecute(Void result) {
 			if (!quitFlag) {
-				Log.i("ZooTypers", "opponent has been found, beginning game");
+				Log.i("Multiplayer", "opponent has been found, beginning game");
 				progressDialog.dismiss();
 				activity.setContentView(R.layout.activity_multi_player);
 				initialDisplay(animal, background, oppAnimal);
