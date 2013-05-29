@@ -74,6 +74,10 @@
             android:name="com.example.zootypers.ui.Leaderboard"
             android:label="@string/title_activity_leaderboard" >
         </activity>
+        <activity
+            android:name="com.example.zootypers.RelativeUserScore"
+            android:label="@string/title_activity_relative_user_score" >
+        </activity>
     </application>
 
     <instrumentation
