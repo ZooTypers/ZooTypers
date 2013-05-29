@@ -14,23 +14,23 @@
         android:background="@color/greyish" >
 
         <TextView
-            android:id="@+id/multi_lb_title"
+            android:id="@+id/relative_lb_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:paddingBottom="20dp"
             android:paddingTop="5dp"
-            android:text="@string/multiplayer_lb_title"
+            android:text="@string/relative_score_string"
             android:textSize="20sp" />
 
         <TableRow
-            android:id="@+id/multi_title_row"
+            android:id="@+id/relative_title_row"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal" >
 
             <TextView
-                android:id="@+id/multi_rank"
+                android:id="@+id/relative_rank"
                 android:layout_width="wrap_content"
                 android:background="@drawable/table_border"
                 android:paddingLeft="5dp"
@@ -39,7 +39,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/multi_player_name"
+                android:id="@+id/relative_player_name"
                 android:layout_width="wrap_content"
                 android:background="@drawable/table_border"
                 android:paddingLeft="20dp"
@@ -48,7 +48,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/multi_player_score"
+                android:id="@+id/relative_player_score"
                 android:layout_width="wrap_content"
                 android:background="@drawable/table_border"
                 android:paddingLeft="20dp"
@@ -58,14 +58,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow0"
+            android:id="@+id/relative_tableRow0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank0"
+                android:id="@+id/relative_rank0"
                 android:paddingRight="5dp"
                 android:text="1" />
 
@@ -85,14 +85,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow1"
+            android:id="@+id/relative_tableRow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank1"
+                android:id="@+id/rank1"
                 android:paddingRight="5dp"
                 android:text="2" />
 
@@ -112,14 +112,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow2"
+            android:id="@+id/relative_tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank2"
+                android:id="@+id/relative_rank2"
                 android:paddingRight="5dp"
                 android:text="3" />
 
@@ -139,14 +139,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow3"
+            android:id="@+id/relative_tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank3"
+                android:id="@+id/relative_rank3"
                 android:paddingRight="5dp"
                 android:text="4" />
 
@@ -166,14 +166,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow4"
+            android:id="@+id/relative_tableRow4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank4"
+                android:id="@+id/relative_rank4"
                 android:paddingRight="5dp"
                 android:text="5" />
 
@@ -193,14 +193,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow5"
+            android:id="@+id/relative_tableRow5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank5"
+                android:id="@+id/relative_rank5"
                 android:paddingRight="5dp"
                 android:text="6" />
 
@@ -220,14 +220,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow6"
+            android:id="@+id/relative_tableRow6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank6"
+                android:id="@+id/relative_rank6"
                 android:paddingRight="5dp"
                 android:text="7" />
 
@@ -247,14 +247,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow7"
+            android:id="@+id/relative_tableRow7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank7"
+                android:id="@+id/relative_rank7"
                 android:paddingRight="5dp"
                 android:text="8" />
 
@@ -274,14 +274,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow8"
+            android:id="@+id/relative_tableRow8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank8"
+                android:id="@+id/relative_rank8"
                 android:paddingRight="5dp"
                 android:text="9" />
 
@@ -301,14 +301,14 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/multi_tableRow9"
+            android:id="@+id/relative_tableRow9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/multi_rank9"
+                android:id="@+id/relative_rank9"
                 android:paddingRight="5dp"
                 android:text="10" />
 
@@ -327,15 +327,4 @@
                 android:text="@string/default_ldbd_score" />
         </TableRow>
     </TableLayout>
-
-    <Button
-        android:id="@+id/relative_score_button"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tableLayout1"
-        android:layout_marginTop="19dp"
-        android:onClick="relativeUserScore"
-        android:text="@string/see_score_string" />
-
 </RelativeLayout>
