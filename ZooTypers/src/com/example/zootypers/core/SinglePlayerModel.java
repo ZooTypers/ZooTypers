@@ -106,17 +106,18 @@ public class SinglePlayerModel extends PlayerModel {
 			// store length of current word
 			int wordLen = wordsList.get(wordsDisplayed[currWordIndex]).trim().length();
 
+			Log.i("SinglePlayer", "typed the letter: " + letter);
 			// word is completed after final letter is typed
 			if ((currLetterIndex + 1) >= wordLen) {
-				Log.i("SinglePlayer", "completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]));
 				score += wordLen;
+				Log.i("SinglePlayer", "completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]) 
+						+ "\nscore increased to: " + score);
 				updateWordsDisplayed();
 				currLetterIndex = -1;
 				currWordIndex = -1;
 			} else {
 				currLetterIndex += 1;
 				setChanged();
-				Log.i("SinglePlayer", "typed the letter: " + letter);
 				notifyObservers(States.update.HIGHLIGHT);
 			}
 			return;

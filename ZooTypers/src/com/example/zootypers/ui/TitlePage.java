@@ -227,7 +227,7 @@ public class TitlePage extends Activity {
 	 * @param view the button clicked
 	 */
 	public final void goToRegister(final View view) {
-		Log.i("ZooTypers", "user needs to register");
+		Log.i("ZooTypers", "proceeding to register page");
 		Intent registerIntent = new Intent(this, RegisterPage.class);
 		startActivity(registerIntent);
 	}
