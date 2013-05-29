@@ -1,5 +1,7 @@
 package com.example.zootypers.ui;
 
+
+import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
@@ -94,12 +96,12 @@ public class LoginPopup {
 
     // Try to login with the given inputs
     ParseUser user;
-    List<ParseObject> usernameResults = null;
-    List<ParseObject> passwordResults = null;
     try {
       user = ParseUser.logIn(usernameString, passwordString);
     } catch (ParseException e) {
-      
+      boolean errorOccured = false;
+      List<ParseObject> usernameResults = new ArrayList<ParseObject>();
+      List<ParseObject> passwordResults = new ArrayList<ParseObject>();
       ParseQuery query = ParseUser.getQuery();
       // try to find the username that the user typed in
       query.whereEqualTo("username", usernameString);
@@ -107,6 +109,7 @@ public class LoginPopup {
 		usernameResults = query.find();
       } catch (ParseException e1) {
 		// error occured trying to find the username
+    	errorOccured = true;
 		e1.printStackTrace();
       }
       
@@ -118,10 +121,16 @@ public class LoginPopup {
     	  passwordResults = query.find();
       } catch (ParseException e1) {
     	  // error occured trying to find the password
+    	  errorOccured = true;
     	  e1.printStackTrace();
       }
       
       // figure out the error
+      if (errorOccured) {
+    	  errorMessage.setText("Unexpected error occured, could not login.\n" +
+    	  		"Are you connected to the internet?");
+    	  return "";
+      }
       if (usernameResults.size() == 0 && passwordResults.size() == 0) {
     	  errorMessage.setText("Invalid username / password combination");
       } else if (usernameResults.size() == 0 && passwordResults.size() != 0) {
@@ -130,7 +139,7 @@ public class LoginPopup {
     	  errorMessage.setText("Invalid password for username");
       } else {
     	  // unexpected error occured
-    	  errorMessage.setText("Unexpected error occured, could not login");
+    	  
       }
       // signals an error occured
       return "";
