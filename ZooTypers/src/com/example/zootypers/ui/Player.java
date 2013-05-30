@@ -24,7 +24,7 @@ import com.example.zootypers.util.States;
 public abstract class Player extends Activity implements Observer {
 
 	// the total amount of time given to the user to type. (61 seconds to tick 60 times)
-	public final static long START_TIME = 61000;
+	public final static long START_TIME = 6100; // TODO
 
 	// the interval for each time the clock ticks. (interval will be 1 second)
 	protected final static long INTERVAL = 1000;
