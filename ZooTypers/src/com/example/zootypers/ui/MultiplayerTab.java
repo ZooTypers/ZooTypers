@@ -2,16 +2,12 @@ package com.example.zootypers.ui;
 
 
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.example.zootypers.R;
-import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.ScoreEntry;
 import com.parse.ParseUser;
 
@@ -20,9 +16,11 @@ import com.parse.ParseUser;
  * @author ZooTypers
  *
  */
+@SuppressWarnings("unused")
 public class MultiplayerTab extends LeaderboardTab {
 	
 	private ParseUser currentUser;
+	
 	private static View currentView;
 	private LoginPopup lp;
 	/**
