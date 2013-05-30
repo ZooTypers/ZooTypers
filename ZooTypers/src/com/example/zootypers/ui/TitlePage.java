@@ -1,6 +1,7 @@
 package com.example.zootypers.ui;
 
 import com.example.zootypers.R;
+import com.example.zootypers.util.InternetConnectionException;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -162,7 +163,16 @@ public class TitlePage extends Activity {
 	 */
 	public final void loginButton(final View view) {
 		// Try to login
-		String usernameString = lp.loginButton();
+		String usernameString;
+		try {
+			usernameString = lp.loginButton();
+		} catch (InternetConnectionException e) {
+			Log.i("Leaderboard", "triggering internet connection error screen");
+			Intent intent = new Intent(this, ErrorScreen.class);
+			intent.putExtra("error", R.layout.activity_connection_error);
+			startActivity(intent);
+			return;
+		}
 		// If login was successful, go to the multiplayer game
 		if (!usernameString.equals("")) {
 			multiIntent.putExtra("username", usernameString);

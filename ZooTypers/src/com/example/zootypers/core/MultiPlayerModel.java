@@ -108,17 +108,21 @@ public class MultiPlayerModel extends PlayerModel {
 	 * checks whether user can be matched to an opponent
 	 * returns true if matched, false otherwise
 	 */
-	private boolean findOpponent() {
+	private boolean findOpponent() throws InternetConnectionException {
 		try {
+			checkInternet();
 			ParseQuery query = new ParseQuery("Matches");
 			query.whereEqualTo("p2name", "");
 			query.whereNotEqualTo("p1name", name);
 			match = query.getFirst();
 			Log.i("Multiplayer", "matched has been found for player");
 			return true;
-		} catch (ParseException e1) {
+		} catch (ParseException e) {
 			Log.i("Multiplayer", "no matches are found");
 			return false;
+		} catch (NullPointerException e) {
+			Log.e("Multiplayer", "unable to connect to internet", e);
+			throw new InternetConnectionException();
 		}
 	}
 
@@ -173,7 +177,8 @@ public class MultiPlayerModel extends PlayerModel {
 	}
 
 	/*
-	 * Checks online to see if an opponent has added themselves to the match
+	 * Checks online to see if an opponent has added thems
+	 * elves to the match
 	 * as player 2. there is a time limit to how long the user will wait to
 	 * find an opponent before model gives up.
 	 */
@@ -212,6 +217,7 @@ public class MultiPlayerModel extends PlayerModel {
 
 		List<ParseObject> wordObjects = null;
 		try {
+			checkInternet();
 			checkIfInMatch();
 			ParseQuery query = new ParseQuery("WordList");
 			query.setSkip(match.getInt("wordIndex"));
@@ -226,7 +232,10 @@ public class MultiPlayerModel extends PlayerModel {
 		} catch (ParseException e) {
 			Log.e("Multiplayer", "error getting words list from parse", e);
 			throw new InternetConnectionException();
-		}  
+		}  catch (NullPointerException e) {
+			Log.e("Multiplayer", "unable to connect to internet", e);
+			throw new InternetConnectionException();
+		}
 		// changing words from parse objects into a list of strings.
 		wordsList = new ArrayList<String>();
 		for (ParseObject o : wordObjects) {
@@ -325,10 +334,14 @@ public class MultiPlayerModel extends PlayerModel {
 	public final void setUserFinish() throws InternetConnectionException {
 		Log.i("Multiplayer", "player set to finished");
 		try {
+			checkInternet();
 			match.put(info.get("finished"), true);
 			match.save();
 		} catch (ParseException e) {
 			Log.e("Multiplayer", "parse error setting user to finish", e);
+			throw new InternetConnectionException();
+		} catch (NullPointerException e) {
+			Log.w("Multiplayer", "unable to connect to internet");
 			throw new InternetConnectionException();
 		}
 	}
@@ -371,19 +384,30 @@ public class MultiPlayerModel extends PlayerModel {
 
 	/**
 	 * deletes the match from the database if this user is player 1
+	 * @throws InternetConnectionException 
 	 */
-	public void deleteUser() {
+	public void deleteUser() throws InternetConnectionException {
 		try {
-			if (info.get("name").equals("p1name") && match != null) {
+			checkInternet();
+			if ("p1name".equals(info.get("name"))) {
 				Log.i("Multiplayer", "deleted match from database");
 				match.delete();
-				match = null;
 			}
 		} catch (ParseException e) {
 			Log.e("Multiplayer", "error deleting match from parse", e);
 		}
 	}
 
+	private void checkInternet() throws InternetConnectionException, ParseException {
+		try {
+			ParseQuery query = new ParseQuery("Matches");
+			query.count();
+		} catch (NullPointerException e) {
+			Log.w("Multiplayer", "unable to connect to internet");
+			throw new InternetConnectionException();
+		}
+	}
+	
 	/**
 	 * refreshes the match in a background thread and notifies the
 	 * UI to update the opponent score after the refresh is done.
