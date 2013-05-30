@@ -336,5 +336,18 @@
                 android:paddingRight="20dp"
                 android:text="@string/default_ldbd_score" />
         </TableRow>
+        
+         <Button
+        	android:id="@+id/main_menu_button"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:gravity="center_horizontal"
+        	android:layout_marginTop="5dp"
+        	android:onClick="goToMain"
+        	android:text="@string/main_menu_string" />
+         
     </TableLayout>
+
+   
+
 </RelativeLayout>
