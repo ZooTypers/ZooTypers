@@ -1,9 +1,6 @@
 package com.example.zootypers.ui;
 
 
-import com.example.zootypers.core.MultiLeaderBoardModel;
-import com.example.zootypers.core.ScoreEntry;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
@@ -11,6 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.example.zootypers.core.ScoreEntry;
 
 /**
  * Represents a Tab in the leaderboard layout

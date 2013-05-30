@@ -165,7 +165,12 @@ public class MultiPlayer extends Player {
 		Log.i("Multiplayer", "leaving game to title page");
 		
 		// Clean up the database
-		model.deleteUser();
+		try {
+			model.deleteUser();
+		} catch (InternetConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
@@ -177,7 +182,12 @@ public class MultiPlayer extends Player {
 	 */
 	public final void error(States.error err) {
 		// Clean up the database
-		model.deleteUser();
+		try {
+			model.deleteUser();
+		} catch (InternetConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		Intent intent = new Intent(this, ErrorScreen.class);
 		// Pass username
@@ -251,7 +261,12 @@ public class MultiPlayer extends Player {
 		// Pass username
 		intent.putExtra("username", username);
 
-		model.deleteUser();
+		try {
+			model.deleteUser();
+		} catch (InternetConnectionException e) {
+			error(States.error.CONNECTION);
+			return;
+		}
 		startActivity(intent);  
 	}
 
