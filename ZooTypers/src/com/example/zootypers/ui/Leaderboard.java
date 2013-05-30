@@ -100,6 +100,11 @@ public class Leaderboard extends FragmentActivity {
 		return true;
 	}
 
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(this, TitlePage.class);
+		startActivity(intent);
+	}
 	/**
 	 * Called when the user wants to view his/her score relative to other players
 	 * @param view the button clicked
@@ -268,7 +273,11 @@ public class Leaderboard extends FragmentActivity {
 		// show the message
 		alertDialog.show();
 	}
-	  
+	
+	public void goToMain(View view) {
+		Intent intent = new Intent(this, TitlePage.class);
+		startActivity(intent);
+	}
 	/**
 	 * Class to handle the actions for each of the tabs in the action bar
 	 * @author ZooTypers
