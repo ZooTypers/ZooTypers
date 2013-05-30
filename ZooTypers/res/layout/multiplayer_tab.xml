@@ -66,6 +66,7 @@
 
             <TextView
                 android:id="@+id/multi_rank0"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="1" />
 
@@ -93,6 +94,7 @@
 
             <TextView
                 android:id="@+id/multi_rank1"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="2" />
 
@@ -120,6 +122,7 @@
 
             <TextView
                 android:id="@+id/multi_rank2"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="3" />
 
@@ -147,6 +150,7 @@
 
             <TextView
                 android:id="@+id/multi_rank3"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="4" />
 
@@ -174,6 +178,7 @@
 
             <TextView
                 android:id="@+id/multi_rank4"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="5" />
 
@@ -201,6 +206,7 @@
 
             <TextView
                 android:id="@+id/multi_rank5"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="6" />
 
@@ -228,6 +234,7 @@
 
             <TextView
                 android:id="@+id/multi_rank6"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="7" />
 
@@ -255,6 +262,7 @@
 
             <TextView
                 android:id="@+id/multi_rank7"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="8" />
 
@@ -282,6 +290,7 @@
 
             <TextView
                 android:id="@+id/multi_rank8"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="9" />
 
@@ -309,6 +318,7 @@
 
             <TextView
                 android:id="@+id/multi_rank9"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="10" />
 
@@ -326,16 +336,26 @@
                 android:paddingRight="20dp"
                 android:text="@string/default_ldbd_score" />
         </TableRow>
+    
+	    <Button
+	        android:id="@+id/relative_score_button"
+	        android:layout_gravity="center_horizontal"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_below="@+id/tableLayout1"
+	        android:layout_marginTop="5dp"
+	        android:onClick="relativeUserScore"
+	        android:text="@string/see_score_string" />
+	
+	    <Button
+	        android:id="@+id/main_menu_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:gravity="center_horizontal"
+	        android:onClick="goToMain"
+	        android:text="@string/main_menu_string" />
     </TableLayout>
 
-    <Button
-        android:id="@+id/relative_score_button"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tableLayout1"
-        android:layout_marginTop="19dp"
-        android:onClick="relativeUserScore"
-        android:text="@string/see_score_string" />
+    
 
 </RelativeLayout>

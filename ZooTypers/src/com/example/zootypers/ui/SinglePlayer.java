@@ -217,7 +217,7 @@ public class SinglePlayer extends Player {
 		// re-enable buttons & keyboard
 		findViewById(R.id.keyboard_open_button).setEnabled(true);
 		findViewById(R.id.pause_button).setEnabled(true);
-		// keyboardButton(findViewById(R.id.keyboard_open_button));
+		keyboardButton(findViewById(R.id.keyboard_open_button));
 		gameTimer = new GameTimer(pausedTime, INTERVAL);
 		gameTimer.start();
 		ppw.dismiss();
