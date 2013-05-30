@@ -21,11 +21,14 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 		if (container == null) {
 			return null;
 		}
+
 		// set the layout for the fragment and get the arguments for that are passed
 		View relativeScoreView = inflater.inflate(R.layout.relative_score_layout, container, false);
 		ScoreEntry[] seArray = (ScoreEntry[]) getArguments().getParcelableArray("scoreList");
 		// set up the leaderboard
-		setupLBList(relativeScoreView, seArray);
+		int rank = getArguments().getInt("userRank");
+		int relativeRank = getArguments().getInt("relativeRank");
+		setupLBList(relativeScoreView, seArray, rank, relativeRank);
 		return relativeScoreView;
 	}
 	
@@ -34,10 +37,13 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 	 * @param scores
 	 * @return
 	 */
-	public static RelativeUserScoreTab newInstance(ScoreEntry[] seArray) {
+	public static RelativeUserScoreTab newInstance(ScoreEntry[] seArray, int userRank,
+			int relativeRank) {
 		RelativeUserScoreTab spt = new RelativeUserScoreTab();
 		// put the argument in a bundle that the fragment can use
 		Bundle args = new Bundle();
+		args.putInt("userRank", userRank);
+		args.putInt("relativeRank", relativeRank);
 		args.putParcelableArray("scoreList", seArray);
 		spt.setArguments(args);
 		return spt;

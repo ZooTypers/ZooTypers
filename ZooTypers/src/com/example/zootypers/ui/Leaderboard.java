@@ -107,6 +107,7 @@ public class Leaderboard extends FragmentActivity {
 		} else {
 			// make a new MultiLeaderBoardModel with the given username
 			MultiLeaderBoardModel newMlb = new MultiLeaderBoardModel(currentUser.getString("username"));
+			int userRank = newMlb.getRank();
 			// get the relative position of the user with the passed in NUM_RELATIVE
 			ScoreEntry[] relativeEntrys = newMlb.getRelativeScores(NUM_RELATIVE);
 			// inform the user that he/she has no scores yet
@@ -119,7 +120,8 @@ public class Leaderboard extends FragmentActivity {
 			}
 			
 			// add the relativeScore tab
-			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys);
+			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, userRank,
+					NUM_RELATIVE);
 			FragmentTransaction fst = getSupportFragmentManager().beginTransaction();
 			fst.replace(R.id.leaderboard_layout, currentFragment);
 		    fst.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -242,14 +244,6 @@ public class Leaderboard extends FragmentActivity {
 		alertDialog.show();
 	}
 	  
-	/**
-	 * @param id The id of the View to get as a String.
-	 * @return The View object with that id
-	 */
-	private final View getByStringId(View view, final String id) {
-		return view.findViewById(getResources().getIdentifier(id, "id", getPackageName()));
-	}
-	
 	/**
 	 * Class to handle the actions for each of the tabs in the action bar
 	 * @author ZooTypers
