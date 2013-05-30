@@ -6,6 +6,8 @@ import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
+import android.app.ActionBar.LayoutParams;
+import android.app.ActionBar.Tab;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,11 +15,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
@@ -123,6 +127,7 @@ public class Leaderboard extends FragmentActivity {
 				startActivity(intent);
 				return;
 			}
+			int userRank = newMlb.getRank();			
 			// get the relative position of the user with the passed in NUM_RELATIVE
 			ScoreEntry[] relativeEntrys = newMlb.getRelativeScores(NUM_RELATIVE);
 			// inform the user that he/she has no scores yet
@@ -135,7 +140,8 @@ public class Leaderboard extends FragmentActivity {
 			}
 			
 			// add the relativeScore tab
-			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys);
+			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, userRank,
+					NUM_RELATIVE);
 			FragmentTransaction fst = getSupportFragmentManager().beginTransaction();
 			fst.replace(R.id.leaderboard_layout, currentFragment);
 		    fst.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);

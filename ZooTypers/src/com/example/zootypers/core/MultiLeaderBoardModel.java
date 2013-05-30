@@ -151,6 +151,9 @@ public class MultiLeaderBoardModel {
 				startIndex = 0;
 			}
 			int endIndex = rank + numOfRelatives;
+			if (endIndex < DEFAULT_ENTRIES) {
+				endIndex = DEFAULT_ENTRIES;
+			}
 			if (endIndex > allScores.size()) {
 				endIndex = allScores.size();
 			}
@@ -158,6 +161,7 @@ public class MultiLeaderBoardModel {
 			for (int i = startIndex; i < endIndex; i++) {
 				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
 			}
+			
 		}
 		return scoreEntries.toArray(new ScoreEntry[scoreEntries.size()]);
 	}
