@@ -92,7 +92,7 @@
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank1"
+                android:id="@+id/relative_rank1"
                 android:paddingRight="5dp"
                 android:text="2" />
 
