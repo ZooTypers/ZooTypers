@@ -19,11 +19,13 @@ import android.widget.TextView;
  */
 public class LeaderboardTab extends Fragment {
 	
+
+	private final int MAX_LENGTH = 10;
+
 	/**
 	 * create a new view for the fragment
 	 * 
 	 */
-	private final int MAX_LENGTH = 10;
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		if (container == null) {
