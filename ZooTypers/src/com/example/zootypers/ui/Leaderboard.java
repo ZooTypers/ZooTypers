@@ -1,10 +1,9 @@
 package com.example.zootypers.ui;
 
-
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,8 +35,10 @@ import com.parse.ParseUser;
  */
 @SuppressLint("NewApi")
 public class Leaderboard extends FragmentActivity {
-
+	private int useTestDB;
+	
 	private LoginPopup lp;
+	private static LoginPopup friend_lp;
 	private ParseUser currentUser;
 	private SingleLeaderBoardModel lb;
 	
@@ -48,10 +49,17 @@ public class Leaderboard extends FragmentActivity {
 		// set the layout for the parent activity which contains the fragments
 		setContentView(R.layout.activity_leaderboard);
 
+		
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
 		// Initialize the database
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-		"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
-
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
+		
 		lp = new LoginPopup(currentUser);
 		
 		// set up the action bar for the different tabs
@@ -74,7 +82,7 @@ public class Leaderboard extends FragmentActivity {
 		} catch (InternetConnectionException e) {
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
-			intent.putExtra("error", R.layout.activity_connection_error);
+			intent.putExtra("error", R.layout.activity_connection_error_lb);
 			startActivity(intent);
 			return;
 		}
@@ -112,8 +120,15 @@ public class Leaderboard extends FragmentActivity {
 	 */
 	public void relativeUserScore(View view) {
 		// set up the Parse database and have the user log in if not already
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", 
-		        "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
+		// Initialize the database
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
 			buildPopup(false);
@@ -125,7 +140,7 @@ public class Leaderboard extends FragmentActivity {
 			} catch (InternetConnectionException e) {
 				Log.i("Leaderboard", "triggering internet connection error screen");
 				Intent intent = new Intent(this, ErrorScreen.class);
-				intent.putExtra("error", R.layout.activity_connection_error);
+				intent.putExtra("error", R.layout.activity_connection_error_lb);
 				startActivity(intent);
 				return;
 			}
@@ -150,7 +165,6 @@ public class Leaderboard extends FragmentActivity {
 		    fst.commit();
 		}
 	}
-
 	/**
 	 * Handles what happens when user clicks the login button
 	 * @param view Button that is pressed
@@ -163,7 +177,7 @@ public class Leaderboard extends FragmentActivity {
 		} catch (InternetConnectionException e) {
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
-			intent.putExtra("error", R.layout.activity_connection_error);
+			intent.putExtra("error", R.layout.activity_connection_error_lb);
 			startActivity(intent);
 			return;
 		}
@@ -192,12 +206,32 @@ public class Leaderboard extends FragmentActivity {
 	    lp.buildLoginPopup(layoutInflater, parentLayout, dismisspsw);
 	}
 	
+	protected static void buildFriendPopup(boolean dismisspsw, Activity activity) {
+		 // set up the layout inflater to inflate the popup layout
+	    LayoutInflater layoutInflater =
+	    (LayoutInflater) activity.getBaseContext()
+	    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+	    // the parent layout to put the layout in
+	    ViewGroup parentLayout = (ViewGroup) activity.findViewById(R.id.leaderboard_layout);
+
+	    // inflate either the login layout
+	    friend_lp.buildFriendLoginPopup(layoutInflater, parentLayout, dismisspsw);
+	}
 	/**
 	 * Exits the login popup window
 	 * @param view the button clicked
 	 */
 	public void exitLoginPopup(View view) {
 		lp.exitLoginPopup();
+	}
+	
+	/**
+	 * Exits the login popup window for the friend popup
+	 * @param view the button clicked
+	 */
+	public void exitFriendLoginPopup(View view) {
+		friend_lp.exitLoginPopup();
 	}
 
 	/**
@@ -206,6 +240,14 @@ public class Leaderboard extends FragmentActivity {
 	 */
 	public void exitPasswordPopup(View view) {
 		buildPopup(true);
+	}
+	
+	/**
+	 * Exits the password popup window for friend popup
+	 * @param view the button clicked
+	 */
+	public void exitFriendPasswordPopup(View view) {
+		buildFriendPopup(true, this);
 	}
 	
 	/**
@@ -225,6 +267,23 @@ public class Leaderboard extends FragmentActivity {
 	}
 	
 	/**
+	 * Handles what happens when user clicks the "Forgot your password" link
+	 * for the friend login popupwindow
+	 * @param view Button that is pressed
+	 */
+	public final void forgotFriendPassword(View view) {
+		// set up the layout inflater to inflate the popup layout
+	    LayoutInflater layoutInflater =
+	    (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+	    // the parent layout to put the layout in
+	    ViewGroup parentLayout = (ViewGroup) findViewById(R.id.leaderboard_layout);
+
+	    // inflate the password layout
+	    friend_lp.buildFriendResetPopup(layoutInflater, parentLayout);
+	}
+	
+	/**
 	 * Handles what happens when user wants to reset password.
 	 * @param view the button clicked
 	 */
@@ -234,6 +293,18 @@ public class Leaderboard extends FragmentActivity {
 		lp.resetPassword(alertDialogBuilder);   
 		// Go back to the login popup
 		buildPopup(true);
+	}
+	
+	/**
+	 * Handles what happens when user wants to reset password in friend password popup.
+	 * @param view the button clicked
+	 */
+	public void resetFriendPassword(View view) {
+		// Sort through the reset info
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		friend_lp.resetPassword(alertDialogBuilder);   
+		// Go back to the login popup
+		buildFriendPopup(true, this);
 	}
 	
 	/**

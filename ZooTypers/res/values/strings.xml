@@ -44,7 +44,7 @@
     <string name="pause">| |</string>
     <string name="toggle_keyboard">Keyboard</string>
     <string name="is_paused">Game Paused</string>
-    <string name="typedError_prompt">Invalid Letter Typed</string>
+    <string name="typedError_prompt">Wrong Letter!</string>
     <string name="username_string">Username</string>
     <string name="password_string">Password</string>
     <string name="login_string">Login</string>
@@ -94,5 +94,9 @@
     <string name="close_string">Close</string>
     <string name="title_activity_relative_user_score">RelativeUserScore</string>
     <string name="main_menu_string">Main Menu</string>
+    <string name="friend_name_string">Enter your friend\'s name :</string>
+    <string name="remove_friend_name_string">Enter name of friend\nto remove :</string>
+    <string name="title_activity_multiplayer_lobby">MultiplayerLobby</string>
+    <string name="start_time">60</string>
 
 </resources>

@@ -1,6 +1,7 @@
 package com.example.zootypers.ui;
 
 
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -64,6 +65,27 @@ public class LoginPopup {
 	}
 
 	/**
+	 * Builds and displays the login popup.
+	 * @param layoutInflater The LayoutInflater to use.
+	 * @param parentLayout The parent layout to display the popup in.
+	 * @param dispsw If the password popup is currently being displayed
+	 * (and therefore should be dismissed).
+	 */
+	@SuppressLint("InlinedApi")
+	public final void buildFriendLoginPopup(LayoutInflater layoutInflater, ViewGroup parentLayout,
+			final boolean dispsw) {
+		// If need be, dismiss the password popup
+		if (dispsw) {
+			password_ppw.dismiss();
+		}
+
+		// Build the login poup
+		View popupView = layoutInflater.inflate(R.layout.friend_login_popup, null);
+		login_ppw = new PopupWindow(popupView,
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+		login_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
+	}
+	/**
 	 * Builds and displays the reset password popup.
 	 * @param layoutInflater The LayoutInflater to use.
 	 * @param parentLayout The parent layout to display the popup in.
@@ -79,6 +101,22 @@ public class LoginPopup {
 		login_ppw.dismiss();
 	}
 
+	/**
+	 * Builds and displays the reset password popup.
+	 * @param layoutInflater The LayoutInflater to use.
+	 * @param parentLayout The parent layout to display the popup in.
+	 */
+	@SuppressLint("InlinedApi")
+	public void buildFriendResetPopup(LayoutInflater layoutInflater, ViewGroup parentLayout) {
+		// Build the reset password popup
+		View popupView = layoutInflater.inflate(R.layout.friend_reset_pw, null);
+		password_ppw = new PopupWindow(popupView,
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+		password_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
+		// dismiss the login popup
+		login_ppw.dismiss();
+	}
+	
 	/**
 	 * Handles what happens when user clicks the login button.
 	 * @return the username to pass to the multiplayer activity.
@@ -218,25 +256,6 @@ public class LoginPopup {
 			}
 			return false;
 		}
-
-		//    ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
-		//      public void done(final ParseException e) {
-		//        if (e == null) {
-		//          // success
-		//          final String title = "Password Reset";
-		//          final String message = "An email has been sent to " + emailString;
-		//          buildAlertDialog(alertDialogBuilder, title, message);
-		//        } else {
-		//          // failure
-		//          int errorCode = e.getCode();
-		//          if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
-		//            errorMessage.setText("Invalid Email Address");
-		//          } else {
-		//            errorMessage.setText("Password Reset Failed");
-		//          }
-		//        }
-		//      }
-		//    });
 	}
 
 	/**
