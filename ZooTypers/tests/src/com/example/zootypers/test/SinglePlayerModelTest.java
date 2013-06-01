@@ -134,6 +134,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         solo.sleep(3000);
         for(int i = 0; i < 5; i++){
             assertTrue(views.get(i).getText().length() > 0);
+            solo.sleep(500);
         }
         solo.sleep(1000);
         goBackToMainMenu();
@@ -353,7 +354,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
                 pauseButton.performClick();
             }
         });
-        solo.sleep(1000);
+        solo.sleep(1500);
 //        final Button restartButton = (Button) solo.getView(com.example.zootypers.R.id.restart_button);
 //        getActivity().runOnUiThread(new Runnable() {
 //            @Override
