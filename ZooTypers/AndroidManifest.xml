@@ -16,67 +16,88 @@
         android:allowBackup="true"
         android:icon="@drawable/app_logo"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
+        android:screenOrientation="portrait">        
         <uses-library android:name="android.test.runner" />
+		
+        <activity 
+            android:name="com.example.zootypers.ui.SplashScreen"
+            android:label="@string/app_name">
 
-        <activity
-            android:name="com.example.zootypers.ui.TitlePage"
-            android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+                    
+        </activity>
+        <activity
+            android:name="com.example.zootypers.ui.TitlePage"
+            android:label="@string/app_name" 
+            android:theme="@style/AppTheme">
+            
         </activity>
         <activity
             android:name="com.example.zootypers.ui.SinglePlayer"
             android:label="@string/title_activity_single_player"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize|adjustPan" >
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize|adjustPan" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.ui.PreGameSelection"
-            android:label="@string/title_activity_pre_game_selection" >
+            android:label="@string/title_activity_pre_game_selection" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.ui.PreGameSelectionMulti"
-            android:label="@string/title_activity_pre_game_selection_multi" >
+            android:label="@string/title_activity_pre_game_selection_multi" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.ui.Options"
-            android:label="@string/title_activity_options" >
+            android:label="@string/title_activity_options" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.ui.PostGameScreen"
-            android:label="@string/title_activity_post_game_screen" >
+            android:label="@string/title_activity_post_game_screen" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.ui.RegisterPage"
-            android:label="@string/title_activity_register_page" >
+            android:label="@string/title_activity_register_page" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.ui.MultiPlayer"
             android:label="@string/title_activity_multi_player"
-            android:windowSoftInputMode="stateAlwaysVisible|adjustResize|adjustPan" >
+            android:windowSoftInputMode="stateAlwaysVisible|adjustResize|adjustPan" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.ui.PostGameScreenMulti"
-            android:label="@string/title_activity_post_game_screen_multi" >
+            android:label="@string/title_activity_post_game_screen_multi" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.ui.ErrorScreen"
-            android:label="@string/title_activity_error" >
+            android:label="@string/title_activity_error" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.LeaderboardUI"
-            android:label="@string/title_activity_leaderboard_ui" >
+            android:label="@string/title_activity_leaderboard_ui" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.ui.Leaderboard"
-            android:label="@string/title_activity_leaderboard" >
+            android:label="@string/title_activity_leaderboard" 
+            android:theme="@style/AppTheme">
         </activity>
         <activity
             android:name="com.example.zootypers.RelativeUserScore"
-            android:label="@string/title_activity_relative_user_score" >
+            android:label="@string/title_activity_relative_user_score" 
+            android:theme="@style/AppTheme">
         </activity>
     </application>
 

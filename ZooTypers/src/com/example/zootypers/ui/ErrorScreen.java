@@ -8,6 +8,9 @@ import android.view.Menu;
 import android.view.View;
 import android.view.Window;
 
+/**
+ * Generic error screen UI / activity.
+ */
 public class ErrorScreen extends Activity {
 
 	private int error;
@@ -17,10 +20,13 @@ public class ErrorScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// default to interrupt error
+		
+		// Get the kind of error, defaulting to an interrupt error
 		error = getIntent().getIntExtra("error", 2130903041);
+    	setContentView(error);
+    
+    // Get and store the username
 		username = getIntent().getStringExtra("username");
-		setContentView(error);
 	}
 
 	@Override
