@@ -39,6 +39,7 @@ public class Leaderboard extends FragmentActivity {
 
 	private LoginPopup lp;
 	private ParseUser currentUser;
+	private SingleLeaderBoardModel lb;
 	
 	private final int NUM_RELATIVE = 5;
 	@Override
@@ -66,7 +67,7 @@ public class Leaderboard extends FragmentActivity {
 		
 		// get the list of scores from the model and send it to each of the tabs
 		
-		SingleLeaderBoardModel lb = new SingleLeaderBoardModel(getApplicationContext());
+		lb = new SingleLeaderBoardModel(getApplicationContext());
 		MultiLeaderBoardModel mlb = null;
 		try {
 			mlb = new MultiLeaderBoardModel("bbbb");
@@ -314,5 +315,9 @@ public class Leaderboard extends FragmentActivity {
 		public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 			// Do nothing
 		}
+	}
+	
+	public SingleLeaderBoardModel getLeaderboard() {
+	    return lb;
 	}
 }
