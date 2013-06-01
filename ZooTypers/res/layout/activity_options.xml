@@ -36,4 +36,22 @@
         android:onClick="goToTitlePage"
         android:text="@string/main_menu" />
 
+    <Switch
+        android:id="@+id/bgm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/vibrate"
+        android:layout_marginTop="20dp"
+        android:text="@string/bgm" />
+
+    <Switch
+        android:id="@+id/vibrate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/clearMulti"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/vibration" />
+    
 </RelativeLayout>

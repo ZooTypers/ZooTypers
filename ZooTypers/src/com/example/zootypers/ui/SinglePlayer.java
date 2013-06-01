@@ -1,11 +1,14 @@
 package com.example.zootypers.ui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -47,6 +50,15 @@ public class SinglePlayer extends Player {
 
 	// keeps track of if the game is paused or not
 	public static boolean paused;
+	
+	// check for whether to play music or not
+    private int check = 1;
+    
+    // check to see if you need to read the bgm file or not
+    private boolean read = true;
+    
+    // creates a new media player for sound
+    private MediaPlayer mediaPlayer;
 
 	/*
 	 *  Called when the activity is starting. uses the information that was picked
@@ -94,6 +106,25 @@ public class SinglePlayer extends Player {
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
 
+	    // create a background music
+        if(read){
+            try {
+                FileInputStream is = openFileInput("bgm.txt");
+                check = 0;
+            } catch (FileNotFoundException e){
+                //Yes for vibration case
+                //Do nothing
+            } 
+            read = false;
+        }
+        //Vibrate
+        if(check == 1){
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
+		
 		Log.i("SinglePlayer", "game has begun");
 	}
 
@@ -135,6 +166,7 @@ public class SinglePlayer extends Player {
 		super.onPause();
 		if (!paused && pausedTime != 0)
 			pauseGame(findViewById(R.id.pause_button));
+		mediaPlayer.pause();
 	}
 
 	/**
@@ -174,6 +206,7 @@ public class SinglePlayer extends Player {
 		intent.putExtra("bg", bg);
 		startActivity(intent);
 		finish();
+		mediaPlayer.stop();
 	}
 
 	/**
@@ -220,6 +253,7 @@ public class SinglePlayer extends Player {
 		gameTimer.start();
 		ppw.dismiss();
 		paused = false;
+		mediaPlayer.start();
 	}
 
 	/**
