@@ -1,0 +1,542 @@
+/* Website template by freewebsitetemplates.com */
+/*------------------------- Fonts ---------------------------*/
+@font-face {
+	font-family: 'open_sansregular';
+	src: url('../fonts/opensans-regular-webfont.eot');
+	src: url('../fonts/opensans-regular-webfont.eot?#iefix') format('embedded-opentype'),  url('../fonts/opensans-regular-webfont.woff') format('woff'),  url('../fonts/opensans-regular-webfont.ttf') format('truetype'),  url('../fonts/opensans-regular-webfont.svg#open_sansregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'open_sansbold';
+	src: url('../fonts/opensans-bold-webfont.eot');
+	src: url('../fonts/opensans-bold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans-bold-webfont.woff') format('woff'), url('../fonts/opensans-bold-webfont.ttf') format('truetype'), url('../fonts/opensans-bold-webfont.svg#open_sansbold') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'open_sansbold_italic';
+	src: url('../fonts/opensans-bolditalic-webfont.eot');
+	src: url('../fonts/opensans-bolditalic-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans-bolditalic-webfont.woff') format('woff'), url('../fonts/opensans-bolditalic-webfont.ttf') format('truetype'), url('../fonts/opensans-bolditalic-webfont.svg#open_sansbold_italic') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'open_sans_extraboldregular';
+	src: url('../fonts/opensans-extrabold-webfont.eot');
+	src: url('../fonts/opensans-extrabold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/opensans-extrabold-webfont.woff') format('woff'), url('../fonts/opensans-extrabold-webfont.ttf') format('truetype'), url('../fonts/opensans-extrabold-webfont.svg#open_sans_extraboldregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'pacificoregular';
+	src: url('../fonts/pacifico-webfont.eot');
+	src: url('../fonts/pacifico-webfont.eot?#iefix') format('embedded-opentype'),  url('../fonts/pacifico-webfont.woff') format('woff'),  url('../fonts/pacifico-webfont.ttf') format('truetype'),  url('../fonts/pacifico-webfont.svg#pacificoregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+@font-face {
+	font-family: 'open_sansitalic';
+	src: url('../fonts/opensans-italic-webfont.eot');
+	src: url('../fonts/opensans-italic-webfont.eot?#iefix') format('embedded-opentype'),  url('../fonts/opensans-italic-webfont.woff') format('woff'),  url('../fonts/opensans-italic-webfont.ttf') format('truetype'),  url('../fonts/opensans-italic-webfont.svg#open_sansitalic') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+/*------------------------- Layout styles ------------------------*/
+body {
+	margin:0;
+	font-family: 'open_sansregular';
+	background:url(../images/bg-body.jpg);
+}
+a {
+	outline:none;
+}
+a img {
+	border:0;
+	display:block;
+}
+/*------------------------- Header -------------------------*/
+.header {
+	background:url(../images/bg-header.jpg) repeat-x left top;
+	height:144px;
+}
+.header div {
+	margin:0 auto;
+	padding:19px 0 0;
+	width:960px;
+}
+.header div a#logo {
+	display:block;
+	float:left;
+	margin:0 140px 0 18px;
+}
+.header div ul {
+	float:left;
+	list-style:none;
+	margin:41px 0 0;
+	overflow:hidden;
+	padding:0;
+}
+
+.header div ul li {
+	float:left;
+}
+.header div ul li.selected a, .header div ul li a:hover {
+	color:#164372;
+}
+.header div ul li:first-child a {
+	margin:0;
+}
+.header div ul li a {
+	color:#a4c2d4;
+	font-family: 'open_sansbold_italic';
+	margin:0 0 0 64px;
+	text-decoration:none;
+	text-shadow:0 1px 0 #fffcfc;
+}
+/*------------------------- Body ---------------------------*/
+.body {
+	margin:0 auto;
+	overflow:hidden;
+	width:960px;
+}
+.body .sidebar {
+	float:left;
+	margin:0 0 0 12px;
+	padding-top: 50px;
+	width:324px;
+}
+.body .sidebar p {
+	color:#5a3f05;
+	font-size:14px;
+	letter-spacing:-.025em;
+	line-height:24px;
+	margin:14px 0 23px 13px;
+	width:285px;
+}
+.body .sidebar p a {
+	color:#e52226;
+	text-decoration:none;
+}
+.body .sidebar div.connect {
+	background:url(../images/interface.png) no-repeat -5px -355px;
+	height:121px;
+}
+.body .sidebar div.connect h2 {
+	color:#9c6e0d;
+	display:block;
+	font-family: 'open_sans_extraboldregular';
+	font-size:24px;
+	font-weight:400;
+	letter-spacing:.1em;
+	line-height:24px;
+	padding:21px 0 0;
+	text-align:center;
+	text-shadow:0 1px 0 #fbd74c;
+	text-transform:uppercase;
+}
+.body .sidebar div.connect a {
+	display:block;
+	float:left;
+	text-indent:-99999px;
+}
+.body .sidebar div.connect a#twitter {
+	background:url(../images/icons.png) no-repeat 0 0;
+	height:32px;
+	margin:8px 0 0 65px;
+	width:38px;
+}
+.body .sidebar div.connect a#twitter:hover {
+	background:url(../images/icons.png) no-repeat 0 -103px;
+}
+.body .sidebar div.connect a#facebook {
+	background:url(../images/icons.png) no-repeat 0 -33px;
+	height:33px;
+	margin:8px 40px 0;
+	width:31px;
+}
+.body .sidebar div.connect a#facebook:hover {
+	background:url(../images/icons.png) no-repeat 0 -138px;
+}
+.body .sidebar div.connect a#googleplus {
+	background:url(../images/icons.png) no-repeat 0 -67px;
+	height:33px;
+	margin:8px 0 0;
+	width:37px;
+}
+.body .sidebar div.connect a#googleplus:hover {
+	background:url(../images/icons.png) no-repeat 0 -174px;
+}
+.body .sidebar a#view-more {
+	background:url(../images/interface.png) no-repeat -334px -432px;
+	display:block;
+	height:67px;
+	margin: 0 auto;
+	text-indent:-99999px;
+	width:192px;
+}
+.body .sidebar a#view-more:hover {
+	background:url(../images/interface.png) no-repeat -334px -501px;
+}
+.body .sidebar a#click-here {
+	background:url(../images/interface.png) no-repeat -531px -432px;
+	display:block;
+	height:68px;
+	margin:47px auto 29px;
+	text-indent:-99999px;
+	width:192px;
+}
+.body .sidebar a#click-here:hover {
+	background:url(../images/interface.png) no-repeat -531px -501px;
+}
+.body .home div ul li {
+	margin:14px 0 0;
+	overflow:hidden;
+	padding:0 18px;
+}
+.body .section {
+	background:url(../images/interface.png) no-repeat -5px 0;
+	clear:both;
+	display:inline-block;
+	height:216px;
+	margin:38px 0 0;
+	width:960px;
+}
+.body .section ul {
+	list-style:none;
+	margin:0 0 13px;
+	overflow:hidden;
+	padding:18px 24px 0;
+}
+.body .section ul li {
+	float:left;
+	margin:0 0 0 16px;
+}
+.body .section ul li a img {
+	border:1px solid #4e0406;
+}
+.body .section span {
+	color:#1d0102;
+	display:block;
+	float:left;
+	font-family: 'open_sansbold';
+	font-size:14px;
+	font-weight:400;
+	line-height:20px;
+	margin:0 0 0 24px;
+	text-shadow:0 1px 0 #ec2428;
+}
+.body .section ul.paging {
+	float:right;
+	margin:0 24px 0 0;
+	overflow:hidden;
+	padding:0;
+}
+.body .section ul.paging li {
+	margin:0 0 0 12px;
+}
+.body .section ul.paging li a {
+	color:#fff;
+	display:block;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	line-height:20px;
+	text-decoration:none;
+}
+.body .about div div {
+	background:none #e2f4ff;
+	list-style:none;
+	margin:0 auto;
+	padding:0 0 11px;
+	width:528px;
+}
+.body .about div div h3 {
+	background:none;
+	color:#300302;
+	font-family: 'open_sansbold';
+	font-size:12px;
+	height:auto;
+	letter-spacing:normal;
+	line-height:24px;
+	margin:0 15px;
+	padding:1px 0 0;
+	text-align:left;
+	text-shadow:none;
+	text-transform:none;
+}
+.body .about div div p {
+	color:#525252;
+	font-size:12px;
+	line-height:24px;
+	margin:0 15px 23px;
+	text-align:justify;
+}
+.body .about div div p a {
+	color:#525252;
+}
+.body .about div div p a:hover {
+	color:#ce1c1f;
+}
+.body .news div ul li:first-child {
+	margin:0;
+	padding-top:12px;
+}
+.body .news div ul li {
+	margin:25px 0 0;
+	overflow:hidden;
+	padding:0 18px;
+}
+.body .news div ul.paging {
+	list-style:none;
+	margin:0 0 0 12px;
+	overflow:hidden;
+	padding:34px 18px 44px;
+	width:492px;
+}
+.body .news div ul.paging li {
+	float:left;
+	margin:0;
+	padding:0;
+}
+.body .news div ul.paging li a {
+	color:#a2a2a1;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	line-height:20px;
+	margin:0;
+	padding:0 5px 0 6px;
+	text-decoration:none;
+}
+.body .news div ul.paging li a:hover {
+	text-decoration:none!important;
+}
+.body .gallery div div {
+	background:none #e2f4ff;
+	margin:0 auto;
+	padding:12px 0 13px;
+	width:528px;
+}
+.body .gallery div ul {
+	list-style:none;
+	margin:0;
+	overflow:hidden;
+	padding:0 17px 0 18px;
+}
+.body .gallery div ul li {
+	float:left;
+	height:131px;
+	width:164px;
+}
+.body .gallery div ul li a {
+	display:block;
+	height:113px;
+	margin:0 auto;
+	width:157px;
+}
+.body .gallery div ul.paging {
+	background-color:#E2F4FF;
+	margin:0 0 0 12px;
+	padding:57px 0 45px;
+	width:528px;
+}
+.body .gallery div ul.paging li:first-child {
+	margin:0 0 0 18px;
+}
+.body .gallery div ul.paging li {
+	float:left;
+	height:auto;
+	margin:0;
+	padding:0;
+	width:auto;
+}
+.body .gallery div ul.paging li a {
+	color:#a2a2a1;
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+	height:auto;
+	line-height:20px;
+	margin:0;
+	padding:0 5px 0 6px;
+	text-decoration:none;
+	width:auto;
+}
+.body .gallery div ul.paging li a:hover {
+	text-decoration:none!important;
+}
+.body .sidebar p a:hover, .body .home div ul li div h4 a:hover, .body .home div ul li div p a:hover, .body .home div ul li div a:hover, .body .section ul.paging li a:hover, .body .about div div p a:hover, .body .news div ul li div h4 a:hover, .body .news div ul li div p a:hover, .body .news div ul li div a:hover, .body .news div ul.paging li a:hover, .body .gallery div ul.paging li a:hover {
+	text-decoration:underline;
+}
+.body .home, .body .about {
+	float:left;
+	padding:0;
+	width:624px;
+}
+.body .home a#view-more, .body .about a#view-more {
+	background:url(../images/interface.png) no-repeat -334px -432px;
+	display:block;
+	float:left;
+	height:68px;
+	margin:-30px 48px 0 109px;
+	text-indent:-99999px;
+	width:192px;
+}
+.body .home a#view-more:hover, .body .about a#view-more:hover {
+	background:url(../images/interface.png) no-repeat -334px -501px;
+}
+.body .home a#click-here, .body .about a#click-here {
+	background:url(../images/interface.png) no-repeat -531px -432px;
+	display:block;
+	float:left;
+	height:67px;
+	margin:-30px 0 0;
+	text-indent:-99999px;
+	width:192px;
+}
+.body .home a#click-here:hover, .body .about a#click-here:hover {
+	background:url(../images/interface.png) no-repeat -531px -501px;
+}
+.body .home div, .body .about div, .body .news div, .body .gallery div {
+	background:url(../images/bg-shadow.png) no-repeat center bottom;
+	clear:both;
+	margin:0 0 0 48px;
+	padding:35px 0 10px;
+	width:552px;
+}
+.body .home div h3, .body .about div h3, .body .news div h3, .body .gallery div h3 {
+	background:url(../images/interface.png) no-repeat -334px -355px;
+	color:#740e0e;
+	font-family: 'open_sans_extraboldregular';
+	font-size:24px;
+	font-weight:400;
+	height:72px;
+	letter-spacing:.2em;
+	line-height:65px;
+	margin:0;
+	text-align:center;
+	text-shadow:0 1px 0 #fc797b;
+	text-transform:uppercase;
+}
+.body .home div ul, .body .news div ul {
+	background-color:#e2f4ff;
+	list-style:none;
+	margin:0 auto;
+	padding:0 0 13px;
+	width:528px;
+}
+.body .home div ul li:first-child, .body .home div ul li div h4, .body .section ul li:first-child, .body .news div ul li div h4 {
+	margin:0;
+}
+.body .home div ul li a, .body .news div ul li a {
+	float:left;
+	margin:0 25px 0 0;
+}
+.body .home div ul li a img, .body .news div ul li a img {
+	border:1px solid #fff;
+}
+.body .home div ul li a img:hover, .body .section ul li a img:hover, .body .news div ul li a img:hover, .body .gallery div ul li a img:hover {
+	filter:alpha(opacity=80);/* Needed for IE8 and old versions */
+	opacity:0.8;
+}
+.body .home div ul li div, .body .news div ul li div {
+	background:none;
+	clear:none;
+	float:left;
+	margin:0;
+	padding:0;
+	width:388px;
+}
+.body .home div ul li div h4 a, .body .news div ul li div h4 a {
+	color:#e52226;
+	float:none;
+	font-family: 'pacificoregular';
+	font-size:18px;
+	font-weight:400;
+	letter-spacing:normal;
+	line-height:24px;
+	text-decoration:none;
+}
+.body .home div ul li div h4 a:hover, .body .news div ul li div h4 a:hover {
+	color:#e52226;
+	text-decoration:none;
+}
+.body .home div ul li div p, .body .news div ul li div p {
+	color:#4f524c;
+	font-size:12px;
+	letter-spacing:-.025em;
+	line-height:18px;
+	margin:4px 0 0;
+}
+.body .home div ul li div p a, .body .news div ul li div p a {
+	color:#300302;
+	float:none;
+	font-family:inherit;
+	font-size:12px;
+	margin:0;
+	text-decoration:none;
+}
+.body .home div ul li div a, .body .news div ul li div a {
+	color:#ea2327;
+	font-family: 'open_sansitalic';
+	font-size:10px;
+	letter-spacing:-.025em;
+	line-height:18px;
+	text-decoration:none;
+}
+.body .home div ul li div a:hover, .body .news div ul li div a:hover {
+	color:#f8bc1a;
+	text-decoration:none;
+}
+.body .news, .body .gallery {
+	float:left;
+	padding:13px 0 0;
+	width:624px;
+}
+.body .news div ul.paging li:first-child a, .body .gallery div ul.paging li:first-child a {
+	margin:0 0 0 2px;
+	padding-left:0;
+}
+/*------------------------- Footer -------------------------*/
+.footer {
+	background:url(../images/bg-fotter1.png) repeat-x;
+	height:129px;
+	margin:39px 0 0;
+}
+.footer div {
+	background:url(../images/interface.png) no-repeat -5px -221px;
+	margin:0 auto;
+	overflow:hidden;
+	padding:51px 0 0;
+	width:960px;
+}
+.footer div ul {
+	float:left;
+	list-style:none;
+	margin:0;
+	overflow:hidden;
+	padding:0;
+}
+.footer div ul li:first-child {
+	background:none;
+	padding-left:0;
+}
+.footer div ul li {
+	background:url(../images/border-footer-nav.png) no-repeat left 8px;
+	float:left;
+	padding:0 21px;
+}
+.footer div ul li a {
+	color:#adadad;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:12px;
+	line-height:16px;
+	text-decoration:none;
+}
+.footer div p {
+	color:#adadad;
+	float:right;
+	font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+	font-size:12px;
+	line-height:16px;
+	margin:6px 0 0;
+	text-decoration:none;
+}

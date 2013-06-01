@@ -1,6 +1,8 @@
 package com.example.zootypers.ui;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
@@ -8,6 +10,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -48,10 +51,17 @@ public class MultiPlayer extends Player {
 	// used for the communicating with model
 	private static MultiPlayerModel model;
 
+	//check for whether to play music or not
+    private int check = 1;
+    
+    //check to see if you need to read the bgm file or not
+    private boolean read = true;
+	
 	private Drawable animal;
 	private Drawable background;
 	private int oppAnimal;
 	private ProgressDialog progressDialog;
+	private MediaPlayer mediaPlayer;
 	/*
 	 * flips the animal being displayed horizontally so that the animal
 	 * is facing the other direction.
@@ -124,6 +134,25 @@ public class MultiPlayer extends Player {
 
 		LoadTask task = new LoadTask(this);
 		task.execute();
+		
+		// create a background music
+        if(read){
+            try {
+                FileInputStream is = openFileInput("bgm.txt");
+                check = 0;
+            } catch (FileNotFoundException e){
+                //Yes for vibration case
+                //Do nothing
+            } 
+            read = false;
+        }
+        //Vibrate
+        if(check == 1){
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
 	}
 
 
@@ -187,6 +216,7 @@ public class MultiPlayer extends Player {
 		gameTimer.cancel();
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
+		mediaPlayer.stop();
 		finish();
 	}
 
@@ -283,6 +313,7 @@ public class MultiPlayer extends Player {
 			error(States.error.CONNECTION);
 			return;
 		}
+		mediaPlayer.stop();
 		startActivity(intent);  
 		finish();
 	}

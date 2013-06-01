@@ -40,7 +40,8 @@ public class Leaderboard extends FragmentActivity {
 	private LoginPopup lp;
 	private static LoginPopup friend_lp;
 	private ParseUser currentUser;
-	private SingleLeaderBoardModel lb;
+	private SingleLeaderBoardModel singleLB;
+	private MultiLeaderBoardModel multiLB;
 	
 	private final int NUM_RELATIVE = 5;
 	@Override
@@ -75,10 +76,10 @@ public class Leaderboard extends FragmentActivity {
 		
 		// get the list of scores from the model and send it to each of the tabs
 		
-		lb = new SingleLeaderBoardModel(getApplicationContext());
-		MultiLeaderBoardModel mlb = null;
+		singleLB = new SingleLeaderBoardModel(getApplicationContext());
+		multiLB = null;
 		try {
-			mlb = new MultiLeaderBoardModel("bbbb");
+		    multiLB = new MultiLeaderBoardModel("bbbb");
 		} catch (InternetConnectionException e) {
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
@@ -89,9 +90,9 @@ public class Leaderboard extends FragmentActivity {
 		//need to get the username to pass into the leaderboard
 		
 		
-		Fragment singlePlayerFragment = SingleplayerTab.newInstance(lb.getTopScores());
-		Fragment multiPlayerFragment = MultiplayerTab.newInstance("", mlb.getTopScores());
-		Fragment friendsLBFragment = FriendsLBTab.newInstance(mlb.getTopScores());
+		Fragment singlePlayerFragment = SingleplayerTab.newInstance(singleLB.getTopScores());
+		Fragment multiPlayerFragment = MultiplayerTab.newInstance("", multiLB.getTopScores());
+		Fragment friendsLBFragment = FriendsLBTab.newInstance(multiLB.getTopScores());
 		
 		singlePlayerTab.setTabListener(new LBTabListener(singlePlayerFragment));
 		multiPlayerTab.setTabListener(new LBTabListener(multiPlayerFragment));
@@ -388,7 +389,19 @@ public class Leaderboard extends FragmentActivity {
 		}
 	}
 	
-	public SingleLeaderBoardModel getLeaderboard() {
-	    return lb;
+	/**
+	 * 
+	 * @return the single player leaderboard model
+	 */
+	public SingleLeaderBoardModel getSingleLeaderboard() {
+	    return singleLB;
+	}
+
+	/**
+	 * 
+	 * @return the multiplayer leaderboard model
+	 */
+	public MultiLeaderBoardModel getMultiLeaderboard() {
+	    return multiLB;
 	}
 }
