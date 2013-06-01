@@ -23,7 +23,7 @@ public class ErrorScreen extends Activity {
 		
 		// Get the kind of error, defaulting to an interrupt error
 		error = getIntent().getIntExtra("error", 2130903041);
-    setContentView(error);
+    	setContentView(error);
     
     // Get and store the username
 		username = getIntent().getStringExtra("username");

@@ -36,7 +36,9 @@ import com.parse.Parse;
  */
 @SuppressLint("NewApi")
 public class MultiPlayer extends Player {
-
+	// boolean to flag our use of a test database or not
+	private int useTestDB;
+	
 	// the username of the user currently trying to play a game
 	private String username;
 
@@ -90,7 +92,6 @@ public class MultiPlayer extends Player {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// Get animal & background selected by user
 
@@ -104,8 +105,15 @@ public class MultiPlayer extends Player {
 		background = ((ImageButton) inflatedView.findViewById(bg)).getDrawable();
 
 		// Initialize the database
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-		"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
+		// Initialize the database
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
 
 		// Get the user name
 		username = getIntent().getStringExtra("username");

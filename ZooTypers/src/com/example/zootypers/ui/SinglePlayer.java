@@ -233,7 +233,7 @@ public class SinglePlayer extends Player {
 
 		final Intent restartIntent = new Intent(this, PreGameSelection.class);
 		paused = false;
-    ppw.dismiss();
+    	ppw.dismiss();
 		startActivity(restartIntent);
 		finish();
 	}
@@ -248,7 +248,7 @@ public class SinglePlayer extends Player {
 
 		final Intent mainMenuIntent = new Intent(this, TitlePage.class);
 		paused = false;
-    ppw.dismiss();
+    	ppw.dismiss();
 		startActivity(mainMenuIntent);
 		finish();
 	}
