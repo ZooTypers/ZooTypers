@@ -66,6 +66,7 @@
 
             <TextView
                 android:id="@+id/relative_rank0"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="1" />
 
@@ -92,7 +93,8 @@
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank1"
+                android:id="@+id/relative_rank1"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="2" />
 
@@ -120,6 +122,7 @@
 
             <TextView
                 android:id="@+id/relative_rank2"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="3" />
 
@@ -147,6 +150,7 @@
 
             <TextView
                 android:id="@+id/relative_rank3"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="4" />
 
@@ -174,6 +178,7 @@
 
             <TextView
                 android:id="@+id/relative_rank4"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="5" />
 
@@ -201,6 +206,7 @@
 
             <TextView
                 android:id="@+id/relative_rank5"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="6" />
 
@@ -228,6 +234,7 @@
 
             <TextView
                 android:id="@+id/relative_rank6"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="7" />
 
@@ -255,6 +262,7 @@
 
             <TextView
                 android:id="@+id/relative_rank7"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="8" />
 
@@ -282,6 +290,7 @@
 
             <TextView
                 android:id="@+id/relative_rank8"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="9" />
 
@@ -309,6 +318,7 @@
 
             <TextView
                 android:id="@+id/relative_rank9"
+                android:layout_gravity="center_horizontal"
                 android:paddingRight="5dp"
                 android:text="10" />
 
@@ -326,5 +336,18 @@
                 android:paddingRight="20dp"
                 android:text="@string/default_ldbd_score" />
         </TableRow>
+        
+         <Button
+        	android:id="@+id/main_menu_button"
+        	android:layout_width="wrap_content"
+        	android:layout_height="wrap_content"
+        	android:gravity="center_horizontal"
+        	android:layout_marginTop="5dp"
+        	android:onClick="goToMain"
+        	android:text="@string/main_menu_string" />
+         
     </TableLayout>
+
+   
+
 </RelativeLayout>

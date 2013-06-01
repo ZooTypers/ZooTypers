@@ -1,12 +1,10 @@
 package com.example.zootypers.ui;
 
-
-
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.ActionBar.LayoutParams;
 import android.app.ActionBar.Tab;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -14,18 +12,17 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Gravity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupWindow;
-import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.ScoreEntry;
 import com.example.zootypers.core.SingleLeaderBoardModel;
+import com.example.zootypers.util.InternetConnectionException;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -40,7 +37,9 @@ import com.parse.ParseUser;
 public class Leaderboard extends FragmentActivity {
 
 	private LoginPopup lp;
+	private static LoginPopup friend_lp;
 	private ParseUser currentUser;
+	private SingleLeaderBoardModel lb;
 	
 	private final int NUM_RELATIVE = 5;
 	@Override
@@ -68,8 +67,17 @@ public class Leaderboard extends FragmentActivity {
 		
 		// get the list of scores from the model and send it to each of the tabs
 		
-		SingleLeaderBoardModel lb = new SingleLeaderBoardModel(getApplicationContext());
-		MultiLeaderBoardModel mlb = new MultiLeaderBoardModel("bbbb");
+		lb = new SingleLeaderBoardModel(getApplicationContext());
+		MultiLeaderBoardModel mlb = null;
+		try {
+			mlb = new MultiLeaderBoardModel("bbbb");
+		} catch (InternetConnectionException e) {
+			Log.i("Leaderboard", "triggering internet connection error screen");
+			Intent intent = new Intent(this, ErrorScreen.class);
+			intent.putExtra("error", R.layout.activity_connection_error);
+			startActivity(intent);
+			return;
+		}
 		//need to get the username to pass into the leaderboard
 		
 		
@@ -93,6 +101,11 @@ public class Leaderboard extends FragmentActivity {
 		return true;
 	}
 
+	@Override
+	public void onBackPressed() {
+		Intent intent = new Intent(this, TitlePage.class);
+		startActivity(intent);
+	}
 	/**
 	 * Called when the user wants to view his/her score relative to other players
 	 * @param view the button clicked
@@ -106,7 +119,17 @@ public class Leaderboard extends FragmentActivity {
 			buildPopup(false);
 		} else {
 			// make a new MultiLeaderBoardModel with the given username
-			MultiLeaderBoardModel newMlb = new MultiLeaderBoardModel(currentUser.getString("username"));
+			MultiLeaderBoardModel newMlb = null;
+			try {
+				newMlb = new MultiLeaderBoardModel(currentUser.getString("username"));
+			} catch (InternetConnectionException e) {
+				Log.i("Leaderboard", "triggering internet connection error screen");
+				Intent intent = new Intent(this, ErrorScreen.class);
+				intent.putExtra("error", R.layout.activity_connection_error);
+				startActivity(intent);
+				return;
+			}
+			int userRank = newMlb.getRank();			
 			// get the relative position of the user with the passed in NUM_RELATIVE
 			ScoreEntry[] relativeEntrys = newMlb.getRelativeScores(NUM_RELATIVE);
 			// inform the user that he/she has no scores yet
@@ -119,21 +142,30 @@ public class Leaderboard extends FragmentActivity {
 			}
 			
 			// add the relativeScore tab
-			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys);
+			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, userRank,
+					NUM_RELATIVE);
 			FragmentTransaction fst = getSupportFragmentManager().beginTransaction();
 			fst.replace(R.id.leaderboard_layout, currentFragment);
 		    fst.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
 		    fst.commit();
 		}
 	}
-
 	/**
 	 * Handles what happens when user clicks the login button
 	 * @param view Button that is pressed
 	 */
 	public void loginButton(final View view) {
 		// Try to login
-	    String usernameString = lp.loginButton();
+	    String usernameString;
+		try {
+			usernameString = lp.loginButton();
+		} catch (InternetConnectionException e) {
+			Log.i("Leaderboard", "triggering internet connection error screen");
+			Intent intent = new Intent(this, ErrorScreen.class);
+			intent.putExtra("error", R.layout.activity_connection_error);
+			startActivity(intent);
+			return;
+		}
 	    // If login was successful, go to the multiplayer game
 	    if (!usernameString.equals("")) {
 	    	exitLoginPopup(view);
@@ -159,12 +191,32 @@ public class Leaderboard extends FragmentActivity {
 	    lp.buildLoginPopup(layoutInflater, parentLayout, dismisspsw);
 	}
 	
+	protected static void buildFriendPopup(boolean dismisspsw, Activity activity) {
+		 // set up the layout inflater to inflate the popup layout
+	    LayoutInflater layoutInflater =
+	    (LayoutInflater) activity.getBaseContext()
+	    .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+	    // the parent layout to put the layout in
+	    ViewGroup parentLayout = (ViewGroup) activity.findViewById(R.id.leaderboard_layout);
+
+	    // inflate either the login layout
+	    friend_lp.buildFriendLoginPopup(layoutInflater, parentLayout, dismisspsw);
+	}
 	/**
 	 * Exits the login popup window
 	 * @param view the button clicked
 	 */
 	public void exitLoginPopup(View view) {
 		lp.exitLoginPopup();
+	}
+	
+	/**
+	 * Exits the login popup window for the friend popup
+	 * @param view the button clicked
+	 */
+	public void exitFriendLoginPopup(View view) {
+		friend_lp.exitLoginPopup();
 	}
 
 	/**
@@ -173,6 +225,14 @@ public class Leaderboard extends FragmentActivity {
 	 */
 	public void exitPasswordPopup(View view) {
 		buildPopup(true);
+	}
+	
+	/**
+	 * Exits the password popup window for friend popup
+	 * @param view the button clicked
+	 */
+	public void exitFriendPasswordPopup(View view) {
+		buildFriendPopup(true, this);
 	}
 	
 	/**
@@ -192,6 +252,23 @@ public class Leaderboard extends FragmentActivity {
 	}
 	
 	/**
+	 * Handles what happens when user clicks the "Forgot your password" link
+	 * for the friend login popupwindow
+	 * @param view Button that is pressed
+	 */
+	public final void forgotFriendPassword(View view) {
+		// set up the layout inflater to inflate the popup layout
+	    LayoutInflater layoutInflater =
+	    (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+
+	    // the parent layout to put the layout in
+	    ViewGroup parentLayout = (ViewGroup) findViewById(R.id.leaderboard_layout);
+
+	    // inflate the password layout
+	    friend_lp.buildFriendResetPopup(layoutInflater, parentLayout);
+	}
+	
+	/**
 	 * Handles what happens when user wants to reset password.
 	 * @param view the button clicked
 	 */
@@ -201,6 +278,18 @@ public class Leaderboard extends FragmentActivity {
 		lp.resetPassword(alertDialogBuilder);   
 		// Go back to the login popup
 		buildPopup(true);
+	}
+	
+	/**
+	 * Handles what happens when user wants to reset password in friend password popup.
+	 * @param view the button clicked
+	 */
+	public void resetFriendPassword(View view) {
+		// Sort through the reset info
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+		friend_lp.resetPassword(alertDialogBuilder);   
+		// Go back to the login popup
+		buildFriendPopup(true, this);
 	}
 	
 	/**
@@ -241,15 +330,11 @@ public class Leaderboard extends FragmentActivity {
 		// show the message
 		alertDialog.show();
 	}
-	  
-	/**
-	 * @param id The id of the View to get as a String.
-	 * @return The View object with that id
-	 */
-	private final View getByStringId(View view, final String id) {
-		return view.findViewById(getResources().getIdentifier(id, "id", getPackageName()));
-	}
 	
+	public void goToMain(View view) {
+		Intent intent = new Intent(this, TitlePage.class);
+		startActivity(intent);
+	}
 	/**
 	 * Class to handle the actions for each of the tabs in the action bar
 	 * @author ZooTypers
@@ -286,5 +371,9 @@ public class Leaderboard extends FragmentActivity {
 		public void onTabUnselected(Tab tab, android.app.FragmentTransaction ft) {
 			// Do nothing
 		}
+	}
+	
+	public SingleLeaderBoardModel getLeaderboard() {
+	    return lb;
 	}
 }

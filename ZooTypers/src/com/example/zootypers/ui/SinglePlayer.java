@@ -130,14 +130,11 @@ public class SinglePlayer extends Player {
 		return true;
 	}
 
-	/**
-	 * This is called when the activity is on pause
-	 */
 	@Override
 	public void onPause() {
 		super.onPause();
-		if (!paused)
-		pauseGame(findViewById(R.id.pause_button));
+		if (!paused && pausedTime != 0)
+			pauseGame(findViewById(R.id.pause_button));
 	}
 
 	/**
@@ -176,6 +173,7 @@ public class SinglePlayer extends Player {
 		intent.putExtra("score", model.getScore());
 		intent.putExtra("bg", bg);
 		startActivity(intent);
+		finish();
 	}
 
 	/**
@@ -217,7 +215,7 @@ public class SinglePlayer extends Player {
 		// re-enable buttons & keyboard
 		findViewById(R.id.keyboard_open_button).setEnabled(true);
 		findViewById(R.id.pause_button).setEnabled(true);
-		// keyboardButton(findViewById(R.id.keyboard_open_button));
+		keyboardButton(findViewById(R.id.keyboard_open_button));
 		gameTimer = new GameTimer(pausedTime, INTERVAL);
 		gameTimer.start();
 		ppw.dismiss();
@@ -235,6 +233,7 @@ public class SinglePlayer extends Player {
 		final Intent restartIntent = new Intent(this, PreGameSelection.class);
 		paused = false;
 		startActivity(restartIntent);
+		finish();
 	}
 
 	/**
@@ -248,6 +247,7 @@ public class SinglePlayer extends Player {
 		final Intent mainMenuIntent = new Intent(this, TitlePage.class);
 		paused = false;
 		startActivity(mainMenuIntent);
+		finish();
 	}
 
 	/**
