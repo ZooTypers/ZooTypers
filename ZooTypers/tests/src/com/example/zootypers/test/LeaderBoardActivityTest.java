@@ -38,7 +38,7 @@ public class LeaderBoardActivityTest extends ActivityInstrumentationTestCase2<Ti
                 leaderboardButton.performClick();
             }
         });
-        solo.sleep(3000);
+        solo.sleep(5000);
         lbModel = ((Leaderboard) solo.getCurrentActivity()).getLeaderboard();
         solo.sleep(3000);
     }
