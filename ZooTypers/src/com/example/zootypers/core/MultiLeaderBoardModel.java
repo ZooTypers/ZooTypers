@@ -36,6 +36,7 @@ public class MultiLeaderBoardModel {
 	 */
 	public MultiLeaderBoardModel(String name){
 		this(name, DEFAULT_ENTRIES);
+		
 	}
 
 	/**

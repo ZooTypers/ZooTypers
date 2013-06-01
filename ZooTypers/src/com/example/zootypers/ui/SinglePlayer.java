@@ -66,7 +66,6 @@ public class SinglePlayer extends Player {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection);
