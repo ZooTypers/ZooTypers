@@ -43,7 +43,7 @@ public class Leaderboard extends FragmentActivity {
 	private ParseUser currentUser;
 	private SingleLeaderBoardModel lb;
 	private MultiLeaderBoardModel mlb;
-	
+	private Fragment mainCurrentFragment;
 	private final int NUM_RELATIVE = 5;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +67,7 @@ public class Leaderboard extends FragmentActivity {
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayShowTitleEnabled(false);
 		actionBar.setDisplayHomeAsUpEnabled(false);
+		actionBar.setDisplayShowHomeEnabled(false);
 		actionBar.setDisplayUseLogoEnabled(false);
 		
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -203,6 +204,11 @@ public class Leaderboard extends FragmentActivity {
 	 */
 	public void exitLoginPopup(View view) {
 		lp.exitLoginPopup();
+		// add the relativeScore tab
+		FragmentTransaction fst = getSupportFragmentManager().beginTransaction();
+		fst.replace(R.id.leaderboard_layout, mainCurrentFragment);
+		fst.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		fst.commit();
 	}
 
 	/**
@@ -211,6 +217,10 @@ public class Leaderboard extends FragmentActivity {
 	 */
 	public void exitPasswordPopup(View view) {
 		buildPopup(true);
+		FragmentTransaction fst = getSupportFragmentManager().beginTransaction();
+		fst.replace(R.id.leaderboard_layout, mainCurrentFragment);
+		fst.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
+		fst.commit();
 	}
 	
 	/**
@@ -312,6 +322,7 @@ public class Leaderboard extends FragmentActivity {
 			// begin a fragment transaction and replace the current transaction
 		
 			if (tag.equals("relative")) {
+				mainCurrentFragment = currentFragment;
 				relativeUserScore();
 				return;
 			}
