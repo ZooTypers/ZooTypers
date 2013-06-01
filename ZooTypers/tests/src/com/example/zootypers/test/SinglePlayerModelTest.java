@@ -135,6 +135,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         for(int i = 0; i < 5; i++){
             assertTrue(views.get(i).getText().length() > 0);
         }
+        solo.sleep(1000);
         goBackToMainMenu();
     }
 
@@ -343,6 +344,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
      * Makes robotium go back to the main screen. Sleeps are to ensure that the activity renders before solo acts.
      */
     private void goBackToMainMenu() {
+        solo.sleep(500);
         final Button pauseButton = (Button) solo.getView(com.example.zootypers.R.id.pause_button);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
