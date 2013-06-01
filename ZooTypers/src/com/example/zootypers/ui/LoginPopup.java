@@ -1,6 +1,10 @@
 package com.example.zootypers.ui;
 
 
+
+
+
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -78,7 +82,7 @@ public class LoginPopup {
 		// dismiss the login popup
 		login_ppw.dismiss();
 	}
-
+	
 	/**
 	 * Handles what happens when user clicks the login button.
 	 * @return the username to pass to the multiplayer activity.
@@ -218,25 +222,6 @@ public class LoginPopup {
 			}
 			return false;
 		}
-
-		//    ParseUser.requestPasswordResetInBackground(emailString, new RequestPasswordResetCallback() {
-		//      public void done(final ParseException e) {
-		//        if (e == null) {
-		//          // success
-		//          final String title = "Password Reset";
-		//          final String message = "An email has been sent to " + emailString;
-		//          buildAlertDialog(alertDialogBuilder, title, message);
-		//        } else {
-		//          // failure
-		//          int errorCode = e.getCode();
-		//          if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
-		//            errorMessage.setText("Invalid Email Address");
-		//          } else {
-		//            errorMessage.setText("Password Reset Failed");
-		//          }
-		//        }
-		//      }
-		//    });
 	}
 
 	/**

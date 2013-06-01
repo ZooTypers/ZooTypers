@@ -1,5 +1,8 @@
 package com.example.zootypers.ui;
 
+
+
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,6 +11,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -31,6 +35,8 @@ public class RegisterPage extends Activity {
 	@Override
 	protected final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		setContentView(R.layout.activity_register_page);
 		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
 				"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");

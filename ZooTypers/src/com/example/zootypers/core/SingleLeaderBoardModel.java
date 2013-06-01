@@ -24,15 +24,18 @@ import android.util.Log;
  *
  */
 public class SingleLeaderBoardModel {
+	// default number of entries on the leaderboard
 	private static final int DEFAULT_ENTRIES = 10;
+	// name if the file that stores all the scores
 	private static final String FILE_NAME = "single_player_leaderboard.txt";
+	// the delimiter that separates the score entries in the file
 	private static final String DELIM = "\t";
-	//Number of Entries that we allow in the database
+	// Number of Entries that we allow in the database
 	private int topEntries;
 	// allows files in assets to be accessed
 	private Context context;
 
-	//private Map<Integer, Integer> score;
+	// The list of all the score entries from the file
 	private List<ScoreEntry> scoreEntries;
 
 	/**

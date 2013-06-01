@@ -1,11 +1,14 @@
 package com.example.zootypers.ui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -18,7 +21,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.example.zootypers.R;
@@ -40,20 +42,23 @@ public class SinglePlayer extends Player {
 	// the popup window
 	private PopupWindow ppw;
 
-	// the popup parameters
-	public LayoutParams popUpParams;
-
-	// the popup layout
-	public LinearLayout popUpLayout;
-
 	// the time in which the game was paused
-	private long pausedTime = START_TIME;
+	private long pausedTime;
 
 	// the game timer that will give a time limit
 	protected GameTimer gameTimer;
 
 	// keeps track of if the game is paused or not
-	public static boolean paused = false;
+	public static boolean paused;
+	
+	// check for whether to play music or not
+    private int check = 1;
+    
+    // check to see if you need to read the bgm file or not
+    private boolean read = true;
+    
+    // creates a new media player for sound
+    private MediaPlayer mediaPlayer;
 
 	/*
 	 *  Called when the activity is starting. uses the information that was picked
@@ -67,7 +72,10 @@ public class SinglePlayer extends Player {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+		
+		// Set default values
+		pausedTime = START_TIME;
+		paused = false;
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection);
 		Drawable animal = ((ImageButton) findViewById
@@ -98,6 +106,25 @@ public class SinglePlayer extends Player {
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
 
+	    // create a background music
+        if(read){
+            try {
+                FileInputStream is = openFileInput("bgm.txt");
+                check = 0;
+            } catch (FileNotFoundException e){
+                //Yes for vibration case
+                //Do nothing
+            } 
+            read = false;
+        }
+        //Vibrate
+        if(check == 1){
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
+		
 		Log.i("SinglePlayer", "game has begun");
 	}
 
@@ -124,20 +151,22 @@ public class SinglePlayer extends Player {
 			return true;
 		}
 
-		char charTyped = event.getDisplayLabel();
-		charTyped = Character.toLowerCase(charTyped);
-		model.typedLetter(charTyped);
+		// Only respond to a keystroke if the game is not paused
+		if (!paused) {
+  		char charTyped = event.getDisplayLabel();
+  		charTyped = Character.toLowerCase(charTyped);
+  		model.typedLetter(charTyped);
+		}
+		
 		return true;
 	}
 
-	/**
-	 * This is called when the activity is on pause
-	 */
 	@Override
 	public void onPause() {
 		super.onPause();
-		if (!paused)
-		pauseGame(findViewById(R.id.pause_button));
+		if (!paused && pausedTime != 0)
+			pauseGame(findViewById(R.id.pause_button));
+		mediaPlayer.pause();
 	}
 
 	/**
@@ -176,6 +205,8 @@ public class SinglePlayer extends Player {
 		intent.putExtra("score", model.getScore());
 		intent.putExtra("bg", bg);
 		startActivity(intent);
+		finish();
+		mediaPlayer.stop();
 	}
 
 	/**
@@ -222,6 +253,7 @@ public class SinglePlayer extends Player {
 		gameTimer.start();
 		ppw.dismiss();
 		paused = false;
+		mediaPlayer.start();
 	}
 
 	/**
@@ -231,10 +263,12 @@ public class SinglePlayer extends Player {
 	 */
 	public void pausedNewGame(View view) {
 		Log.i("SinglePlayer", "new game is selected from pause");
-
+		gameTimer.cancel();
 		final Intent restartIntent = new Intent(this, PreGameSelection.class);
 		paused = false;
+    	ppw.dismiss();
 		startActivity(restartIntent);
+		finish();
 	}
 
 	/**
@@ -244,10 +278,12 @@ public class SinglePlayer extends Player {
 	 */
 	public void pausedMainMenu(View view) {
 		Log.i("SinglePlayer", "main menu is selected from pause");
-
+		gameTimer.cancel();
 		final Intent mainMenuIntent = new Intent(this, TitlePage.class);
 		paused = false;
+    	ppw.dismiss();
 		startActivity(mainMenuIntent);
+		finish();
 	}
 
 	/**
@@ -277,12 +313,11 @@ public class SinglePlayer extends Player {
 
 	@Override
 	public void error(com.example.zootypers.util.States.error err) {
-		// TODO Auto-generated method stub
+		// Do nothing
 	}
 
 	/**
-	 * 
-	 * @return single player model
+	 * @return The single player model
 	 */
 	public final SinglePlayerModel getModel() {
 		return model;
