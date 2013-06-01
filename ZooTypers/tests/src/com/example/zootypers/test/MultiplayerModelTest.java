@@ -104,6 +104,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
                 continueButton.performClick();
             }
         });
+        solo.sleep(5000);
     }
     
     /*
@@ -179,11 +180,10 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      */
     @Test(timeout = TIMEOUT)
     public void testTypingCorrectWordOnceUpdateScore() {
-        int expectedScore = 0;
-        int actualScore = 0;
         List<TextView> textList = getWordsPresented(solo);
         TextView currTextView = textList.get(0);
         String currWord = currTextView.getText().toString();
+        solo.sleep(1500);
         for (int j = 0; j < currWord.length(); j++) {
             char c = currWord.charAt(j);
             sendKeys(c - 68);
@@ -192,8 +192,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         TextView score = (TextView) solo.getView(com.example.zootypers.R.id.score);
         solo.sleep(1500);
         String scoreString = score.getText().toString();
-        expectedScore += currWord.length();
-        actualScore = Integer.parseInt(scoreString);
+        int expectedScore = currWord.length();
+        int actualScore = Integer.parseInt(scoreString);
         assertEquals(expectedScore, actualScore);
     }
 
