@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.TextView;
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.SingleLeaderBoardModel;
+import com.example.zootypers.util.InternetConnectionException;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -30,6 +32,7 @@ public class Options extends Activity {
 
   LoginPopup lp;
   ParseUser currentUser;
+  private int useTestDB;
 
   @Override
   protected final void onCreate(final Bundle savedInstanceState) {
@@ -62,14 +65,30 @@ public class Options extends Activity {
    * Clears the multiplayer leaderboard.
    */
   public final void clearMulti(final View view) {
-    Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", 
-        "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
+		// Initialize the database
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
     currentUser = ParseUser.getCurrentUser();
     if (currentUser == null) {
       buildPopup(false);
     } else {
-      MultiLeaderBoardModel sl = new MultiLeaderBoardModel(currentUser.getString("username"));
-      sl.clearLeaderboard();
+      MultiLeaderBoardModel ml;
+	try {
+		ml = new MultiLeaderBoardModel(currentUser.getString("username"));
+	} catch (InternetConnectionException e) {
+		Log.i("Leaderboard", "triggering internet connection error screen");
+		Intent intent = new Intent(this, ErrorScreen.class);
+		intent.putExtra("error", R.layout.activity_connection_error);
+		startActivity(intent);
+		return;
+	}
+      ml.clearLeaderboard();
       final String title = "Cleared Leaderboard";
       final String message = "Your multiplayer scores have been successfully cleared.";
       buildAlertDialog(title, message);
@@ -119,7 +138,16 @@ public class Options extends Activity {
    */
   public void loginButton(final View view) {
     // Try to login
-    String usernameString = lp.loginButton();
+    String usernameString;
+	try {
+		usernameString = lp.loginButton();
+	} catch (InternetConnectionException e) {
+		Log.i("Leaderboard", "triggering internet connection error screen");
+		Intent intent = new Intent(this, ErrorScreen.class);
+		intent.putExtra("error", R.layout.activity_connection_error);
+		startActivity(intent);
+		return;
+	}
     // If login was successful, go to the multiplayer game
     if (!usernameString.equals("")) {
       exitLoginPopup(view);

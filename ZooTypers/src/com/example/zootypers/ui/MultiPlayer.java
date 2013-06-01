@@ -35,7 +35,9 @@ import com.parse.Parse;
  */
 @SuppressLint("NewApi")
 public class MultiPlayer extends Player {
-
+	// boolean to flag our use of a test database or not
+	private int useTestDB;
+	
 	// the username of the user currently trying to play a game
 	private String username;
 
@@ -89,7 +91,6 @@ public class MultiPlayer extends Player {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		// Get animal & background selected by user
 
@@ -103,8 +104,15 @@ public class MultiPlayer extends Player {
 		background = ((ImageButton) inflatedView.findViewById(bg)).getDrawable();
 
 		// Initialize the database
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-		"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
+		// Initialize the database
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
 
 		// Get the user name
 		username = getIntent().getStringExtra("username");
@@ -165,7 +173,12 @@ public class MultiPlayer extends Player {
 		Log.i("Multiplayer", "leaving game to title page");
 		
 		// Clean up the database
-		model.deleteUser();
+		try {
+			model.deleteUser();
+		} catch (InternetConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
@@ -177,7 +190,12 @@ public class MultiPlayer extends Player {
 	 */
 	public final void error(States.error err) {
 		// Clean up the database
-		model.deleteUser();
+		try {
+			model.deleteUser();
+		} catch (InternetConnectionException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 		Intent intent = new Intent(this, ErrorScreen.class);
 		// Pass username
@@ -251,7 +269,12 @@ public class MultiPlayer extends Player {
 		// Pass username
 		intent.putExtra("username", username);
 
-		model.deleteUser();
+		try {
+			model.deleteUser();
+		} catch (InternetConnectionException e) {
+			error(States.error.CONNECTION);
+			return;
+		}
 		startActivity(intent);  
 	}
 

@@ -6,12 +6,14 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
+import com.example.zootypers.util.InternetConnectionException;
 
 public class PostGameScreenMulti extends PostGameScreen {
 
@@ -63,8 +65,17 @@ public class PostGameScreenMulti extends PostGameScreen {
 	}
 	@Override
 	public final void saveScore(final View view) {
-		MultiLeaderBoardModel sl = new MultiLeaderBoardModel(username);
-    	sl.addEntry(score);
+		MultiLeaderBoardModel ml;
+		try {
+			ml = new MultiLeaderBoardModel(username);
+		} catch (InternetConnectionException e) {
+			Log.i("Leaderboard", "triggering internet connection error screen");
+			Intent intent = new Intent(this, ErrorScreen.class);
+			intent.putExtra("error", R.layout.activity_connection_error);
+			startActivity(intent);
+			return;
+		}
+    	ml.addEntry(score);
 		final String title = "Saved Score";
 		final String message = "Your score has been successfully saved!";
 		buildAlertDialog(title, message);

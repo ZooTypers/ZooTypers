@@ -42,8 +42,6 @@ public class PostGameScreen extends Activity {
 		super.onCreate(savedInstanceState);
 		
 		Log.i("ZooTypers", "entered post game");
-		
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		savedScore = false;
 		// get & display background

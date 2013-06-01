@@ -16,7 +16,6 @@ public class ErrorScreen extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		// default to interrupt error
 		error = getIntent().getIntExtra("error", 2130903041);
 		username = getIntent().getStringExtra("username");

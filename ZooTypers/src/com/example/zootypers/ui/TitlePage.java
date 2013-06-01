@@ -1,6 +1,7 @@
 package com.example.zootypers.ui;
 
 import com.example.zootypers.R;
+import com.example.zootypers.util.InternetConnectionException;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -27,17 +28,27 @@ public class TitlePage extends Activity {
 	// used for figuring out valid login inputs
 	boolean foundUser;
 	boolean foundPassword;
+	
+	private int useTestDB;
 
 	@Override
 	protected final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+
 		setContentView(R.layout.activity_title_page);
 		// initialize the Intent to go to Pregame selection
 		multiIntent = new Intent(this, PreGameSelectionMulti.class);
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-				"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+		
+		//used intent to allow testing or not
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
+		// Initialize the database
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
 			// there is no current user so dont display logged in views
@@ -85,8 +96,8 @@ public class TitlePage extends Activity {
 	 */
 	public final void goToLeaderboard(final View view) {
 		Log.i("ZooTypers", "Proceeding to leaderboard");
-		Intent intent = new Intent(this, Leaderboard.class);
-		startActivity(intent);
+		//Intent intent = new Intent(this, Leaderboard.class);
+		//startActivity(intent);
 	}
 
 	/**
@@ -162,7 +173,16 @@ public class TitlePage extends Activity {
 	 */
 	public final void loginButton(final View view) {
 		// Try to login
-		String usernameString = lp.loginButton();
+		String usernameString;
+		try {
+			usernameString = lp.loginButton();
+		} catch (InternetConnectionException e) {
+			Log.i("Leaderboard", "triggering internet connection error screen");
+			Intent intent = new Intent(this, ErrorScreen.class);
+			intent.putExtra("error", R.layout.activity_connection_error);
+			startActivity(intent);
+			return;
+		}
 		// If login was successful, go to the multiplayer game
 		if (!usernameString.equals("")) {
 			multiIntent.putExtra("username", usernameString);
