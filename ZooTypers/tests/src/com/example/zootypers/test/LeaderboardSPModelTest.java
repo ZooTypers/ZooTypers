@@ -29,7 +29,7 @@ public class LeaderboardSPModelTest extends ActivityUnitTestCase<Leaderboard> {
     public void setUp() throws Exception {
         lbActivity = getActivity();
         context = lbActivity.getApplicationContext();
-    	lbModel = lbActivity.getLeaderboard();
+    	lbModel = lbActivity.getSingleLeaderboard();
     }
 
     @Test(timeout = TIMEOUT)

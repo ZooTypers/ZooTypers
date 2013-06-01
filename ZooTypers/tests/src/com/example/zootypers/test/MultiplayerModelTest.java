@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.junit.Test;
 
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
@@ -59,6 +60,9 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+//        Intent in = new Intent();
+//        in.putExtra("Testing", 1);
+//        setActivityIntent(in);
         model = new MultiPlayerModel(5, "David", 2131296288);
         solo = new Solo(getInstrumentation(), getActivity());
         multiButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button);
