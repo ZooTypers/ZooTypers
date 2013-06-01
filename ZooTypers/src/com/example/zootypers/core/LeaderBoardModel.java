@@ -20,8 +20,7 @@ public class LeaderBoardModel {
 	 * @effect : initialize field to default values
 	 */
 	public LeaderBoardModel(){
-		topEntries = DEFAULT_ENTRIES;
-		entryNumber = 0;
+		this(DEFAULT_ENTRIES);
 	}
 	
 	/**

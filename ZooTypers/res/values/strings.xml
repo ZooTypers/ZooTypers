@@ -100,5 +100,7 @@
     <string name="start_time">60</string>
     <string name="title_activity_post_game_screen_disconnet">PostGameScreenDisconnet</string>
     <string name="opp_disconnected">Your opponent disconnected.</string>
+    <string name="bgm">Background Music: </string>
+    <string name="vibration">Vibration: </string>
 
 </resources>

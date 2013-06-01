@@ -1,5 +1,7 @@
 package com.example.zootypers.test;
 
+
+
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
@@ -63,18 +65,21 @@ public class MultiLeaderBoardModelTest extends ActivityInstrumentationTestCase2<
 
 	@Test
 	public void constructorWithNameOnlyTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak");
+		ml = new MultiLeaderBoardModel();
+		ml.setPlayer("Oak");
 		assertEquals(10, ml.getTopScores().length);
 	}
 	@Test
 	public void constructorWithNameAndSizeTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak", 5);
+		ml = new MultiLeaderBoardModel(5);
+		ml.setPlayer("Oak");
 		assertEquals(5, ml.getTopScores().length);
 	}
 	
 	@Test
 	public void getTopScoresTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak", 10);
+		ml = new MultiLeaderBoardModel(10);
+		ml.setPlayer("Oak");
 		ScoreEntry[] scores = ml.getTopScores();
 		for(int i = 10; i > 0; i--){
 			assertEquals(i, scores[i].getScore());
@@ -84,7 +89,8 @@ public class MultiLeaderBoardModelTest extends ActivityInstrumentationTestCase2<
 
 	@Test
 	public void addEntryTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak", 10);
+		ml = new MultiLeaderBoardModel(10);
+		ml.setPlayer("Oak");
 		ml.addEntry(100000);
 		ScoreEntry shouldEquals = ml.getTopScores()[0];
 		assertEquals("Oak", shouldEquals.getName());
@@ -93,8 +99,11 @@ public class MultiLeaderBoardModelTest extends ActivityInstrumentationTestCase2<
 	
 	@Test
 	public void addMultipleEntriesTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak", 10);
-		MultiLeaderBoardModel ml2 = new MultiLeaderBoardModel("George", 10);
+		ml = new MultiLeaderBoardModel(10);
+		ml.setPlayer("Oak");
+
+		MultiLeaderBoardModel ml2 = new MultiLeaderBoardModel(10);
+		ml2.setPlayer("George");
 		ml.addEntry(100000);
 		
 		//both model should pull the same numbers
@@ -122,21 +131,25 @@ public class MultiLeaderBoardModelTest extends ActivityInstrumentationTestCase2<
 	
 	@Test
 	public void getRankNoEntryTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak");
+		ml = new MultiLeaderBoardModel();
+		ml.setPlayer("Oak");
 		assertEquals(0, ml.getRank());
 	}
 	
 	@Test 
 	public void getRankTopEntryTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak");
+		ml = new MultiLeaderBoardModel();
+		ml.setPlayer("Oak");
 		ml.addEntry(100000);
 		assertEquals(1, ml.getRank());
 	}
 	
 	@Test
 	public void getRankSecondtoTopEntryTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak", 10);
-		MultiLeaderBoardModel ml2 = new MultiLeaderBoardModel("George", 10);
+		ml = new MultiLeaderBoardModel(10);
+		ml.setPlayer("Oak");
+		MultiLeaderBoardModel ml2 = new MultiLeaderBoardModel(10);
+		ml2.setPlayer("George");
 		ml.addEntry(100000);
 		ml2.addEntry(100001);
 		assertEquals(2, ml.getRank());
@@ -144,7 +157,8 @@ public class MultiLeaderBoardModelTest extends ActivityInstrumentationTestCase2<
 	
 	@Test 
 	public void getRelativeScoreSizeTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak");
+		ml = new MultiLeaderBoardModel();
+		ml.setPlayer("Oak");
 		ml.addEntry(50);
 		ScoreEntry[] scores = ml.getRelativeScores(6);
 		assertEquals(6, scores.length);
@@ -152,13 +166,15 @@ public class MultiLeaderBoardModelTest extends ActivityInstrumentationTestCase2<
 	
 	@Test
 	public void isInTopEntriesTrueTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak");
+		ml = new MultiLeaderBoardModel();
+		ml.setPlayer("Oak");
 		assertTrue(ml.isInTopEntries());
 	}
 	
 	@Test
 	public void isInTopEntriesFalseTest() throws InternetConnectionException {
-		ml = new MultiLeaderBoardModel("Oak");
+		ml = new MultiLeaderBoardModel();
+		ml.setPlayer("Oak");
 		ml.addEntry(1);
 		assertFalse(ml.isInTopEntries());
 	}

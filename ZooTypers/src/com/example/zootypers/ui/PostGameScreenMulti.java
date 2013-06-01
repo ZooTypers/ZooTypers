@@ -67,23 +67,24 @@ public class PostGameScreenMulti extends PostGameScreen {
     }    
   }
 
-  @Override
-  public final void saveScore(final View view) {
-    MultiLeaderBoardModel ml;
-    try {
-      ml = new MultiLeaderBoardModel(username);
-    } catch (InternetConnectionException e) {
-      Log.i("Leaderboard", "triggering internet connection error screen");
-      Intent intent = new Intent(this, ErrorScreen.class);
-      intent.putExtra("error", R.layout.activity_connection_error);
-      startActivity(intent);
-      return;
-    }
-    ml.addEntry(score);
-    final String title = "Saved Score";
-    final String message = "Your score has been successfully saved!";
-    buildAlertDialog(title, message);
-  }
+	@Override
+	public final void saveScore(final View view) {
+		MultiLeaderBoardModel ml;
+		try {
+			ml = new MultiLeaderBoardModel();
+			ml.setPlayer(username);
+		} catch (InternetConnectionException e) {
+			Log.i("Leaderboard", "triggering internet connection error screen");
+			Intent intent = new Intent(this, ErrorScreen.class);
+			intent.putExtra("error", R.layout.activity_connection_error);
+			startActivity(intent);
+			return;
+		}
+    	ml.addEntry(score);
+		final String title = "Saved Score";
+		final String message = "Your score has been successfully saved!";
+		buildAlertDialog(title, message);
+	}
 
   @Override
   public final void goToPreGameSelection(final View view) {
@@ -92,36 +93,37 @@ public class PostGameScreenMulti extends PostGameScreen {
     startActivity(intent);
   }
 
-  // TODO remove repetition from title page / options
-  /**
-   * builds an AlertDialog popup with the given title and message
-   * @param title String representing title of the AlertDialog popup
-   * @param message String representing the message of the AlertDialog
-   * popup
-   */
-  private void buildAlertDialog(String title, String message) {
-    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+    
+    // TODO remove repetition from title page / options
+	/**
+	 * builds an AlertDialog popup with the given title and message
+	 * @param title String representing title of the AlertDialog popup
+	 * @param message String representing the message of the AlertDialog
+	 * popup
+	 */
+	private void buildAlertDialog(String title, String message) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-    // set title
-    alertDialogBuilder.setTitle(title);
+		// set title
+		alertDialogBuilder.setTitle(title);
 
-    // set dialog message
-    alertDialogBuilder
-    .setMessage(message)
-    .setCancelable(false)
-    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
-      public void onClick(DialogInterface dialog, int id) {
-        // if this button is clicked, close the dialog box
-        dialog.cancel();
-      }
-    });
+		// set dialog message
+		alertDialogBuilder
+		.setMessage(message)
+		.setCancelable(false)
+		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+			public void onClick(DialogInterface dialog, int id) {
+				// if this button is clicked, close the dialog box
+				dialog.cancel();
+			}
+		});
 
-    // create alert dialog
-    AlertDialog alertDialog = alertDialogBuilder.create();
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
 
-    // show the message
-    alertDialog.show();
-  }
+		// show the message
+		alertDialog.show();
+	}
 
 
 }

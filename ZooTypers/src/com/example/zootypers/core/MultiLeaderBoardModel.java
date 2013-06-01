@@ -1,10 +1,15 @@
 package com.example.zootypers.core;
 
+
+
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.zootypers.util.InternetConnectionException;
@@ -36,9 +41,8 @@ public class MultiLeaderBoardModel {
 	 * Constructs the leaderboard with the default number of entries.
 	 * @throws InternetConnectionException 
 	 */
-	public MultiLeaderBoardModel(String name) throws InternetConnectionException{
-		this(name, DEFAULT_ENTRIES);
-		
+	public MultiLeaderBoardModel() throws InternetConnectionException{
+		this(DEFAULT_ENTRIES);
 	}
 
 	/**
@@ -47,9 +51,8 @@ public class MultiLeaderBoardModel {
 	 * @param numOfEntries, the max number of entries that are saved in the database 
 	 * @throws InternetConnectionException 
 	 */
-	public MultiLeaderBoardModel(String name, int numOfEntries) throws InternetConnectionException{
+	public MultiLeaderBoardModel(int numOfEntries) throws InternetConnectionException{
 		this.numOfEntries = numOfEntries;
-		getPlayerEntry(name);
 		getAllScores();
 		//gets the current leaderboard from database and stores it into a list
 	}
@@ -79,7 +82,7 @@ public class MultiLeaderBoardModel {
 	 * Gets the player's particular parse object so that changes to the score
 	 * can be made if a score is added.
 	 */
-	private void getPlayerEntry(String name) throws InternetConnectionException {
+	public void setPlayer(String name) throws InternetConnectionException {
 		Log.i("Multiplayer", "multiplayer getting this player's score from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
@@ -191,5 +194,4 @@ public class MultiLeaderBoardModel {
 			}
 		}) + 1;	
 	}
-
 }

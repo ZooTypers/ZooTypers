@@ -39,7 +39,7 @@ public class PostGameScreen extends Activity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		Log.i("ZooTypers", "entered post game");
 
 		savedScore = false;

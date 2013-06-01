@@ -337,8 +337,8 @@ public class MultiPlayerModel extends PlayerModel {
 			checkInternet();
 			match.put(info.get("finished"), true);
 			match.save();
-		} catch (ParseException e) {
-			Log.e("Multiplayer", "parse error setting user to finish", e);
+		} catch (ParseException e) { //CHANGETHISSSS
+			Log.w("Multiplayer", "parse error setting user to finish");
 			throw new InternetConnectionException();
 		} catch (NullPointerException e) {
 			Log.w("Multiplayer", "unable to connect to internet");
