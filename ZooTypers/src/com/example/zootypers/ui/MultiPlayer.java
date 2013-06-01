@@ -184,9 +184,10 @@ public class MultiPlayer extends Player {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		gameTimer.cancel();
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
+		finish();
 	}
 
 	/**
@@ -201,6 +202,7 @@ public class MultiPlayer extends Player {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		gameTimer.cancel();
 
 		Intent intent = new Intent(this, ErrorScreen.class);
 		// Pass username
@@ -217,6 +219,7 @@ public class MultiPlayer extends Player {
 			intent.putExtra("error", R.layout.activity_connection_error);
 		}
 		startActivity(intent);
+		finish();
 	}
 
 	/**
@@ -281,6 +284,7 @@ public class MultiPlayer extends Player {
 			return;
 		}
 		startActivity(intent);  
+		finish();
 	}
 
 	@Override
