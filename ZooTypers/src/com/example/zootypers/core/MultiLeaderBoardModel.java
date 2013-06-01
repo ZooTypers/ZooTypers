@@ -65,6 +65,7 @@ public class MultiLeaderBoardModel {
 		Log.i("Multiplayer", "multiplayer getting all scores from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
+			query = query.whereNotEqualTo("name", "DONOTDELETE");
 			query = query.orderByDescending("score");
 			query = query.addAscendingOrder("name");
 			query.setLimit(query.count());
