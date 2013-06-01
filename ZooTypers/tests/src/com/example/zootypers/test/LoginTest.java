@@ -3,6 +3,7 @@ package com.example.zootypers.test;
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;

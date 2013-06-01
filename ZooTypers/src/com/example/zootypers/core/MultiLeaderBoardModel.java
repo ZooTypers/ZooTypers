@@ -7,6 +7,7 @@ import java.util.List;
 
 import android.util.Log;
 
+import com.example.zootypers.util.InternetConnectionException;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -33,8 +34,9 @@ public class MultiLeaderBoardModel {
 
 	/**
 	 * Constructs the leaderboard with the default number of entries.
+	 * @throws InternetConnectionException 
 	 */
-	public MultiLeaderBoardModel(String name){
+	public MultiLeaderBoardModel(String name) throws InternetConnectionException{
 		this(name, DEFAULT_ENTRIES);
 	}
 
@@ -42,8 +44,9 @@ public class MultiLeaderBoardModel {
 	 * @effect : Constructs the leaderboard with the default number of entries.
 	 * @requires numOfEntries is a positive number
 	 * @param numOfEntries, the max number of entries that are saved in the database 
+	 * @throws InternetConnectionException 
 	 */
-	public MultiLeaderBoardModel(String name, int numOfEntries){
+	public MultiLeaderBoardModel(String name, int numOfEntries) throws InternetConnectionException{
 		this.numOfEntries = numOfEntries;
 		getPlayerEntry(name);
 		getAllScores();
@@ -54,8 +57,8 @@ public class MultiLeaderBoardModel {
 	 * Gets all the scores from the online database in Descending score order. If
 	 * scores are equal than rank alphabetically.
 	 */
-	private void getAllScores() {
-		Log.i("ZooTypers", "multiplayer getting all scores from parse");
+	private void getAllScores() throws InternetConnectionException {
+		Log.i("Multiplayer", "multiplayer getting all scores from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
 			query = query.orderByDescending("score");
@@ -63,8 +66,11 @@ public class MultiLeaderBoardModel {
 			query.setLimit(query.count());
 			allScores = query.find();
 		} catch (ParseException e) {
-			allScores = new ArrayList<ParseObject>();
-			Log.e("ZooTypers", "error getting all scores from parse for multiplayer", e);
+			Log.e("Multiplayer", "error getting all scores from parse for multiplayer", e);
+			throw new InternetConnectionException();
+		} catch (NullPointerException e) {
+			Log.e("Multiplayer", "unable to connect to internet", e);
+			throw new InternetConnectionException();
 		}
 	}
 
@@ -72,18 +78,22 @@ public class MultiLeaderBoardModel {
 	 * Gets the player's particular parse object so that changes to the score
 	 * can be made if a score is added.
 	 */
-	private void getPlayerEntry(String name) {
-		Log.i("ZooTypers", "multiplayer getting this player's score from parse");
+	private void getPlayerEntry(String name) throws InternetConnectionException {
+		Log.i("Multiplayer", "multiplayer getting this player's score from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
 			query.whereEqualTo("name", name);
+			query.count();
 			entry = query.getFirst();
 		} catch (ParseException e) {
-			Log.e("ZooTypers", "error getting this player's score from parse", e);
+			Log.i("Multiplayer", "this player's has no scores score from parse");
 			// making a new entry for this player
 			entry = new ParseObject("MultiLeaderBoard");
 			entry.put("name", name);
 			entry.put("score", 0);
+		} catch (NullPointerException e) {
+			Log.e("Multiplayer", "unable to connect to internet", e);
+			throw new InternetConnectionException();
 		}
 	}
 
@@ -92,7 +102,7 @@ public class MultiLeaderBoardModel {
 	 * @param score, user's score to potentially be added
 	 */
 	public void addEntry(int score){
-		Log.i("ZooTypers", "multiplayer leaderboard adding the user's entry");
+		Log.i("Multiplayer", "multiplayer leaderboard adding the user's entry");
 		int highScore = Math.max(score, entry.getInt("score"));
 		entry.put("score", highScore);
 		entry.saveInBackground();
@@ -141,6 +151,9 @@ public class MultiLeaderBoardModel {
 				startIndex = 0;
 			}
 			int endIndex = rank + numOfRelatives;
+			if (endIndex < DEFAULT_ENTRIES) {
+				endIndex = DEFAULT_ENTRIES;
+			}
 			if (endIndex > allScores.size()) {
 				endIndex = allScores.size();
 			}
@@ -148,6 +161,7 @@ public class MultiLeaderBoardModel {
 			for (int i = startIndex; i < endIndex; i++) {
 				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
 			}
+			
 		}
 		return scoreEntries.toArray(new ScoreEntry[scoreEntries.size()]);
 	}
@@ -156,7 +170,7 @@ public class MultiLeaderBoardModel {
 	 * Clears the users scores from the database
 	 */
 	public void clearLeaderboard(){
-		Log.i("ZooTypers", "multiplayer leaderboard deleting the user's entry");
+		Log.i("Multiplayer", "multiplayer leaderboard deleting the user's entry");
 		entry.deleteInBackground();
 	}
 

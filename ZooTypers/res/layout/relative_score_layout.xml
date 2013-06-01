@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/singleplayer_tab_layout"
+    android:id="@+id/multiplayer_tab_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/greyish"
@@ -14,22 +14,23 @@
         android:background="@color/greyish" >
 
         <TextView
-            android:id="@+id/single_lb_title"
+            android:id="@+id/relative_lb_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
             android:paddingBottom="20dp"
             android:paddingTop="5dp"
-            android:text="@string/singleplayer_lb_title"
+            android:text="@string/relative_score_string"
             android:textSize="20sp" />
 
         <TableRow
-            android:id="@+id/titleRow"
+            android:id="@+id/relative_title_row"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal" >
 
             <TextView
-                android:id="@+id/rank"
+                android:id="@+id/relative_rank"
                 android:layout_width="wrap_content"
                 android:background="@drawable/table_border"
                 android:paddingLeft="5dp"
@@ -38,16 +39,16 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/player_name"
+                android:id="@+id/relative_player_name"
                 android:layout_width="wrap_content"
                 android:background="@drawable/table_border"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:text="@string/player_name_lb"
+                android:text="@string/player_name_string"
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/player_score"
+                android:id="@+id/relative_player_score"
                 android:layout_width="wrap_content"
                 android:background="@drawable/table_border"
                 android:paddingLeft="20dp"
@@ -57,15 +58,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow0"
+            android:id="@+id/relative_tableRow0"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank0"
+                android:id="@+id/relative_rank0"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="1" />
 
             <TextView
@@ -84,16 +86,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow1"
+            android:id="@+id/relative_tableRow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank1"
+                android:id="@+id/relative_rank1"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="2" />
 
             <TextView
@@ -112,15 +114,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow2"
+            android:id="@+id/relative_tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank2"
+                android:id="@+id/relative_rank2"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="3" />
 
             <TextView
@@ -139,15 +142,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow3"
+            android:id="@+id/relative_tableRow3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank3"
+                android:id="@+id/relative_rank3"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="4" />
 
             <TextView
@@ -166,15 +170,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow4"
+            android:id="@+id/relative_tableRow4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank4"
+                android:id="@+id/relative_rank4"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="5" />
 
             <TextView
@@ -193,15 +198,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow5"
+            android:id="@+id/relative_tableRow5"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank5"
+                android:id="@+id/relative_rank5"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="6" />
 
             <TextView
@@ -220,15 +226,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow6"
+            android:id="@+id/relative_tableRow6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank6"
+                android:id="@+id/relative_rank6"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="7" />
 
             <TextView
@@ -247,15 +254,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow7"
+            android:id="@+id/relative_tableRow7"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank7"
+                android:id="@+id/relative_rank7"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="8" />
 
             <TextView
@@ -274,15 +282,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow8"
+            android:id="@+id/relative_tableRow8"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank8"
+                android:id="@+id/relative_rank8"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="9" />
 
             <TextView
@@ -301,15 +310,16 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow9"
+            android:id="@+id/relative_tableRow9"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:paddingTop="10dp" >
 
             <TextView
-                android:id="@+id/rank9"
+                android:id="@+id/relative_rank9"
                 android:layout_gravity="center_horizontal"
-                android:paddingRight="10dp"
+                android:paddingRight="5dp"
                 android:text="10" />
 
             <TextView
@@ -326,8 +336,8 @@
                 android:paddingRight="20dp"
                 android:text="@string/default_ldbd_score" />
         </TableRow>
-    
-        <Button
+        
+         <Button
         	android:id="@+id/main_menu_button"
         	android:layout_width="wrap_content"
         	android:layout_height="wrap_content"
@@ -335,8 +345,9 @@
         	android:layout_marginTop="5dp"
         	android:onClick="goToMain"
         	android:text="@string/main_menu_string" />
+         
     </TableLayout>
 
-    
+   
 
 </RelativeLayout>

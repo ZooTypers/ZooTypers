@@ -1,9 +1,5 @@
 package com.example.zootypers.ui;
 
-
-
-
-import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,47 +7,46 @@ import android.view.ViewGroup;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.ScoreEntry;
-import com.parse.ParseUser;
 
 /**
- * A Fragment Tab that shows the Friends Leaderboard
+ * Shows the user's score relative to other users
  * @author ZooTypers
  *
  */
-public class FriendsLBTab extends LeaderboardTab {
+public class RelativeUserScoreTab extends LeaderboardTab {
 	
-	/**
-	 * creates a view for the fragment using the friends_lb_tab layout
-	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		if (container == null) {
 			return null;
 		}
+
 		// set the layout for the fragment and get the arguments for that are passed
-		View friendsView = inflater.inflate(R.layout.friends_lb_tab, container, false);
+		View relativeScoreView = inflater.inflate(R.layout.relative_score_layout, container, false);
 		ScoreEntry[] seArray = (ScoreEntry[]) getArguments().getParcelableArray("scoreList");
 		// set up the leaderboard
-		ParseUser currentUser = ParseUser.getCurrentUser();
-		if (currentUser == null) {
-			Leaderboard.buildFriendPopup(false, getActivity());
-		}
-		setupLBList(friendsView, seArray);
-		return friendsView;
+		int rank = getArguments().getInt("userRank");
+		int relativeRank = getArguments().getInt("relativeRank");
+		setupLBList(relativeScoreView, seArray, rank, relativeRank);
+		return relativeScoreView;
 	}
-
+	
 	/**
-	 * Create a new instance of FriendsLBTab with the scores as a param
-	 * @param seArray an array of scoreEntrys that have the score of each player
+	 * Create a new instance of RelativeUserScoreTab with the scores as a param
+	 * @param scores
 	 * @return
 	 */
-	public static FriendsLBTab newInstance(ScoreEntry[] seArray) {
-		FriendsLBTab spt = new FriendsLBTab();
+	public static RelativeUserScoreTab newInstance(ScoreEntry[] seArray, int userRank,
+			int relativeRank) {
+		RelativeUserScoreTab spt = new RelativeUserScoreTab();
 		// put the argument in a bundle that the fragment can use
 		Bundle args = new Bundle();
+		args.putInt("userRank", userRank);
+		args.putInt("relativeRank", relativeRank);
 		args.putParcelableArray("scoreList", seArray);
 		spt.setArguments(args);
 		return spt;
 	}
+
 }

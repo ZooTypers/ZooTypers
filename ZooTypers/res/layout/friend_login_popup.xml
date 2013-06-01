@@ -17,7 +17,7 @@
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:onClick="exitLoginPopup"
+            android:onClick="exitFriendLoginPopup"
             android:padding="0sp"
             android:text="@string/x_string"
             android:textSize="20sp" />
@@ -119,7 +119,7 @@
         android:layout_marginTop="10dp"
         android:textColor="@color/blue"
         android:clickable="true"
-        android:onClick="forgotPassword"
+        android:onClick="forgotFriendPassword"
         android:text="@string/forgot_pw_string" />
 
     <LinearLayout
@@ -134,7 +134,7 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:text="@string/login_string"
-		    android:onClick="loginButton" />
+		    android:onClick="loginFriendButton" />
     
     </LinearLayout>
 
