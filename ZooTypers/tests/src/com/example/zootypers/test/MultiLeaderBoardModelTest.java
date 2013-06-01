@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.widget.Button;
 
 import com.example.zootypers.core.MultiLeaderBoardModel;
@@ -17,6 +18,7 @@ import com.example.zootypers.util.InternetConnectionException;
 import com.jayway.android.robotium.solo.Solo;
 import com.parse.ParseObject;
 
+@Suppress
 public class MultiLeaderBoardModelTest extends ActivityInstrumentationTestCase2<TitlePage> {
     
     private Solo solo;

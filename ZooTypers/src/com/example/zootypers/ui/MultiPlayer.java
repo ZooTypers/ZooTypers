@@ -214,9 +214,9 @@ public class MultiPlayer extends Player {
 			e.printStackTrace();
 		}
 		gameTimer.cancel();
+		mediaPlayer.stop();
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
-		mediaPlayer.stop();
 		finish();
 	}
 
@@ -232,7 +232,6 @@ public class MultiPlayer extends Player {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		gameTimer.cancel();
 
 		Intent intent = new Intent(this, ErrorScreen.class);
 		// Pass username
