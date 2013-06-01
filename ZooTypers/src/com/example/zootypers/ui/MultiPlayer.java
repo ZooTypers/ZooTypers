@@ -19,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiPlayerModel;
@@ -157,6 +158,10 @@ public class MultiPlayer extends Player {
 		// display background
 		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
 		layout.setBackground(background);
+
+    // display opponent's name
+    TextView oppName = (TextView) findViewById(R.id.opp_score_prompt);
+    oppName.setText(model.getOpponentName() + ":");
 
 		model.populateDisplayedList();
 
