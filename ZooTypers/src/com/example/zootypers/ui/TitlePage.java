@@ -178,7 +178,7 @@ public class TitlePage extends Activity {
 		try {
 			usernameString = lp.loginButton();
 		} catch (InternetConnectionException e) {
-			Log.i("Leaderboard", "triggering internet connection error screen");
+			Log.i("ZooTypers", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error);
 			startActivity(intent);
@@ -216,7 +216,6 @@ public class TitlePage extends Activity {
 	 */
 	public final void logoutUser(final View view) {
 		Log.i("ZooTypers", "user has logged out");
-
 		// Log the user out
 		ParseUser.logOut();
 		currentUser = ParseUser.getCurrentUser();
@@ -233,7 +232,6 @@ public class TitlePage extends Activity {
 	 */
 	public final void resetPassword(final View view) {
 		Log.i("ZooTypers", "user resets password");
-
 		// Sort through the reset info
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 		boolean reset = lp.resetPassword(alertDialogBuilder);
