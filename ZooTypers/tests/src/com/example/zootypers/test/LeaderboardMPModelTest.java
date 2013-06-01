@@ -1,7 +1,5 @@
 package com.example.zootypers.test;
 
-import static org.junit.Assert.fail;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +8,8 @@ import android.test.AndroidTestCase;
 import android.test.suitebuilder.annotation.Suppress;
 
 import com.example.zootypers.core.MultiLeaderBoardModel;
+import com.example.zootypers.core.ScoreEntry;
+import com.example.zootypers.util.InternetConnectionException;
 
 @Suppress
 public class LeaderboardMPModelTest extends AndroidTestCase {
@@ -23,8 +23,33 @@ public class LeaderboardMPModelTest extends AndroidTestCase {
     }
 
     @Test(timeout = TIMEOUT)
-    public void testCreatingADefaultConstructor() {
-        
+    public void testCreatingADefaultConstructor() throws InternetConnectionException {
+        new MultiLeaderBoardModel("David", 10);
+    }
+    
+    @Test(timeout = TIMEOUT)
+    public void testDefaultLeaderboardSize() {
+        assertEquals(10, model.getTopScores().length);
+    }
+    
+    @Test(timeout = TIMEOUT)
+    public void testLeaderBoardWithParam() throws InternetConnectionException {
+        model = new MultiLeaderBoardModel("Bryan", 50);
+        assertEquals(50, model.getTopScores().length);
+    }
+    
+    @Test(timeout = TIMEOUT)
+    public void testAddingALowScoreEntry() {
+        model.addEntry(3);
+    }
+    
+    @Test(timeout = TIMEOUT)
+    public void testAddingTheHighestScoreAndExistsInLeaderboard() {
+        model.addEntry(1000);
+        ScoreEntry[] entries = model.getTopScores();
+        int expectedScore = 1000;
+        int actualScore = entries[0].getScore();
+        assertEquals(expectedScore, actualScore);
     }
     
     @After

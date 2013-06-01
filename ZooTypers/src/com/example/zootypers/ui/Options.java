@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.SingleLeaderBoardModel;
+import com.example.zootypers.util.InternetConnectionException;
 import com.parse.Parse;
 import com.parse.ParseUser;
 
@@ -77,8 +78,17 @@ public class Options extends Activity {
     if (currentUser == null) {
       buildPopup(false);
     } else {
-      MultiLeaderBoardModel sl = new MultiLeaderBoardModel(currentUser.getString("username"));
-      sl.clearLeaderboard();
+      MultiLeaderBoardModel ml;
+	try {
+		ml = new MultiLeaderBoardModel(currentUser.getString("username"));
+	} catch (InternetConnectionException e) {
+		Log.i("Leaderboard", "triggering internet connection error screen");
+		Intent intent = new Intent(this, ErrorScreen.class);
+		intent.putExtra("error", R.layout.activity_connection_error);
+		startActivity(intent);
+		return;
+	}
+      ml.clearLeaderboard();
       final String title = "Cleared Leaderboard";
       final String message = "Your multiplayer scores have been successfully cleared.";
       buildAlertDialog(title, message);
@@ -128,7 +138,16 @@ public class Options extends Activity {
    */
   public void loginButton(final View view) {
     // Try to login
-    String usernameString = lp.loginButton();
+    String usernameString;
+	try {
+		usernameString = lp.loginButton();
+	} catch (InternetConnectionException e) {
+		Log.i("Leaderboard", "triggering internet connection error screen");
+		Intent intent = new Intent(this, ErrorScreen.class);
+		intent.putExtra("error", R.layout.activity_connection_error);
+		startActivity(intent);
+		return;
+	}
     // If login was successful, go to the multiplayer game
     if (!usernameString.equals("")) {
       exitLoginPopup(view);

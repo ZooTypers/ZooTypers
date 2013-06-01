@@ -2,19 +2,16 @@ package com.example.zootypers.ui;
 
 
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
 
+import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.ScoreEntry;
+import com.parse.ParseUser;
 
 /**
  * A Fragment Tab that shows the Friends Leaderboard
@@ -36,6 +33,10 @@ public class FriendsLBTab extends LeaderboardTab {
 		View friendsView = inflater.inflate(R.layout.friends_lb_tab, container, false);
 		ScoreEntry[] seArray = (ScoreEntry[]) getArguments().getParcelableArray("scoreList");
 		// set up the leaderboard
+		ParseUser currentUser = ParseUser.getCurrentUser();
+		if (currentUser == null) {
+			Leaderboard.buildFriendPopup(false, getActivity());
+		}
 		setupLBList(friendsView, seArray);
 		return friendsView;
 	}

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/greyish">
+
+    <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+        <Button
+                android:id="@+id/exit_password_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:onClick="exitFriendPasswordPopup"
+                android:padding="0sp"
+                android:text="@string/x_string"
+                android:textSize="20sp" />
+
+        <TextView
+                android:id="@+id/email_forgot_password"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/forgot_password"
+                android:textSize="20sp" />
+
+    </RelativeLayout>
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+        <TextView
+                android:id="@+id/email_reset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp"
+                android:paddingRight="10dp"
+                android:text="@string/email_string" />
+
+        <EditText
+                android:id="@+id/email_forgot_password_input"
+                android:layout_width="184dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="22dp"
+                android:background="@color/white"
+                android:ems="10"
+                android:inputType="textEmailAddress" />
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/reset_password_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="@string/reset_password"
+            android:layout_gravity="center_horizontal"
+            android:onClick="resetFriendPassword" />
+
+    <TextView
+        android:id="@+id/reset_error_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/red"
+        android:textSize="15sp" />
+
+</LinearLayout>
