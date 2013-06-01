@@ -1,5 +1,8 @@
 package com.example.zootypers.ui;
 
+
+
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -67,9 +70,10 @@ public class PostGameScreenMulti extends PostGameScreen {
 	public final void saveScore(final View view) {
 		MultiLeaderBoardModel ml;
 		try {
-			ml = new MultiLeaderBoardModel(username);
+			ml = new MultiLeaderBoardModel();
+			ml.setPlayer(username);
 		} catch (InternetConnectionException e) {
-			Log.i("Multiplayer", "triggering internet connection error screen");
+			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error);
 			startActivity(intent);
