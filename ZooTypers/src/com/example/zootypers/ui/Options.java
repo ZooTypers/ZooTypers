@@ -279,9 +279,9 @@ public class Options extends Activity {
   private final void setCorrectPosition(Switch mySwitch, String fileName){
       try{
           FileInputStream fis = openFileInput(fileName);
-          mySwitch.setChecked(true);
-      } catch (IOException e){
           mySwitch.setChecked(false);
+      } catch (IOException e){
+          mySwitch.setChecked(true);
       }
   }
 

@@ -138,7 +138,7 @@ public class MultiPlayer extends Player {
 		// create a background music
         if(read){
             try {
-                FileInputStream is = openFileInput("vibrate.txt");
+                FileInputStream is = openFileInput("bgm.txt");
                 check = 0;
             } catch (FileNotFoundException e){
                 //Yes for vibration case

@@ -40,7 +40,7 @@ public class LeaderBoardActivityTest extends ActivityInstrumentationTestCase2<Ti
         });
         //solo.sleep(5000);
         solo.waitForActivity(Leaderboard.class, 15000);
-        lbModel = ((Leaderboard) solo.getCurrentActivity()).getLeaderboard();
+        lbModel = ((Leaderboard) solo.getCurrentActivity()).getSingleLeaderboard();
         solo.sleep(3000);
     }
 
