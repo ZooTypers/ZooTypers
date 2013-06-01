@@ -69,7 +69,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 		try {
 			ml = new MultiLeaderBoardModel(username);
 		} catch (InternetConnectionException e) {
-			Log.i("Leaderboard", "triggering internet connection error screen");
+			Log.i("Multiplayer", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error);
 			startActivity(intent);
