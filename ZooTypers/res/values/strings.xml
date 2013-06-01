@@ -90,7 +90,7 @@
     <string name="player_name_lb">Player Name</string>
     <string name="enter_name_string">Please enter your name :</string>
     <string name="see_score_string">See your position in the leaderboard</string>
-    <string name="relative_score_string">Your relative leaderboard\nposition :</string>
+    <string name="relative_score_string">Your Relative Position :</string>
     <string name="close_string">Close</string>
     <string name="title_activity_relative_user_score">RelativeUserScore</string>
     <string name="main_menu_string">Main Menu</string>

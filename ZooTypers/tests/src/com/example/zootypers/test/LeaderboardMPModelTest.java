@@ -1,5 +1,7 @@
 package com.example.zootypers.test;
 
+
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,12 +21,14 @@ public class LeaderboardMPModelTest extends AndroidTestCase {
     
     @Before
     public void setUp() throws Exception {
-        model = new MultiLeaderBoardModel("David");
+        model = new MultiLeaderBoardModel();
+        model.setPlayer("David");
     }
 
     @Test(timeout = TIMEOUT)
     public void testCreatingADefaultConstructor() throws InternetConnectionException {
-        new MultiLeaderBoardModel("David", 10);
+        MultiLeaderBoardModel testmlb = new MultiLeaderBoardModel(10);
+        testmlb.setPlayer("David");
     }
     
     @Test(timeout = TIMEOUT)
@@ -34,7 +38,8 @@ public class LeaderboardMPModelTest extends AndroidTestCase {
     
     @Test(timeout = TIMEOUT)
     public void testLeaderBoardWithParam() throws InternetConnectionException {
-        model = new MultiLeaderBoardModel("Bryan", 50);
+        model = new MultiLeaderBoardModel(50);
+        model.setPlayer("Bryan");
         assertEquals(50, model.getTopScores().length);
     }
     
