@@ -16,7 +16,6 @@ import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -228,7 +227,7 @@ public class MultiPlayer extends Player {
 		// Show game over message before going to post game
 		findViewById(R.id.game_over).setVisibility(0);
 
-		// sets themselves as done with the game
+		// Sets themselves as done with the game
 		try {
 			model.setUserFinish();
 		} catch (InternetConnectionException e) {
@@ -237,29 +236,31 @@ public class MultiPlayer extends Player {
 			return;
 		}
 
-		Intent intent = new Intent(this, PostGameScreenMulti.class);
-
-		// Pass scores and if you won to post game screen
-		int myScore = model.getScore();
-		int oppScore = model.getOpponentScore();
-		intent.putExtra("score", myScore);
-		intent.putExtra("oppScore", oppScore);
-		if (myScore > oppScore) {
-			intent.putExtra("result", 1);      
-		} else if (myScore == oppScore) {
-			intent.putExtra("result", 0);      
-		} else {      
-			intent.putExtra("result", -1);      
-		}
-
-		// Pass if opponent completed the game
+		// See if opponent completed the game
 		try {
 			if (!model.isOpponentFinished()) {
+			  // Opponent did disconnect; switch to go to appropriate screen
 				Log.w("Multiplayer", "timed out waiting for opponent to finish");
-				error(States.error.CONNECTION);
-				return;
+				Intent dintent = new Intent(this, PostGameScreenDisconnect.class);			
+
+		    // Pass score, background & username to post game screen
+		    int myScore = model.getScore();
+		    dintent.putExtra("score", myScore);
+		    dintent.putExtra("bg", bg);
+		    dintent.putExtra("username", username);
+
+		    // Delete the match
+		    try {
+		      model.deleteUser();
+		    } catch (InternetConnectionException e) {
+		      error(States.error.CONNECTION);
+		      return;
+		    }
+		    
+		    // Go to the disconnect post game screen
+		    startActivity(dintent);  	
+		    return;
 			}
-			//intent.putExtra("discon", !model.isOpponentFinished());
 		} catch (InternetConnectionException e) {
 			error(States.error.CONNECTION);
 			return;
@@ -267,19 +268,36 @@ public class MultiPlayer extends Player {
 			error(States.error.INTERNAL);
 			return;
 		}
+		
 
-		// Pass background to post game screen
-		intent.putExtra("bg", bg);
+    Intent intent = new Intent(this, PostGameScreenMulti.class);
 
-		// Pass username
-		intent.putExtra("username", username);
+    // Pass score, background & username to post game screen
+    int myScore = model.getScore();
+    intent.putExtra("score", myScore);
+    intent.putExtra("bg", bg);
+    intent.putExtra("username", username);
+    
+    // Add opponent's score & result to intent
+    int oppScore = model.getOpponentScore();
+    intent.putExtra("oppScore", oppScore);
+    if (myScore > oppScore) {
+      intent.putExtra("result", 1);      
+    } else if (myScore == oppScore) {
+      intent.putExtra("result", 0);      
+    } else {      
+      intent.putExtra("result", -1);      
+    }
 
+    // Delete the match
 		try {
 			model.deleteUser();
 		} catch (InternetConnectionException e) {
 			error(States.error.CONNECTION);
 			return;
 		}
+		
+		// Go to the post game screen
 		startActivity(intent);  
 	}
 

@@ -15,110 +15,113 @@ import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.util.InternetConnectionException;
 
+/**
+ * Post game activity / UI for a multiplayer game.
+ */
 public class PostGameScreenMulti extends PostGameScreen {
 
-	String username;
+  String username;
 
-	@SuppressLint("NewApi")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  @SuppressLint("NewApi")
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-		// Get & display background
-		setContentView(R.layout.activity_pregame_selection_multi);
-		Drawable background = ((ImageButton) 
-		findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
+    // Get & display background
+    setContentView(R.layout.activity_pregame_selection_multi);
+    Drawable background = ((ImageButton) 
+        findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
-		setContentView(R.layout.activity_post_game_screen_multi);
-		findViewById(R.id.postgame_layout).setBackground(background);
+    setContentView(R.layout.activity_post_game_screen_multi);
+    findViewById(R.id.postgame_layout).setBackground(background);
 
-		// Get and display score
-		score = getIntent().getIntExtra("score", 0);
-		TextView finalScore = (TextView) findViewById(R.id.final_score);
-		finalScore.setText(score.toString());
-
-		// Display result of game
-		TextView resultMessage = (TextView) findViewById(R.id.game_result);
-		if (getIntent().getBooleanExtra("discon", false)) {
-			// Opponent disconnected
-			resultMessage.setText("Your Opponent Disconnected.");
-			resultMessage.setTextSize(20);
-			TextView opp = (TextView) findViewById(R.id.opp_final_score_text);
-			opp.setText("");
-		} else {
-			Integer oppScore = getIntent().getIntExtra("oppScore", 0);
-			TextView oppFinalScore = (TextView) findViewById(R.id.opp_final_score);
-			oppFinalScore.setText(oppScore.toString());
-
-			int result = getIntent().getIntExtra("result", 0);
-
-			if (result == 1) {
-				resultMessage.setText("You Won!");
-			} else if (result == 0) {
-				resultMessage.setText("You Tied!");
-			} else {
-				resultMessage.setText("You Lost.");
-			}
-		}
-
-		username = getIntent().getStringExtra("username");
-	}
-	@Override
-	public final void saveScore(final View view) {
-		MultiLeaderBoardModel ml;
-		try {
-			ml = new MultiLeaderBoardModel(username);
-		} catch (InternetConnectionException e) {
-			Log.i("Leaderboard", "triggering internet connection error screen");
-			Intent intent = new Intent(this, ErrorScreen.class);
-			intent.putExtra("error", R.layout.activity_connection_error);
-			startActivity(intent);
-			return;
-		}
-    	ml.addEntry(score);
-		final String title = "Saved Score";
-		final String message = "Your score has been successfully saved!";
-		buildAlertDialog(title, message);
-	}
-
-	@Override
-	public final void goToPreGameSelection(final View view) {
-		Intent intent = new Intent(this, PreGameSelectionMulti.class);
-		intent.putExtra("username", username);
-		startActivity(intent);
-	}
-
+    // Get and display the player's score
+    score = getIntent().getIntExtra("score", 0);
+    TextView finalScore = (TextView) findViewById(R.id.final_score);
+    finalScore.setText(score.toString());
     
-    // TODO remove repetition from title page / options
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+    opponentDisplay();
 
-		// set title
-		alertDialogBuilder.setTitle(title);
+    // Get and store the username
+    username = getIntent().getStringExtra("username");
+  }
+  
+  /**
+   * Display opponent's score & result of the game.
+   */
+  protected void opponentDisplay() {
+    // Get and display the opponent's score
+    Integer oppScore = getIntent().getIntExtra("oppScore", 0);
+    TextView oppFinalScore = (TextView) findViewById(R.id.opp_final_score);
+    oppFinalScore.setText(oppScore.toString());
 
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
+    // Determine & display result of the game
+    TextView resultMessage = (TextView) findViewById(R.id.game_result);
+    int result = getIntent().getIntExtra("result", 0);
+    if (result == 1) {
+      resultMessage.setText("You Won!");
+    } else if (result == 0) {
+      resultMessage.setText("You Tied!");
+    } else {
+      resultMessage.setText("You Lost.");
+    }    
+  }
 
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
+  @Override
+  public final void saveScore(final View view) {
+    MultiLeaderBoardModel ml;
+    try {
+      ml = new MultiLeaderBoardModel(username);
+    } catch (InternetConnectionException e) {
+      Log.i("Leaderboard", "triggering internet connection error screen");
+      Intent intent = new Intent(this, ErrorScreen.class);
+      intent.putExtra("error", R.layout.activity_connection_error);
+      startActivity(intent);
+      return;
+    }
+    ml.addEntry(score);
+    final String title = "Saved Score";
+    final String message = "Your score has been successfully saved!";
+    buildAlertDialog(title, message);
+  }
 
-		// show the message
-		alertDialog.show();
-	}
+  @Override
+  public final void goToPreGameSelection(final View view) {
+    Intent intent = new Intent(this, PreGameSelectionMulti.class);
+    intent.putExtra("username", username);
+    startActivity(intent);
+  }
+
+  // TODO remove repetition from title page / options
+  /**
+   * builds an AlertDialog popup with the given title and message
+   * @param title String representing title of the AlertDialog popup
+   * @param message String representing the message of the AlertDialog
+   * popup
+   */
+  private void buildAlertDialog(String title, String message) {
+    AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+    // set title
+    alertDialogBuilder.setTitle(title);
+
+    // set dialog message
+    alertDialogBuilder
+    .setMessage(message)
+    .setCancelable(false)
+    .setPositiveButton("Close", new DialogInterface.OnClickListener() {
+      public void onClick(DialogInterface dialog, int id) {
+        // if this button is clicked, close the dialog box
+        dialog.cancel();
+      }
+    });
+
+    // create alert dialog
+    AlertDialog alertDialog = alertDialogBuilder.create();
+
+    // show the message
+    alertDialog.show();
+  }
 
 
 }
