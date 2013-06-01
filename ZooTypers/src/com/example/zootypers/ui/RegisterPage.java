@@ -24,7 +24,7 @@ import com.parse.SignUpCallback;
  *
  */
 public class RegisterPage extends Activity {
-
+	private int useTestDB;
 	private String currentUser;
 	private Intent titleIntent; // used to go back to title
 
@@ -32,8 +32,15 @@ public class RegisterPage extends Activity {
 	protected final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_page);
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-				"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
+		// Initialize the database
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
 		Log.i("Register", "entered register page");
 	}
 
