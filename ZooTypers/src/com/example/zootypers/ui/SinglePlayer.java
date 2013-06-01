@@ -229,7 +229,7 @@ public class SinglePlayer extends Player {
 	 */
 	public void pausedNewGame(View view) {
 		Log.i("SinglePlayer", "new game is selected from pause");
-
+		gameTimer.cancel();
 		final Intent restartIntent = new Intent(this, PreGameSelection.class);
 		paused = false;
     	ppw.dismiss();
@@ -244,7 +244,7 @@ public class SinglePlayer extends Player {
 	 */
 	public void pausedMainMenu(View view) {
 		Log.i("SinglePlayer", "main menu is selected from pause");
-
+		gameTimer.cancel();
 		final Intent mainMenuIntent = new Intent(this, TitlePage.class);
 		paused = false;
     	ppw.dismiss();
