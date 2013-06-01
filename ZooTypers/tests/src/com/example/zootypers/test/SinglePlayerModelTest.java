@@ -54,7 +54,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
                 continueButton.performClick();
             }
         });
-        solo.sleep(1000);
+        solo.waitForActivity(SinglePlayer.class, 15000);
     }
 
     /**
