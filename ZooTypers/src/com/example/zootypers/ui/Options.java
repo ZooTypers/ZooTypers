@@ -32,6 +32,7 @@ public class Options extends Activity {
 
   LoginPopup lp;
   ParseUser currentUser;
+  private int useTestDB;
 
   @Override
   protected final void onCreate(final Bundle savedInstanceState) {
@@ -64,8 +65,15 @@ public class Options extends Activity {
    * Clears the multiplayer leaderboard.
    */
   public final void clearMulti(final View view) {
-    Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", 
-        "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
+		// Initialize the database
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
     currentUser = ParseUser.getCurrentUser();
     if (currentUser == null) {
       buildPopup(false);

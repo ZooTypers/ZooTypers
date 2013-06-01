@@ -18,7 +18,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 import com.example.zootypers.R;
@@ -40,20 +39,14 @@ public class SinglePlayer extends Player {
 	// the popup window
 	private PopupWindow ppw;
 
-	// the popup parameters
-	public LayoutParams popUpParams;
-
-	// the popup layout
-	public LinearLayout popUpLayout;
-
 	// the time in which the game was paused
-	private long pausedTime = START_TIME;
+	private long pausedTime;
 
 	// the game timer that will give a time limit
 	protected GameTimer gameTimer;
 
 	// keeps track of if the game is paused or not
-	public static boolean paused = false;
+	public static boolean paused;
 
 	/*
 	 *  Called when the activity is starting. uses the information that was picked
@@ -67,6 +60,10 @@ public class SinglePlayer extends Player {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		
+		// Set default values
+		pausedTime = START_TIME;
+		paused = false;
 
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection);
@@ -124,9 +121,13 @@ public class SinglePlayer extends Player {
 			return true;
 		}
 
-		char charTyped = event.getDisplayLabel();
-		charTyped = Character.toLowerCase(charTyped);
-		model.typedLetter(charTyped);
+		// Only respond to a keystroke if the game is not paused
+		if (!paused) {
+  		char charTyped = event.getDisplayLabel();
+  		charTyped = Character.toLowerCase(charTyped);
+  		model.typedLetter(charTyped);
+		}
+		
 		return true;
 	}
 
@@ -232,6 +233,7 @@ public class SinglePlayer extends Player {
 
 		final Intent restartIntent = new Intent(this, PreGameSelection.class);
 		paused = false;
+    	ppw.dismiss();
 		startActivity(restartIntent);
 		finish();
 	}
@@ -246,6 +248,7 @@ public class SinglePlayer extends Player {
 
 		final Intent mainMenuIntent = new Intent(this, TitlePage.class);
 		paused = false;
+    	ppw.dismiss();
 		startActivity(mainMenuIntent);
 		finish();
 	}
@@ -277,12 +280,11 @@ public class SinglePlayer extends Player {
 
 	@Override
 	public void error(com.example.zootypers.util.States.error err) {
-		// TODO Auto-generated method stub
+		// Do nothing
 	}
 
 	/**
-	 * 
-	 * @return single player model
+	 * @return The single player model
 	 */
 	public final SinglePlayerModel getModel() {
 		return model;
