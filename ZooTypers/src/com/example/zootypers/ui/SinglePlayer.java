@@ -64,7 +64,6 @@ public class SinglePlayer extends Player {
 		// Set default values
 		pausedTime = START_TIME;
 		paused = false;
-
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection);
 		Drawable animal = ((ImageButton) findViewById
