@@ -1,7 +1,12 @@
 package com.example.zootypers.ui;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +17,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
@@ -40,6 +48,48 @@ public class Options extends Activity {
     this.requestWindowFeature(Window.FEATURE_NO_TITLE);
     setContentView(R.layout.activity_options);
     lp = new LoginPopup(currentUser);
+    
+  //Vibration listener
+    Switch mySwitch = (Switch) findViewById(R.id.vibrate);
+    setCorrectPosition(mySwitch, "vibrate.txt");
+    //attach a listener to check for changes in state
+    mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+      public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+        if(isChecked){
+            deleteFile("vibrate.txt");
+        }else{
+            try {
+                FileOutputStream fos = openFileOutput("vibrate.txt", Context.MODE_PRIVATE);
+                fos.write(0);
+                fos.close();
+            } catch (IOException e){
+                Log.e("Options.java", "vibrate.txt", e);
+            }
+        }
+      }
+    });
+    
+  //BGM listener
+    mySwitch = (Switch) findViewById(R.id.bgm);
+    setCorrectPosition(mySwitch, "bgm.txt");
+    //attach a listener to check for changes in state
+    mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+      public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+        if(isChecked){
+            deleteFile("bgm.txt");
+        }else{
+            try {
+                FileOutputStream fos = openFileOutput("bgm.txt", Context.MODE_PRIVATE);
+                fos.write(0);
+                fos.close();
+            } catch (IOException e){
+                Log.e("Options.java", "vibrate.txt", e);
+            }
+        }
+      }
+    });
+
+    
   }
 
   @Override
@@ -225,7 +275,15 @@ public class Options extends Activity {
   }
   
   
-
+  //Set the switch to the correct position
+  private final void setCorrectPosition(Switch mySwitch, String fileName){
+      try{
+          FileInputStream fis = openFileInput(fileName);
+          mySwitch.setChecked(true);
+      } catch (IOException e){
+          mySwitch.setChecked(false);
+      }
+  }
 
   // TODO remove repetition from title page / post game
   /**

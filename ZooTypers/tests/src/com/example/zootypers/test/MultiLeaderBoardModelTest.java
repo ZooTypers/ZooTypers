@@ -49,8 +49,6 @@ public class MultiLeaderBoardModelTest extends ActivityInstrumentationTestCase2<
 			entries.add(entry);
 			entry.saveInBackground();
 		}
-        
-
 	}
 	
 	@Override
