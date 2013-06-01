@@ -92,7 +92,7 @@ public class MultiPlayer extends Player {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		// Get animal & background selected by user
 
 		View inflatedView = 

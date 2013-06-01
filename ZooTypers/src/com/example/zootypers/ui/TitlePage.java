@@ -34,7 +34,8 @@ public class TitlePage extends Activity {
 	@Override
 	protected final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		setContentView(R.layout.activity_title_page);
 		// initialize the Intent to go to Pregame selection
 		multiIntent = new Intent(this, PreGameSelectionMulti.class);
@@ -96,8 +97,8 @@ public class TitlePage extends Activity {
 	 */
 	public final void goToLeaderboard(final View view) {
 		Log.i("ZooTypers", "Proceeding to leaderboard");
-		//Intent intent = new Intent(this, Leaderboard.class);
-		//startActivity(intent);
+		Intent intent = new Intent(this, Leaderboard.class);
+		startActivity(intent);
 	}
 
 	/**
