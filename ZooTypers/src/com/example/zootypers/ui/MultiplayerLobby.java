@@ -17,15 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ListAdapter;
 import android.widget.ListPopupWindow;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
-import com.example.zootypers.R.id;
-import com.example.zootypers.R.layout;
-import com.example.zootypers.R.menu;
 import com.parse.Parse;
 import com.parse.ParseException;
 import com.parse.ParseObject;
