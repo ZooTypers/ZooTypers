@@ -15,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:text="60"
+            android:text="@string/start_time"
             android:textSize="30sp" />
     </RelativeLayout>
 
@@ -136,7 +136,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/score_prompt"
             android:gravity="center_horizontal"
-            android:text="0"
+            android:text="@string/default_score"
             android:textSize="30sp" />
 
         <TextView
@@ -195,7 +195,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/opp_score_prompt"
             android:gravity="center_horizontal"
-            android:text="0"
+            android:text="@string/default_score"
             android:textSize="30sp" />
 
         <Button

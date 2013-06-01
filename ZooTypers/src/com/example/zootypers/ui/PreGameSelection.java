@@ -33,9 +33,9 @@ public class PreGameSelection extends Activity {
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("ZooTypers", "entered pre game");
+		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
-        this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_pregame_selection);
         diff = findViewById(R.id.medium_difficulty_button);
         setDiff(diff);

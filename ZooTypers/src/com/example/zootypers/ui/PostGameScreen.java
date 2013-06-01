@@ -40,10 +40,8 @@ public class PostGameScreen extends Activity {
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
-		Log.i("ZooTypers", "entered post game");
-		
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		Log.i("ZooTypers", "entered post game");
 
 		savedScore = false;
 		// get & display background

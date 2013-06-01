@@ -35,7 +35,8 @@ import com.parse.ParseUser;
  */
 @SuppressLint("NewApi")
 public class Leaderboard extends FragmentActivity {
-
+	private int useTestDB;
+	
 	private LoginPopup lp;
 	private static LoginPopup friend_lp;
 	private ParseUser currentUser;
@@ -48,10 +49,17 @@ public class Leaderboard extends FragmentActivity {
 		// set the layout for the parent activity which contains the fragments
 		setContentView(R.layout.activity_leaderboard);
 
+		
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
 		// Initialize the database
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-		"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
-
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
+		
 		lp = new LoginPopup(currentUser);
 		
 		// set up the action bar for the different tabs
@@ -74,7 +82,7 @@ public class Leaderboard extends FragmentActivity {
 		} catch (InternetConnectionException e) {
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
-			intent.putExtra("error", R.layout.activity_connection_error);
+			intent.putExtra("error", R.layout.activity_connection_error_lb);
 			startActivity(intent);
 			return;
 		}
@@ -112,8 +120,15 @@ public class Leaderboard extends FragmentActivity {
 	 */
 	public void relativeUserScore(View view) {
 		// set up the Parse database and have the user log in if not already
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", 
-		        "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		useTestDB = getIntent().getIntExtra("Testing", 0);
+		Log.e("Extra", "INTENT " + useTestDB);
+		// Initialize the database
+		if (useTestDB == 1) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
 			buildPopup(false);
@@ -125,7 +140,7 @@ public class Leaderboard extends FragmentActivity {
 			} catch (InternetConnectionException e) {
 				Log.i("Leaderboard", "triggering internet connection error screen");
 				Intent intent = new Intent(this, ErrorScreen.class);
-				intent.putExtra("error", R.layout.activity_connection_error);
+				intent.putExtra("error", R.layout.activity_connection_error_lb);
 				startActivity(intent);
 				return;
 			}
@@ -162,7 +177,7 @@ public class Leaderboard extends FragmentActivity {
 		} catch (InternetConnectionException e) {
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
-			intent.putExtra("error", R.layout.activity_connection_error);
+			intent.putExtra("error", R.layout.activity_connection_error_lb);
 			startActivity(intent);
 			return;
 		}

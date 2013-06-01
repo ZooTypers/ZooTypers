@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,27 +14,16 @@
         android:id="@+id/main_menu_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="30dp"
+        android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp"
         android:onClick="goToTitlePage"
         android:text="@string/main_menu" />
-
-    <Button
-        android:id="@+id/new_game_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="30dp"
-        android:layout_marginTop="20dp"
-        android:onClick="goToPreGameSelection"
-        android:text="@string/new_game" />
 
     <TextView
         android:id="@+id/big_error_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/new_game_button"
+        android:layout_below="@id/main_menu_button"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="50dp"
         android:text="@string/big_error"

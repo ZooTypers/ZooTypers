@@ -38,6 +38,7 @@ public class MultiLeaderBoardModel {
 	 */
 	public MultiLeaderBoardModel(String name) throws InternetConnectionException{
 		this(name, DEFAULT_ENTRIES);
+		
 	}
 
 	/**
