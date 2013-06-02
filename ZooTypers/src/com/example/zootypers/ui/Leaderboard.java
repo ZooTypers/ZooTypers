@@ -82,7 +82,7 @@ public class Leaderboard extends FragmentActivity {
 		} catch (InternetConnectionException e) {
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
-			intent.putExtra("error", R.layout.activity_connection_error);
+			intent.putExtra("error", R.layout.activity_connection_error_lb);
 			startActivity(intent);
 			return;
 		}
@@ -133,7 +133,7 @@ public class Leaderboard extends FragmentActivity {
 			} catch (InternetConnectionException e) {
 				Log.i("Leaderboard", "triggering internet connection error screen");
 				Intent intent = new Intent(this, ErrorScreen.class);
-				intent.putExtra("error", R.layout.activity_connection_error);
+				intent.putExtra("error", R.layout.activity_connection_error_lb);
 				startActivity(intent);
 				return;
 			}
@@ -171,7 +171,7 @@ public class Leaderboard extends FragmentActivity {
 		} catch (InternetConnectionException e) {
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
-			intent.putExtra("error", R.layout.activity_connection_error);
+			intent.putExtra("error", R.layout.activity_connection_error_lb);
 			startActivity(intent);
 			return;
 		}

@@ -140,7 +140,7 @@ public class Options extends Activity {
 			buildPopup(false);
 		} else {
 			Log.i("Options", "user is logged in");
-			
+
 			MultiLeaderBoardModel ml;
 			try {
 				ml = new MultiLeaderBoardModel();
@@ -168,6 +168,7 @@ public class Options extends Activity {
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
 	}
+
 
 	private void buildPopup(boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
@@ -272,9 +273,9 @@ public class Options extends Activity {
 	private final void setCorrectPosition(Switch mySwitch, String fileName){
 		try{
 			FileInputStream fis = openFileInput(fileName);
-			mySwitch.setChecked(false);
-		} catch (IOException e){
 			mySwitch.setChecked(true);
+		} catch (IOException e){
+			mySwitch.setChecked(false);
 		}
 	}
 
@@ -304,9 +305,6 @@ public class Options extends Activity {
 		currentUserText.setVisibility(View.INVISIBLE);
 		logoutButton.setVisibility(View.INVISIBLE);
 	}
-
-
-
 
 	// TODO remove repetition from title page / post game / leaderboard
 	/**
