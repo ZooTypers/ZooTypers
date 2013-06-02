@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiPlayerModel;
+import com.example.zootypers.ui.Leaderboard;
 import com.example.zootypers.ui.MultiPlayer;
 import com.example.zootypers.ui.TitlePage;
 import com.example.zootypers.util.InternalErrorException;
@@ -108,13 +109,13 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
                 continueButton.performClick();
             }
         });
-        solo.sleep(5000);
+        solo.waitForActivity(MultiPlayer.class, 15000);
     }
     
     /*
      * Make sure that you can create a default constructor properly
      */
-    @Test(timeout = TIMEOUT) @Suppress
+    @Test(timeout = TIMEOUT)
     public void testCreatingDefaultConstructor() {
         new MultiPlayerModel(5, "David", 2131296288);
     }
@@ -157,7 +158,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /*
      * make sure that when you create a model, all the fields are at default values
      */
-    @Test(timeout = TIMEOUT) @Suppress
+    @Test(timeout = TIMEOUT)
     public void testInitialValues() {
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(-1, model.getCurrWordIndex());
@@ -167,7 +168,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /*
      * check to see if the first 5 words are displayd in multiplayer screen
      */
-    @Test(timeout = TIMEOUT) @Suppress
+    @Test(timeout = TIMEOUT)
     public void testFiveWordsPresentInMulti(){
         List<TextView> views = getWordsPresented(solo);
         assertEquals(5, views.size());
@@ -204,7 +205,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /*
      * testing if typing an invalid letter would display the red error string
      */
-    @Test(timeout = TIMEOUT) @Suppress
+    @Test(timeout = TIMEOUT)
     public void testInvalidCharacterPressed(){
         List<TextView> views = getWordsPresented(solo);
         solo.sleep(1000);
@@ -216,17 +217,16 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         for (char c : lowChanceLetters){
             if(firstLetters.indexOf(c) < 0 ){
                 sendKeys(c - 68);
-                assertTrue(solo.searchText("Invalid Letter Typed"));
-                break;	
+                solo.searchText("Invalid Letter Typed");
+                break;
             }
         }
-        solo.sleep(1000);
     }
 
     /*
      * testing manually making the player 1 win the game and get score methods
      */
-    @Test(timeout = TIMEOUT) @Suppress
+    @Test(timeout = TIMEOUT)
     public void testWinningAMultiplayerGamePlay() {
         solo.sleep(3000);
         MultiPlayerModel model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
@@ -242,7 +242,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /*
      * testing manually making the player 1 tie the game and get score methods
      */
-    @Test(timeout = TIMEOUT) @Suppress
+    @Test(timeout = TIMEOUT)
     public void testTieingAMultiplayerGamePlay() {
         solo.sleep(3000);
         MultiPlayerModel model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
@@ -257,7 +257,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /*
      * testing manually making the player 1 lose the game and get score methods
      */
-    @Test(timeout = TIMEOUT) @Suppress
+    @Test(timeout = TIMEOUT)
     public void testLosingAMultiplayerGameWithModel() {
         solo.sleep(3000);
         MultiPlayerModel model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
@@ -391,12 +391,24 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         }
     }
     
+    private void quitGame() {
+        final Button quitButton = (Button) solo.getView(com.example.zootypers.R.id.quit_button);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                quitButton.performClick();
+            }
+        });
+    }
+    
     @Override
     protected void tearDown() throws Exception {
         setMyselfFinished();
         setOpponentFinished();
         deleteThisMatch();
-        solo.sleep(3000);
+        quitGame();
+        solo.sleep(1500);
         solo.finishOpenedActivities();
     }
 }

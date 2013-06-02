@@ -42,7 +42,6 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         super(PreGameSelection.class);
     }
 
-    @Before
     @Override
     protected void setUp() throws Exception {
         super.setUp();
