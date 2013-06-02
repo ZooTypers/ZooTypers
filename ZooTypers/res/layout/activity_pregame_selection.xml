@@ -156,7 +156,6 @@
 				android:layout_height="wrap_content"
 				android:scaleType="fitXY"
 				android:layout_gravity="center_vertical"
-				android:contentDescription="bg1"
 				android:onClick="setBackground"
 				android:src="@drawable/background_grassland"/>
 			
@@ -166,11 +165,53 @@
 				android:layout_height="wrap_content"
 				android:scaleType="fitXY"
 				android:layout_gravity="center_vertical"
-				android:contentDescription="bg2"
 				android:src="@drawable/background_rainbow"
 				android:onClick="setBackground"/>
-		
-		<!--morebackgroundshere-->
+			
+			<ImageButton
+				android:id="@+id/BG3_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:scaleType="fitXY"
+				android:layout_gravity="center_vertical"
+				android:src="@drawable/background_apples"
+				android:onClick="setBackground"/>
+			
+			<ImageButton
+				android:id="@+id/BG4_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:scaleType="fitXY"
+				android:layout_gravity="center_vertical"
+				android:src="@drawable/background_beach"
+				android:onClick="setBackground"/>
+			
+			<ImageButton
+				android:id="@+id/BG5_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:scaleType="fitXY"
+				android:layout_gravity="center_vertical"
+				android:src="@drawable/background_heart"
+				android:onClick="setBackground"/>
+			
+			<ImageButton
+				android:id="@+id/BG6_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:scaleType="fitXY"
+				android:layout_gravity="center_vertical"
+				android:src="@drawable/background_snow"
+				android:onClick="setBackground"/>
+			
+			<ImageButton
+				android:id="@+id/BG7_button"
+				android:layout_width="200dp"
+				android:layout_height="wrap_content"
+				android:scaleType="fitXY"
+				android:layout_gravity="center_vertical"
+				android:src="@drawable/background_town"
+				android:onClick="setBackground"/>
 		
 		</LinearLayout>
 	
