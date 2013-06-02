@@ -107,7 +107,7 @@ public abstract class Player extends Activity implements Observer {
                     //Vibrate
                     if(check == 1){
                         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        v.vibrate(500);
+                        v.vibrate(150);
                     }
 				} 
 			}

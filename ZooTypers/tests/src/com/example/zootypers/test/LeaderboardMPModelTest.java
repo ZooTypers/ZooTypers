@@ -1,64 +1,86 @@
 package com.example.zootypers.test;
 
+import java.util.ArrayList;
+import java.util.List;
 
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
-import android.test.AndroidTestCase;
-import android.test.suitebuilder.annotation.Suppress;
+import android.content.Intent;
+import android.test.ActivityInstrumentationTestCase2;
+import android.widget.Button;
 
 import com.example.zootypers.core.MultiLeaderBoardModel;
-import com.example.zootypers.core.ScoreEntry;
+import com.example.zootypers.ui.Leaderboard;
+import com.example.zootypers.ui.TitlePage;
 import com.example.zootypers.util.InternetConnectionException;
+import com.jayway.android.robotium.solo.Solo;
+import com.parse.ParseObject;
 
-@Suppress
-public class LeaderboardMPModelTest extends AndroidTestCase {
+public class LeaderboardMPModelTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
-    private MultiLeaderBoardModel model;
-    private static final int TIMEOUT = 10000;
     
-    @Before
-    public void setUp() throws Exception {
-        model = new MultiLeaderBoardModel();
-        model.setPlayer("David");
+    private Solo solo;
+    private static final int TIMEOUT = 30000;
+    private Button leaderboardButton;
+    private MultiLeaderBoardModel lbModel;
+    
+    public LeaderboardMPModelTest() {
+        super(TitlePage.class);
     }
 
-    @Test(timeout = TIMEOUT)
-    public void testCreatingADefaultConstructor() throws InternetConnectionException {
-        MultiLeaderBoardModel testmlb = new MultiLeaderBoardModel(10);
-        testmlb.setPlayer("David");
+    @Override
+    public void setUp() throws InternetConnectionException {
+        Intent in = new Intent();
+        in.putExtra("Testing", 1);
+        setActivityIntent(in);
+        
+        solo = new Solo(getInstrumentation(), getActivity());
+        
+        leaderboardButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                leaderboardButton.performClick();
+            }
+        });
+        
+        solo.waitForActivity(Leaderboard.class, 15000);
+        lbModel = ((Leaderboard) solo.getCurrentActivity()).getMultiLeaderboard();
+        lbModel.setPlayer("David");
+        solo.sleep(3000);
     }
     
     @Test(timeout = TIMEOUT)
-    public void testDefaultLeaderboardSize() {
-        assertEquals(10, model.getTopScores().length);
+    public void testCreatingADefaultConstructorNameOnly() throws InternetConnectionException {
+        lbModel = new MultiLeaderBoardModel();
+        lbModel.setPlayer("David");
     }
     
     @Test(timeout = TIMEOUT)
-    public void testLeaderBoardWithParam() throws InternetConnectionException {
-        model = new MultiLeaderBoardModel(50);
-        model.setPlayer("Bryan");
-        assertEquals(50, model.getTopScores().length);
+    public void testDefaultLeaderboardDefaultSize10() throws InternetConnectionException {
+        lbModel = new MultiLeaderBoardModel(10);
+        lbModel.setPlayer("David");
+    }
+    
+    @Test(timeout = TIMEOUT)
+    public void testLeaderBoardWithParamSize300() throws InternetConnectionException {
+        lbModel = new MultiLeaderBoardModel(300);
+        lbModel.setPlayer("David");
     }
     
     @Test(timeout = TIMEOUT)
     public void testAddingALowScoreEntry() {
-        model.addEntry(3);
+        lbModel.addEntry(33333);
     }
     
     @Test(timeout = TIMEOUT)
     public void testAddingTheHighestScoreAndExistsInLeaderboard() {
-        model.addEntry(1000);
-        ScoreEntry[] entries = model.getTopScores();
-        int expectedScore = 1000;
-        int actualScore = entries[0].getScore();
-        assertEquals(expectedScore, actualScore);
+        
     }
     
-    @After
+    @Override
     public void tearDown() throws Exception {
-        //tear down?
+        //lbModel.clearLeaderboard();
+        solo.finishOpenedActivities();
     }
 }
