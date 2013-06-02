@@ -135,23 +135,24 @@ public class MultiPlayer extends Player {
 		task.execute();
 
 		// create a background music
-		if(readBGM){
-			try {
-				FileInputStream is = openFileInput("bgm.txt");
-				playMusic = 1;
-			} catch (FileNotFoundException e){
-				//Yes for vibration case
-				//Do nothing
-			} 
-			readBGM = false;
-		}
-		//play music
-		if(playMusic == 1){
-			mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
-			mediaPlayer.setLooping(true);
-			mediaPlayer.setVolume(100,100);
-			mediaPlayer.start();
-		}
+        if(readBGM){
+            try {
+                FileInputStream is = openFileInput("bgm.txt");
+                playMusic = 1;
+            } catch (FileNotFoundException e){
+                //Yes for vibration case
+                //Do nothing
+            } 
+            readBGM = false;
+        }
+        
+        //play music
+        if(playMusic == 1){
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
 	}
 
 
