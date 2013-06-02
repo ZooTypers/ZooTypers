@@ -115,7 +115,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /*
      * Make sure that you can create a default constructor properly
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testCreatingDefaultConstructor() {
         new MultiPlayerModel(5, "David", 2131296288);
     }
@@ -158,7 +158,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /*
      * make sure that when you create a model, all the fields are at default values
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testInitialValues() {
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(-1, model.getCurrWordIndex());
