@@ -1,18 +1,15 @@
 package com.example.zootypers.ui;
 
-import com.example.zootypers.R;
-
-import com.parse.Parse;
-import com.parse.ParseUser;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.Menu;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.TextView;
+
+import com.example.zootypers.R;
 
 
 public class SplashScreen extends Activity{
@@ -21,6 +18,7 @@ public class SplashScreen extends Activity{
 	@Override
 	protected final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Log.i("ZooTypers", "displaying splash screen");
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		setContentView(R.layout.activity_splash);

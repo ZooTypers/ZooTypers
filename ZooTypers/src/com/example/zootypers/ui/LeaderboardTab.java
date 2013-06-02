@@ -1,9 +1,9 @@
 package com.example.zootypers.ui;
 
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Html;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +39,7 @@ public class LeaderboardTab extends Fragment {
 	 * @param seArray the list of entries to put in the leaderboard
 	 */
 	protected void setupLBList(View view, ScoreEntry[] seArray) {
+		Log.i("Leaderboard", "setting up ranking list for single player or multiplayer");
 		int size = seArray.length;
 		if (seArray.length > 10) {
 			size = MAX_LENGTH;
@@ -70,6 +71,7 @@ public class LeaderboardTab extends Fragment {
 	 * @param how many users before and after to show relative to the current user
 	 */
 	protected void setupLBList(View view, ScoreEntry[] seArray, int rank, int relativeRank) {
+		Log.i("Leaderboard", "setting up ranking list for relative scores");
 
 		// find the position of the user to highlight
 		int userPosition = relativeRank;

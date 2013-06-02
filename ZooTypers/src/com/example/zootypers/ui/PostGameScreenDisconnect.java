@@ -3,6 +3,7 @@ package com.example.zootypers.ui;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -17,6 +18,8 @@ public class PostGameScreenDisconnect extends PostGameScreenMulti {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    
+    Log.i("Multiplayer", "opponent has disconnected!");
     
     // Get & display background
     setContentView(R.layout.activity_pregame_selection_multi);
