@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.widget.Button;
 
 import com.example.zootypers.core.MultiLeaderBoardModel;
@@ -37,6 +38,8 @@ public class MultiLeaderBoardModelTest extends ActivityInstrumentationTestCase2<
         
         entries = new ArrayList<ParseObject>();
         solo = new Solo(getInstrumentation(), getActivity());
+        
+        //TODO: trying to fix up the MP leaderboard test
         
         leaderboardButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button);
         getActivity().runOnUiThread(new Runnable() {
