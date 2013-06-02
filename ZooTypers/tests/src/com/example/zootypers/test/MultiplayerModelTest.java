@@ -45,6 +45,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     // maximum number of words in wordLists on Parse database
     private static final int NUMOFWORDS = 709;
     private static boolean loginFlag = true;
+    private List<String> wordsList;
 
     public MultiplayerModelTest() {
         super(TitlePage.class);
@@ -105,7 +106,9 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         });
         solo.waitForActivity(MultiPlayer.class, 15000);
         model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
-        solo.sleep(5000);
+        solo.sleep(13000);
+        wordsList = model.getWordsList();
+        solo.sleep(1500);
     }
 
     /**
@@ -113,8 +116,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * also make sure that all the default values are correct.
      */
     @Test(timeout = TIMEOUT)
-    public void testMakingSureWordsListCorrectSize() throws InternetConnectionException, InternalErrorException {
-        List<String> wordsList = model.getWordsList();
+    public void testMakingSureWordsListCorrectSize() {
         int expected = 100;
         assertEquals(expected, wordsList.size());
         assertEquals(5, model.getWordsDisplayed().length);
@@ -128,8 +130,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testTypingCorrectLetterChangeIndex() throws InternetConnectionException, InternalErrorException {
-        List<String> wordsList = model.getWordsList();
+    public void testTypingCorrectLetterChangeIndex() {
         String firstWord = wordsList.get(0);
         char firstChar = firstWord.charAt(0);
         sendKeys(firstChar - 68);
@@ -142,9 +143,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testTypingCorrectWordOnceUpdateScore() throws InternetConnectionException, InternalErrorException {
+    public void testTypingCorrectWordOnceUpdateScore() {
         //type a whole word and see if index sets back to -1
-        List<String> wordsList = model.getWordsList();
         String firstWord = wordsList.get(0);
         for (int i = 0; i < firstWord.length(); i++) {
             sendKeys(firstWord.charAt(i) - 68);
@@ -166,8 +166,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testInvalidCharacterPressedDoesNotChangeIndex() throws InternetConnectionException, InternalErrorException{
-        List<String> wordsList = model.getWordsList();
+    public void testInvalidCharacterPressedDoesNotChangeIndex() {
         String firstWord = wordsList.get(0);
         char firstChar = firstWord.charAt(0);
         //try to type 6 letters and see if error string occurs
