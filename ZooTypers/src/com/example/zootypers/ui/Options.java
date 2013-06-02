@@ -58,7 +58,7 @@ public class Options extends Activity {
       //attach a listener to check for changes in state
       mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
           public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-              if(isChecked){
+              if(!isChecked){
                   deleteFile("vibrate.txt");
               }else{
                   try {
@@ -78,7 +78,7 @@ public class Options extends Activity {
       //attach a listener to check for changes in state
       mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
           public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-              if(isChecked){
+              if(!isChecked){
                   deleteFile("bgm.txt");
               }else{
                   try {
@@ -264,9 +264,9 @@ public class Options extends Activity {
   private final void setCorrectPosition(Switch mySwitch, String fileName){
       try{
           FileInputStream fis = openFileInput(fileName);
-          mySwitch.setChecked(false);
-      } catch (IOException e){
           mySwitch.setChecked(true);
+      } catch (IOException e){
+          mySwitch.setChecked(false);
       }
   }
   

@@ -52,7 +52,7 @@ public class MultiPlayer extends Player {
 	private static MultiPlayerModel model;
 
 	//check for whether to play music or not
-    private int check = 1;
+    private int check = 0;
     
     //check to see if you need to read the bgm file or not
     private boolean read = true;
@@ -139,7 +139,7 @@ public class MultiPlayer extends Player {
         if(read){
             try {
                 FileInputStream is = openFileInput("bgm.txt");
-                check = 0;
+                check = 1;
             } catch (FileNotFoundException e){
                 //Yes for vibration case
                 //Do nothing
@@ -147,7 +147,7 @@ public class MultiPlayer extends Player {
             read = false;
         }
         //Vibrate
-        if(check == 1){
+        if(check == 0){
             mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
             mediaPlayer.setLooping(true);
             mediaPlayer.setVolume(100,100);
