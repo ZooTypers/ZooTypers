@@ -52,7 +52,7 @@ public class SinglePlayer extends Player {
 	public static boolean paused;
 	
 	// check for whether to play music or not
-    private int check = 1;
+    private int check = 0;
     
     // check to see if you need to read the bgm file or not
     private boolean read = true;
@@ -110,7 +110,7 @@ public class SinglePlayer extends Player {
         if(read){
             try {
                 FileInputStream is = openFileInput("bgm.txt");
-                check = 0;
+                check = 1;
             } catch (FileNotFoundException e){
                 //Yes for vibration case
                 //Do nothing
