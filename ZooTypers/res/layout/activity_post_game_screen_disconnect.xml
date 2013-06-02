@@ -1,0 +1,84 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/postgame_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="0dp"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".PostGameScreenMulti" >
+    
+    <TextView
+        android:id="@+id/ad"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/black"
+        android:gravity="center_horizontal"
+        android:padding="20dp"
+        android:text="@string/ad_text"
+        android:textColor="@color/white" />    
+    
+    <Button 
+        android:id="@+id/main_menu_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ad"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="30dp"
+        android:text="@string/main_menu"
+        android:onClick="goToTitlePage"/>
+    
+    <Button 
+        android:id="@+id/new_game_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/ad"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="30dp"
+        android:text="@string/new_game"
+        android:onClick="goToPreGameSelection"/>
+    
+    <TextView
+        android:id="@+id/discon_note"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/new_game_button"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/opp_disconnected"
+        android:textSize="21sp" />
+
+    <TextView
+        android:id="@+id/final_score_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/discon_note"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:text="@string/final_score"
+        android:textSize="25sp" />
+    
+    <TextView
+        android:id="@+id/final_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/final_score_text"
+        android:layout_centerHorizontal="true"
+        android:textSize="35sp" />
+
+    <Button
+        android:id="@+id/save_score_button"
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/final_score"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:onClick="saveScore"
+        android:text="@string/save_score" />
+
+</RelativeLayout>
