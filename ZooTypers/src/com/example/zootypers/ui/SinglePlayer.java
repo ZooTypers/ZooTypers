@@ -164,9 +164,10 @@ public class SinglePlayer extends Player {
 	@Override
 	public void onPause() {
 		super.onPause();
-		if (!paused && pausedTime != 0)
+		if (!paused && pausedTime != 0) {
+		    mediaPlayer.pause();
 			pauseGame(findViewById(R.id.pause_button));
-		mediaPlayer.pause();
+		}
 	}
 
 	/**

@@ -1,24 +1,20 @@
 package com.example.zootypers.test;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Random;
-import java.util.Set;
 
 import org.junit.Test;
 
-import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Suppress;
-import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiPlayerModel;
-import com.example.zootypers.ui.Leaderboard;
 import com.example.zootypers.ui.MultiPlayer;
 import com.example.zootypers.ui.TitlePage;
 import com.example.zootypers.util.InternalErrorException;
@@ -110,6 +106,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             }
         });
         solo.waitForActivity(MultiPlayer.class, 15000);
+        solo.sleep(5000);
     }
     
     /*
@@ -173,7 +170,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         List<TextView> views = getWordsPresented(solo);
         assertEquals(5, views.size());
         for(int i = 0; i < 5; i++){
-            Log.v("words", views.get(i).getText().toString());
+            //Log.v("words", views.get(i).getText().toString());
             int expectedLength = views.get(i).getText().toString().length();
             solo.sleep(1000);
             assertTrue(expectedLength > 0);
@@ -392,8 +389,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     }
     
     private void quitGame() {
-        final Button quitButton = (Button) solo.getView(com.example.zootypers.R.id.quit_button);
-        solo.sleep(1000);
+        final View quitButton = (View) solo.getView(com.example.zootypers.R.id.quit_button);
+        solo.sleep(3000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
