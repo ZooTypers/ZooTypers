@@ -48,7 +48,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
     }
 
     /**
-     * Test to see if all the buttons are in view.
+     * Test to see if all the buttons exist and have correct text.
      */
     @Test(timeout = TIMEOUT)
     public void testCorrectButtonAndTextDisplayed() {
@@ -69,7 +69,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
     }
 
     /**
-     * Tests to see if 'Easy' can be pushed.
+     * Tests to see if 'Easy' can be pushed and saves the correct view.
      */
     @Test(timeout = TIMEOUT)
     public void testSelectingEasyDifficultyButton() {
@@ -86,7 +86,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
     }
 
     /**
-     * Tests to see if 'Medium' can be pushed.
+     * Tests to see if 'Medium' can be pushed and saves the correct view.
      */
     @Test(timeout = TIMEOUT)
     public void testSelectingMediumDifficultyButton() {
@@ -103,7 +103,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
     }
 
     /**
-     * Tests to see if 'Hard' can be pushed.
+     * Tests to see if 'Hard' can be pushed and saves the correct view.
      */
     @Test(timeout = TIMEOUT)
     public void testSelectingHardDifficultyButton() {
@@ -174,7 +174,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
     }
 
     /**
-     * Tests to see if Grassland terrain can be pushed.
+     * Tests to see if Grassland terrain can be pushed and saves the correct view.
      */
     @Test(timeout = TIMEOUT)
     public void testSelectingGrasslandBackground() {
@@ -192,7 +192,7 @@ public class PreGameSelectionTest extends ActivityInstrumentationTestCase2<PreGa
     }
 
     /**
-     * Tests to see if Rainbow terrain can be pushed.
+     * Tests to see if Rainbow terrain can be pushed and saves the correct view.
      */
     @Test(timeout = TIMEOUT)
     public void testingSelectingRainbowBackground() {
