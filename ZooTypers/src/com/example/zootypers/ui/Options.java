@@ -127,6 +127,7 @@ public class Options extends Activity {
           Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
                   "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
       }
+      currentUser = ParseUser.getCurrentUser();
       if (currentUser == null) {
           buildPopup(false);
           Log.i("Options", "user begins logging in");

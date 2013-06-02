@@ -22,6 +22,7 @@ import com.jayway.android.robotium.solo.Solo;
  * @author dyxliang
  *
  */
+@Suppress
 public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
     private Solo solo;
