@@ -1,0 +1,24 @@
+06-02 21:24:53.559: I/ZooTypers(1128): displaying splash screen
+06-02 21:24:58.419: I/ZooTypers(1128): User entered title screen
+06-02 21:25:11.899: I/ZooTypers(1128): Proceeding to options menu
+06-02 21:25:12.259: I/Options(1128): entered options
+06-02 21:25:13.839: I/Options(1128): clearing single player leaderboard
+06-02 21:25:13.839: I/SinglePlayer(1128): reading file for scores
+06-02 21:25:13.839: I/SinglePlayer(1128): no scores in system
+06-02 21:25:13.849: I/SinglePlayer(1128): removing all scores
+06-02 21:25:18.809: I/Options(1128): clearing multiplayer leaderboard
+06-02 21:25:18.819: I/Options(1128): user begins logging in
+06-02 21:25:30.579: I/Options(1128): user exits log in
+06-02 21:25:30.619: I/Options(1128): clearing multiplayer leaderboard
+06-02 21:25:30.630: I/Options(1128): user is already logged in
+06-02 21:25:30.630: I/Multiplayer(1128): multiplayer getting all scores from parse
+06-02 21:25:32.049: I/Multiplayer(1128): multiplayer getting this player's score from parse
+06-02 21:25:33.399: I/Multiplayer(1128): this player's has no scores score from parse
+06-02 21:25:33.399: I/Multiplayer(1128): multiplayer leaderboard deleting the user's entry
+06-02 21:25:39.259: I/Options(1128): vibrate is switched off
+06-02 21:25:41.449: I/Options(1128): vibrate is switched on
+06-02 21:25:42.959: I/Options(1128): background music is switched off
+06-02 21:25:44.539: I/Options(1128): background music is switched on
+06-02 21:25:46.958: I/Leaderboard(1128): back to title page from options
+06-02 21:25:47.279: I/ZooTypers(1128): User entered title screen
+06-02 21:25:49.169: I/ZooTypers(1128): user has logged out

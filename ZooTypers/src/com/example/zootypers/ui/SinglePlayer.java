@@ -119,7 +119,7 @@ public class SinglePlayer extends Player {
         }
         // play music
         if(playMusic == 1){
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
             mediaPlayer.setLooping(true);
             mediaPlayer.setVolume(100,100);
             mediaPlayer.start();
