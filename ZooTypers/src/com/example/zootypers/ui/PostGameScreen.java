@@ -2,9 +2,9 @@ package com.example.zootypers.ui;
 
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ActionBar.LayoutParams;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -135,7 +135,8 @@ public class PostGameScreen extends Activity {
 	 * Helper method to build a popup screen for the
 	 * save score popup
 	 */
-	private void buildSavePopup() {
+	@SuppressLint("InlinedApi")
+  private void buildSavePopup() {
 		if (savedScore) {
 			final String title = "Score already saved";
 			final String message = "You cannot save your current score more than once";

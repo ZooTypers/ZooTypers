@@ -1,8 +1,5 @@
 package com.example.zootypers.ui;
 
-
-
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -18,54 +15,58 @@ import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.util.InternetConnectionException;
 
+/**
+ * Post game activity / UI for a multiplayer game.
+ */
 public class PostGameScreenMulti extends PostGameScreen {
 
-	String username;
+  String username;
 
-	@SuppressLint("NewApi")
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+  @SuppressLint("NewApi")
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-		// Get & display background
-		setContentView(R.layout.activity_pregame_selection_multi);
-		Drawable background = ((ImageButton) 
-		findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
+    // Get & display background
+    setContentView(R.layout.activity_pregame_selection_multi);
+    Drawable background = ((ImageButton) 
+        findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
-		setContentView(R.layout.activity_post_game_screen_multi);
-		findViewById(R.id.postgame_layout).setBackground(background);
+    setContentView(R.layout.activity_post_game_screen_multi);
+    findViewById(R.id.postgame_layout).setBackground(background);
 
-		// Get and display score
-		score = getIntent().getIntExtra("score", 0);
-		TextView finalScore = (TextView) findViewById(R.id.final_score);
-		finalScore.setText(score.toString());
+    // Get and display the player's score
+    score = getIntent().getIntExtra("score", 0);
+    TextView finalScore = (TextView) findViewById(R.id.final_score);
+    finalScore.setText(score.toString());
+    
+    opponentDisplay();
 
-		// Display result of game
-		TextView resultMessage = (TextView) findViewById(R.id.game_result);
-		if (getIntent().getBooleanExtra("discon", false)) {
-			// Opponent disconnected
-			resultMessage.setText("Your Opponent Disconnected.");
-			resultMessage.setTextSize(20);
-			TextView opp = (TextView) findViewById(R.id.opp_final_score_text);
-			opp.setText("");
-		} else {
-			Integer oppScore = getIntent().getIntExtra("oppScore", 0);
-			TextView oppFinalScore = (TextView) findViewById(R.id.opp_final_score);
-			oppFinalScore.setText(oppScore.toString());
+    // Get and store the username
+    username = getIntent().getStringExtra("username");
+  }
+  
+  /**
+   * Display opponent's score & result of the game.
+   */
+  protected void opponentDisplay() {
+    // Get and display the opponent's score
+    Integer oppScore = getIntent().getIntExtra("oppScore", 0);
+    TextView oppFinalScore = (TextView) findViewById(R.id.opp_final_score);
+    oppFinalScore.setText(oppScore.toString());
 
-			int result = getIntent().getIntExtra("result", 0);
+    // Determine & display result of the game
+    TextView resultMessage = (TextView) findViewById(R.id.game_result);
+    int result = getIntent().getIntExtra("result", 0);
+    if (result == 1) {
+      resultMessage.setText("You Won!");
+    } else if (result == 0) {
+      resultMessage.setText("You Tied!");
+    } else {
+      resultMessage.setText("You Lost.");
+    }    
+  }
 
-			if (result == 1) {
-				resultMessage.setText("You Won!");
-			} else if (result == 0) {
-				resultMessage.setText("You Tied!");
-			} else {
-				resultMessage.setText("You Lost.");
-			}
-		}
-
-		username = getIntent().getStringExtra("username");
-	}
 	@Override
 	public final void saveScore(final View view) {
 		MultiLeaderBoardModel ml;
@@ -85,12 +86,12 @@ public class PostGameScreenMulti extends PostGameScreen {
 		buildAlertDialog(title, message);
 	}
 
-	@Override
-	public final void goToPreGameSelection(final View view) {
-		Intent intent = new Intent(this, PreGameSelectionMulti.class);
-		intent.putExtra("username", username);
-		startActivity(intent);
-	}
+  @Override
+  public final void goToPreGameSelection(final View view) {
+    Intent intent = new Intent(this, PreGameSelectionMulti.class);
+    intent.putExtra("username", username);
+    startActivity(intent);
+  }
 
     
     // TODO remove repetition from title page / options

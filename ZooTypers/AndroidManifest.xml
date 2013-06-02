@@ -85,6 +85,14 @@
             android:name="com.example.zootypers.RelativeUserScore"
             android:label="@string/title_activity_relative_user_score" >
         </activity>
+        <activity
+            android:name="com.example.zootypers.ui.PostGameScreenDisconnect"
+            android:label="@string/title_activity_post_game_screen_disconnect"
+            android:parentActivityName="com.example.zootypers.ui.PostGameScreenMulti" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.zootypers.ui.PostGameScreenMulti" />
+        </activity>
     </application>
 
     <instrumentation

@@ -349,7 +349,6 @@ public class MultiPlayerModel extends PlayerModel {
 		}
 	}
 
-	// return true if my opponent has finished their game
 	/**
 	 * checks to see if the opponent is finished for a maximum of 
 	 * SCORE_TIMEOUT milliseconds. If the opponent is finished then
