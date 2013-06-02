@@ -105,7 +105,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         });
         solo.waitForActivity(MultiPlayer.class, 15000);
         model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
-        //solo.waitForFragmentById(com.example.zootypers.R.id.word0);
         solo.sleep(5000);
     }
 
@@ -115,7 +114,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      */
     @Test(timeout = TIMEOUT)
     public void testMakingSureWordsListCorrectSize() throws InternetConnectionException, InternalErrorException {
-        model.setWordsList();
         List<String> wordsList = model.getWordsList();
         int expected = 100;
         assertEquals(expected, wordsList.size());
@@ -131,7 +129,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      */
     @Test(timeout = TIMEOUT)
     public void testTypingCorrectLetterChangeIndex() throws InternetConnectionException, InternalErrorException {
-        model.setWordsList();
         List<String> wordsList = model.getWordsList();
         String firstWord = wordsList.get(0);
         char firstChar = firstWord.charAt(0);
@@ -147,7 +144,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     @Test(timeout = TIMEOUT)
     public void testTypingCorrectWordOnceUpdateScore() throws InternetConnectionException, InternalErrorException {
         //type a whole word and see if index sets back to -1
-        model.setWordsList();
         List<String> wordsList = model.getWordsList();
         String firstWord = wordsList.get(0);
         for (int i = 0; i < firstWord.length(); i++) {
@@ -171,7 +167,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      */
     @Test(timeout = TIMEOUT)
     public void testInvalidCharacterPressedDoesNotChangeIndex() throws InternetConnectionException, InternalErrorException{
-        model.setWordsList();
         List<String> wordsList = model.getWordsList();
         String firstWord = wordsList.get(0);
         char firstChar = firstWord.charAt(0);
