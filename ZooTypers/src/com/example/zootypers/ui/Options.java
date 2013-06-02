@@ -1,7 +1,15 @@
 package com.example.zootypers.ui;
 
+
+
+
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,7 +20,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.RelativeLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
@@ -36,10 +47,51 @@ public class Options extends Activity {
 
   @Override
   protected final void onCreate(final Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-	this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-    setContentView(R.layout.activity_options);
-    lp = new LoginPopup(currentUser);
+	  super.onCreate(savedInstanceState);
+      this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+      setContentView(R.layout.activity_options);
+      lp = new LoginPopup(currentUser);
+
+      //Vibration listener
+      Switch mySwitch = (Switch) findViewById(R.id.vibrate);
+      setCorrectPosition(mySwitch, "vibrate.txt");
+      //attach a listener to check for changes in state
+      mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+          public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+              if(isChecked){
+                  deleteFile("vibrate.txt");
+              }else{
+                  try {
+                      FileOutputStream fos = openFileOutput("vibrate.txt", Context.MODE_PRIVATE);
+                      fos.write(0);
+                      fos.close();
+                  } catch (IOException e){
+                      Log.e("Options.java", "vibrate.txt", e);
+                  }
+              }
+          }
+      });
+      
+    //BGM listener
+      mySwitch = (Switch) findViewById(R.id.bgm);
+      setCorrectPosition(mySwitch, "bgm.txt");
+      //attach a listener to check for changes in state
+      mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+          public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+              if(isChecked){
+                  deleteFile("bgm.txt");
+              }else{
+                  try {
+                      FileOutputStream fos = openFileOutput("bgm.txt", Context.MODE_PRIVATE);
+                      fos.write(0);
+                      fos.close();
+                  } catch (IOException e){
+                      Log.e("Options.java", "vibrate.txt", e);
+                  }
+              }
+          }
+      });
+
   }
 
   @Override
@@ -65,34 +117,38 @@ public class Options extends Activity {
    * Clears the multiplayer leaderboard.
    */
   public final void clearMulti(final View view) {
-		useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.e("Extra", "INTENT " + useTestDB);
-		// Initialize the database
-		if (useTestDB == 1) {
-			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
-		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
-		}
-    currentUser = ParseUser.getCurrentUser();
-    if (currentUser == null) {
-      buildPopup(false);
-    } else {
-      MultiLeaderBoardModel ml;
-	try {
-		ml = new MultiLeaderBoardModel(currentUser.getString("username"));
-	} catch (InternetConnectionException e) {
-		Log.i("Leaderboard", "triggering internet connection error screen");
-		Intent intent = new Intent(this, ErrorScreen.class);
-		intent.putExtra("error", R.layout.activity_connection_error);
-		startActivity(intent);
-		return;
-	}
-      ml.clearLeaderboard();
-      final String title = "Cleared Leaderboard";
-      final String message = "Your multiplayer scores have been successfully cleared.";
-      buildAlertDialog(title, message);
-    }
+      useTestDB = getIntent().getIntExtra("Testing", 0);
+      Log.e("Extra", "INTENT " + useTestDB);
+      // Initialize the database
+      if (useTestDB == 1) {
+          Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+                  "hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+      } else {
+          Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+                  "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+      }
+      currentUser = ParseUser.getCurrentUser();
+      if (currentUser == null) {
+          buildPopup(false);
+          Log.i("Options", "user begins logging in");
+      } else {
+          MultiLeaderBoardModel ml;
+          try {
+              ml = new MultiLeaderBoardModel();
+              ml.setPlayer(currentUser.getString("username"));
+          } catch (InternetConnectionException e) {
+              Log.i("Leaderboard", "triggering internet connection error screen");
+              Intent intent = new Intent(this, ErrorScreen.class);
+              intent.putExtra("error", R.layout.activity_connection_error);
+              startActivity(intent);
+              return;
+          }
+          Log.i("Options", "begin clearing multi player leader board");
+          ml.clearLeaderboard();
+          final String title = "Cleared Leaderboard";
+          final String message = "Your multiplayer scores have been successfully cleared.";
+          buildAlertDialog(title, message);
+      }
   }
 
   /**
@@ -121,6 +177,7 @@ public class Options extends Activity {
    * @param view Button that is pressed
    */
   public final void forgotPassword(View view) {
+	  Log.i("Options", "user has forgotten password");
     // set up the layout inflater to inflate the popup layout
     LayoutInflater layoutInflater =
     (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
@@ -142,7 +199,7 @@ public class Options extends Activity {
 	try {
 		usernameString = lp.loginButton();
 	} catch (InternetConnectionException e) {
-		Log.i("Leaderboard", "triggering internet connection error screen");
+        Log.i("Options", "triggering internet connection error screen");
 		Intent intent = new Intent(this, ErrorScreen.class);
 		intent.putExtra("error", R.layout.activity_connection_error);
 		startActivity(intent);
@@ -152,6 +209,7 @@ public class Options extends Activity {
     if (!usernameString.equals("")) {
       exitLoginPopup(view);
       clearMulti(view);
+      Log.i("Options", "user has logged in");
     }
   }
 
@@ -160,6 +218,7 @@ public class Options extends Activity {
    * @param view the button clicked
    */
   public void exitLoginPopup(View view) {
+    Log.i("Options", "user exits log in");
     lp.exitLoginPopup();
   }
 
@@ -168,6 +227,7 @@ public class Options extends Activity {
    * @param view the button clicked
    */
   public void exitPasswordPopup(View view) {
+	Log.i("Options", "user exits password popup");
     buildPopup(true);
   }
   
@@ -176,6 +236,7 @@ public class Options extends Activity {
    * @param view the button clicked
    */
   public void logoutUser(View view) {
+	Log.i("Options", "user has logged out");
     // Log the user out
     ParseUser.logOut();
     currentUser = ParseUser.getCurrentUser();
@@ -191,6 +252,7 @@ public class Options extends Activity {
    * @param view the button clicked
    */
   public void resetPassword(View view) {
+    Log.i("Options", "user resets password");
     // Sort through the reset info
     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
     lp.resetPassword(alertDialogBuilder);   
@@ -198,6 +260,16 @@ public class Options extends Activity {
     buildPopup(true);
   }
 
+  //Set the switch to the correct position
+  private final void setCorrectPosition(Switch mySwitch, String fileName){
+      try{
+          FileInputStream fis = openFileInput(fileName);
+          mySwitch.setChecked(false);
+      } catch (IOException e){
+          mySwitch.setChecked(true);
+      }
+  }
+  
   /**
    * Goes to the Registration page
    * @param view the button clicked

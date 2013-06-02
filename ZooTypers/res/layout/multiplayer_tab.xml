@@ -336,20 +336,11 @@
                 android:paddingRight="20dp"
                 android:text="@string/default_ldbd_score" />
         </TableRow>
-    
-	    <Button
-	        android:id="@+id/relative_score_button"
-	        android:layout_gravity="center_horizontal"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_below="@+id/tableLayout1"
-	        android:layout_marginTop="5dp"
-	        android:onClick="relativeUserScore"
-	        android:text="@string/see_score_string" />
 	
 	    <Button
 	        android:id="@+id/main_menu_button"
 	        android:layout_width="wrap_content"
+	        android:layout_marginTop="5dp"
 	        android:layout_height="wrap_content"
 	        android:gravity="center_horizontal"
 	        android:onClick="goToMain"

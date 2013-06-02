@@ -329,6 +329,7 @@ public class MultiPlayerModel extends PlayerModel {
 
 	/**
 	 * sets the user to being done with the match
+	 * @throws InternetConnectionException 
 	 *
 	 */
 	public final void setUserFinish() throws InternetConnectionException {
@@ -338,15 +339,16 @@ public class MultiPlayerModel extends PlayerModel {
 			match.put(info.get("finished"), true);
 			match.save();
 		} catch (ParseException e) {
-			Log.e("Multiplayer", "parse error setting user to finish", e);
-			throw new InternetConnectionException();
+			if ("p1name".equals(info.get("name"))) {
+				Log.w("Multiplayer", "parse error setting user to finish");
+				throw new InternetConnectionException();
+			} 
 		} catch (NullPointerException e) {
 			Log.w("Multiplayer", "unable to connect to internet");
 			throw new InternetConnectionException();
 		}
 	}
 
-	// return true if my opponent has finished their game
 	/**
 	 * checks to see if the opponent is finished for a maximum of 
 	 * SCORE_TIMEOUT milliseconds. If the opponent is finished then
@@ -371,9 +373,11 @@ public class MultiPlayerModel extends PlayerModel {
 				checkIfInMatch();
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e) {
-				Log.e("Multiplayer", 
-				"parse error while checking if opponent is finished or not", e);
-				throw new InternetConnectionException();
+				if ("p1name".equals(info.get("name"))) {
+					Log.w("Multiplayer", "parse error while checking if opponent is finished or not");
+					throw new InternetConnectionException();
+				}
+				return false;
 			} catch (InterruptedException e) {
 				Log.e("Multiplayer", "thread error while sleeping", e);
 				throw new InternalErrorException();
