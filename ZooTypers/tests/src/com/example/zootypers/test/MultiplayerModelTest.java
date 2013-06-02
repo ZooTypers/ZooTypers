@@ -1,11 +1,11 @@
 package com.example.zootypers.test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -106,9 +106,9 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         });
         solo.waitForActivity(MultiPlayer.class, 15000);
         model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
-        solo.sleep(13000);
+        solo.sleep(15000);
         wordsList = model.getWordsList();
-        solo.sleep(1500);
+        solo.sleep(10000);
     }
 
     /**
@@ -129,7 +129,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * @throws InternalErrorException 
      * @throws InternetConnectionException 
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testTypingCorrectLetterChangeIndex() {
         String firstWord = wordsList.get(0);
         char firstChar = firstWord.charAt(0);
@@ -142,7 +142,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * @throws InternalErrorException 
      * @throws InternetConnectionException 
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testTypingCorrectWordOnceUpdateScore() {
         //type a whole word and see if index sets back to -1
         String firstWord = wordsList.get(0);
@@ -165,7 +165,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * @throws InternalErrorException 
      * @throws InternetConnectionException 
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testInvalidCharacterPressedDoesNotChangeIndex() {
         String firstWord = wordsList.get(0);
         char firstChar = firstWord.charAt(0);
@@ -287,21 +287,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         } catch (ParseException e) {
             e.printStackTrace();
         }
-    }
-
-    /*
-     * Getting the words as textviews for testing.
-     */
-    private static List<TextView> getWordsPresented(Solo solo){
-        solo.sleep(3000);
-        List<TextView> retVal = new ArrayList<TextView>();
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word1)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word2)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word3)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word4)));
-        solo.sleep(3000);
-        return retVal;
     }
 
     /*
