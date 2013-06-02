@@ -173,7 +173,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         List<TextView> views = getWordsPresented(solo);
         assertEquals(5, views.size());
         for(int i = 0; i < 5; i++){
-            Log.v("words", views.get(i).getText().toString());
+            //Log.v("words", views.get(i).getText().toString());
             int expectedLength = views.get(i).getText().toString().length();
             solo.sleep(1000);
             assertTrue(expectedLength > 0);

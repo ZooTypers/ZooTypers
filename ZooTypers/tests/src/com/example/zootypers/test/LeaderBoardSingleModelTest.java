@@ -16,14 +16,14 @@ import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
 
 @Suppress
-public class LeaderBoardActivityTest extends ActivityInstrumentationTestCase2<TitlePage> {
+public class LeaderBoardSingleModelTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
     private Solo solo;
     private static final int TIMEOUT = 10000;
     private Button leaderboardButton;
     private SingleLeaderBoardModel lbModel;
     
-    public LeaderBoardActivityTest() {
+    public LeaderBoardSingleModelTest() {
         super(TitlePage.class);
     }
 
