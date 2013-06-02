@@ -58,7 +58,7 @@ public class Options extends Activity {
       //attach a listener to check for changes in state
       mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
           public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-              if(isChecked){
+              if(!isChecked){
                   deleteFile("vibrate.txt");
               }else{
                   try {
@@ -72,13 +72,13 @@ public class Options extends Activity {
           }
       });
       
-    //BGM listener
+      //BGM listener
       mySwitch = (Switch) findViewById(R.id.bgm);
       setCorrectPosition(mySwitch, "bgm.txt");
       //attach a listener to check for changes in state
       mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
           public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-              if(isChecked){
+              if(!isChecked){
                   deleteFile("bgm.txt");
               }else{
                   try {
@@ -86,7 +86,7 @@ public class Options extends Activity {
                       fos.write(0);
                       fos.close();
                   } catch (IOException e){
-                      Log.e("Options.java", "vibrate.txt", e);
+                      Log.e("Options.java", "bgm.txt", e);
                   }
               }
           }
@@ -127,6 +127,7 @@ public class Options extends Activity {
           Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
                   "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
       }
+      currentUser = ParseUser.getCurrentUser();
       if (currentUser == null) {
           buildPopup(false);
           Log.i("Options", "user begins logging in");
@@ -263,9 +264,9 @@ public class Options extends Activity {
   private final void setCorrectPosition(Switch mySwitch, String fileName){
       try{
           FileInputStream fis = openFileInput(fileName);
-          mySwitch.setChecked(false);
-      } catch (IOException e){
           mySwitch.setChecked(true);
+      } catch (IOException e){
+          mySwitch.setChecked(false);
       }
   }
   
