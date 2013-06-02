@@ -72,7 +72,7 @@ public class Options extends Activity {
           }
       });
       
-    //BGM listener
+      //BGM listener
       mySwitch = (Switch) findViewById(R.id.bgm);
       setCorrectPosition(mySwitch, "bgm.txt");
       //attach a listener to check for changes in state
@@ -86,7 +86,7 @@ public class Options extends Activity {
                       fos.write(0);
                       fos.close();
                   } catch (IOException e){
-                      Log.e("Options.java", "vibrate.txt", e);
+                      Log.e("Options.java", "bgm.txt", e);
                   }
               }
           }

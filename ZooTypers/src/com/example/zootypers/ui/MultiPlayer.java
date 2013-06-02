@@ -52,10 +52,10 @@ public class MultiPlayer extends Player {
 	private static MultiPlayerModel model;
 
 	//check for whether to play music or not
-    private int check = 0;
+    private int playMusic = 0;
     
     //check to see if you need to read the bgm file or not
-    private boolean read = true;
+    private boolean readBGM = true;
 	
 	private Drawable animal;
 	private Drawable background;
@@ -136,18 +136,18 @@ public class MultiPlayer extends Player {
 		task.execute();
 		
 		// create a background music
-        if(read){
+        if(readBGM){
             try {
                 FileInputStream is = openFileInput("bgm.txt");
-                check = 1;
+                playMusic = 1;
             } catch (FileNotFoundException e){
                 //Yes for vibration case
                 //Do nothing
             } 
-            read = false;
+            readBGM = false;
         }
-        //Vibrate
-        if(check == 1){
+        //play music
+        if(playMusic == 1){
             mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
             mediaPlayer.setLooping(true);
             mediaPlayer.setVolume(100,100);
@@ -216,8 +216,10 @@ public class MultiPlayer extends Player {
 		gameTimer.cancel();
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
+		if (playMusic == 1) {
+		      mediaPlayer.stop();
+		}
 		finish();
-		//mediaPlayer.stop();
 	}
 
 	/**
@@ -267,7 +269,11 @@ public class MultiPlayer extends Player {
 			e.fillInStackTrace();
 			error(States.error.CONNECTION);
 			return;
-		}
+		} finally {
+            if (playMusic == 1) {
+                mediaPlayer.stop();
+            }
+        }
 
 		// See if opponent completed the game
 		try {
@@ -300,7 +306,11 @@ public class MultiPlayer extends Player {
 		} catch (InternalErrorException e) {
 			error(States.error.INTERNAL);
 			return;
-		}
+		} finally {
+            if (playMusic == 1) {
+                mediaPlayer.stop();
+            }
+        }
 		
     Intent intent = new Intent(this, PostGameScreenMulti.class);
 
@@ -327,9 +337,11 @@ public class MultiPlayer extends Player {
 		} catch (InternetConnectionException e) {
 			error(States.error.CONNECTION);
 			return;
+		} finally {
+    		if (playMusic == 1) {
+    		    mediaPlayer.stop();
+    		}
 		}
-
-		mediaPlayer.stop();
 
 		// Go to the post game screen
 		startActivity(intent);  
