@@ -118,7 +118,7 @@ public class SinglePlayer extends Player {
             read = false;
         }
         //Vibrate
-        if(check == 0){
+        if(check == 1){
             mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
             mediaPlayer.setLooping(true);
             mediaPlayer.setVolume(100,100);
