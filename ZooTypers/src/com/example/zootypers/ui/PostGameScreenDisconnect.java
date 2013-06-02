@@ -23,7 +23,7 @@ public class PostGameScreenDisconnect extends PostGameScreenMulti {
     Drawable background = ((ImageButton)
         findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
-    setContentView(R.layout.activity_post_game_screen_disconnet);
+    setContentView(R.layout.activity_post_game_screen_disconnect);
     findViewById(R.id.postgame_layout).setBackground(background);
 
     // Get and display score
