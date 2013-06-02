@@ -15,7 +15,6 @@ import com.example.zootypers.ui.SinglePlayer;
 import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
 
-@Suppress
 public class LeaderBoardSingleModelTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
     private Solo solo;

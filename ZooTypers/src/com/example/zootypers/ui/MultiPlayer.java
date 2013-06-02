@@ -214,10 +214,10 @@ public class MultiPlayer extends Player {
 			e.printStackTrace();
 		}
 		gameTimer.cancel();
-		mediaPlayer.stop();
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
 		finish();
+		//mediaPlayer.stop();
 	}
 
 	/**

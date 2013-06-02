@@ -72,15 +72,14 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException {
         MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
         lbModel2.setPlayer("John");
-        lbModel2.addEntry(30000);
-        lbModel.addEntry(33333);
-        lbModel2.clearLeaderboard();
-        solo.sleep(3000);
+        lbModel2.addEntry(25000);
+        solo.sleep(1000);
         ScoreEntry[] scoreList = lbModel.getTopScores();
         int actualScore = scoreList[0].getScore();
         String actualName = scoreList[0].getName();
-        assertEquals("David", actualName);
-        assertEquals(33333, actualScore);
+        assertEquals("TEST", actualName);
+        assertEquals(30000, actualScore);
+        lbModel2.clearLeaderboard();
     }
     
     @Test(timeout = TIMEOUT)
@@ -94,20 +93,20 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         MultiLeaderBoardModel lbModel2 = null;
         MultiLeaderBoardModel lbModel3 = null;
         try {
-            lbModel.addEntry(2000);
+            lbModel.addEntry(200000);
             
             lbModel2 = new MultiLeaderBoardModel();
             lbModel2.setPlayer("John");
-            lbModel2.addEntry(1000);
+            lbModel2.addEntry(100000);
             
             lbModel3 = new MultiLeaderBoardModel();
             lbModel3.setPlayer("Bob");
-            lbModel3.addEntry(3000);
+            lbModel3.addEntry(300000);
             
             ScoreEntry[] relativeList = lbModel.getRelativeScores(1);
-            assertEquals(3000, relativeList[0].getScore());
-            assertEquals(2000, relativeList[1].getScore());
-            assertEquals(1000, relativeList[2].getScore());
+            assertEquals(300000, relativeList[0].getScore());
+            assertEquals(200000, relativeList[1].getScore());
+            assertEquals(100000, relativeList[2].getScore());
             assertEquals(3, relativeList.length);
         } catch (Exception e) {
             Log.v("There is an error in leaderboard MP testing.", "error");
