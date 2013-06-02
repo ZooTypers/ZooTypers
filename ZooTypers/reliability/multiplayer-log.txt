@@ -1,0 +1,81 @@
+06-01 21:12:25.734: I/ZooTypers(796): User entered title screen
+06-01 21:12:55.613: I/ZooTypers(796): user begins logging in
+06-01 21:12:58.272: I/ZooTypers(796): user exits log in
+06-01 21:13:02.073: I/ZooTypers(796): user begins logging in
+06-01 21:13:03.693: I/ZooTypers(796): proceeding to register page
+06-01 21:13:04.212: I/Register(796): entered register page
+06-01 21:13:08.083: I/Register(796): back to title page from register
+06-01 21:13:11.023: I/ZooTypers(796): user has forgotten password
+06-01 21:13:13.182: I/ZooTypers(796): user exits password popup
+06-01 21:13:31.152: I/ZooTypers(796): user has logged in
+06-01 21:13:31.272: I/ZooTypers(796): entered pre game
+06-01 21:13:33.622: I/ZooTypers(796): difficulty changed
+06-01 21:13:33.622: I/ZooTypers(796): animal changed
+06-01 21:13:33.642: I/ZooTypers(796): background changed
+06-01 21:13:33.832: I/ZooTypers(796): animal changed
+06-01 21:13:33.852: I/ZooTypers(796): background changed
+06-01 21:13:43.372: I/ZooTypers(796): back to title page from pre game
+06-01 21:13:43.612: I/ZooTypers(796): User entered title screen
+06-01 21:13:46.252: I/ZooTypers(796): user is logged in
+06-01 21:13:46.422: I/ZooTypers(796): entered pre game
+06-01 21:13:46.592: I/ZooTypers(796): difficulty changed
+06-01 21:13:46.602: I/ZooTypers(796): animal changed
+06-01 21:13:46.612: I/ZooTypers(796): background changed
+06-01 21:13:46.732: I/ZooTypers(796): animal changed
+06-01 21:13:46.742: I/ZooTypers(796): background changed
+06-01 21:13:49.312: I/ZooTypers(796): begin multiplayer game
+06-01 21:13:49.813: I/Multiplayer(796): trigger loading popup and wait for opponent
+06-01 21:13:49.813: I/Multiplayer(796): user begins waiting in queue
+06-01 21:13:51.692: I/Multiplayer(796): no matches are found
+06-01 21:13:51.692: I/Multiplayer(796): creating match for player
+06-01 21:13:52.793: I/Multiplayer(796): begin waiting in queue
+06-01 21:14:08.042: W/Multiplayer(796): timed out waiting for an opponent
+06-01 21:14:08.703: I/Multiplayer(796): deleted match from database
+06-01 21:14:09.492: I/Multiplayer(796): triggering no opponent error screen
+06-01 21:17:17.152: I/ZooTypers(796): leaving error screen to title page
+06-01 21:17:17.512: I/ZooTypers(796): User entered title screen
+06-01 21:17:26.542: I/ZooTypers(796): user is logged in
+06-01 21:17:26.782: I/ZooTypers(796): entered pre game
+06-01 21:17:26.952: I/ZooTypers(796): difficulty changed
+06-01 21:17:26.952: I/ZooTypers(796): animal changed
+06-01 21:17:26.963: I/ZooTypers(796): background changed
+06-01 21:17:27.123: I/ZooTypers(796): animal changed
+06-01 21:17:27.123: I/ZooTypers(796): background changed
+06-01 21:17:38.302: I/ZooTypers(796): begin multiplayer game
+06-01 21:17:38.792: I/Multiplayer(796): trigger loading popup and wait for opponent
+06-01 21:17:38.792: I/Multiplayer(796): user begins waiting in queue
+06-01 21:17:39.852: I/Multiplayer(796): no matches are found
+06-01 21:17:39.852: I/Multiplayer(796): creating match for player
+06-01 21:17:41.082: I/Multiplayer(796): begin waiting in queue
+06-01 21:17:45.972: I/Multiplayer(796): getting words list from parse
+06-01 21:17:49.713: I/Multiplayer(796): getting opponent's animal
+06-01 21:17:50.512: I/Multiplayer(796): opponent has been found, beginning game
+06-01 21:17:59.132: I/Multiplayer(796): typed the letter: t
+06-01 21:18:00.083: I/Multiplayer(796): typed the letter: e
+06-01 21:18:00.512: I/Multiplayer(796): typed the letter: e
+06-01 21:18:01.413: I/Multiplayer(796): typed the letter: t
+06-01 21:18:02.322: I/Multiplayer(796): typed the letter: h
+06-01 21:18:02.322: I/Multiplayer(796): completed the word: teeth
+06-01 21:18:02.322: I/Multiplayer(796): score increased to: 5
+06-01 21:18:03.902: I/Multiplayer(796): typed the wrong letter: z
+06-01 21:18:07.812: I/Multiplayer(796): typed the letter: f
+06-01 21:18:09.422: I/Multiplayer(796): typed the letter: i
+06-01 21:18:10.473: I/Multiplayer(796): typed the letter: e
+06-01 21:18:11.582: I/Multiplayer(796): typed the letter: l
+06-01 21:18:12.792: I/Multiplayer(796): typed the letter: d
+06-01 21:18:12.792: I/Multiplayer(796): completed the word: field
+06-01 21:18:12.792: I/Multiplayer(796): score increased to: 10
+06-01 21:18:16.162: I/Multiplayer(796): typed the wrong letter: x
+06-01 21:18:17.542: I/ZooTypers(796): user has clicked on keyboard button
+06-01 21:18:18.832: I/ZooTypers(796): user has clicked on keyboard button
+06-01 21:18:52.329: I/Multiplayer(796): Ending game
+06-01 21:18:52.342: I/Multiplayer(796): player set to finished
+06-01 21:18:53.655: I/Multiplayer(796): waiting on opponent to finish
+06-01 21:18:54.282: I/Multiplayer(796): deleted match from database
+06-01 21:18:55.103: I/ZooTypers(796): entered post game
+06-01 21:21:54.533: I/Multiplayer(796): multiplayer getting this player's score from parse
+06-01 21:21:56.352: I/Multiplayer(796): multiplayer getting all scores from parse
+06-01 21:21:57.883: I/Multiplayer(796): multiplayer leaderboard adding the user's entry
+06-01 21:22:04.813: I/ZooTypers(796): going to title page from post game
+06-01 21:22:05.062: I/ZooTypers(796): User entered title screen
+06-01 21:22:07.913: I/ZooTypers(796): user has logged out
