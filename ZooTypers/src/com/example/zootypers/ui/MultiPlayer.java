@@ -114,16 +114,16 @@ public class MultiPlayer extends Player {
 		bg = getIntent().getIntExtra("bg", 0);
 		background = ((ImageButton) inflatedView.findViewById(bg)).getDrawable();
 
-		// Initialize the database
+		// Initialize the database according to whether it's a test or not.
 		useTestDB = getIntent().getIntExtra("Testing", 0);
 		Log.e("Extra", "INTENT " + useTestDB);
-		// Initialize the database
-		if (useTestDB == 1) {
-			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
-		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
-		}
+        if (useTestDB == 1) { //The Testing Database on Parse
+            Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+            "hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+        } else { //The Real App Database on Parse
+            Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+            "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+        }
 
 		// Get the user name
 		username = getIntent().getStringExtra("username");
@@ -214,10 +214,10 @@ public class MultiPlayer extends Player {
 			e.printStackTrace();
 		}
 		gameTimer.cancel();
-		mediaPlayer.stop();
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
 		finish();
+		//mediaPlayer.stop();
 	}
 
 	/**

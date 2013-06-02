@@ -37,8 +37,6 @@ import com.parse.ParseUser;
  */
 @SuppressLint("NewApi")
 public class Leaderboard extends FragmentActivity {
-	private int useTestDB;
-	
 	private LoginPopup lp;
 	private ParseUser currentUser;
 	private SingleLeaderBoardModel lb;
@@ -51,13 +49,14 @@ public class Leaderboard extends FragmentActivity {
 		// set the layout for the parent activity which contains the fragments
 		setContentView(R.layout.activity_leaderboard);
 
-		useTestDB = getIntent().getIntExtra("Testing", 0);
+		// Initialize the database according to whether it's a test or not.
+		int useTestDB = getIntent().getIntExtra("Testing", 0);
 		Log.e("Extra", "INTENT " + useTestDB);
-		// Initialize the database
-		if (useTestDB == 1) {
+		if (useTestDB == 1) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
-		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+		} else { //The Real App Database on Parse
+		    Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
 			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		}
 
