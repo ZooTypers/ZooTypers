@@ -74,11 +74,11 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     public void testCreatingADefaultConstructorNameOnly() throws InternetConnectionException {
         lbModel = new MultiLeaderBoardModel();
         lbModel.setPlayer("David");
-        //assertEquals(10, lbModel.getTopScores().length);
     }
 
     /**
      * Test to make sure you can create a constructor with parameter of size 13.
+     * Note: It was required in the code that the param is positive.
      * 
      * @throws InternetConnectionException
      */
@@ -86,11 +86,11 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     public void testDefaultLeaderboardDefaultSize13() throws InternetConnectionException {
         lbModel = new MultiLeaderBoardModel(13);
         lbModel.setPlayer("David");
-        //assertEquals(13, lbModel.getTopScores().length);
     }
 
     /**
      * Test to make sure you can create a constructor with param of size 300.
+     * Note: It was required in the code that the param is positive.
      * 
      * @throws InternetConnectionException
      */
@@ -98,7 +98,6 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     public void testLeaderBoardWithParamSize300() throws InternetConnectionException {
         lbModel = new MultiLeaderBoardModel(300);
         lbModel.setPlayer("David");
-        //assertEquals(300, lbModel.getTopScores().length);
     }
 
     /**
