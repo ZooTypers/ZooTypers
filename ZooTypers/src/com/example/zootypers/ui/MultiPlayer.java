@@ -1,6 +1,8 @@
 package com.example.zootypers.ui;
 
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.concurrent.TimeUnit;
 
 import android.annotation.SuppressLint;
@@ -8,6 +10,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -48,10 +51,17 @@ public class MultiPlayer extends Player {
 	// used for the communicating with model
 	private static MultiPlayerModel model;
 
+	//check for whether to play music or not
+    private int check = 1;
+    
+    //check to see if you need to read the bgm file or not
+    private boolean read = true;
+	
 	private Drawable animal;
 	private Drawable background;
 	private int oppAnimal;
 	private ProgressDialog progressDialog;
+	private MediaPlayer mediaPlayer;
 	/*
 	 * flips the animal being displayed horizontally so that the animal
 	 * is facing the other direction.
@@ -104,16 +114,16 @@ public class MultiPlayer extends Player {
 		bg = getIntent().getIntExtra("bg", 0);
 		background = ((ImageButton) inflatedView.findViewById(bg)).getDrawable();
 
-		// Initialize the database
+		// Initialize the database according to whether it's a test or not.
 		useTestDB = getIntent().getIntExtra("Testing", 0);
 		Log.e("Extra", "INTENT " + useTestDB);
-		// Initialize the database
-		if (useTestDB == 1) {
-			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
-		} else {Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
-		}
+        if (useTestDB == 1) { //The Testing Database on Parse
+            Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+            "hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+        } else { //The Real App Database on Parse
+            Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+            "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+        }
 
 		// Get the user name
 		username = getIntent().getStringExtra("username");
@@ -124,6 +134,25 @@ public class MultiPlayer extends Player {
 
 		LoadTask task = new LoadTask(this);
 		task.execute();
+		
+		// create a background music
+        if(read){
+            try {
+                FileInputStream is = openFileInput("bgm.txt");
+                check = 0;
+            } catch (FileNotFoundException e){
+                //Yes for vibration case
+                //Do nothing
+            } 
+            read = false;
+        }
+        //Vibrate
+        if(check == 1){
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(100,100);
+            mediaPlayer.start();
+        }
 	}
 
 
@@ -184,9 +213,11 @@ public class MultiPlayer extends Player {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		gameTimer.cancel();
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
+		finish();
+		//mediaPlayer.stop();
 	}
 
 	/**
@@ -217,6 +248,7 @@ public class MultiPlayer extends Player {
 			intent.putExtra("error", R.layout.activity_connection_error);
 		}
 		startActivity(intent);
+		finish();
 	}
 
 	/**
@@ -228,7 +260,7 @@ public class MultiPlayer extends Player {
 		// Show game over message before going to post game
 		findViewById(R.id.game_over).setVisibility(0);
 
-		// sets themselves as done with the game
+		// Sets themselves as done with the game
 		try {
 			model.setUserFinish();
 		} catch (InternetConnectionException e) {
@@ -237,29 +269,31 @@ public class MultiPlayer extends Player {
 			return;
 		}
 
-		Intent intent = new Intent(this, PostGameScreenMulti.class);
-
-		// Pass scores and if you won to post game screen
-		int myScore = model.getScore();
-		int oppScore = model.getOpponentScore();
-		intent.putExtra("score", myScore);
-		intent.putExtra("oppScore", oppScore);
-		if (myScore > oppScore) {
-			intent.putExtra("result", 1);      
-		} else if (myScore == oppScore) {
-			intent.putExtra("result", 0);      
-		} else {      
-			intent.putExtra("result", -1);      
-		}
-
-		// Pass if opponent completed the game
+		// See if opponent completed the game
 		try {
 			if (!model.isOpponentFinished()) {
+			  // Opponent did disconnect; switch to go to appropriate screen
 				Log.w("Multiplayer", "timed out waiting for opponent to finish");
-				error(States.error.CONNECTION);
-				return;
+				Intent dintent = new Intent(this, PostGameScreenDisconnect.class);			
+
+		    // Pass score, background & username to post game screen
+		    int myScore = model.getScore();
+		    dintent.putExtra("score", myScore);
+		    dintent.putExtra("bg", bg);
+		    dintent.putExtra("username", username);
+
+		    // Delete the match
+		    try {
+		      model.deleteUser();
+		    } catch (InternetConnectionException e) {
+		      error(States.error.CONNECTION);
+		      return;
+		    }
+		    
+		    // Go to the disconnect post game screen
+		    startActivity(dintent);  	
+		    return;
 			}
-			//intent.putExtra("discon", !model.isOpponentFinished());
 		} catch (InternetConnectionException e) {
 			error(States.error.CONNECTION);
 			return;
@@ -267,20 +301,39 @@ public class MultiPlayer extends Player {
 			error(States.error.INTERNAL);
 			return;
 		}
+		
+    Intent intent = new Intent(this, PostGameScreenMulti.class);
 
-		// Pass background to post game screen
-		intent.putExtra("bg", bg);
+    // Pass score, background & username to post game screen
+    int myScore = model.getScore();
+    intent.putExtra("score", myScore);
+    intent.putExtra("bg", bg);
+    intent.putExtra("username", username);
+    
+    // Add opponent's score & result to intent
+    int oppScore = model.getOpponentScore();
+    intent.putExtra("oppScore", oppScore);
+    if (myScore > oppScore) {
+      intent.putExtra("result", 1);      
+    } else if (myScore == oppScore) {
+      intent.putExtra("result", 0);      
+    } else {      
+      intent.putExtra("result", -1);      
+    }
 
-		// Pass username
-		intent.putExtra("username", username);
-
+    // Delete the match
 		try {
 			model.deleteUser();
 		} catch (InternetConnectionException e) {
 			error(States.error.CONNECTION);
 			return;
 		}
+
+		mediaPlayer.stop();
+
+		// Go to the post game screen
 		startActivity(intent);  
+		finish();
 	}
 
 	@Override

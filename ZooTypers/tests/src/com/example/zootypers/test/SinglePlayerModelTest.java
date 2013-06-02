@@ -42,7 +42,6 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         super(PreGameSelection.class);
     }
 
-    @Before
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -54,7 +53,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
                 continueButton.performClick();
             }
         });
-        solo.sleep(1000);
+        solo.waitForActivity(SinglePlayer.class, 15000);
     }
 
     /**
@@ -194,6 +193,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
     public void testChangeAWordWhenFinished() throws Exception{
         List<TextView> textList = getWordsPresented();
         TextView currTextView = textList.get(0);
+        solo.sleep(1500);
         String currWord = currTextView.getText().toString();
         //Log.v("current-word", currWord);
         for (int i = 0; i < currWord.length(); i++) {

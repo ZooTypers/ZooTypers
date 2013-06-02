@@ -1,5 +1,7 @@
 package com.example.zootypers.ui;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -37,6 +39,12 @@ public abstract class Player extends Activity implements Observer {
 
 	// the current time on the game.
 	protected long currentTime;
+	
+	//check for whether to vibrate or not
+	private int check = 1;
+	
+	//check to see if you need to read the vibration file or not
+	private boolean read = true;
 
 	/**
 	 * Called when the timer runs out; starts the post game screen
@@ -85,8 +93,22 @@ public abstract class Player extends Activity implements Observer {
 					//final RelativeLayout rl = (RelativeLayout) findViewById(R.id.single_game_layout);
 					//tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
 					tv.setVisibility(TextView.VISIBLE);
-					Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-					v.vibrate(500);
+					//Check if vibrate
+                    if(read){
+                        try {
+                            FileInputStream is = openFileInput("vibrate.txt");
+                            check = 0;
+                        } catch (FileNotFoundException e){
+                            //Yes for vibration case
+                            //Do nothing
+                        }
+                        read = false;
+                    }
+                    //Vibrate
+                    if(check == 1){
+                        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                        v.vibrate(150);
+                    }
 				} 
 			}
 		} 
