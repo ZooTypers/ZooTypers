@@ -39,7 +39,8 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
     protected void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
-        multiButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button);
+        multiButton = (Button) getActivity().
+        findViewById(com.example.zootypers.R.id.multiplayer_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -77,7 +78,8 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
         solo.enterText(email, "davidqwe123@hotmail.com");
 
         //clck continue and seeing if the account is in use
-        final Button submitButton = (Button) solo.getView(com.example.zootypers.R.id.submit_register);
+        final Button submitButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.submit_register);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -138,7 +140,8 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
         EditText email = (EditText) solo.getView(R.id.email_forgot_password_input);
         solo.enterText(email, "davidqwe123@hotmail.com");
         solo.sleep(1000);
-        final Button resetButton = (Button) solo.getView(com.example.zootypers.R.id.reset_password_button);
+        final Button resetButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.reset_password_button);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override

@@ -27,7 +27,7 @@ public class MultiplayerTab extends LeaderboardTab {
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	Bundle savedInstanceState) {
 		Log.i("Leaderboard", "entered multiplayer tab");
 		
 		if (container == null) {
