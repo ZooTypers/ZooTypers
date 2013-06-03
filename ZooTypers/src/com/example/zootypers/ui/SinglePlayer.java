@@ -52,15 +52,15 @@ public class SinglePlayer extends Player {
 
 	// keeps track of if the game is paused or not
 	public static boolean paused;
-	
+
 	// check for whether to play music or not
-    private int playMusic = 0;
-    
-    // check to see if you need to read the bgm file or not
-    private boolean readBGM = true;
-    
-    // creates a new media player for sound
-    private MediaPlayer mediaPlayer;
+	private int playMusic = 0;
+
+	// check to see if you need to read the bgm file or not
+	private boolean readBGM = true;
+
+	// creates a new media player for sound
+	private MediaPlayer mediaPlayer;
 
 	/*
 	 *  Called when the activity is starting. uses the information that was picked
@@ -74,7 +74,7 @@ public class SinglePlayer extends Player {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		// Set default values
 		pausedTime = START_TIME;
 		paused = false;
@@ -95,7 +95,7 @@ public class SinglePlayer extends Player {
 		}
 
 		paused = false; 
-		
+
 		// start model
 		model = new SinglePlayerModel(d, this.getAssets(), NUM_WORDS);
 		model.addObserver(this);
@@ -108,25 +108,26 @@ public class SinglePlayer extends Player {
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
 
-	    // create a background music
-        if(readBGM){
-            try {
-                FileInputStream is = openFileInput("bgm.txt");
-                playMusic = 1;
-            } catch (FileNotFoundException e){
-                //Yes for vibration case
-                //Do nothing
-            } 
-            readBGM = false;
-        }
-        // play music
-        if(playMusic == 1){
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.setVolume(100,100);
-            mediaPlayer.start();
-        }
-		
+		// create a background music
+		if(readBGM){
+			try {
+				FileInputStream is = openFileInput("bgm.txt");
+				playMusic = 1;
+				Log.i("SinglePlayer", "play background music");
+			} catch (FileNotFoundException e){
+				e.fillInStackTrace();
+				Log.i("SinglePlayer", "no background music");
+			}
+			readBGM = false;
+		}
+		// play music
+		if(playMusic == 1){
+			mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+			mediaPlayer.setLooping(true);
+			mediaPlayer.setVolume(100, 100);
+			mediaPlayer.start();
+		}
+
 		Log.i("SinglePlayer", "game has begun");
 	}
 
@@ -155,18 +156,18 @@ public class SinglePlayer extends Player {
 
 		// Only respond to a keystroke if the game is not paused
 		if (!paused) {
-  		char charTyped = event.getDisplayLabel();
-  		charTyped = Character.toLowerCase(charTyped);
-  		model.typedLetter(charTyped);
+			char charTyped = event.getDisplayLabel();
+			charTyped = Character.toLowerCase(charTyped);
+			model.typedLetter(charTyped);
 		}
-		
+
 		return true;
 	}
 
 	@Override
 	public void onPause() {
 		super.onPause();
-		if (!paused && pausedTime != 0) {
+		if (!paused && (pausedTime != 0)) {
 			pauseGame(findViewById(R.id.pause_button));
 		}
 	}
@@ -208,7 +209,7 @@ public class SinglePlayer extends Player {
 		intent.putExtra("bg", bg);
 		startActivity(intent);
 		if (playMusic == 1) {
-		    mediaPlayer.stop();
+			mediaPlayer.stop();
 		}
 		finish();
 	}
@@ -225,7 +226,7 @@ public class SinglePlayer extends Player {
 		pausedTime = currentTime;
 		gameTimer.cancel();
 		if (playMusic == 1) {
-		    mediaPlayer.pause();
+			mediaPlayer.pause();
 		}
 
 		// disable buttons & keyboard
@@ -261,7 +262,7 @@ public class SinglePlayer extends Player {
 		ppw.dismiss();
 		paused = false;
 		if (playMusic == 1) {
-		    mediaPlayer.start();
+			mediaPlayer.start();
 		}
 	}
 
@@ -275,7 +276,7 @@ public class SinglePlayer extends Player {
 		gameTimer.cancel();
 		final Intent restartIntent = new Intent(this, PreGameSelection.class);
 		paused = false;
-    	ppw.dismiss();
+		ppw.dismiss();
 		startActivity(restartIntent);
 		finish();
 	}
@@ -290,7 +291,7 @@ public class SinglePlayer extends Player {
 		gameTimer.cancel();
 		final Intent mainMenuIntent = new Intent(this, TitlePage.class);
 		paused = false;
-    	ppw.dismiss();
+		ppw.dismiss();
 		startActivity(mainMenuIntent);
 		finish();
 	}

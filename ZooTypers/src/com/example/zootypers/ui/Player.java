@@ -99,9 +99,10 @@ public abstract class Player extends Activity implements Observer {
                         try {
                             FileInputStream is = openFileInput("vibrate.txt");
                             useVibrate = 1;
+                            Log.i("Player", "use vibrate");
                         } catch (FileNotFoundException e){
-                            //Yes for vibration case
-                            //Do nothing
+                        	e.fillInStackTrace();
+                        	Log.i("Player", "no vibrate");
                         }
                         readVibrateFile = false;
                     }

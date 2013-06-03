@@ -1,7 +1,6 @@
 package com.example.zootypers.test;
 
 import java.util.List;
-import java.util.Random;
 
 import org.junit.Test;
 
@@ -61,7 +60,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         setActivityIntent(in);*/
 
         solo = new Solo(getInstrumentation(), getActivity());
-        multiButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button);
+        multiButton = (Button) getActivity().
+        findViewById(com.example.zootypers.R.id.multiplayer_button);
 
         //initial login for running all the multi-player tests (checking if logged in or not)
         if (loginFlag) {
@@ -76,7 +76,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             solo.enterText(username, "David");
             EditText password = (EditText) solo.getView(R.id.password_login_input);
             solo.enterText(password, "1234567");
-            final Button loginButton = (Button) solo.getView(com.example.zootypers.R.id.login_button);
+            final Button loginButton = (Button) 
+            solo.getView(com.example.zootypers.R.id.login_button);
             solo.sleep(1000);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -99,7 +100,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         //set up opponent and proceed to the tests
         setUpOpponent();
         solo.sleep(3000);
-        final Button continueButton = (Button) solo.getView(com.example.zootypers.R.id.continue_button);
+        final Button continueButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.continue_button);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -124,7 +126,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testMakingSureWordsListCorrectSize() throws InternetConnectionException, InternalErrorException {
+    public void testMakingSureWordsListCorrectSize() 
+    throws InternetConnectionException, InternalErrorException {
         int expected = 100;
         assertEquals(expected, wordsList.size());
         assertEquals(5, model.getWordsDisplayed().length);
@@ -238,7 +241,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         boolean gameFlag = true;
         automateKeyboardTyping(0);
         while (gameFlag) {
-            if (solo.searchText("New Game") == true) {
+            if (solo.searchText("New Game")) {
                 gameFlag = false;
             }
         }
@@ -263,7 +266,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      */
     private void setUpOpponent() {
         // Initialize the database
-        Parse.initialize(this.getActivity(), "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+        Parse.initialize(this.getActivity(), 
+        "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
         final int randy = (int) (Math.random() * (NUMOFWORDS));
         try {
             match = new ParseObject("Matches");
@@ -275,6 +279,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             match.put("wordIndex", randy);
             match.save();
         } catch (ParseException e) {
+        	e.fillInStackTrace();
             Log.e("setUp Opponent", "error in setting up opponent");
         }
     }
@@ -329,7 +334,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * Quit the game and reset values to default.
      */
     private void quitGame() {
-        final View quitButton = (View) solo.getView(com.example.zootypers.R.id.quit_button);
+        final View quitButton = solo.getView(com.example.zootypers.R.id.quit_button);
         solo.sleep(3000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
