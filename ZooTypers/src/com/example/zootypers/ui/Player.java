@@ -23,6 +23,7 @@ import com.example.zootypers.util.States;
  * Activity / UI for Player screen
  * @author cdallas, littlpunk, kobyran
  */
+@SuppressWarnings("unused")
 public abstract class Player extends Activity implements Observer {
 
 	// the total amount of time given to the user to type. (61 seconds to tick 60 times)
@@ -41,10 +42,10 @@ public abstract class Player extends Activity implements Observer {
 	protected long currentTime;
 	
 	//check for whether to vibrate or not
-	private int check = 1;
+	private int useVibrate = 0;
 	
 	//check to see if you need to read the vibration file or not
-	private boolean read = true;
+	private boolean readVibrateFile = true;
 
 	/**
 	 * Called when the timer runs out; starts the post game screen
@@ -94,18 +95,18 @@ public abstract class Player extends Activity implements Observer {
 					//tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
 					tv.setVisibility(TextView.VISIBLE);
 					//Check if vibrate
-                    if(read){
+                    if(readVibrateFile){
                         try {
                             FileInputStream is = openFileInput("vibrate.txt");
-                            check = 0;
+                            useVibrate = 1;
                         } catch (FileNotFoundException e){
                             //Yes for vibration case
                             //Do nothing
                         }
-                        read = false;
+                        readVibrateFile = false;
                     }
                     //Vibrate
-                    if(check == 1){
+                    if(useVibrate == 1){
                         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                         v.vibrate(150);
                     }

@@ -76,6 +76,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 		} catch (InternetConnectionException e) {
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
+			intent.putExtra("username", username);
 			intent.putExtra("error", R.layout.activity_connection_error);
 			startActivity(intent);
 			return;
@@ -91,6 +92,7 @@ public class PostGameScreenMulti extends PostGameScreen {
     Intent intent = new Intent(this, PreGameSelectionMulti.class);
     intent.putExtra("username", username);
     startActivity(intent);
+    finish();
   }
 
     
