@@ -37,6 +37,7 @@ import com.parse.Parse;
  * @author cdallas
  *
  */
+@SuppressWarnings("unused")
 @SuppressLint("NewApi")
 public class MultiPlayer extends Player {
 	// boolean to flag our use of a test database or not
@@ -249,6 +250,9 @@ public class MultiPlayer extends Player {
 			Log.i("Multiplayer", "triggering internet connection error screen");
 			intent.putExtra("error", R.layout.activity_connection_error);
 		}
+		if (playMusic == 1) {
+			mediaPlayer.stop();
+		}
 		startActivity(intent);
 		finish();
 	}
@@ -269,11 +273,11 @@ public class MultiPlayer extends Player {
 			e.fillInStackTrace();
 			error(States.error.CONNECTION);
 			return;
-		} finally {
-			if (playMusic == 1) {
-				mediaPlayer.stop();
-			}
-		}
+		} //finally {
+//			if (playMusic == 1) {
+//				mediaPlayer.stop();
+//			}
+//		}
 
 		// See if opponent completed the game
 		try {
@@ -296,6 +300,9 @@ public class MultiPlayer extends Player {
 					return;
 				}
 
+				if (playMusic == 1) {
+					mediaPlayer.stop();
+				}
 				// Go to the disconnect post game screen
 				startActivity(dintent);  	
 				return;
@@ -306,11 +313,11 @@ public class MultiPlayer extends Player {
 		} catch (InternalErrorException e) {
 			error(States.error.INTERNAL);
 			return;
-		} finally {
-			if (playMusic == 1) {
-				mediaPlayer.stop();
-			}
-		}
+		} //finally {
+//			if (playMusic == 1) {
+//				mediaPlayer.stop();
+//			}
+//		}
 
 		Intent intent = new Intent(this, PostGameScreenMulti.class);
 
@@ -337,12 +344,15 @@ public class MultiPlayer extends Player {
 		} catch (InternetConnectionException e) {
 			error(States.error.CONNECTION);
 			return;
-		} finally {
-			if (playMusic == 1) {
-				mediaPlayer.stop();
-			}
-		}
+		} //finally {
+//			if (playMusic == 1) {
+//				mediaPlayer.stop();
+//			}
+//		}
 
+		if (playMusic == 1) {
+			mediaPlayer.stop();
+		}
 		// Go to the post game screen
 		startActivity(intent);  
 		finish();

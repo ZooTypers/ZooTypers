@@ -3,6 +3,7 @@ package com.example.zootypers.test;
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.view.View;
 import android.widget.Button;
 
 import com.example.zootypers.core.ScoreEntry;
@@ -164,7 +165,7 @@ public class LeaderBoardSingleModelTest extends ActivityInstrumentationTestCase2
         int actualSize = scoreList.length;
         assertEquals(expectedSize, actualSize);
     }
-
+    
     /**
      * Clear the leaderboard and also finish up all opened activities.
      */

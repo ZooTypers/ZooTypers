@@ -28,12 +28,14 @@ import com.example.zootypers.core.SinglePlayerModel;
 import com.example.zootypers.util.States;
 import com.example.zootypers.util.States.difficulty;
 
-@SuppressLint("NewApi")
+
 /**
  *
  * UI / Activity and controller for single player game screen.
  * @author cdallas, littlpunk, kobyran
  */
+@SuppressWarnings("unused")
+@SuppressLint("NewApi")
 public class SinglePlayer extends Player {
 
 	// used for the communicating with model
