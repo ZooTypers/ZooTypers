@@ -50,7 +50,8 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         setActivityIntent(myIntent);
 
         //start off in title page and click on leaderboard to start tests
-        leaderboardButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button);
+        leaderboardButton = (Button) getActivity().
+        findViewById(com.example.zootypers.R.id.leaderboard_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -134,7 +135,8 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      * @throws InternetConnectionException
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingMultipleScoresAndChecking1RelativeScore() throws InternetConnectionException {
+    public void testAddingMultipleScoresAndChecking1RelativeScore() 
+    throws InternetConnectionException {
         //instantiate the other 2 test models
         MultiLeaderBoardModel lbModel2 = null;
         MultiLeaderBoardModel lbModel3 = null;
@@ -158,6 +160,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
             assertEquals(100000, relativeList[2].getScore());
             assertEquals(3, relativeList.length);
         } catch (Exception e) {
+        	e.fillInStackTrace();
             Log.v("There is an error in leaderboard MP testing.", "error");
         } finally {
             //clear leaderboards
