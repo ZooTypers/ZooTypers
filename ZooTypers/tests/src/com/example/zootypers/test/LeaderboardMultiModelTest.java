@@ -192,8 +192,10 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
         lbModel2.setPlayer("John");
         lbModel2.addEntry(25000);
-        solo.sleep(5000);
-        assertEquals(1, lbModel.getRank());
+        solo.sleep(2500);
+        int actualRank = lbModel.getRank();
+        solo.sleep(2500);
+        assertEquals(1, actualRank);
         lbModel2.clearLeaderboard();
     }
 
