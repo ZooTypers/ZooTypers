@@ -39,10 +39,9 @@ public class TitlePage extends Activity {
 		setContentView(R.layout.activity_title_page);
 		// initialize the Intent to go to Pregame selection
 		multiIntent = new Intent(this, PreGameSelectionMulti.class);
-		
 		//used intent to allow testing or not
 		useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.e("Extra", "INTENT " + useTestDB);
+		Log.e("TitlePage", "INTENT " + useTestDB);
 		// Initialize the database
 		if (useTestDB == 1) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
@@ -98,6 +97,7 @@ public class TitlePage extends Activity {
 	public final void goToLeaderboard(final View view) {
 		Log.i("ZooTypers", "Proceeding to leaderboard");
 		Intent intent = new Intent(this, Leaderboard.class);
+		intent.putExtra("Testing", useTestDB);
 		startActivity(intent);
 	}
 

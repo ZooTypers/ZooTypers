@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="14"
+        android:minSdkVersion="8"
         android:targetSdkVersion="17" />
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -84,14 +84,6 @@
         <activity
             android:name="com.example.zootypers.RelativeUserScore"
             android:label="@string/title_activity_relative_user_score" >
-        </activity>
-        <activity
-            android:name="com.example.zootypers.ui.PostGameScreenDisconnect"
-            android:label="@string/title_activity_post_game_screen_disconnect"
-            android:parentActivityName="com.example.zootypers.ui.PostGameScreenMulti" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.zootypers.ui.PostGameScreenMulti" />
         </activity>
     </application>
 

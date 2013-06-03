@@ -51,7 +51,7 @@ public class Leaderboard extends FragmentActivity {
 
 		// Initialize the database according to whether it's a test or not.
 		int useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.e("Extra", "INTENT " + useTestDB);
+		Log.e("LeaderBoard", "INTENT " + useTestDB);
 		if (useTestDB == 1) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 

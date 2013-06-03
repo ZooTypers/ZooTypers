@@ -26,11 +26,11 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
 
     @Override
     public void setUp() throws Exception {        
-        solo = new Solo(getInstrumentation(), getActivity());
-        
         Intent myIntent = new Intent();
         myIntent.putExtra("Testing", 1);
         setActivityIntent(myIntent);
+    	
+        solo = new Solo(getInstrumentation(), getActivity());
         
         leaderboardButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button);
         getActivity().runOnUiThread(new Runnable() {
@@ -40,6 +40,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
             }
         });
         
+
         solo.waitForActivity(Leaderboard.class, 15000);
         
         lbModel = ((Leaderboard) solo.getCurrentActivity()).getMultiLeaderboard();
@@ -143,7 +144,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     
     @Override
     public void tearDown() throws Exception {
-        lbModel.clearLeaderboard();
+        //lbModel.clearLeaderboard();
         solo.finishOpenedActivities();
     }
 }
