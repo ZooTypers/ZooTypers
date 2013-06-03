@@ -36,6 +36,7 @@ import com.parse.ParseUser;
  * @author cdallas
  *
  */
+@SuppressWarnings("unused")
 public class Options extends Activity {
 
 	LoginPopup lp;
@@ -238,22 +239,6 @@ public class Options extends Activity {
 	public void exitPasswordPopup(View view) {
 		Log.i("Options", "user exits password popup");
 		buildPopup(true);
-	}
-
-	/**
-	 * Logs out the current user
-	 * @param view the button clicked
-	 */
-	public void logoutUser(View view) {
-		Log.i("Options", "user has logged out");
-		// Log the user out
-		ParseUser.logOut();
-		currentUser = ParseUser.getCurrentUser();
-
-		// Display appropriate message / etc
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-		lp.logoutUser(alertDialogBuilder);
-		makeViewsInvisible();
 	}
 
 	/**

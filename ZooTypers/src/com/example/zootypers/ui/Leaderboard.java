@@ -348,10 +348,12 @@ public class Leaderboard extends FragmentActivity {
 		}
 	}
 
+	// method used for testing. Would not be in the actual game
 	public SingleLeaderBoardModel getSingleLeaderboard() {
 		return lb;
 	}
 
+	// method used for testing. Would not be in the actual game
 	public MultiLeaderBoardModel getMultiLeaderboard() {
 		return mlb;
 	}

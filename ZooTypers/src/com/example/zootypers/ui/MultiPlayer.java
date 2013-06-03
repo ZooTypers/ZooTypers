@@ -37,6 +37,7 @@ import com.parse.Parse;
  * @author cdallas
  *
  */
+@SuppressWarnings("unused")
 @SuppressLint("NewApi")
 public class MultiPlayer extends Player {
 	// boolean to flag our use of a test database or not
