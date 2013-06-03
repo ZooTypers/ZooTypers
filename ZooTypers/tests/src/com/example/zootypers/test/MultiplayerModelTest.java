@@ -1,6 +1,7 @@
 package com.example.zootypers.test;
 
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 
@@ -45,6 +46,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     // maximum number of words in wordLists on Parse database
     private static final int NUMOFWORDS = 709;
     private static boolean loginFlag = true;
+    private static boolean quitGameFlag = true;
     private List<String> wordsList;
 
     public MultiplayerModelTest() {
@@ -93,6 +95,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             });
             solo.sleep(1000);
         }
+        
         //set up opponent and proceed to the tests
         setUpOpponent();
         solo.sleep(3000);
@@ -104,24 +107,31 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
                 continueButton.performClick();
             }
         });
+        
+        //wait for multiplayer activity to get the model
         solo.waitForActivity(MultiPlayer.class, 15000);
         model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
-        solo.sleep(15000);
+        solo.sleep(5000);
         wordsList = model.getWordsList();
-        solo.sleep(10000);
+        solo.sleep(5000);
     }
 
     /**
      * Make sure that the words list is at the expected size when you set it;
-     * also make sure that all the default values are correct.
+     * also make sure that all the default values are correct. Also checking
+     * to set user finish and see if opponent is finished or not.
+     * @throws InternalErrorException 
+     * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testMakingSureWordsListCorrectSize() {
+    public void testMakingSureWordsListCorrectSize() throws InternetConnectionException, InternalErrorException {
         int expected = 100;
         assertEquals(expected, wordsList.size());
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(-1, model.getCurrWordIndex());
         assertEquals(-1, model.getCurrLetterIndex());
+        assertFalse(model.isOpponentFinished());
+        model.setUserFinish();
     }
 
     /**
@@ -142,7 +152,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * @throws InternalErrorException 
      * @throws InternetConnectionException 
      */
-    @Test(timeout = TIMEOUT) @Suppress
+    @Test(timeout = TIMEOUT)
     public void testTypingCorrectWordOnceUpdateScore() {
         //type a whole word and see if index sets back to -1
         String firstWord = wordsList.get(0);
@@ -165,7 +175,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      * @throws InternalErrorException 
      * @throws InternetConnectionException 
      */
-    @Test(timeout = TIMEOUT) @Suppress
+    @Test(timeout = TIMEOUT)
     public void testInvalidCharacterPressedDoesNotChangeIndex() {
         String firstWord = wordsList.get(0);
         char firstChar = firstWord.charAt(0);
@@ -183,7 +193,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /**
      * Testing manually making the player 1 win the game and get score methods.
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testWinningAMultiplayerGamePlay() {
         match.put("p1score", 0);
         match.put("p2score", 10);
@@ -211,7 +221,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /**
      * Testing manually making the player 1 lose the game and get score methods.
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testLosingAMultiplayerGameWithModel() {
         match.put("p1score", 100);
         match.put("p2score", 5);
@@ -222,6 +232,36 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         assertTrue(myScore < opponentScore);
     }
 
+    /**
+     * Tests that the post game screen pops up after 1 min.
+     */
+    @Test(timeout = 90000)
+    public void testSimulatePlayingAOneMinuteGame() {
+        boolean gameFlag = true;
+        int i = 0;
+        while (gameFlag) {
+            automateKeyboardTyping(i);
+            i++;
+            if (solo.searchText("New Game") == true) {
+                gameFlag = false;
+            }
+        }
+        quitGameFlag = false;
+        assertTrue(solo.searchText("New Game"));
+        assertTrue(solo.searchText("Main Menu"));
+        assertTrue(solo.searchText("Your ad could be here!"));
+    }
+    
+    /**
+     * Uses the current words to figure out what to automatically type.
+     */
+    private void automateKeyboardTyping(int i) {
+        String firstWord = wordsList.get(i);
+        for (int j = 0; j < firstWord.length(); j++) {
+            sendKeys(firstWord.charAt(j) - 68);
+        }
+    }
+    
     /*
      * Set up the opponent bot for testing multiplayer.
      */
@@ -308,7 +348,9 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         setMyselfFinished();
         setOpponentFinished();
         deleteThisMatch();
-        quitGame();
+        if (quitGameFlag) {
+            quitGame();
+        }
         solo.sleep(1500);
         solo.finishOpenedActivities();
     }
