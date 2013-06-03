@@ -58,7 +58,7 @@ public class Options extends Activity {
 		//attach a listener to check for changes in state
 		mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-				if(isChecked){
+				if(!isChecked){
 					Log.i("Options", "vibrate is switched on");
 					deleteFile("vibrate.txt");
 				}else{
@@ -80,7 +80,7 @@ public class Options extends Activity {
 		//attach a listener to check for changes in state
 		mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
-				if(isChecked){
+				if(!isChecked){
 					Log.i("Options", "background music is switched on");
 					deleteFile("bgm.txt");
 				}else{
