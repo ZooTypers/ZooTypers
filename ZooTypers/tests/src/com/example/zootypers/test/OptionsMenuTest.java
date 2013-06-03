@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
+import android.widget.Switch;
 
 import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
@@ -72,6 +73,52 @@ public class OptionsMenuTest extends ActivityInstrumentationTestCase2<TitlePage>
         });
         solo.sleep(1000);
         solo.searchText("Login");
+    }
+    
+    /**
+     * Checking to see if you can turn sound on and off properly.
+     */
+    @Test(timeout = TIMEOUT)
+    public void testTogglingSoundOnAndOff() {
+        final Switch bgmButton = (Switch) solo.getView(com.example.zootypers.R.id.bgm);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                bgmButton.performClick();
+            }
+        });
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                bgmButton.performClick();
+            }
+        });
+        solo.sleep(1000);
+    }
+    
+    /**
+     * Checking to see if you can turn vibration on and off properly.
+     */
+    @Test(timeout = TIMEOUT)
+    public void testTogglingVibrationOnAndOff() {
+        final Switch vibrateButton = (Switch) solo.getView(com.example.zootypers.R.id.vibrate);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                vibrateButton.performClick();
+            }
+        });
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                vibrateButton.performClick();
+            }
+        });
+        solo.sleep(1000);
     }
 
     /**
