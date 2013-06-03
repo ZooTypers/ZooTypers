@@ -40,13 +40,13 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
         //initialize the buttons for testing purposes
         singlePlayerButton = (Button) getActivity().findViewById
-                (com.example.zootypers.R.id.single_player_button);
+        (com.example.zootypers.R.id.single_player_button);
         multiplayerButton = (Button) getActivity().findViewById
-                (com.example.zootypers.R.id.multiplayer_button);
+        (com.example.zootypers.R.id.multiplayer_button);
         leaderboardButton = (Button) getActivity().findViewById
-                (com.example.zootypers.R.id.leaderboard_button);
+        (com.example.zootypers.R.id.leaderboard_button);
         optionsButton = (Button) getActivity().findViewById
-                (com.example.zootypers.R.id.options_button);
+        (com.example.zootypers.R.id.options_button);
 
         solo.sleep(1000);
     }

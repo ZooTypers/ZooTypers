@@ -110,8 +110,9 @@ public class SinglePlayerModel extends PlayerModel {
 			// word is completed after final letter is typed
 			if ((currLetterIndex + 1) >= wordLen) {
 				score += wordLen;
-				Log.i("SinglePlayer", "completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]) 
-						+ "\nscore increased to: " + score);
+				Log.i("SinglePlayer", "completed the word: " + 
+				wordsList.get(wordsDisplayed[currWordIndex]) 
+				+ "\nscore increased to: " + score);
 				updateWordsDisplayed();
 				currLetterIndex = -1;
 				currWordIndex = -1;

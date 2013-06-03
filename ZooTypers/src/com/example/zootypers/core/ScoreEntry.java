@@ -66,7 +66,7 @@ public class ScoreEntry implements Parcelable {
 	
 	@SuppressWarnings("rawtypes")
 	public static final Parcelable.Creator CREATOR =
-		new Parcelable.Creator() {
+	new Parcelable.Creator() {
 		public ScoreEntry createFromParcel(Parcel in) {
 			return new ScoreEntry(in);
 		}

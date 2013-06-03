@@ -86,6 +86,7 @@ public class MultiLeaderBoardModel {
 			query.count();
 			entry = query.getFirst();
 		} catch (ParseException e) {
+			e.fillInStackTrace();
 			Log.i("Multiplayer", "this player has no score from parse");
 			// making a new entry for this player
 			entry = new ParseObject("MultiLeaderBoard");
@@ -118,7 +119,8 @@ public class MultiLeaderBoardModel {
 		int size = Math.min(numOfEntries, allScores.size());
 		ScoreEntry[] scores = new ScoreEntry[size];
 		for (int i = 0; i < size; i++) {
-			scores[i] = new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score"));
+			scores[i] = new ScoreEntry(allScores.get(i).getString("name"), 
+			allScores.get(i).getInt("score"));
 		}
 		return scores;
 	}
@@ -159,7 +161,8 @@ public class MultiLeaderBoardModel {
 			}
 			
 			for (int i = startIndex; i < endIndex; i++) {
-				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
+				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), 
+				allScores.get(i).getInt("score")));
 			}
 			
 		}
@@ -175,11 +178,11 @@ public class MultiLeaderBoardModel {
 	}
 
 	/**
-	 * @ return rank with 1 being highest. If rank = 0 then user has no multi player score on database
+	 * @ return rank with 1 being highest. If rank = 0 
+	 * then user has no multi player score on database
 	 */
 	public int getRank(){
 		return Collections.binarySearch(allScores, entry, new Comparator<ParseObject>() {
-
 			@Override
 			public int compare(ParseObject arg0, ParseObject arg1) {
 				int diff = arg1.getInt("score") - arg0.getInt("score");
@@ -188,6 +191,6 @@ public class MultiLeaderBoardModel {
 				}
 				return arg1.getInt("score") - arg0.getInt("score");
 			}
-		}) + 1;	
+		}) + 1;
 	}
 }

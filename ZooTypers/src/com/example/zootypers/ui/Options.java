@@ -58,7 +58,7 @@ public class Options extends Activity {
 		setCorrectPosition(mySwitch, "vibrate.txt");
 		//attach a listener to check for changes in state
 		mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(!isChecked){
 					Log.i("Options", "vibrate is switched on");
 					deleteFile("vibrate.txt");
@@ -80,7 +80,7 @@ public class Options extends Activity {
 		setCorrectPosition(mySwitch, "bgm.txt");
 		//attach a listener to check for changes in state
 		mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(!isChecked){
 					Log.i("Options", "background music is switched on");
 					deleteFile("bgm.txt");
@@ -130,10 +130,10 @@ public class Options extends Activity {
 		// Initialize the database
 		if (useTestDB == 1) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else {
 			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		}
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
@@ -147,7 +147,8 @@ public class Options extends Activity {
 				ml = new MultiLeaderBoardModel();
 				ml.setPlayer(currentUser.getString("username"));
 			} catch (InternetConnectionException e) {
-				Log.i("Leaderboard", "triggering internet connection error screen");
+				e.fillInStackTrace();
+				Log.i("Options", "triggering internet connection error screen");
 				Intent intent = new Intent(this, ErrorScreen.class);
 				intent.putExtra("error", R.layout.activity_connection_error);
 				startActivity(intent);
@@ -165,7 +166,7 @@ public class Options extends Activity {
 	 * @param view The button clicked
 	 */
 	public final void goToTitlePage(final View view) {
-		Log.i("Leaderboard", "back to title page from options");
+		Log.i("Options", "back to title page from options");
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
 	}
@@ -174,7 +175,7 @@ public class Options extends Activity {
 	private void buildPopup(boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.options_layout);
@@ -191,7 +192,7 @@ public class Options extends Activity {
 		Log.i("Options", "user has forgotten password");
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.options_layout);
@@ -210,6 +211,7 @@ public class Options extends Activity {
 		try {
 			usernameString = lp.loginButton();
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			Log.i("Options", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error);
@@ -260,6 +262,7 @@ public class Options extends Activity {
 			FileInputStream fis = openFileInput(fileName);
 			mySwitch.setChecked(true);
 		} catch (IOException e){
+			e.fillInStackTrace();
 			mySwitch.setChecked(false);
 		}
 	}
