@@ -101,7 +101,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     }
 
     /**
-     * Test to make sure that when you add a very high score it become the number one
+     * Test to make sure that when you have a very high score it become the number one
      * top score and the name of that score also matches the name in database.
      * 
      * @throws InternetConnectionException
@@ -109,10 +109,6 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     @Test(timeout = TIMEOUT)
     public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException {
         //create another player with slightly lower score
-        MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
-        lbModel2.setPlayer("John");
-        lbModel2.addEntry(25000);
-        solo.sleep(1000);
         //get all top scores
         ScoreEntry[] scoreList = lbModel.getTopScores();
         int actualScore = scoreList[0].getScore();
@@ -120,7 +116,6 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         //make sure that the highest score TEST still the highest
         assertEquals("TEST", actualName);
         assertEquals(30000, actualScore);
-        lbModel2.clearLeaderboard();
     }
 
     /**
@@ -186,12 +181,17 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
 
     /**
      * Adding the highest score seen so far in the database and making sure it's rank 1.
+     * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingHighestScoreRankOne() {
+    public void testAddingHighestScoreRankOne() throws InternetConnectionException {
         lbModel.addEntry(33333);
-        solo.sleep(3000);
+        MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
+        lbModel2.setPlayer("John");
+        lbModel2.addEntry(25000);
+        solo.sleep(5000);
         assertEquals(1, lbModel.getRank());
+        lbModel2.clearLeaderboard();
     }
 
     /**
