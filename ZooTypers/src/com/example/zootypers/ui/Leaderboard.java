@@ -54,10 +54,10 @@ public class Leaderboard extends FragmentActivity {
 		Log.e("Extra", "INTENT " + useTestDB);
 		if (useTestDB == 1) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else { //The Real App Database on Parse
 			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		}
 
 		lp = new LoginPopup(currentUser);
@@ -80,6 +80,7 @@ public class Leaderboard extends FragmentActivity {
 		try {
 			mlb = new MultiLeaderBoardModel();
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error_lb);
@@ -94,7 +95,8 @@ public class Leaderboard extends FragmentActivity {
 
 		singlePlayerTab.setTabListener(new LBTabListener(singlePlayerFragment, "singleplayer"));
 		multiPlayerTab.setTabListener(new LBTabListener(multiPlayerFragment, "multiplayer"));
-		relativeUserScoreTab.setTabListener(new LBTabListener(relativeUserScoreFragment, "relative"));
+		relativeUserScoreTab.setTabListener(
+		new LBTabListener(relativeUserScoreFragment, "relative"));
 
 		actionBar.addTab(singlePlayerTab);
 		actionBar.addTab(multiPlayerTab);
@@ -131,27 +133,28 @@ public class Leaderboard extends FragmentActivity {
 			try {
 				mlb.setPlayer(currentUser.getString("username"));
 			} catch (InternetConnectionException e) {
+				e.fillInStackTrace();
 				Log.i("Leaderboard", "triggering internet connection error screen");
 				Intent intent = new Intent(this, ErrorScreen.class);
 				intent.putExtra("error", R.layout.activity_connection_error_lb);
 				startActivity(intent);
 				return;
 			}
-			int userRank = mlb.getRank();			
+			int userRank = mlb.getRank();
 			// get the relative position of the user with the passed in NUM_RELATIVE
 			ScoreEntry[] relativeEntrys = mlb.getRelativeScores(NUM_RELATIVE);
 			// inform the user that he/she has no scores yet
 			if (relativeEntrys.length == 0) {
 				final String title = "No scores yet";
 				final String message = "You do not have any scores yet. Play " +
-						"games to figure out where you rank!!";
+				"games to figure out where you rank!!";
 				buildAlertDialog(title, message);
 				return;
 			}
 
 			// add the relativeScore tab
 			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, userRank,
-					NUM_RELATIVE);
+			NUM_RELATIVE);
 			FragmentTransaction fst = getSupportFragmentManager().beginTransaction();
 			fst.replace(R.id.leaderboard_layout, currentFragment);
 			fst.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -169,6 +172,7 @@ public class Leaderboard extends FragmentActivity {
 		try {
 			usernameString = lp.loginButton();
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error_lb);
@@ -190,8 +194,8 @@ public class Leaderboard extends FragmentActivity {
 	private void buildPopup(boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext()
+		.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.leaderboard_layout);
@@ -236,7 +240,7 @@ public class Leaderboard extends FragmentActivity {
 
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.leaderboard_layout);

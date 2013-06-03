@@ -23,7 +23,7 @@ public class SingleplayerTab extends LeaderboardTab {
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	Bundle savedInstanceState) {
 		Log.i("Leaderboard", "entered single player tab");
 		
 		if (container == null) {

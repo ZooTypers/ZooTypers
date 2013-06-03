@@ -145,7 +145,7 @@ public class TitlePage extends Activity {
 	private void buildPopup(final boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
@@ -163,7 +163,7 @@ public class TitlePage extends Activity {
 		
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
@@ -182,6 +182,7 @@ public class TitlePage extends Activity {
 		try {
 			usernameString = lp.loginButton();
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			Log.i("ZooTypers", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error);
