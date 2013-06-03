@@ -351,16 +351,17 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         deleteThisMatch();
         if (quitGameFlag) {
             quitGame();
+            solo.sleep(1500);
+            final Button logoutButton = (Button) solo.getView(com.example.zootypers.R.id.logout_button);
+            solo.sleep(1000);
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    logoutButton.performClick();
+                }
+            });
         }
-        solo.sleep(1500);
-        final Button logoutButton = (Button) solo.getView(com.example.zootypers.R.id.logout_button);
-        solo.sleep(1000);
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                logoutButton.performClick();
-            }
-        });
+        loginFlag = true;
         solo.sleep(1000);
         solo.finishOpenedActivities();
     }
