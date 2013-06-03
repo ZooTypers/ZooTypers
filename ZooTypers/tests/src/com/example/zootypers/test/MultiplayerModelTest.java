@@ -1,11 +1,12 @@
 package com.example.zootypers.test;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -45,6 +46,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     // maximum number of words in wordLists on Parse database
     private static final int NUMOFWORDS = 709;
     private static boolean loginFlag = true;
+    private static boolean quitGameFlag = true;
+    private List<String> wordsList;
 
     public MultiplayerModelTest() {
         super(TitlePage.class);
@@ -92,6 +95,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             });
             solo.sleep(1000);
         }
+        
         //set up opponent and proceed to the tests
         setUpOpponent();
         solo.sleep(3000);
@@ -103,108 +107,94 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
                 continueButton.performClick();
             }
         });
+        
+        //wait for multiplayer activity to get the model
         solo.waitForActivity(MultiPlayer.class, 15000);
         model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
+        solo.sleep(5000);
+        wordsList = model.getWordsList();
         solo.sleep(5000);
     }
 
     /**
-     * Make sure that the words list is at the expected size when you set it.
+     * Make sure that the words list is at the expected size when you set it;
+     * also make sure that all the default values are correct. Also checking
+     * to set user finish and see if opponent is finished or not.
+     * @throws InternalErrorException 
+     * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
     public void testMakingSureWordsListCorrectSize() throws InternetConnectionException, InternalErrorException {
-        model.setWordsList();
-        List<String> wordsList = model.getWordsList();
         int expected = 100;
         assertEquals(expected, wordsList.size());
-    }
-
-    /**
-     * Make sure that you can get the opponent's animal ID properly.
-     */
-    @Test(timeout = TIMEOUT)
-    public void testGettingTheOpponentAnimalID() throws InternetConnectionException, InternalErrorException {
-        int opponentAnimalID = model.getOpponentAnimal();
-        int expected = 2131296288;
-        assertEquals(expected, opponentAnimalID);
-    }
-
-    /**
-     * make sure that when you create a model, all the fields are at default values.
-     */
-    @Test(timeout = TIMEOUT)
-    public void testInitialValues() {
         assertEquals(5, model.getWordsDisplayed().length);
         assertEquals(-1, model.getCurrWordIndex());
         assertEquals(-1, model.getCurrLetterIndex());
+        assertFalse(model.isOpponentFinished());
+        model.setUserFinish();
     }
 
     /**
-     * Check to see if the first 5 words are displayd in multiplayer screen.
+     * Test typing a letter will change the indices of the model's word/letter.
+     * @throws InternalErrorException 
+     * @throws InternetConnectionException 
      */
-    @Test(timeout = TIMEOUT)
-    public void testFiveWordsPresentInMulti(){
-        List<TextView> views = getWordsPresented(solo);
-        assertEquals(5, views.size());
-        for(int i = 0; i < 5; i++){
-            int expectedLength = views.get(i).getText().toString().length();
-            solo.sleep(1000);
-            assertTrue(expectedLength > 0);
-        }
+    @Test(timeout = TIMEOUT) @Suppress
+    public void testTypingCorrectLetterChangeIndex() {
+        String firstWord = wordsList.get(0);
+        char firstChar = firstWord.charAt(0);
+        sendKeys(firstChar - 68);
+        assertEquals(1, model.getCurrLetterIndex());
     }
-
+    
     /**
      * Test if typing a correct word would update the multiplayer score properly.
+     * @throws InternalErrorException 
+     * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
     public void testTypingCorrectWordOnceUpdateScore() {
-        //get all the words into a list
-        List<TextView> textList = getWordsPresented(solo);
-        TextView currTextView = textList.get(0);
-        String currWord = currTextView.getText().toString();
-        solo.sleep(1500);
-        for (int j = 0; j < currWord.length(); j++) {
-            char c = currWord.charAt(j);
-            sendKeys(c - 68);
+        //type a whole word and see if index sets back to -1
+        String firstWord = wordsList.get(0);
+        for (int i = 0; i < firstWord.length(); i++) {
+            sendKeys(firstWord.charAt(i) - 68);
         }
+        assertEquals(-1, model.getCurrLetterIndex());
+        
         //get the score and check if properly updated
         TextView score = (TextView) solo.getView(com.example.zootypers.R.id.score);
         solo.sleep(1500);
         String scoreString = score.getText().toString();
-        int expectedScore = currWord.length();
+        int expectedScore = firstWord.length();
         int actualScore = Integer.parseInt(scoreString);
         assertEquals(expectedScore, actualScore);
     }
 
     /**
      * Testing if typing an invalid letter would display the red error string.
+     * @throws InternalErrorException 
+     * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testInvalidCharacterPressed(){
-        List<TextView> views = getWordsPresented(solo);
-        solo.sleep(1000);
-        String firstLetters = "";
-        for(TextView s : views){
-            firstLetters += s.getText().charAt(0);
-        }
-        solo.sleep(1000);
+    public void testInvalidCharacterPressedDoesNotChangeIndex() {
+        String firstWord = wordsList.get(0);
+        char firstChar = firstWord.charAt(0);
         //try to type 6 letters and see if error string occurs
-        for (char c : lowChanceLetters){
-            if(firstLetters.indexOf(c) < 0 ){
-                sendKeys(c - 68);
+        for (char eachChar : lowChanceLetters) {
+            if(firstChar != eachChar) {
+                sendKeys(eachChar - 68);
                 solo.searchText("Wrong Letter!");
                 break;
             }
         }
+        assertEquals(-1, model.getCurrLetterIndex());
     }
 
     /**
      * Testing manually making the player 1 win the game and get score methods.
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testWinningAMultiplayerGamePlay() {
-        solo.sleep(3000);
-        MultiPlayerModel model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
         match.put("p1score", 0);
         match.put("p2score", 10);
         saveMatch();
@@ -219,11 +209,10 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      */
     @Test(timeout = TIMEOUT)
     public void testTieingAMultiplayerGamePlay() {
-        solo.sleep(3000);
-        MultiPlayerModel model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
         match.put("p1score", 0);
         match.put("p2score", 0);
         saveMatch();
+        solo.sleep(1000);
         int myScore = model.getScore();
         int opponentScore = model.getOpponentScore();
         assertTrue(myScore == opponentScore);
@@ -232,10 +221,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     /**
      * Testing manually making the player 1 lose the game and get score methods.
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testLosingAMultiplayerGameWithModel() {
-        solo.sleep(3000);
-        MultiPlayerModel model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
         match.put("p1score", 100);
         match.put("p2score", 5);
         saveMatch();
@@ -245,6 +232,36 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         assertTrue(myScore < opponentScore);
     }
 
+    /**
+     * Tests that the post game screen pops up after 1 min.
+     */
+    @Test(timeout = 90000)
+    public void testSimulatePlayingAOneMinuteGame() {
+        boolean gameFlag = true;
+        int i = 0;
+        while (gameFlag) {
+            automateKeyboardTyping(i);
+            i++;
+            if (solo.searchText("New Game") == true) {
+                gameFlag = false;
+            }
+        }
+        quitGameFlag = false;
+        assertTrue(solo.searchText("New Game"));
+        assertTrue(solo.searchText("Main Menu"));
+        assertTrue(solo.searchText("Your ad could be here!"));
+    }
+    
+    /**
+     * Uses the current words to figure out what to automatically type.
+     */
+    private void automateKeyboardTyping(int i) {
+        String firstWord = wordsList.get(i);
+        for (int j = 0; j < firstWord.length(); j++) {
+            sendKeys(firstWord.charAt(j) - 68);
+        }
+    }
+    
     /*
      * Set up the opponent bot for testing multiplayer.
      */
@@ -313,21 +330,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     }
 
     /*
-     * Getting the words as textviews for testing.
-     */
-    private static List<TextView> getWordsPresented(Solo solo){
-        solo.sleep(3000);
-        List<TextView> retVal = new ArrayList<TextView>();
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word1)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word2)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word3)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word4)));
-        solo.sleep(3000);
-        return retVal;
-    }
-
-    /*
      * Quit the game and reset values to default.
      */
     private void quitGame() {
@@ -346,7 +348,9 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         setMyselfFinished();
         setOpponentFinished();
         deleteThisMatch();
-        quitGame();
+        if (quitGameFlag) {
+            quitGame();
+        }
         solo.sleep(1500);
         solo.finishOpenedActivities();
     }

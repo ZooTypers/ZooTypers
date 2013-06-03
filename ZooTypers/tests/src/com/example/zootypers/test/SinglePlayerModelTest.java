@@ -235,11 +235,11 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
     /**
      * Tests that the post game screen pops up after 1 min.
      */
-    @Test(timeout = 90000) @Suppress
+    @Test(timeout = 90000)
     public void testSimulatePlayingAOneMinuteGame() {
         boolean gameFlag = true;
+        automateKeyboardTyping();
         while (gameFlag) {
-            automateKeyboardTyping();
             if (solo.searchText("New Game") == true) {
                 gameFlag = false;
             }
