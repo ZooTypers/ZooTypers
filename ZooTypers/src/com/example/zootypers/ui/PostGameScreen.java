@@ -87,6 +87,7 @@ public class PostGameScreen extends Activity {
 		Log.i("ZooTypers", "going to title page from post game");
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
+		finish();
 	}
 
 	/**
@@ -97,6 +98,7 @@ public class PostGameScreen extends Activity {
 		Log.i("ZooTypers", "going to pre game from post game");
 		Intent intent = new Intent(this, PreGameSelection.class);
 		startActivity(intent);
+		finish();
 	}
 
 

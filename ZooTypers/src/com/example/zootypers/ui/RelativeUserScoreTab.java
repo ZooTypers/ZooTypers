@@ -1,9 +1,5 @@
 package com.example.zootypers.ui;
 
-
-
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,9 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.zootypers.R;
-import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.ScoreEntry;
-import com.example.zootypers.util.InternetConnectionException;
 import com.parse.ParseUser;
 
 /**
@@ -27,6 +21,8 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.i("Leaderboard", "entered relative score tab");
+
 		if (container == null) {
 			return null;
 		}

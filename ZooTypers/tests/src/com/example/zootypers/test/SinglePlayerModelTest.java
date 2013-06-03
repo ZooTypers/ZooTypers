@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.widget.Button;
@@ -54,6 +54,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         });
         solo.waitForActivity(SinglePlayer.class, 15000);
+        solo.sleep(3000);
     }
 
     /**
@@ -156,7 +157,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         for(char c : lowChanceLetters){
             if(firstLetters.indexOf(c) < 0 ){
                 sendKeys(c - 68);
-                solo.searchText("Invalid Letter Typed");
+                solo.searchText("Wrong Letter!");
             }
         }
         solo.sleep(1000);
@@ -231,22 +232,22 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         goBackToMainMenu();
     }
 
-//    /**
-//     * Tests that the post game screen pops up after 1 min.
-//     */
-//    @Test(timeout = 90000)
-//    public void testSimulatePlayingAOneMinuteGame() {
-//        boolean gameFlag = true;
-//        while (gameFlag) {
-//            automateKeyboardTyping();
-//            if (solo.searchText("New Game") == true) {
-//                gameFlag = false;
-//            }
-//        }
-//        assertTrue(solo.searchText("New Game"));
-//        assertTrue(solo.searchText("Main Menu"));
-//        assertTrue(solo.searchText("Your ad could be here!"));
-//    }
+    /**
+     * Tests that the post game screen pops up after 1 min.
+     */
+    @Test(timeout = 90000)
+    public void testSimulatePlayingAOneMinuteGame() {
+        boolean gameFlag = true;
+        automateKeyboardTyping();
+        while (gameFlag) {
+            if (solo.searchText("New Game") == true) {
+                gameFlag = false;
+            }
+        }
+        assertTrue(solo.searchText("New Game"));
+        assertTrue(solo.searchText("Main Menu"));
+        assertTrue(solo.searchText("Your ad could be here!"));
+    }
 
     /**
      * Tests the initial model when a new game is started. There should be 5 words, 0 score, -1 on both index and word.
@@ -355,16 +356,8 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         });
         solo.sleep(1500);
-//        final Button restartButton = (Button) solo.getView(com.example.zootypers.R.id.restart_button);
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                restartButton.performClick();
-//            }
-//        });
-//        solo.sleep(1000);
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
         solo.finishOpenedActivities();

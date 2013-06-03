@@ -28,12 +28,14 @@ import com.example.zootypers.core.SinglePlayerModel;
 import com.example.zootypers.util.States;
 import com.example.zootypers.util.States.difficulty;
 
-@SuppressLint("NewApi")
+
 /**
  *
  * UI / Activity and controller for single player game screen.
  * @author cdallas, littlpunk, kobyran
  */
+@SuppressWarnings("unused")
+@SuppressLint("NewApi")
 public class SinglePlayer extends Player {
 
 	// used for the communicating with model
@@ -52,10 +54,10 @@ public class SinglePlayer extends Player {
 	public static boolean paused;
 	
 	// check for whether to play music or not
-    private int check = 1;
+    private int playMusic = 0;
     
     // check to see if you need to read the bgm file or not
-    private boolean read = true;
+    private boolean readBGM = true;
     
     // creates a new media player for sound
     private MediaPlayer mediaPlayer;
@@ -107,19 +109,19 @@ public class SinglePlayer extends Player {
 		gameTimer.start();
 
 	    // create a background music
-        if(read){
+        if(readBGM){
             try {
                 FileInputStream is = openFileInput("bgm.txt");
-                check = 0;
+                playMusic = 1;
             } catch (FileNotFoundException e){
                 //Yes for vibration case
                 //Do nothing
             } 
-            read = false;
+            readBGM = false;
         }
-        //Vibrate
-        if(check == 1){
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+        // play music
+        if(playMusic == 1){
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
             mediaPlayer.setLooping(true);
             mediaPlayer.setVolume(100,100);
             mediaPlayer.start();
@@ -165,7 +167,6 @@ public class SinglePlayer extends Player {
 	public void onPause() {
 		super.onPause();
 		if (!paused && pausedTime != 0) {
-		    mediaPlayer.pause();
 			pauseGame(findViewById(R.id.pause_button));
 		}
 	}
@@ -206,8 +207,10 @@ public class SinglePlayer extends Player {
 		intent.putExtra("score", model.getScore());
 		intent.putExtra("bg", bg);
 		startActivity(intent);
+		if (playMusic == 1) {
+		    mediaPlayer.stop();
+		}
 		finish();
-		mediaPlayer.stop();
 	}
 
 	/**
@@ -221,6 +224,9 @@ public class SinglePlayer extends Player {
 		// save & stop time
 		pausedTime = currentTime;
 		gameTimer.cancel();
+		if (playMusic == 1) {
+		    mediaPlayer.pause();
+		}
 
 		// disable buttons & keyboard
 		findViewById(R.id.keyboard_open_button).setEnabled(false);
@@ -254,7 +260,9 @@ public class SinglePlayer extends Player {
 		gameTimer.start();
 		ppw.dismiss();
 		paused = false;
-		mediaPlayer.start();
+		if (playMusic == 1) {
+		    mediaPlayer.start();
+		}
 	}
 
 	/**

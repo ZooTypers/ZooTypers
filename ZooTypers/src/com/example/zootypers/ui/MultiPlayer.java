@@ -37,11 +37,12 @@ import com.parse.Parse;
  * @author cdallas
  *
  */
+@SuppressWarnings("unused")
 @SuppressLint("NewApi")
 public class MultiPlayer extends Player {
 	// boolean to flag our use of a test database or not
 	private int useTestDB;
-	
+
 	// the username of the user currently trying to play a game
 	private String username;
 
@@ -51,12 +52,11 @@ public class MultiPlayer extends Player {
 	// used for the communicating with model
 	private static MultiPlayerModel model;
 
-	//check for whether to play music or not
-    private int check = 1;
-    
-    //check to see if you need to read the bgm file or not
-    private boolean read = true;
-	
+	private int playMusic = 0;
+
+	//check to see if you need to read the bgm file or not
+	private boolean readBGM = true;
+
 	private Drawable animal;
 	private Drawable background;
 	private int oppAnimal;
@@ -107,7 +107,7 @@ public class MultiPlayer extends Player {
 
 		View inflatedView = 
 				getLayoutInflater().inflate(R.layout.activity_pregame_selection_multi, null);
-		
+
 		// Get animal & background selected by user
 		int anmID = getIntent().getIntExtra("anm", 0);
 		animal = ((ImageButton) inflatedView.findViewById(anmID)).getDrawable();
@@ -117,13 +117,13 @@ public class MultiPlayer extends Player {
 		// Initialize the database according to whether it's a test or not.
 		useTestDB = getIntent().getIntExtra("Testing", 0);
 		Log.e("Extra", "INTENT " + useTestDB);
-        if (useTestDB == 1) { //The Testing Database on Parse
-            Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-            "hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
-        } else { //The Real App Database on Parse
-            Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-            "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
-        }
+		if (useTestDB == 1) { //The Testing Database on Parse
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else { //The Real App Database on Parse
+			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+		}
 
 		// Get the user name
 		username = getIntent().getStringExtra("username");
@@ -134,21 +134,22 @@ public class MultiPlayer extends Player {
 
 		LoadTask task = new LoadTask(this);
 		task.execute();
-		
+
 		// create a background music
-        if(read){
+        if(readBGM){
             try {
                 FileInputStream is = openFileInput("bgm.txt");
-                check = 0;
+                playMusic = 1;
             } catch (FileNotFoundException e){
                 //Yes for vibration case
                 //Do nothing
             } 
-            read = false;
+            readBGM = false;
         }
-        //Vibrate
-        if(check == 1){
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound1);
+        
+        //play music
+        if(playMusic == 1){
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
             mediaPlayer.setLooping(true);
             mediaPlayer.setVolume(100,100);
             mediaPlayer.start();
@@ -188,9 +189,9 @@ public class MultiPlayer extends Player {
 		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
 		layout.setBackground(background);
 
-    // display opponent's name
-    TextView oppName = (TextView) findViewById(R.id.opp_score_prompt);
-    oppName.setText(model.getOpponentName() + ":");
+		// display opponent's name
+		TextView oppName = (TextView) findViewById(R.id.opp_score_prompt);
+		oppName.setText(model.getOpponentName() + ":");
 
 		model.populateDisplayedList();
 
@@ -205,7 +206,7 @@ public class MultiPlayer extends Player {
 	 */
 	public final void goToTitlePage(final View view) {
 		Log.i("Multiplayer", "leaving game to title page");
-		
+
 		// Clean up the database
 		try {
 			model.deleteUser();
@@ -216,8 +217,10 @@ public class MultiPlayer extends Player {
 		gameTimer.cancel();
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
+		if (playMusic == 1) {
+			mediaPlayer.stop();
+		}
 		finish();
-		//mediaPlayer.stop();
 	}
 
 	/**
@@ -247,6 +250,9 @@ public class MultiPlayer extends Player {
 			Log.i("Multiplayer", "triggering internet connection error screen");
 			intent.putExtra("error", R.layout.activity_connection_error);
 		}
+		if (playMusic == 1) {
+			mediaPlayer.stop();
+		}
 		startActivity(intent);
 		finish();
 	}
@@ -256,7 +262,7 @@ public class MultiPlayer extends Player {
 	 */
 	public final void goToPostGame() {
 		Log.i("Multiplayer", "Ending game");
-		
+
 		// Show game over message before going to post game
 		findViewById(R.id.game_over).setVisibility(0);
 
@@ -267,32 +273,39 @@ public class MultiPlayer extends Player {
 			e.fillInStackTrace();
 			error(States.error.CONNECTION);
 			return;
-		}
+		} //finally {
+//			if (playMusic == 1) {
+//				mediaPlayer.stop();
+//			}
+//		}
 
 		// See if opponent completed the game
 		try {
 			if (!model.isOpponentFinished()) {
-			  // Opponent did disconnect; switch to go to appropriate screen
+				// Opponent did disconnect; switch to go to appropriate screen
 				Log.w("Multiplayer", "timed out waiting for opponent to finish");
 				Intent dintent = new Intent(this, PostGameScreenDisconnect.class);			
 
-		    // Pass score, background & username to post game screen
-		    int myScore = model.getScore();
-		    dintent.putExtra("score", myScore);
-		    dintent.putExtra("bg", bg);
-		    dintent.putExtra("username", username);
+				// Pass score, background & username to post game screen
+				int myScore = model.getScore();
+				dintent.putExtra("score", myScore);
+				dintent.putExtra("bg", bg);
+				dintent.putExtra("username", username);
 
-		    // Delete the match
-		    try {
-		      model.deleteUser();
-		    } catch (InternetConnectionException e) {
-		      error(States.error.CONNECTION);
-		      return;
-		    }
-		    
-		    // Go to the disconnect post game screen
-		    startActivity(dintent);  	
-		    return;
+				// Delete the match
+				try {
+					model.deleteUser();
+				} catch (InternetConnectionException e) {
+					error(States.error.CONNECTION);
+					return;
+				}
+
+				if (playMusic == 1) {
+					mediaPlayer.stop();
+				}
+				// Go to the disconnect post game screen
+				startActivity(dintent);  	
+				return;
 			}
 		} catch (InternetConnectionException e) {
 			error(States.error.CONNECTION);
@@ -300,37 +313,46 @@ public class MultiPlayer extends Player {
 		} catch (InternalErrorException e) {
 			error(States.error.INTERNAL);
 			return;
+		} //finally {
+//			if (playMusic == 1) {
+//				mediaPlayer.stop();
+//			}
+//		}
+
+		Intent intent = new Intent(this, PostGameScreenMulti.class);
+
+		// Pass score, background & username to post game screen
+		int myScore = model.getScore();
+		intent.putExtra("score", myScore);
+		intent.putExtra("bg", bg);
+		intent.putExtra("username", username);
+
+		// Add opponent's score & result to intent
+		int oppScore = model.getOpponentScore();
+		intent.putExtra("oppScore", oppScore);
+		if (myScore > oppScore) {
+			intent.putExtra("result", 1);      
+		} else if (myScore == oppScore) {
+			intent.putExtra("result", 0);      
+		} else {      
+			intent.putExtra("result", -1);      
 		}
-		
-    Intent intent = new Intent(this, PostGameScreenMulti.class);
 
-    // Pass score, background & username to post game screen
-    int myScore = model.getScore();
-    intent.putExtra("score", myScore);
-    intent.putExtra("bg", bg);
-    intent.putExtra("username", username);
-    
-    // Add opponent's score & result to intent
-    int oppScore = model.getOpponentScore();
-    intent.putExtra("oppScore", oppScore);
-    if (myScore > oppScore) {
-      intent.putExtra("result", 1);      
-    } else if (myScore == oppScore) {
-      intent.putExtra("result", 0);      
-    } else {      
-      intent.putExtra("result", -1);      
-    }
-
-    // Delete the match
+		// Delete the match
 		try {
 			model.deleteUser();
 		} catch (InternetConnectionException e) {
 			error(States.error.CONNECTION);
 			return;
+		} //finally {
+//			if (playMusic == 1) {
+//				mediaPlayer.stop();
+//			}
+//		}
+
+		if (playMusic == 1) {
+			mediaPlayer.stop();
 		}
-
-		mediaPlayer.stop();
-
 		// Go to the post game screen
 		startActivity(intent);  
 		finish();
@@ -375,20 +397,20 @@ public class MultiPlayer extends Player {
 	}
 
 	private class LoadTask extends AsyncTask<Void, Integer, Void> {
-		
+
 		// called before running code in a separate thread
 		private boolean quitFlag;
 		private Activity activity;
-		
+
 		public LoadTask(Activity activity) {
 			this.activity = activity;
 		}
 		@Override
 		protected void onPreExecute() {
 			progressDialog = ProgressDialog.show(MultiPlayer.this,"Finding a Game...",  
-				    "Searching for opponent, please wait...", false, false);
+					"Searching for opponent, please wait...", false, false);
 		}
-		
+
 		@Override
 		protected Void doInBackground(Void... params) {
 			Log.i("Multiplayer", "trigger loading popup and wait for opponent");
@@ -416,7 +438,7 @@ public class MultiPlayer extends Player {
 			}
 			return null;
 		}
-		
+
 		@Override
 		protected void onPostExecute(Void result) {
 			if (!quitFlag) {

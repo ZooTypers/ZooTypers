@@ -3,6 +3,7 @@ package com.example.zootypers.ui;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,9 +24,12 @@ public class SingleplayerTab extends LeaderboardTab {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
+		Log.i("Leaderboard", "entered single player tab");
+		
 		if (container == null) {
 			return null;
 		}
+		
 		// set the layout for the fragment and get the arguments for that are passed
 		View singleplayerView = inflater.inflate(R.layout.singleplayer_tab, container, false);
 		ScoreEntry[] seArray = (ScoreEntry[]) getArguments().getParcelableArray("scoreList");

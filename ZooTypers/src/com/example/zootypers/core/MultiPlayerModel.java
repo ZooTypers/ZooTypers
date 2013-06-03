@@ -364,10 +364,6 @@ public class MultiPlayerModel extends PlayerModel {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + SCORE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
-
-			if (match.getBoolean(info.get("ofinished"))) {
-				return true;
-			}
 			try {
 				match.refresh();
 				checkIfInMatch();
@@ -381,6 +377,9 @@ public class MultiPlayerModel extends PlayerModel {
 			} catch (InterruptedException e) {
 				Log.e("Multiplayer", "thread error while sleeping", e);
 				throw new InternalErrorException();
+			}
+			if (match.getBoolean(info.get("ofinished"))) {
+				return true;
 			}
 		}
 		return false;
