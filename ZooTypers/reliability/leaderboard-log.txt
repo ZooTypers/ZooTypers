@@ -1,0 +1,22 @@
+06-02 21:39:32.459: I/ZooTypers(1266): displaying splash screen
+06-02 21:39:37.478: I/ZooTypers(1266): User entered title screen
+06-02 21:39:46.586: I/ZooTypers(1266): Proceeding to leaderboard
+06-02 21:39:46.899: I/Leaderboard(1266): entered leaderboard
+06-02 21:39:47.189: I/SinglePlayer(1266): reading file for scores
+06-02 21:39:47.189: I/SinglePlayer(1266): no scores in system
+06-02 21:39:47.189: I/Multiplayer(1266): getting all scores from parse
+06-02 21:39:49.609: I/Leaderboard(1266): entered single player tab
+06-02 21:39:49.789: I/Leaderboard(1266): setting up ranking list for single player or multiplayer
+06-02 21:40:23.079: I/Leaderboard(1266): entered multiplayer tab
+06-02 21:40:23.249: I/Leaderboard(1266): setting up ranking list for single player or multiplayer
+06-02 21:40:30.219: I/Leaderboard(1266): user begins logging in
+06-02 21:40:40.718: I/Leaderboard(1266): user exits log in
+06-02 21:40:40.779: I/Leaderboard(1266): user is logged in
+06-02 21:40:40.779: I/Multiplayer(1266): getting this player's score from parse
+06-02 21:40:42.129: I/Multiplayer(1266): this player has no score from parse
+06-02 21:40:42.210: I/Leaderboard(1266): entered relative score tab
+06-02 21:40:42.339: I/Leaderboard(1266): entered relative score tab
+06-02 21:40:42.449: I/Leaderboard(1266): setting up ranking list for relative scores
+06-02 21:44:55.179: I/Leaderboard(1266): back to title page from leaderboard
+06-02 21:44:55.639: I/ZooTypers(1266): User entered title screen
+06-02 21:44:57.135: I/ZooTypers(1266): user has logged out

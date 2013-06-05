@@ -73,6 +73,7 @@ public class SingleLeaderBoardModel {
 			//splitting up each score entry
 			tempArr = contents.split("\n");
 		} catch (FileNotFoundException e) {
+			e.fillInStackTrace();
 			tempArr = new String[0];
 			Log.i("SinglePlayer", "no scores in system");
 		} catch (IOException e) {
@@ -95,7 +96,7 @@ public class SingleLeaderBoardModel {
 		Log.i("SinglePlayer", "adding the user's entry");
 		//only adds the entry if the score is within the range of the current top scores
 		int size = scoreEntries.size();
-		if (size == 0 || size < topEntries) {
+		if ((size == 0) || (size < topEntries)) {
 			scoreEntries.add(new ScoreEntry(name, newScore));
 		} else if (scoreEntries.get(size - 1).getScore() < newScore) {
 			scoreEntries.set(size - 1, new ScoreEntry(name, newScore));
@@ -117,7 +118,7 @@ public class SingleLeaderBoardModel {
 	private void save() {
 		Log.i("SinglePlayer", "saving scores");
 		StringBuffer write = new StringBuffer();
-		for (int j = 0; j < scoreEntries.size() - 1; j++) {
+		for (int j = 0; j < (scoreEntries.size() - 1); j++) {
 			ScoreEntry currentSE = scoreEntries.get(j);
 			write.append(currentSE.getName() + DELIM + currentSE.getScore() + "\n");
 		}

@@ -54,7 +54,7 @@ public class LoginPopup {
 	 */
 	@SuppressLint("InlinedApi")
 	public final void buildLoginPopup(LayoutInflater layoutInflater, ViewGroup parentLayout,
-			final boolean dispsw) {
+	final boolean dispsw) {
 		// If need be, dismiss the password popup
 		if (dispsw) {
 			password_ppw.dismiss();
@@ -63,7 +63,7 @@ public class LoginPopup {
 		// Build the login poup
 		View popupView = layoutInflater.inflate(R.layout.login_popup, null);
 		login_ppw = new PopupWindow(popupView,
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+		LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		login_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
 	}
 
@@ -77,7 +77,7 @@ public class LoginPopup {
 		// Build the reset password popup
 		View popupView = layoutInflater.inflate(R.layout.reset_pw_layout, null);
 		password_ppw = new PopupWindow(popupView,
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+		LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		password_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
 		// dismiss the login popup
 		login_ppw.dismiss();
@@ -105,6 +105,7 @@ public class LoginPopup {
 		try {
 			user = ParseUser.logIn(usernameString, passwordString);
 		} catch (ParseException e) {
+			e.fillInStackTrace();
 			boolean errorOccured = false;
 			List<ParseObject> usernameResults = new ArrayList<ParseObject>();
 			List<ParseObject> passwordResults = new ArrayList<ParseObject>();
@@ -142,14 +143,14 @@ public class LoginPopup {
 			// figure out the error
 			if (errorOccured) {
 				errorMessage.setText("Unexpected error occured, could not login.\n" +
-						"Are you connected to the internet?");
+				"Are you connected to the internet?");
 				return "";
 			}
-			if (usernameResults.size() == 0 && passwordResults.size() == 0) {
+			if ((usernameResults.size() == 0) && (passwordResults.size() == 0)) {
 				errorMessage.setText("Invalid username / password combination");
-			} else if (usernameResults.size() == 0 && passwordResults.size() != 0) {
+			} else if ((usernameResults.size() == 0) && (passwordResults.size() != 0)) {
 				errorMessage.setText("Invalid username");
-			} else if (usernameResults.size() != 0 && passwordResults.size() == 0) {
+			} else if ((usernameResults.size() != 0) && (passwordResults.size() == 0)) {
 				errorMessage.setText("Invalid password for username");
 			} else {
 				// unexpected error occured
@@ -231,7 +232,7 @@ public class LoginPopup {
 	 * @param message The message in the popup.
 	 */
 	private void buildAlertDialog(final AlertDialog.Builder alertDialogBuilder, final String title,
-			final String message) {
+	final String message) {
 		// set title
 		alertDialogBuilder.setTitle(title);
 

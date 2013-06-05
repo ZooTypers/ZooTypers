@@ -1,9 +1,5 @@
 package com.example.zootypers.ui;
 
-
-
-
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -11,9 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.zootypers.R;
-import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.ScoreEntry;
-import com.example.zootypers.util.InternetConnectionException;
 import com.parse.ParseUser;
 
 /**
@@ -26,7 +20,9 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 	ParseUser currentUser;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	Bundle savedInstanceState) {
+		Log.i("Leaderboard", "entered relative score tab");
+
 		if (container == null) {
 			return null;
 		}
@@ -37,7 +33,7 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 		// set up the leaderboard
 		int rank = getArguments().getInt("userRank");
 		int relativeRank = getArguments().getInt("relativeRank");
-		if (rank != -1 && relativeRank != -1 && seArray.length != 0) {
+		if ((rank != -1) && (relativeRank != -1) && (seArray.length != 0)) {
 			// means that it is not an empty instanc
 			setupLBList(relativeScoreView, seArray, rank, relativeRank);
 		}
@@ -67,7 +63,7 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 	 * @return the new RelativeUserScoreTab with the arguments
 	 */
 	public static RelativeUserScoreTab newInstance(ScoreEntry[] seArray, int userRank,
-			int relativeRank) {
+	int relativeRank) {
 		RelativeUserScoreTab spt = new RelativeUserScoreTab();
 		// put the argument in a bundle that the fragment can use
 		Bundle args = new Bundle();

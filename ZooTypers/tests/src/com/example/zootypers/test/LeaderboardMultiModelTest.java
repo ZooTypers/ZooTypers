@@ -50,7 +50,8 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         setActivityIntent(myIntent);
 
         //start off in title page and click on leaderboard to start tests
-        leaderboardButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button);
+        leaderboardButton = (Button) getActivity().
+        findViewById(com.example.zootypers.R.id.leaderboard_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -74,11 +75,11 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     public void testCreatingADefaultConstructorNameOnly() throws InternetConnectionException {
         lbModel = new MultiLeaderBoardModel();
         lbModel.setPlayer("David");
-        //assertEquals(10, lbModel.getTopScores().length);
     }
 
     /**
      * Test to make sure you can create a constructor with parameter of size 13.
+     * Note: It was required in the code that the param is positive.
      * 
      * @throws InternetConnectionException
      */
@@ -86,11 +87,11 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     public void testDefaultLeaderboardDefaultSize13() throws InternetConnectionException {
         lbModel = new MultiLeaderBoardModel(13);
         lbModel.setPlayer("David");
-        //assertEquals(13, lbModel.getTopScores().length);
     }
 
     /**
      * Test to make sure you can create a constructor with param of size 300.
+     * Note: It was required in the code that the param is positive.
      * 
      * @throws InternetConnectionException
      */
@@ -98,11 +99,10 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     public void testLeaderBoardWithParamSize300() throws InternetConnectionException {
         lbModel = new MultiLeaderBoardModel(300);
         lbModel.setPlayer("David");
-        //assertEquals(300, lbModel.getTopScores().length);
     }
 
     /**
-     * Test to make sure that when you add a very high score it become the number one
+     * Test to make sure that when you have a very high score it become the number one
      * top score and the name of that score also matches the name in database.
      * 
      * @throws InternetConnectionException
@@ -110,10 +110,6 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     @Test(timeout = TIMEOUT)
     public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException {
         //create another player with slightly lower score
-        MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
-        lbModel2.setPlayer("John");
-        lbModel2.addEntry(25000);
-        solo.sleep(1000);
         //get all top scores
         ScoreEntry[] scoreList = lbModel.getTopScores();
         int actualScore = scoreList[0].getScore();
@@ -121,7 +117,6 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         //make sure that the highest score TEST still the highest
         assertEquals("TEST", actualName);
         assertEquals(30000, actualScore);
-        lbModel2.clearLeaderboard();
     }
 
     /**
@@ -140,7 +135,8 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      * @throws InternetConnectionException
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingMultipleScoresAndChecking1RelativeScore() throws InternetConnectionException {
+    public void testAddingMultipleScoresAndChecking1RelativeScore() 
+    throws InternetConnectionException {
         //instantiate the other 2 test models
         MultiLeaderBoardModel lbModel2 = null;
         MultiLeaderBoardModel lbModel3 = null;
@@ -164,6 +160,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
             assertEquals(100000, relativeList[2].getScore());
             assertEquals(3, relativeList.length);
         } catch (Exception e) {
+        	e.fillInStackTrace();
             Log.v("There is an error in leaderboard MP testing.", "error");
         } finally {
             //clear leaderboards
@@ -187,12 +184,19 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
 
     /**
      * Adding the highest score seen so far in the database and making sure it's rank 1.
+     * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingHighestScoreRankOne() {
+    public void testAddingHighestScoreRankOne() throws InternetConnectionException {
         lbModel.addEntry(33333);
-        solo.sleep(3000);
-        assertEquals(1, lbModel.getRank());
+        MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
+        lbModel2.setPlayer("John");
+        lbModel2.addEntry(25000);
+        solo.sleep(2500);
+        int actualRank = lbModel.getRank();
+        solo.sleep(2500);
+        assertEquals(1, actualRank);
+        lbModel2.clearLeaderboard();
     }
 
     /**

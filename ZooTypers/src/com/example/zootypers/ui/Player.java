@@ -23,6 +23,7 @@ import com.example.zootypers.util.States;
  * Activity / UI for Player screen
  * @author cdallas, littlpunk, kobyran
  */
+@SuppressWarnings("unused")
 public abstract class Player extends Activity implements Observer {
 
 	// the total amount of time given to the user to type. (61 seconds to tick 60 times)
@@ -98,9 +99,10 @@ public abstract class Player extends Activity implements Observer {
                         try {
                             FileInputStream is = openFileInput("vibrate.txt");
                             useVibrate = 1;
+                            Log.i("Player", "use vibrate");
                         } catch (FileNotFoundException e){
-                            //Yes for vibration case
-                            //Do nothing
+                        	e.fillInStackTrace();
+                        	Log.i("Player", "no vibrate");
                         }
                         readVibrateFile = false;
                     }
