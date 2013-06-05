@@ -138,7 +138,7 @@ public class PostGameScreen extends Activity {
 	 * save score popup
 	 */
 	@SuppressLint("InlinedApi")
-  private void buildSavePopup() {
+	private void buildSavePopup() {
 		if (savedScore) {
 			final String title = "Score already saved";
 			final String message = "You cannot save your current score more than once";
@@ -146,13 +146,13 @@ public class PostGameScreen extends Activity {
 			return;
 		}
 		LayoutInflater layoutInflater =
-		        (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.postgame_layout);
 		View popupView = layoutInflater.inflate(R.layout.save_score_screen, null);
 		ppw = new PopupWindow(popupView,
-		    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+		LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
 		savedScore = true;
 	}
@@ -182,7 +182,7 @@ public class PostGameScreen extends Activity {
 	    String savedNameString = savedNameInput.getText().toString();
 	    // send the input the the leaderboard model
 	    SingleLeaderBoardModel sl = new SingleLeaderBoardModel(getApplicationContext());
-    	sl.addEntry(savedNameString ,score);
+    	sl.addEntry(savedNameString, score);
 		final String title = "Saved Score";
 		final String message = "Your score has been successfully saved!";
 		buildAlertDialog(title, message);

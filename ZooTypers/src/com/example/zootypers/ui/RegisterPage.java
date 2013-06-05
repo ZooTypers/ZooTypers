@@ -39,7 +39,7 @@ public class RegisterPage extends Activity {
 
 		setContentView(R.layout.activity_register_page);
 		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-				"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+		"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
 		Log.i("Register", "entered register page");
 	}
 
@@ -84,8 +84,8 @@ public class RegisterPage extends Activity {
 		String emailString = emailEdit.getText().toString();
 
 		if ((((usernameString.length() == 0) || (passwordString.length() == 0))
-				|| (confirmPWString.length() == 0))
-				|| (emailString.length() == 0)) {
+		|| (confirmPWString.length() == 0))
+		|| (emailString.length() == 0)) {
 			// case where everything is not filled out
 			Log.w("Register", "missing information for registration");
 
@@ -170,7 +170,7 @@ public class RegisterPage extends Activity {
 	 * case where it goes back to titlepage
 	 */
 	private void buildAlertDialog(final String title, final String message,
-			final boolean goToTitle) {
+	final boolean goToTitle) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		if (goToTitle) {
@@ -225,7 +225,7 @@ public class RegisterPage extends Activity {
 	 * @param email String representing user's email
 	 */
 	private void setupDatabase(final String username, final String password,
-			final String email) {
+	final String email) {
 		Log.i("Register", "all registration fields are valid, submitting to database");
 
 		ParseUser user = new ParseUser();
@@ -236,7 +236,8 @@ public class RegisterPage extends Activity {
 		user.signUpInBackground(new SignUpCallback() {
 			public void done(final ParseException e) {
 				if (e == null) {
-					Log.i("Register", "registration information successfully submitted to database");
+					Log.i("Register", 
+					"registration information successfully submitted to database");
 
 					// sign up succeeded so go to multiplayer screen
 					// store the username of the current player
