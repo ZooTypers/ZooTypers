@@ -25,7 +25,7 @@ public class ErrorScreen extends Activity {
 		error = getIntent().getIntExtra("error", 2130903041);
     	setContentView(error);
     
-    // Get and store the username
+    	// Get and store the username
 		username = getIntent().getStringExtra("username");
 	}
 

@@ -1,15 +1,10 @@
 package com.example.zootypers.core;
 
-
-
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 import android.util.Log;
 
 import com.example.zootypers.util.InternetConnectionException;
@@ -62,7 +57,7 @@ public class MultiLeaderBoardModel {
 	 * scores are equal than rank alphabetically.
 	 */
 	private void getAllScores() throws InternetConnectionException {
-		Log.i("Multiplayer", "multiplayer getting all scores from parse");
+		Log.i("Multiplayer", "getting all scores from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
 			query = query.whereNotEqualTo("name", "DONOTDELETE");
@@ -84,14 +79,15 @@ public class MultiLeaderBoardModel {
 	 * can be made if a score is added.
 	 */
 	public void setPlayer(String name) throws InternetConnectionException {
-		Log.i("Multiplayer", "multiplayer getting this player's score from parse");
+		Log.i("Multiplayer", "getting this player's score from parse");
 		try {
 			ParseQuery query = new ParseQuery("MultiLeaderBoard");
 			query.whereEqualTo("name", name);
 			query.count();
 			entry = query.getFirst();
 		} catch (ParseException e) {
-			Log.i("Multiplayer", "this player's has no scores score from parse");
+			e.fillInStackTrace();
+			Log.i("Multiplayer", "this player has no score from parse");
 			// making a new entry for this player
 			entry = new ParseObject("MultiLeaderBoard");
 			entry.put("name", name);
@@ -107,7 +103,7 @@ public class MultiLeaderBoardModel {
 	 * @param score, user's score to potentially be added
 	 */
 	public void addEntry(int score){
-		Log.i("Multiplayer", "multiplayer leaderboard adding the user's entry");
+		Log.i("Multiplayer", "adding the user's entry to leaderboard");
 		int highScore = Math.max(score, entry.getInt("score"));
 		entry.put("score", highScore);
 		entry.saveInBackground();
@@ -123,7 +119,8 @@ public class MultiLeaderBoardModel {
 		int size = Math.min(numOfEntries, allScores.size());
 		ScoreEntry[] scores = new ScoreEntry[size];
 		for (int i = 0; i < size; i++) {
-			scores[i] = new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score"));
+			scores[i] = new ScoreEntry(allScores.get(i).getString("name"), 
+			allScores.get(i).getInt("score"));
 		}
 		return scores;
 	}
@@ -164,7 +161,8 @@ public class MultiLeaderBoardModel {
 			}
 			
 			for (int i = startIndex; i < endIndex; i++) {
-				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
+				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), 
+				allScores.get(i).getInt("score")));
 			}
 			
 		}
@@ -175,16 +173,16 @@ public class MultiLeaderBoardModel {
 	 * Clears the users scores from the database
 	 */
 	public void clearLeaderboard(){
-		Log.i("Multiplayer", "multiplayer leaderboard deleting the user's entry");
+		Log.i("Multiplayer", "deleting the user's entry from leaderboard");
 		entry.deleteInBackground();
 	}
 
 	/**
-	 * @ return rank with 1 being highest. If rank = 0 then user has no multi player score on database
+	 * @ return rank with 1 being highest. If rank = 0 
+	 * then user has no multi player score on database
 	 */
 	public int getRank(){
 		return Collections.binarySearch(allScores, entry, new Comparator<ParseObject>() {
-
 			@Override
 			public int compare(ParseObject arg0, ParseObject arg1) {
 				int diff = arg1.getInt("score") - arg0.getInt("score");
@@ -193,6 +191,6 @@ public class MultiLeaderBoardModel {
 				}
 				return arg1.getInt("score") - arg0.getInt("score");
 			}
-		}) + 1;	
+		}) + 1;
 	}
 }

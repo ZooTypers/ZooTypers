@@ -3,6 +3,7 @@ package com.example.zootypers.ui;
 import android.annotation.SuppressLint;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -13,31 +14,33 @@ import com.example.zootypers.R;
  */
 public class PostGameScreenDisconnect extends PostGameScreenMulti {
 
-  @SuppressLint("NewApi")
-  @Override
-  protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    
-    // Get & display background
-    setContentView(R.layout.activity_pregame_selection_multi);
-    Drawable background = ((ImageButton)
-        findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
+	@SuppressLint("NewApi")
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.activity_post_game_screen_disconnect);
-    findViewById(R.id.postgame_layout).setBackground(background);
+		Log.i("Multiplayer", "opponent has disconnected!");
 
-    // Get and display score
-    score = getIntent().getIntExtra("score", 0);
-    TextView finalScore = (TextView) findViewById(R.id.final_score);
-    finalScore.setText(score.toString());
+		// Get & display background
+		setContentView(R.layout.activity_pregame_selection_multi);
+		Drawable background = ((ImageButton)
+		findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
-    // Get and store the username
-    username = getIntent().getStringExtra("username");
-  }
+		setContentView(R.layout.activity_post_game_screen_disconnect);
+		findViewById(R.id.postgame_layout).setBackground(background);
 
-  @Override
-  protected void opponentDisplay() {
-    // Do nothing
-  }
+		// Get and display score
+		score = getIntent().getIntExtra("score", 0);
+		TextView finalScore = (TextView) findViewById(R.id.final_score);
+		finalScore.setText(score.toString());
+
+		// Get and store the username
+		username = getIntent().getStringExtra("username");
+	}
+
+	@Override
+	protected void opponentDisplay() {
+		// Do nothing
+	}
 
 }

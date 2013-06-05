@@ -3,7 +3,6 @@ package com.example.zootypers.test;
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
-import android.test.suitebuilder.annotation.Suppress;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -33,14 +32,15 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
     }
 
     /**
-     * create a new solo class to use robotium
+     * Create a new solo class to use robotium and then start the login process.
      * @throws Exception if activity isn't instantiated
      */
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
-        multiButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.multiplayer_button);
+        multiButton = (Button) getActivity().
+        findViewById(com.example.zootypers.R.id.multiplayer_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -51,10 +51,12 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
     }
 
     /**
-     * Goes to Multiplayer activity, click Register and putting in record that is already used
+     * Clicking on the multiplayer button without logging in and then registering
+     * for an account that is already in use.
      */
     @Test(timeout = TIMEOUT)
     public void testingRegisteringForAccountInUse() {
+        //click on register for new account
         final TextView joinNow = (TextView) solo.getView(com.example.zootypers.R.id.join_now);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
@@ -64,6 +66,8 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
             }
         });
         solo.sleep(1000);
+
+        //entering the name, pw, and email
         EditText username = (EditText) solo.getView(R.id.username_register_input);
         solo.enterText(username, "David");
         EditText password = (EditText) solo.getView(R.id.password_input_register);
@@ -72,7 +76,10 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
         solo.enterText(password2, "12345");
         EditText email = (EditText) solo.getView(R.id.email_input_register);
         solo.enterText(email, "davidqwe123@hotmail.com");
-        final Button submitButton = (Button) solo.getView(com.example.zootypers.R.id.submit_register);
+
+        //clck continue and seeing if the account is in use
+        final Button submitButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.submit_register);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -83,16 +90,88 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
         solo.sleep(1000);
         solo.searchText("Username is already in use.");
     }
+    
+    /**
+     * Clicking on the multiplayer button without logging in and then registering
+     * for an account that is already in use.
+     */
+    @Test(timeout = TIMEOUT)
+    public void testingRegisteringAccountInvalidInfo() {
+        //click on register for new account
+        final TextView joinNow = (TextView) solo.getView(com.example.zootypers.R.id.join_now);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                joinNow.performClick();
+            }
+        });
+        solo.sleep(1000);
+
+        //entering the name, pw, and email
+        EditText username = (EditText) solo.getView(R.id.username_register_input);
+        solo.enterText(username, "a");
+        EditText password = (EditText) solo.getView(R.id.password_input_register);
+        solo.enterText(password, "1");
+        EditText password2 = (EditText) solo.getView(R.id.confirm_password_input_register);
+        solo.enterText(password2, "2");
+        EditText email = (EditText) solo.getView(R.id.email_input_register);
+        solo.enterText(email, "3");
+
+        //clck continue and seeing if the account is in use
+        final Button submitButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.submit_register);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                submitButton.performClick();
+            }
+        });
+        solo.sleep(1000);
+        solo.searchText("Invalid Password");
+    }
+    
+    /**
+     * Registering with empty fields in the register page.
+     */
+    @Test(timeout = TIMEOUT)
+    public void testingRegisteringWithEmptyFields() {
+        //click on register for new account
+        final TextView joinNow = (TextView) solo.getView(com.example.zootypers.R.id.join_now);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                joinNow.performClick();
+            }
+        });
+        solo.sleep(1000);
+
+        //clck continue and seeing if the account is in use
+        final Button submitButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.submit_register);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                submitButton.performClick();
+            }
+        });
+        solo.sleep(1000);
+    }
 
     /**
-     * Goes to Multiplayer activity and login with an active account then logout.
+     * Goes to login page and login with an active account then logout.
      */
     @Test(timeout = TIMEOUT)
     public void testingLoginToExistingUserAndLoggingOut() {
+        //enter existing username & pw
         EditText username = (EditText) solo.getView(R.id.username_login_input);
         solo.enterText(username, "David");
         EditText password = (EditText) solo.getView(R.id.password_login_input);
         solo.enterText(password, "1234567");
+        //click on login
         final Button loginButton = (Button) solo.getView(com.example.zootypers.R.id.login_button);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
@@ -101,6 +180,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
                 loginButton.performClick();
             }
         });
+        //check to see if logout successful
         final Button logoutButton = (Button) solo.getView(com.example.zootypers.R.id.logout_button);
         solo.sleep(1000);
         solo.searchText("You are logged in as David");
@@ -114,7 +194,7 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
     }
 
     /**
-     * Goes to Multiplayer activity and request an invalid email for a password reset.
+     * Goes to login page and request an invalid email for a password reset.
      */
     @Test(timeout = TIMEOUT)
     public void testingForgotPasswordInputFailure() {
@@ -126,17 +206,20 @@ public class LoginTest extends ActivityInstrumentationTestCase2<TitlePage> {
                 forgotButton.performClick();
             }
         });
+        //enter invalid email and checking failure
         EditText email = (EditText) solo.getView(R.id.email_forgot_password_input);
         solo.enterText(email, "davidqwe123@hotmail.com");
         solo.sleep(1000);
-        final Button resetButton = (Button) solo.getView(com.example.zootypers.R.id.reset_password_button);
+        final Button resetButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.reset_password_button);
         solo.sleep(1000);
-        //        getActivity().runOnUiThread(new Runnable() {
-        //            @Override
-        //            public void run() {
-        //                resetButton.performClick();
-        //            }
-        //        });
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                resetButton.performClick();
+            }
+        });
+        solo.searchText("Password Reset Failed");
     }
 
     @Override
