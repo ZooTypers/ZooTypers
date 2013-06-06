@@ -135,40 +135,44 @@ public class MultiLeaderBoardModel {
 	
 	/**
 	 * Return a List of score entries that is in the order of high to low scores
-	 * around your own score. The size of the list will be determined by the parameter
-	 * passed in. There will be numOfRelative scores above and below the user's score
-	 * in the list unless range goes out of bounds then scores only go to that
-	 * @param numOfRelatives the number of scores above and below user's score to return in list
+	 * around your own score. The size of the list will be defalut_entries with the
+	 * goal being that the player's score is the center rank. Only time there is less
+	 * than default_entries is when there are less than default entries in the database
+	 * 
 	 * @return a list of size numOfEntries with the top score entries
 	 */
-	public ScoreEntry[] getRelativeScores(int numOfRelatives) {
-		if (numOfRelatives < 0) {
-			numOfRelatives *= -1;
-		}
+	public ScoreEntry[] getRelativeScores() {
 		List<ScoreEntry> scoreEntries = new ArrayList<ScoreEntry>();
-		int rank = getRank();
-		if (rank != 0) {
-			int startIndex = rank - numOfRelatives - 1;
-			if (startIndex < 0) {
-				startIndex = 0;
+		int highestRank = getHighestRelScoreRank();
+		if (highestRank != 0) {
+			int startIndex = highestRank - 1;
+			for (int i = startIndex; i < allScores.size() && i < startIndex + DEFAULT_ENTRIES; i++) {
+				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
 			}
-			int endIndex = rank + numOfRelatives;
-			if (endIndex < DEFAULT_ENTRIES) {
-				endIndex = DEFAULT_ENTRIES;
-			}
-			if (endIndex > allScores.size()) {
-				endIndex = allScores.size();
-			}
-			
-			for (int i = startIndex; i < endIndex; i++) {
-				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), 
-				allScores.get(i).getInt("score")));
-			}
-			
 		}
 		return scoreEntries.toArray(new ScoreEntry[scoreEntries.size()]);
 	}
 
+	/**
+	 * @return highest possible relative rank with 1 being highest. 
+	 * If rank = 0 then user has no multiplayer score on database
+	 */
+	public int getHighestRelScoreRank() {
+		int rank = getRank();
+		int relative = numOfEntries/2;
+		int highestRank = 0;
+		if (rank != 0) {
+			if (allScores.size() - rank < relative) {
+				highestRank = allScores.size() - numOfEntries + 1;
+			} else {
+				highestRank = rank - relative + 1;
+			}
+			if (highestRank < 1) {
+				highestRank = 1;
+			}
+		}
+		return highestRank;
+	}
 	/**
 	 * Clears the users scores from the database
 	 */
@@ -178,7 +182,7 @@ public class MultiLeaderBoardModel {
 	}
 
 	/**
-	 * @ return rank with 1 being highest. If rank = 0 
+	 * @return rank with 1 being highest. If rank = 0 
 	 * then user has no multi player score on database
 	 */
 	public int getRank(){
