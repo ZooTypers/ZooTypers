@@ -155,8 +155,9 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
             lbModel3.setPlayer("Bob");
             lbModel3.addEntry(300000);
 
+            //TODO fix test so that it works. Lindsey changed how this method works
             //check to see if the high score are relative to the (David) 200000 score
-            ScoreEntry[] relativeList = lbModel.getRelativeScores(1);
+            ScoreEntry[] relativeList = lbModel.getRelativeScores();
             assertEquals(300000, relativeList[0].getScore());
             assertEquals(200000, relativeList[1].getScore());
             assertEquals(100000, relativeList[2].getScore());

@@ -42,7 +42,7 @@ public class TitlePage extends Activity {
 		
 		//used intent to allow testing or not
 		useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.e("Extra", "INTENT " + useTestDB);
+		Log.i("Extra", "INTENT " + useTestDB);
 		// Initialize the database
 		if (useTestDB == 1) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",

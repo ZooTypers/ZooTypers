@@ -14,6 +14,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -116,7 +117,7 @@ public class MultiPlayer extends Player {
 
 		// Initialize the database according to whether it's a test or not.
 		useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.e("Extra", "INTENT " + useTestDB);
+		Log.i("Extra", "INTENT " + useTestDB);
 		if (useTestDB == 1) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
@@ -371,8 +372,8 @@ public class MultiPlayer extends Player {
 		}
 		@Override
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(MultiPlayer.this, "Finding a Game...",  
-			"Searching for opponent, please wait...", false, false);
+			progressDialog = ProgressDialog.show(MultiPlayer.this, getString(R.string.find_game_title),  
+			    getString(R.string.find_game_msg), false, false);
 		}
 
 		@Override

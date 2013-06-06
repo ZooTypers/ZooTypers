@@ -89,9 +89,7 @@ public class RegisterPage extends Activity {
 			// case where everything is not filled out
 			Log.w("Register", "missing information for registration");
 
-			final String title = "Missing Information";
-			final String message = "Please fill in all of the fields.";
-			buildAlertDialog(title, message, false);
+			buildAlertDialog(R.string.missing_reg_title, R.string.missing_reg_msg, false);
 			// indicate which ones were not filled out
 			if (usernameString.length() == 0) {
 				indicateError(usernameText, true);
@@ -121,9 +119,7 @@ public class RegisterPage extends Activity {
 			if (!passwordString.equals(confirmPWString)) {
 				Log.w("Register", "passwords do not match");
 
-				final String title = "Invalid Password";
-				final String message = "Password fields do not match.";
-				buildAlertDialog(title, message, false);
+				buildAlertDialog(R.string.unmatch_pswd_title, R.string.unmatch_pswd_msg, false);
 				indicateError(passwordText, true);
 				indicateError(confirmPWText, true);
 				// all other text fields should not be red
@@ -140,8 +136,6 @@ public class RegisterPage extends Activity {
 					// inputs are valid put into the database
 					setupDatabase(usernameString, passwordString, emailString);
 				} else {
-					final String title = "Invalid Username/Password";
-					final String message = "Username and password must be at least 4 characters.";
 					if (usernameString.length() < 4) {
 						Log.w("Register", "username do not contain enough characters");
 						indicateError(usernameText, true);
@@ -154,7 +148,7 @@ public class RegisterPage extends Activity {
 					} else {
 						indicateError(passwordText, false);
 					}
-					buildAlertDialog(title, message, false);
+					buildAlertDialog(R.string.short_up_title, R.string.short_up_msg, false);
 				}
 
 			}
@@ -169,7 +163,7 @@ public class RegisterPage extends Activity {
 	 * @param goToTitle indicates whether popup should handle
 	 * case where it goes back to titlepage
 	 */
-	private void buildAlertDialog(final String title, final String message,
+	private void buildAlertDialog(final int title, final int message,
 	final boolean goToTitle) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -184,7 +178,7 @@ public class RegisterPage extends Activity {
 		alertDialogBuilder
 		.setMessage(message)
 		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+		.setPositiveButton(R.string.close_alert, new DialogInterface.OnClickListener() {
 			public void onClick(final DialogInterface dialog, final int id) {
 				// if this button is clicked, close the dialog box
 				dialog.cancel();
@@ -242,10 +236,8 @@ public class RegisterPage extends Activity {
 					// sign up succeeded so go to multiplayer screen
 					// store the username of the current player
 					currentUser = username;
-					final String title = "Account Created Successfully!";
-					final String message = "Verify your email before playing.";
 					ParseUser.logOut();
-					buildAlertDialog(title, message, true);
+					buildAlertDialog(R.string.acc_created_title, R.string.acc_created_msg, true);
 				} else {
 					Log.i("Register", "registration unsuccessful");
 
@@ -253,21 +245,20 @@ public class RegisterPage extends Activity {
 					// TODO: figure out how do deal with error
 					int errorCode = e.getCode();
 					// figure out what the error was
-					final String title = "Registration Failed";
-					String message;
+					int message;
 					if (errorCode == ParseException.ACCOUNT_ALREADY_LINKED) {
-						message = "Account is already in use.";
+						message = R.string.reg_faila_msg;
 					} else if (errorCode == ParseException.EMAIL_TAKEN) {
-						message = "Email is already in use.";
+						message = R.string.reg_faile_msg;
 					} else if (errorCode == ParseException.USERNAME_TAKEN) {
-						message = "Username is already in use.";
+            message = R.string.reg_failu_msg;
 					} else if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
-						message = "Invalid Email Address";
+            message = R.string.reg_faili_msg;
 					} else {
 						e.printStackTrace();
-						message = "Account could not be created.";
+            message = R.string.reg_failo_msg;
 					}
-					buildAlertDialog(title, message, false);
+					buildAlertDialog(R.string.reg_fail_title, message, false);
 				}
 			}
 		});

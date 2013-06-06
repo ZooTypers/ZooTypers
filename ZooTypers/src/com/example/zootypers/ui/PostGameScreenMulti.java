@@ -1,8 +1,6 @@
 package com.example.zootypers.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
+import com.example.zootypers.util.InterfaceUtils;
 import com.example.zootypers.util.InternetConnectionException;
 
 /**
@@ -65,11 +64,11 @@ public class PostGameScreenMulti extends PostGameScreen {
 		TextView resultMessage = (TextView) findViewById(R.id.game_result);
 		int result = getIntent().getIntExtra("result", 0);
 		if (result == 1) {
-			resultMessage.setText("You Won!");
+			resultMessage.setText(R.string.you_won);
 		} else if (result == 0) {
-			resultMessage.setText("You Tied!");
+			resultMessage.setText(R.string.you_tied);
 		} else {
-			resultMessage.setText("You Lost.");
+			resultMessage.setText(R.string.you_lost);
 		}    
 	}
 
@@ -89,9 +88,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 			return;
 		}
 		ml.addEntry(score);
-		final String title = "Saved Score";
-		final String message = "Your score has been successfully saved!";
-		Options.buildAlertDialog(title, message, this);
+		InterfaceUtils.buildAlertDialog(R.string.saved_title, R.string.saved_msg, this);
 	}
 
 	@Override

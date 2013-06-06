@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.SingleLeaderBoardModel;
+import com.example.zootypers.util.InterfaceUtils;
 import com.example.zootypers.util.InternetConnectionException;
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -114,9 +115,8 @@ public class Options extends Activity {
 		Log.i("Options", "clearing single player leaderboard");
 		SingleLeaderBoardModel sl = new SingleLeaderBoardModel(this.getApplicationContext());
 		sl.clearLeaderboard();
-		final String title = "Cleared Leaderboard";
-		final String message = "The single player leaderboard has been successfully cleared.";
-		buildAlertDialog(title, message, this);
+		InterfaceUtils.buildAlertDialog(R.string.clear_lb_title, R.string.clear_lbs_msg, this);
+
 	}
 
 	/**
@@ -130,10 +130,10 @@ public class Options extends Activity {
 		// Initialize the database
 		if (useTestDB == 1) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else {
 			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		}
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
@@ -155,9 +155,9 @@ public class Options extends Activity {
 				return;
 			}
 			ml.clearLeaderboard();
-			final String title = "Cleared Leaderboard";
-			final String message = "Your multiplayer scores have been successfully cleared.";
-			buildAlertDialog(title, message, this);
+
+			InterfaceUtils.buildAlertDialog(R.string.clear_lb_title, R.string.clear_lbm_msg, this);
+
 		}
 	}
 
@@ -175,7 +175,7 @@ public class Options extends Activity {
 	private void buildPopup(boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.options_layout);
@@ -192,7 +192,7 @@ public class Options extends Activity {
 		Log.i("Options", "user has forgotten password");
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.options_layout);
@@ -295,32 +295,4 @@ public class Options extends Activity {
 	}
 
 	// TODO remove repetition from title page / post game / leaderboard
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	public static void buildAlertDialog(String title, String message, Activity act) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(act);
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
-	}
 }
