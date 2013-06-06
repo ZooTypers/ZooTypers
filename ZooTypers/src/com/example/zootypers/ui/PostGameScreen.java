@@ -2,10 +2,8 @@ package com.example.zootypers.ui;
 
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ActionBar.LayoutParams;
-import android.content.DialogInterface;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -23,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.SingleLeaderBoardModel;
+import com.example.zootypers.util.InterfaceUtils;
 
 /**
  *
@@ -87,6 +86,7 @@ public class PostGameScreen extends Activity {
 		Log.i("ZooTypers", "going to title page from post game");
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
+		finish();
 	}
 
 	/**
@@ -97,59 +97,27 @@ public class PostGameScreen extends Activity {
 		Log.i("ZooTypers", "going to pre game from post game");
 		Intent intent = new Intent(this, PreGameSelection.class);
 		startActivity(intent);
-	}
-
-
-    // TODO remove repetition from title page / options
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
+		finish();
 	}
 
 	/**
 	 * Helper method to build a popup screen for the
 	 * save score popup
 	 */
+	@SuppressLint("InlinedApi")
 	private void buildSavePopup() {
 		if (savedScore) {
-			final String title = "Score already saved";
-			final String message = "You cannot save your current score more than once";
-			buildAlertDialog(title, message);
+			InterfaceUtils.buildAlertDialog(R.string.already_saved_title, R.string.already_saved_msg, this);
 			return;
 		}
 		LayoutInflater layoutInflater =
-		        (LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.postgame_layout);
 		View popupView = layoutInflater.inflate(R.layout.save_score_screen, null);
 		ppw = new PopupWindow(popupView,
-		    LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+		LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
 		savedScore = true;
 	}
@@ -179,10 +147,8 @@ public class PostGameScreen extends Activity {
 	    String savedNameString = savedNameInput.getText().toString();
 	    // send the input the the leaderboard model
 	    SingleLeaderBoardModel sl = new SingleLeaderBoardModel(getApplicationContext());
-    	sl.addEntry(savedNameString ,score);
-		final String title = "Saved Score";
-		final String message = "Your score has been successfully saved!";
-		buildAlertDialog(title, message);
+    	sl.addEntry(savedNameString, score);
+		InterfaceUtils.buildAlertDialog(R.string.saved_title, R.string.saved_msg, this);
 		ppw.dismiss();
 	}
 }

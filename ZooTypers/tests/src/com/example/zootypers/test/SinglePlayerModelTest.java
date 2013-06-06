@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
@@ -42,12 +41,12 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         super(PreGameSelection.class);
     }
 
-    @Before
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
-        continueButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.continue_button);
+        continueButton = (Button) getActivity().
+        findViewById(com.example.zootypers.R.id.continue_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -55,6 +54,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         });
         solo.waitForActivity(SinglePlayer.class, 15000);
+        solo.sleep(3000);
     }
 
     /**
@@ -63,7 +63,8 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
      */
     @Test(timeout = TIMEOUT)
     public void testTheKeyboardButtonWorks() throws Exception {
-        final Button keyboardButton = (Button) solo.getView(com.example.zootypers.R.id.keyboard_open_button);
+        final Button keyboardButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.keyboard_open_button);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -113,7 +114,8 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         });
         solo.sleep(1000);
-        final Button newGameButton = (Button) solo.getView(com.example.zootypers.R.id.restart_button);
+        final Button newGameButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.restart_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -157,7 +159,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         for(char c : lowChanceLetters){
             if(firstLetters.indexOf(c) < 0 ){
                 sendKeys(c - 68);
-                solo.searchText("Invalid Letter Typed");
+                solo.searchText("Wrong Letter!");
             }
         }
         solo.sleep(1000);
@@ -179,14 +181,16 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         CharSequence word = views.get(0).getText();
         solo.sleep(1000);
         SpannableString spanString = new SpannableString(word);
-        ForegroundColorSpan[] spans = spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
+        ForegroundColorSpan[] spans = 
+        spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
         solo.sleep(3000);
         assertTrue(spans.length > 0);
         goBackToMainMenu();
     }
 
     /**
-     * Gets the current word onscreen and then automatically finish the first one and tests to see if the word at the
+     * Gets the current word onscreen and then automatically 
+     * finish the first one and tests to see if the word at the
      * first position has changed.
      * @throws Exception 
      */
@@ -203,7 +207,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             //Log.v("current-letter", Character.toString(c));
         }
         textList = getWordsPresented();
-        assertTrue(textList.get(0).getText().toString() != currWord);
+        assertTrue(!(textList.get(0).getText().toString().equals(currWord)));
         goBackToMainMenu();
     }
 
@@ -232,25 +236,26 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         goBackToMainMenu();
     }
 
-//    /**
-//     * Tests that the post game screen pops up after 1 min.
-//     */
-//    @Test(timeout = 90000)
-//    public void testSimulatePlayingAOneMinuteGame() {
-//        boolean gameFlag = true;
-//        while (gameFlag) {
-//            automateKeyboardTyping();
-//            if (solo.searchText("New Game") == true) {
-//                gameFlag = false;
-//            }
-//        }
-//        assertTrue(solo.searchText("New Game"));
-//        assertTrue(solo.searchText("Main Menu"));
-//        assertTrue(solo.searchText("Your ad could be here!"));
-//    }
+    /**
+     * Tests that the post game screen pops up after 1 min.
+     */
+    @Test(timeout = 90000)
+    public void testSimulatePlayingAOneMinuteGame() {
+        boolean gameFlag = true;
+        automateKeyboardTyping();
+        while (gameFlag) {
+            if (solo.searchText("New Game")) {
+                gameFlag = false;
+            }
+        }
+        assertTrue(solo.searchText("New Game"));
+        assertTrue(solo.searchText("Main Menu"));
+        assertTrue(solo.searchText("Your ad could be here!"));
+    }
 
     /**
-     * Tests the initial model when a new game is started. There should be 5 words, 0 score, -1 on both index and word.
+     * Tests the initial model when a new game is started. 
+     * There should be 5 words, 0 score, -1 on both index and word.
      * @throws Exception 
      */
     @Test(timeout = TIMEOUT)
@@ -266,13 +271,14 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
     }
 
     /**
-     * Tests the model after one character is typed. There should still be 5 words, 0 score, and non -1 on both index and word.
+     * Tests the model after one character is typed. 
+     * There should still be 5 words, 0 score, and non -1 on both index and word.
      * @throws Exception 
      */
     @Test(timeout = TIMEOUT)
     public void testModelAfterOneCharTyped() throws Exception {
         solo.sleep(1000);
-        SinglePlayerModel model = ((SinglePlayer)solo.getCurrentActivity()).getModel();
+        SinglePlayerModel model = ((SinglePlayer) solo.getCurrentActivity()).getModel();
         solo.sleep(1000);
         List<TextView> views = getWordsPresented();
         TextView s = views.get(0);
@@ -287,7 +293,8 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
     }
 
     /**
-     * Tests the model after one word is finished typing. Should have 5 words displayed, score equal to the word length.
+     * Tests the model after one word is finished typing. 
+     * Should have 5 words displayed, score equal to the word length.
      * The index and word should be back at -1.
      * @throws Exception 
      */
@@ -333,17 +340,18 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
     private List<TextView> getWordsPresented(){
         solo.sleep(3000);
         List<TextView> retVal = new ArrayList<TextView>();
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word0)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word1)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word2)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word3)));
-        retVal.add(((TextView)solo.getCurrentActivity().findViewById(R.id.word4)));
+        retVal.add(((TextView) solo.getCurrentActivity().findViewById(R.id.word0)));
+        retVal.add(((TextView) solo.getCurrentActivity().findViewById(R.id.word1)));
+        retVal.add(((TextView) solo.getCurrentActivity().findViewById(R.id.word2)));
+        retVal.add(((TextView) solo.getCurrentActivity().findViewById(R.id.word3)));
+        retVal.add(((TextView) solo.getCurrentActivity().findViewById(R.id.word4)));
         solo.sleep(3000);
         return retVal;
     }
 
     /**
-     * Makes robotium go back to the main screen. Sleeps are to ensure that the activity renders before solo acts.
+     * Makes robotium go back to the main screen. 
+     * Sleeps are to ensure that the activity renders before solo acts.
      */
     private void goBackToMainMenu() {
         solo.sleep(500);
@@ -356,16 +364,8 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
             }
         });
         solo.sleep(1500);
-//        final Button restartButton = (Button) solo.getView(com.example.zootypers.R.id.restart_button);
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                restartButton.performClick();
-//            }
-//        });
-//        solo.sleep(1000);
     }
-    
+
     @Override
     protected void tearDown() throws Exception {
         solo.finishOpenedActivities();

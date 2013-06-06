@@ -5,13 +5,19 @@ import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
@@ -23,6 +29,7 @@ import com.example.zootypers.util.States;
  * Activity / UI for Player screen
  * @author cdallas, littlpunk, kobyran
  */
+@SuppressWarnings("unused")
 public abstract class Player extends Activity implements Observer {
 
 	// the total amount of time given to the user to type. (61 seconds to tick 60 times)
@@ -41,10 +48,10 @@ public abstract class Player extends Activity implements Observer {
 	protected long currentTime;
 	
 	//check for whether to vibrate or not
-	private int check = 1;
+	private int useVibrate = 0;
 	
 	//check to see if you need to read the vibration file or not
-	private boolean read = true;
+	private boolean readVibrateFile = true;
 
 	/**
 	 * Called when the timer runs out; starts the post game screen
@@ -65,7 +72,35 @@ public abstract class Player extends Activity implements Observer {
 	public final View getByStringId(final String id) {
 		return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
 	}
-
+	
+	
+	/**
+	 * OnCreate 
+	 * Media player for background music
+	 */
+	protected void backGroundSetUp(MediaPlayer mediaPlayer, boolean readBGM, int playMusic){
+		// create a background music
+        if(readBGM){
+            try {
+                FileInputStream is = openFileInput("bgm.txt");
+                playMusic = 1;
+                Log.i("ZooTypers", "play background music");
+            } catch (FileNotFoundException e){
+            	e.fillInStackTrace();
+            	Log.i("ZooTypers", "no background music");
+            } 
+            readBGM = false;
+        }
+        
+        //play music
+        if(playMusic == 1){
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(100, 100);
+            mediaPlayer.start();
+        }
+	}
+	
 	/**
 	 * Observer for model.
 	 * @param arg0 Thing being observes.
@@ -94,20 +129,21 @@ public abstract class Player extends Activity implements Observer {
 					//tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
 					tv.setVisibility(TextView.VISIBLE);
 					//Check if vibrate
-                    if(read){
+                    if(readVibrateFile){
                         try {
                             FileInputStream is = openFileInput("vibrate.txt");
-                            check = 0;
+                            useVibrate = 1;
+                            Log.i("Player", "use vibrate");
                         } catch (FileNotFoundException e){
-                            //Yes for vibration case
-                            //Do nothing
+                        	e.fillInStackTrace();
+                        	Log.i("Player", "no vibrate");
                         }
-                        read = false;
+                        readVibrateFile = false;
                     }
                     //Vibrate
-                    if(check == 1){
+                    if(useVibrate == 1){
                         Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        v.vibrate(500);
+                        v.vibrate(150);
                     }
 				} 
 			}
@@ -187,4 +223,22 @@ public abstract class Player extends Activity implements Observer {
 		getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMgr.toggleSoftInput(0, 0);
 	}  
+	
+	/**
+	 * Initialize player One's View
+	 */
+	@SuppressLint("NewApi")
+	public void initialDisplay(Drawable animalID, Drawable backgroundID){
+		// display animal
+		ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
+		animalImage.setImageDrawable(animalID);
+
+		// display background
+		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
+		layout.setBackground(backgroundID);
+
+		displayTime(START_TIME / INTERVAL);
+
+		displayScore(0);
+	}
 }

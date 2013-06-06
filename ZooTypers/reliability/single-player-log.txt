@@ -1,0 +1,48 @@
+06-01 18:40:08.269: I/ZooTypers(788): User entered title screen
+06-01 18:40:16.079: I/ZooTypers(788): Proceeding to single player pre game
+06-01 18:40:16.229: I/ZooTypers(788): entered pre game
+06-01 18:40:16.348: I/ZooTypers(788): difficulty changed
+06-01 18:40:16.348: I/ZooTypers(788): animal changed
+06-01 18:40:16.369: I/ZooTypers(788): background changed
+06-01 18:40:18.669: I/ZooTypers(788): back to title page from pre game
+06-01 18:40:18.859: I/ZooTypers(788): User entered title screen
+06-01 18:40:27.989: I/ZooTypers(788): Proceeding to single player pre game
+06-01 18:40:28.139: I/ZooTypers(788): entered pre game
+06-01 18:40:28.298: I/ZooTypers(788): difficulty changed
+06-01 18:40:28.298: I/ZooTypers(788): animal changed
+06-01 18:40:28.318: I/ZooTypers(788): background changed
+06-01 18:40:30.919: I/ZooTypers(788): begin single player game
+06-01 18:40:31.159: I/SinglePlayer(788): reading file for words list
+06-01 18:40:31.278: I/SinglePlayer(788): game has begun
+06-01 18:40:34.490: I/ZooTypers(788): user has clicked on keyboard button
+06-01 18:40:36.319: I/ZooTypers(788): user has clicked on keyboard button
+06-01 18:40:38.609: I/SinglePlayer(788): game is paused
+06-01 18:40:40.979: I/SinglePlayer(788): continue is selected from pause
+06-01 18:40:40.988: I/ZooTypers(788): user has clicked on keyboard button
+06-01 18:40:43.679: I/ZooTypers(788): user has clicked on keyboard button
+06-01 18:40:49.589: I/SinglePlayer(788): typed the letter: p
+06-01 18:40:50.609: I/SinglePlayer(788): typed the letter: l
+06-01 18:40:51.779: I/SinglePlayer(788): typed the letter: a
+06-01 18:40:52.989: I/SinglePlayer(788): typed the letter: n
+06-01 18:40:54.139: I/SinglePlayer(788): typed the letter: e
+06-01 18:40:54.139: I/SinglePlayer(788): completed the word: plane
+06-01 18:40:54.139: I/SinglePlayer(788): score increased to: 5
+06-01 18:40:55.809: I/SinglePlayer(788): typed the wrong letter: j
+06-01 18:41:00.869: I/SinglePlayer(788): typed the letter: c
+06-01 18:41:01.848: I/SinglePlayer(788): typed the letter: r
+06-01 18:41:03.109: I/SinglePlayer(788): typed the letter: o
+06-01 18:41:04.259: I/SinglePlayer(788): typed the letter: w
+06-01 18:41:05.689: I/SinglePlayer(788): typed the letter: d
+06-01 18:41:05.689: I/SinglePlayer(788): completed the word: crowd
+06-01 18:41:05.689: I/SinglePlayer(788): score increased to: 10
+06-01 18:41:33.707: I/SinglePlayer(788): Ending game
+06-01 18:41:33.810: I/ZooTypers(788): entered post game
+06-01 18:42:05.939: I/ZooTypers(788): saving score post game
+06-01 18:42:08.749: I/ZooTypers(788): exiting popup to save score
+06-01 18:42:10.169: I/ZooTypers(788): saving score post game
+06-01 18:46:06.139: I/ZooTypers(788): submitting name to be saved
+06-01 18:46:06.149: I/SinglePlayer(788): reading file for scores
+06-01 18:46:06.149: I/SinglePlayer(788): adding the user's entry
+06-01 18:46:06.149: I/SinglePlayer(788): saving scores
+06-01 18:52:00.739: I/ZooTypers(788): going to title page from post game
+06-01 18:52:00.960: I/ZooTypers(788): User entered title screen

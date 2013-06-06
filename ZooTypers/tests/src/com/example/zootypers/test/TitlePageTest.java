@@ -3,13 +3,14 @@ package com.example.zootypers.test;
 import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.widget.Button;
 
-//import com.example.zootypers.ui.Leaderboard;
 import com.example.zootypers.ui.Options;
 import com.example.zootypers.ui.PreGameSelection;
 import com.example.zootypers.ui.TitlePage;
 import com.jayway.android.robotium.solo.Solo;
+
 
 /**
  * Testing the title page using android unit tests and Robotium tests.
@@ -39,13 +40,15 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
 
         //initialize the buttons for testing purposes
         singlePlayerButton = (Button) getActivity().findViewById
-                (com.example.zootypers.R.id.single_player_button);
+        (com.example.zootypers.R.id.single_player_button);
         multiplayerButton = (Button) getActivity().findViewById
-                (com.example.zootypers.R.id.multiplayer_button);
+        (com.example.zootypers.R.id.multiplayer_button);
         leaderboardButton = (Button) getActivity().findViewById
-                (com.example.zootypers.R.id.leaderboard_button);
+        (com.example.zootypers.R.id.leaderboard_button);
         optionsButton = (Button) getActivity().findViewById
-                (com.example.zootypers.R.id.options_button);
+        (com.example.zootypers.R.id.options_button);
+
+        solo.sleep(1000);
     }
 
     /**
@@ -128,7 +131,7 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
     /**
      * Tests the button 'Leaderboard' and see that it works.
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testLeaderboardButtonAndScreenWorks() {
         solo.assertCurrentActivity("Check on the current activity.", TitlePage.class);
         getActivity().runOnUiThread(new Runnable() {
@@ -138,7 +141,6 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
             }
         });
         solo.sleep(1000);
-        //solo.assertCurrentActivity("Check on the current activity.", Leaderboard.class);
     }
 
     /**
@@ -158,7 +160,7 @@ public class TitlePageTest extends ActivityInstrumentationTestCase2<TitlePage> {
     }
 
     /**
-     * tear doen any opened activities
+     * Tear down any opened activities.
      */
     @Override
     protected void tearDown() throws Exception {

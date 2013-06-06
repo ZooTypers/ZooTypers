@@ -118,6 +118,7 @@ public class MultiPlayerModel extends PlayerModel {
 			Log.i("Multiplayer", "matched has been found for player");
 			return true;
 		} catch (ParseException e) {
+			e.fillInStackTrace();
 			Log.i("Multiplayer", "no matches are found");
 			return false;
 		} catch (NullPointerException e) {
@@ -305,8 +306,9 @@ public class MultiPlayerModel extends PlayerModel {
 			if ((currLetterIndex + 1) >= wordLen) {
 				int curScore = match.getInt(info.get("score"));
 				curScore += wordLen;
-				Log.i("Multiplayer", "completed the word: " + wordsList.get(wordsDisplayed[currWordIndex]) 
-						+ "\nscore increased to: " + curScore);
+				Log.i("Multiplayer", "completed the word: " + 
+				wordsList.get(wordsDisplayed[currWordIndex]) 
+				+ "\nscore increased to: " + curScore);
 
 				match.put(info.get("score"), curScore);
 				match.saveInBackground();
@@ -329,6 +331,7 @@ public class MultiPlayerModel extends PlayerModel {
 
 	/**
 	 * sets the user to being done with the match
+	 * @throws InternetConnectionException 
 	 *
 	 */
 	public final void setUserFinish() throws InternetConnectionException {
@@ -337,16 +340,17 @@ public class MultiPlayerModel extends PlayerModel {
 			checkInternet();
 			match.put(info.get("finished"), true);
 			match.save();
-		} catch (ParseException e) { //CHANGETHISSSS
-			Log.w("Multiplayer", "parse error setting user to finish");
-			throw new InternetConnectionException();
+		} catch (ParseException e) {
+			if ("p1name".equals(info.get("name"))) {
+				Log.w("Multiplayer", "parse error setting user to finish");
+				throw new InternetConnectionException();
+			} 
 		} catch (NullPointerException e) {
 			Log.w("Multiplayer", "unable to connect to internet");
 			throw new InternetConnectionException();
 		}
 	}
 
-	// return true if my opponent has finished their game
 	/**
 	 * checks to see if the opponent is finished for a maximum of 
 	 * SCORE_TIMEOUT milliseconds. If the opponent is finished then
@@ -362,21 +366,23 @@ public class MultiPlayerModel extends PlayerModel {
 		long starttime = System.currentTimeMillis();
 		long endtime = starttime + SCORE_TIMEOUT;
 		while(System.currentTimeMillis() < endtime) {
-
-			if (match.getBoolean(info.get("ofinished"))) {
-				return true;
-			}
 			try {
 				match.refresh();
 				checkIfInMatch();
 				Thread.sleep(RECHECK_TIME);
 			} catch (ParseException e) {
-				Log.e("Multiplayer", 
-				"parse error while checking if opponent is finished or not", e);
-				throw new InternetConnectionException();
+				if ("p1name".equals(info.get("name"))) {
+					Log.w("Multiplayer", 
+					"parse error while checking if opponent is finished or not");
+					throw new InternetConnectionException();
+				}
+				return false;
 			} catch (InterruptedException e) {
 				Log.e("Multiplayer", "thread error while sleeping", e);
 				throw new InternalErrorException();
+			}
+			if (match.getBoolean(info.get("ofinished"))) {
+				return true;
 			}
 		}
 		return false;

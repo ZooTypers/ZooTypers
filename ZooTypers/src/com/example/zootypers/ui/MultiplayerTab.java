@@ -1,8 +1,7 @@
 package com.example.zootypers.ui;
 
-
-
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +27,11 @@ public class MultiplayerTab extends LeaderboardTab {
 	 */
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		if (container == null) {
-			return null;
-		}
+	Bundle savedInstanceState) {
+		Log.i("Leaderboard", "entered multiplayer tab");
+		
+		super.onCreateView(inflater, container, savedInstanceState);
+		
 		// set the layout for the fragment and get the arguments for that are passed
 		View multiplayerView = inflater.inflate(R.layout.multiplayer_tab, container, false);
 		ScoreEntry[] seArray = (ScoreEntry[]) getArguments().getParcelableArray("scoreList");
@@ -48,11 +48,7 @@ public class MultiplayerTab extends LeaderboardTab {
 	 * @return
 	 */
 	public static MultiplayerTab newInstance(String username, ScoreEntry[] seArray) {
-		MultiplayerTab mpt = new MultiplayerTab();
-		Bundle args = new Bundle();
-		args.putParcelableArray("scoreList", seArray);
-		mpt.setArguments(args);
-		return mpt;
+		return (MultiplayerTab) newInstanceHelper(seArray, new MultiplayerTab());
 	}
 	
 }
