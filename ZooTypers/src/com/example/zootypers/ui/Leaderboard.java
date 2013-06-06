@@ -5,7 +5,6 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +20,7 @@ import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.ScoreEntry;
 import com.example.zootypers.core.SingleLeaderBoardModel;
+import com.example.zootypers.util.InterfaceUtils;
 import com.example.zootypers.util.InternetConnectionException;
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -95,8 +95,7 @@ public class Leaderboard extends FragmentActivity {
 
 		singlePlayerTab.setTabListener(new LBTabListener(singlePlayerFragment, "singleplayer"));
 		multiPlayerTab.setTabListener(new LBTabListener(multiPlayerFragment, "multiplayer"));
-		relativeUserScoreTab.setTabListener(
-		new LBTabListener(relativeUserScoreFragment, "relative"));
+		relativeUserScoreTab.setTabListener(new LBTabListener(relativeUserScoreFragment, "relative"));
 
 		actionBar.addTab(singlePlayerTab);
 		actionBar.addTab(multiPlayerTab);
@@ -142,8 +141,9 @@ public class Leaderboard extends FragmentActivity {
 			}
 			int userRank = mlb.getRank();
 			// inform the user that he/she has no scores yet
-			if (userRank == 0) {
-				buildAlertDialog(R.string.no_scores_title, R.string.no_scores_msg);
+			
+			if (userRank <= 0) {
+				InterfaceUtils.buildAlertDialog(R.string.no_scores_title, R.string.no_scores_msg, this);
 				return;
 			}
 			int highestRank = mlb.getHighestRelScoreRank();
@@ -267,36 +267,6 @@ public class Leaderboard extends FragmentActivity {
 		Log.i("Leaderboard", "proceeding to register page");
 		Intent registerIntent = new Intent(this, RegisterPage.class);
 		startActivity(registerIntent);
-	}
-
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(final int title, final int message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
 	}
 
 	public void goToMain(View view) {

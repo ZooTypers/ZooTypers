@@ -26,9 +26,7 @@ public class SingleplayerTab extends LeaderboardTab {
 	Bundle savedInstanceState) {
 		Log.i("Leaderboard", "entered single player tab");
 		
-		if (container == null) {
-			return null;
-		}
+		super.onCreateView(inflater, container, savedInstanceState);
 		
 		// set the layout for the fragment and get the arguments for that are passed
 		View singleplayerView = inflater.inflate(R.layout.singleplayer_tab, container, false);
@@ -44,11 +42,6 @@ public class SingleplayerTab extends LeaderboardTab {
 	 * @return
 	 */
 	public static SingleplayerTab newInstance(ScoreEntry[] seArray) {
-		SingleplayerTab spt = new SingleplayerTab();
-		// put the argument in a bundle that the fragment can use
-		Bundle args = new Bundle();
-		args.putParcelableArray("scoreList", seArray);
-		spt.setArguments(args);
-		return spt;
+		return (SingleplayerTab) newInstanceHelper(seArray, new SingleplayerTab());
 	}
 }
