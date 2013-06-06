@@ -135,26 +135,7 @@ public class MultiPlayer extends Player {
 		LoadTask task = new LoadTask(this);
 		task.execute();
 
-		// create a background music
-        if(readBGM){
-            try {
-                FileInputStream is = openFileInput("bgm.txt");
-                playMusic = 1;
-                Log.i("Multiplayer", "play background music");
-            } catch (FileNotFoundException e){
-            	e.fillInStackTrace();
-            	Log.i("Multiplayer", "no background music");
-            } 
-            readBGM = false;
-        }
-        
-        //play music
-        if(playMusic == 1){
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.setVolume(100, 100);
-            mediaPlayer.start();
-        }
+		backGroundSetUp(mediaPlayer, readBGM, playMusic);
 	}
 
 
@@ -177,28 +158,18 @@ public class MultiPlayer extends Player {
 	 * @param backgroudID Drawable referring to the id of the selected background image.
 	 * @param words An array of the words to display. Must have a length of 5.
 	 */
-	public void initialDisplay(Drawable animal, Drawable background, int oppAnimal) {
-		// display animal
-		ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
-		animalImage.setImageDrawable(animal);
-
-		// display opponent's animal
-		ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
-		oppAnimalImage.setBackgroundResource(oppAnimal);
-
-		// display background
-		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
-		layout.setBackground(background);
-
+	public void initialDisplay(Drawable animalID, Drawable backgroundID, int oppAnimal) {
+		super.initialDisplay(animalID, backgroundID);
+		model.populateDisplayedList();
+		
 		// display opponent's name
 		TextView oppName = (TextView) findViewById(R.id.opp_score_prompt);
 		oppName.setText(model.getOpponentName() + ":");
-
-		model.populateDisplayedList();
-
-		displayTime(START_TIME / INTERVAL);
-
-		displayScore(0);
+		
+		// display opponent's animal
+		ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
+		oppAnimalImage.setBackgroundResource(oppAnimal);
+		
 	}
 
 	/**

@@ -23,9 +23,7 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 	Bundle savedInstanceState) {
 		Log.i("Leaderboard", "entered relative score tab");
 
-		if (container == null) {
-			return null;
-		}
+		super.onCreateView(inflater, container, savedInstanceState);
 
 		// set the layout for the fragment and get the arguments for that are passed
 		View relativeScoreView = inflater.inflate(R.layout.relative_score_layout, container, false);

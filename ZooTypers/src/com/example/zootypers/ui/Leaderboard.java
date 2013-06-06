@@ -148,7 +148,7 @@ public class Leaderboard extends FragmentActivity {
 				final String title = "No scores yet";
 				final String message = "You do not have any scores yet. Play " +
 				"games to figure out where you rank!!";
-				buildAlertDialog(title, message);
+				Options.buildAlertDialog(title, message, this);
 				return;
 			}
 
@@ -270,36 +270,6 @@ public class Leaderboard extends FragmentActivity {
 		Log.i("Leaderboard", "proceeding to register page");
 		Intent registerIntent = new Intent(this, RegisterPage.class);
 		startActivity(registerIntent);
-	}
-
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
 	}
 
 	public void goToMain(View view) {
