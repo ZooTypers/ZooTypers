@@ -108,26 +108,7 @@ public class SinglePlayer extends Player {
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
 
-		// create a background music
-		if(readBGM){
-			try {
-				FileInputStream is = openFileInput("bgm.txt");
-				playMusic = 1;
-				Log.i("SinglePlayer", "play background music");
-			} catch (FileNotFoundException e){
-				e.fillInStackTrace();
-				Log.i("SinglePlayer", "no background music");
-			}
-			readBGM = false;
-		}
-		// play music
-		if(playMusic == 1){
-			mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-			mediaPlayer.setLooping(true);
-			mediaPlayer.setVolume(100, 100);
-			mediaPlayer.start();
-		}
-
+		backGroundSetUp(mediaPlayer, readBGM, playMusic);
 		Log.i("SinglePlayer", "game has begun");
 	}
 
@@ -180,20 +161,10 @@ public class SinglePlayer extends Player {
 	 * e.g. R.drawable.elephant_color.
 	 * @param backgroudID Drawable referring to the id of the selected background image.
 	 */
+	@Override
 	public void initialDisplay(Drawable animalID, Drawable backgroundID) {
-		// display animal
-		ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
-		animalImage.setImageDrawable(animalID);
-
-		// display background
-		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
-		layout.setBackground(backgroundID);
-
+		super.initialDisplay(animalID, backgroundID);
 		model.populateDisplayedList();
-
-		displayTime(START_TIME / INTERVAL);
-
-		displayScore(0);
 	}
 
 	/**

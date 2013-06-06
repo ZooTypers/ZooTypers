@@ -136,4 +136,18 @@ public class LeaderboardTab extends Fragment {
 		return view.findViewById(getResources().
 		getIdentifier(id, "id", getActivity().getPackageName()));
 	}
+	
+	/**
+	 * Create a new instance of SingleplayerTab with the scores as a param
+	 * @param scores
+	 * @return
+	 */
+	protected static LeaderboardTab newInstanceHelper(ScoreEntry[] seArray, LeaderboardTab lbt) {
+		// put the argument in a bundle that the fragment can use
+		Bundle args = new Bundle();
+		args.putParcelableArray("scoreList", seArray);
+		lbt.setArguments(args);
+		return lbt;
+	}
+	
 }

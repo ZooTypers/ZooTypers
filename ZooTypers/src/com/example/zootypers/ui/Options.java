@@ -116,7 +116,7 @@ public class Options extends Activity {
 		sl.clearLeaderboard();
 		final String title = "Cleared Leaderboard";
 		final String message = "The single player leaderboard has been successfully cleared.";
-		buildAlertDialog(title, message);
+		buildAlertDialog(title, message, this);
 	}
 
 	/**
@@ -157,7 +157,7 @@ public class Options extends Activity {
 			ml.clearLeaderboard();
 			final String title = "Cleared Leaderboard";
 			final String message = "Your multiplayer scores have been successfully cleared.";
-			buildAlertDialog(title, message);
+			buildAlertDialog(title, message, this);
 		}
 	}
 
@@ -301,9 +301,8 @@ public class Options extends Activity {
 	 * @param message String representing the message of the AlertDialog
 	 * popup
 	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
+	public static void buildAlertDialog(String title, String message, Activity act) {
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(act);
 		// set title
 		alertDialogBuilder.setTitle(title);
 

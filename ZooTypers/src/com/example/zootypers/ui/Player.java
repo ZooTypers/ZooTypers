@@ -5,13 +5,19 @@ import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
@@ -66,7 +72,35 @@ public abstract class Player extends Activity implements Observer {
 	public final View getByStringId(final String id) {
 		return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
 	}
-
+	
+	
+	/**
+	 * OnCreate 
+	 * Media player for background music
+	 */
+	protected void backGroundSetUp(MediaPlayer mediaPlayer, boolean readBGM, int playMusic){
+		// create a background music
+        if(readBGM){
+            try {
+                FileInputStream is = openFileInput("bgm.txt");
+                playMusic = 1;
+                Log.i("ZooTypers", "play background music");
+            } catch (FileNotFoundException e){
+            	e.fillInStackTrace();
+            	Log.i("ZooTypers", "no background music");
+            } 
+            readBGM = false;
+        }
+        
+        //play music
+        if(playMusic == 1){
+            mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+            mediaPlayer.setLooping(true);
+            mediaPlayer.setVolume(100, 100);
+            mediaPlayer.start();
+        }
+	}
+	
 	/**
 	 * Observer for model.
 	 * @param arg0 Thing being observes.
@@ -189,4 +223,22 @@ public abstract class Player extends Activity implements Observer {
 		getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMgr.toggleSoftInput(0, 0);
 	}  
+	
+	/**
+	 * Initialize player One's View
+	 */
+	@SuppressLint("NewApi")
+	public void initialDisplay(Drawable animalID, Drawable backgroundID){
+		// display animal
+		ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
+		animalImage.setImageDrawable(animalID);
+
+		// display background
+		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
+		layout.setBackground(backgroundID);
+
+		displayTime(START_TIME / INTERVAL);
+
+		displayScore(0);
+	}
 }
