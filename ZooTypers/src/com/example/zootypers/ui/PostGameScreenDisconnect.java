@@ -19,7 +19,7 @@ public class PostGameScreenDisconnect extends PostGameScreenMulti {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		Log.i("Multiplayer", "opponent has disconnected!");
+		Log.i("Multiplayer", "opponent disconnected");
 
 		// Get & display background
 		setContentView(R.layout.activity_pregame_selection_multi);
