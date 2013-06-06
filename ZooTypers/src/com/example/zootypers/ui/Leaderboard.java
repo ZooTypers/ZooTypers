@@ -39,7 +39,7 @@ public class Leaderboard extends FragmentActivity {
 	private SingleLeaderBoardModel lb;
 	private MultiLeaderBoardModel mlb;
 	private Fragment mainCurrentFragment;
-	private final int NUM_RELATIVE = 5;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -141,17 +141,17 @@ public class Leaderboard extends FragmentActivity {
 				return;
 			}
 			int userRank = mlb.getRank();
-			// get the relative position of the user with the passed in NUM_RELATIVE
-			ScoreEntry[] relativeEntrys = mlb.getRelativeScores(NUM_RELATIVE);
 			// inform the user that he/she has no scores yet
-			if (relativeEntrys.length == 0) {
+			if (userRank == 0) {
 				buildAlertDialog(R.string.no_scores_title, R.string.no_scores_msg);
 				return;
 			}
+			int highestRank = mlb.getHighestRelScoreRank();
+			// get the relative position of the user with the passed in NUM_RELATIVE
+			ScoreEntry[] relativeEntrys = mlb.getRelativeScores();
 
 			// add the relativeScore tab
-			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, userRank,
-			NUM_RELATIVE);
+			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, userRank, highestRank);
 			FragmentTransaction fst = getSupportFragmentManager().beginTransaction();
 			fst.replace(R.id.leaderboard_layout, currentFragment);
 			fst.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
