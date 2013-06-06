@@ -114,9 +114,7 @@ public class Options extends Activity {
 		Log.i("Options", "clearing single player leaderboard");
 		SingleLeaderBoardModel sl = new SingleLeaderBoardModel(this.getApplicationContext());
 		sl.clearLeaderboard();
-		final String title = "Cleared Leaderboard";
-		final String message = "The single player leaderboard has been successfully cleared.";
-		buildAlertDialog(title, message);
+		buildAlertDialog(R.string.clear_lb_title, R.string.clear_lbs_msg);
 	}
 
 	/**
@@ -155,9 +153,7 @@ public class Options extends Activity {
 				return;
 			}
 			ml.clearLeaderboard();
-			final String title = "Cleared Leaderboard";
-			final String message = "Your multiplayer scores have been successfully cleared.";
-			buildAlertDialog(title, message);
+			buildAlertDialog(R.string.clear_lb_title, R.string.clear_lbm_msg);
 		}
 	}
 
@@ -301,7 +297,7 @@ public class Options extends Activity {
 	 * @param message String representing the message of the AlertDialog
 	 * popup
 	 */
-	private void buildAlertDialog(String title, String message) {
+	private void buildAlertDialog(final int title, final int message) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// set title
@@ -311,7 +307,7 @@ public class Options extends Activity {
 		alertDialogBuilder
 		.setMessage(message)
 		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+		.setPositiveButton(R.string.close_alert, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				// if this button is clicked, close the dialog box
 				dialog.cancel();

@@ -51,7 +51,7 @@ public class Leaderboard extends FragmentActivity {
 
 		// Initialize the database according to whether it's a test or not.
 		int useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.e("Extra", "INTENT " + useTestDB);
+		Log.i("Extra", "INTENT " + useTestDB);
 		if (useTestDB == 1) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
@@ -70,9 +70,9 @@ public class Leaderboard extends FragmentActivity {
 		actionBar.setDisplayUseLogoEnabled(false);
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		ActionBar.Tab singlePlayerTab = actionBar.newTab().setText("Singleplayer");
-		ActionBar.Tab multiPlayerTab = actionBar.newTab().setText("Multiplayer");
-		ActionBar.Tab relativeUserScoreTab = actionBar.newTab().setText("Relative\nPosition");
+		ActionBar.Tab singlePlayerTab = actionBar.newTab().setText(R.string.single_player_tab);
+		ActionBar.Tab multiPlayerTab = actionBar.newTab().setText(R.string.multi_player_tab);
+		ActionBar.Tab relativeUserScoreTab = actionBar.newTab().setText(R.string.relative_tab);
 
 		// get the list of scores from the model and send it to each of the tabs
 
@@ -145,10 +145,7 @@ public class Leaderboard extends FragmentActivity {
 			ScoreEntry[] relativeEntrys = mlb.getRelativeScores(NUM_RELATIVE);
 			// inform the user that he/she has no scores yet
 			if (relativeEntrys.length == 0) {
-				final String title = "No scores yet";
-				final String message = "You do not have any scores yet. Play " +
-				"games to figure out where you rank!!";
-				buildAlertDialog(title, message);
+				buildAlertDialog(R.string.no_scores_title, R.string.no_scores_msg);
 				return;
 			}
 
@@ -278,7 +275,7 @@ public class Leaderboard extends FragmentActivity {
 	 * @param message String representing the message of the AlertDialog
 	 * popup
 	 */
-	private void buildAlertDialog(String title, String message) {
+	private void buildAlertDialog(final int title, final int message) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// set title
