@@ -30,9 +30,8 @@ public class MultiplayerTab extends LeaderboardTab {
 	Bundle savedInstanceState) {
 		Log.i("Leaderboard", "entered multiplayer tab");
 		
-		if (container == null) {
-			return null;
-		}
+		super.onCreateView(inflater, container, savedInstanceState);
+		
 		// set the layout for the fragment and get the arguments for that are passed
 		View multiplayerView = inflater.inflate(R.layout.multiplayer_tab, container, false);
 		ScoreEntry[] seArray = (ScoreEntry[]) getArguments().getParcelableArray("scoreList");
@@ -49,11 +48,7 @@ public class MultiplayerTab extends LeaderboardTab {
 	 * @return
 	 */
 	public static MultiplayerTab newInstance(String username, ScoreEntry[] seArray) {
-		MultiplayerTab mpt = new MultiplayerTab();
-		Bundle args = new Bundle();
-		args.putParcelableArray("scoreList", seArray);
-		mpt.setArguments(args);
-		return mpt;
+		return (MultiplayerTab) newInstanceHelper(seArray, new MultiplayerTab());
 	}
 	
 }
