@@ -59,11 +59,11 @@ public class PostGameScreenMulti extends PostGameScreen {
 		TextView resultMessage = (TextView) findViewById(R.id.game_result);
 		int result = getIntent().getIntExtra("result", 0);
 		if (result == 1) {
-			resultMessage.setText("You Won!");
+			resultMessage.setText(R.string.you_won);
 		} else if (result == 0) {
-			resultMessage.setText("You Tied!");
+			resultMessage.setText(R.string.you_tied);
 		} else {
-			resultMessage.setText("You Lost.");
+			resultMessage.setText(R.string.you_lost);
 		}    
 	}
 
@@ -83,9 +83,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 			return;
 		}
 		ml.addEntry(score);
-		final String title = "Saved Score";
-		final String message = "Your score has been successfully saved!";
-		buildAlertDialog(title, message);
+		buildAlertDialog(R.string.saved_title, R.string.saved_msg);
 	}
 
 	@Override
@@ -104,7 +102,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 	 * @param message String representing the message of the AlertDialog
 	 * popup
 	 */
-	private void buildAlertDialog(String title, String message) {
+	private void buildAlertDialog(final int title, final int message) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// set title
@@ -114,7 +112,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 		alertDialogBuilder
 		.setMessage(message)
 		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+		.setPositiveButton(R.string.close_alert, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				// if this button is clicked, close the dialog box
 				dialog.cancel();

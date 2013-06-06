@@ -109,7 +109,7 @@ public class PostGameScreen extends Activity {
 	 * @param message String representing the message of the AlertDialog
 	 * popup
 	 */
-	private void buildAlertDialog(String title, String message) {
+	private void buildAlertDialog(final int title, final int message) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		// set title
@@ -119,7 +119,7 @@ public class PostGameScreen extends Activity {
 		alertDialogBuilder
 		.setMessage(message)
 		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
+		.setPositiveButton(R.string.close_alert, new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int id) {
 				// if this button is clicked, close the dialog box
 				dialog.cancel();
@@ -140,9 +140,7 @@ public class PostGameScreen extends Activity {
 	@SuppressLint("InlinedApi")
 	private void buildSavePopup() {
 		if (savedScore) {
-			final String title = "Score already saved";
-			final String message = "You cannot save your current score more than once";
-			buildAlertDialog(title, message);
+			buildAlertDialog(R.string.already_saved_title, R.string.already_saved_msg);
 			return;
 		}
 		LayoutInflater layoutInflater =
@@ -183,9 +181,7 @@ public class PostGameScreen extends Activity {
 	    // send the input the the leaderboard model
 	    SingleLeaderBoardModel sl = new SingleLeaderBoardModel(getApplicationContext());
     	sl.addEntry(savedNameString, score);
-		final String title = "Saved Score";
-		final String message = "Your score has been successfully saved!";
-		buildAlertDialog(title, message);
+		buildAlertDialog(R.string.saved_title, R.string.saved_msg);
 		ppw.dismiss();
 	}
 }
