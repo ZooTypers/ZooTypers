@@ -115,7 +115,7 @@ public class Options extends Activity {
 		Log.i("Options", "clearing single player leaderboard");
 		SingleLeaderBoardModel sl = new SingleLeaderBoardModel(this.getApplicationContext());
 		sl.clearLeaderboard();
-		InterfaceUtils.buildAlertDialog(R.string.clear_lb_title, R.string.clear_lbs_msg, this);
+		InterfaceUtils.buildAlertDialog(this, R.string.clear_lb_title, R.string.clear_lbs_msg);
 
 	}
 
@@ -156,7 +156,7 @@ public class Options extends Activity {
 			}
 			ml.clearLeaderboard();
 
-			InterfaceUtils.buildAlertDialog(R.string.clear_lb_title, R.string.clear_lbm_msg, this);
+			InterfaceUtils.buildAlertDialog(this, R.string.clear_lb_title, R.string.clear_lbm_msg);
 
 		}
 	}
