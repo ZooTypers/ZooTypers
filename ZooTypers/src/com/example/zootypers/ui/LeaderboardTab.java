@@ -26,7 +26,7 @@ public class LeaderboardTab extends Fragment {
 	 * 
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	Bundle savedInstanceState) {
+			Bundle savedInstanceState) {
 		if (container == null) {
 			return null;
 		}
@@ -47,9 +47,9 @@ public class LeaderboardTab extends Fragment {
 		for (int i = 0; i < size; i++) {
 			// get the text boxes with for the leaderboard
 			TextView currentPlayerText = (TextView) getByStringId(view, 
-			"player_name" + i);
+					"player_name" + i);
 			TextView currentScoreText = (TextView) getByStringId(view,
-			"player_score" + i);
+					"player_score" + i);
 
 			// get the entries from the ScoreEntry
 			ScoreEntry currentSE = seArray[i];
@@ -108,9 +108,9 @@ public class LeaderboardTab extends Fragment {
 	 */
 	private final View getByStringId(View view, final String id) {
 		return view.findViewById(getResources().
-		getIdentifier(id, "id", getActivity().getPackageName()));
+				getIdentifier(id, "id", getActivity().getPackageName()));
 	}
-	
+
 	/**
 	 * Create a new instance of SingleplayerTab with the scores as a param
 	 * @param scores
@@ -123,5 +123,5 @@ public class LeaderboardTab extends Fragment {
 		lbt.setArguments(args);
 		return lbt;
 	}
-	
+
 }

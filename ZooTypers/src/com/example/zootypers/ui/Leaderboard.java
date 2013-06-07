@@ -143,7 +143,7 @@ public class Leaderboard extends FragmentActivity {
 			// inform the user that he/she has no scores yet
 			
 			if (userRank <= 0) {
-				InterfaceUtils.buildAlertDialog(R.string.no_scores_title, R.string.no_scores_msg, this);
+				InterfaceUtils.buildAlertDialog(this, R.string.no_scores_title, R.string.no_scores_msg);
 				return;
 			}
 			int highestRank = mlb.getHighestRelScoreRank();

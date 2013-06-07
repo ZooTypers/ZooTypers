@@ -12,7 +12,7 @@ import android.os.Parcelable;
 public class ScoreEntry implements Parcelable {
 	private String playerName;
 	private int playerScore;
-	
+
 	/**
 	 * Constructs player's given name and score received.
 	 * 
@@ -23,7 +23,7 @@ public class ScoreEntry implements Parcelable {
 		this.playerName = playerName;
 		this.playerScore = playerScore;
 	}
-	
+
 	public ScoreEntry(Parcel in) {
 		readFromParcel(in);
 	}
@@ -33,7 +33,7 @@ public class ScoreEntry implements Parcelable {
 	public String getName(){
 		return playerName;
 	}
-	
+
 	/**
 	 * @return playerScore
 	 */
@@ -53,24 +53,24 @@ public class ScoreEntry implements Parcelable {
 		dest.writeString(playerName);
 		dest.writeInt(playerScore);
 	}
-	
+
 	private void readFromParcel(Parcel in) {
 		playerName = in.readString();
 		playerScore = in.readInt();
 	}
-	
+
 	@Override
 	public String toString() {
 		return playerName + " " + playerScore;
 	}
-	
+
 	@SuppressWarnings("rawtypes")
 	public static final Parcelable.Creator CREATOR =
 	new Parcelable.Creator() {
 		public ScoreEntry createFromParcel(Parcel in) {
 			return new ScoreEntry(in);
 		}
-		
+
 		public ScoreEntry[] newArray(int size) {
 			return new ScoreEntry[size];
 		}

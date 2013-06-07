@@ -11,9 +11,7 @@ public class PostGameScreenDisconnect extends PostGameScreenMulti {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		Log.i("Multiplayer", "opponent disconnected");
-
 		onCreateHelper();
 	}
 

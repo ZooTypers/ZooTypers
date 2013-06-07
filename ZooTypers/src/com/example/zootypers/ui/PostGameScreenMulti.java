@@ -88,7 +88,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 			return;
 		}
 		ml.addEntry(score);
-		InterfaceUtils.buildAlertDialog(R.string.saved_title, R.string.saved_msg, this);
+		InterfaceUtils.buildAlertDialog(this, R.string.saved_title, R.string.saved_msg);
 	}
 
 	@Override

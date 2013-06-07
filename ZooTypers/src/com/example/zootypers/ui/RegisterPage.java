@@ -39,7 +39,7 @@ public class RegisterPage extends Activity {
 
 		setContentView(R.layout.activity_register_page);
 		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-		"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+				"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
 		Log.i("Register", "entered register page");
 	}
 
@@ -84,8 +84,8 @@ public class RegisterPage extends Activity {
 		String emailString = emailEdit.getText().toString();
 
 		if ((((usernameString.length() == 0) || (passwordString.length() == 0))
-		|| (confirmPWString.length() == 0))
-		|| (emailString.length() == 0)) {
+				|| (confirmPWString.length() == 0))
+				|| (emailString.length() == 0)) {
 			// case where everything is not filled out
 			Log.w("Register", "missing information for registration");
 
@@ -164,7 +164,7 @@ public class RegisterPage extends Activity {
 	 * case where it goes back to titlepage
 	 */
 	private void buildAlertDialog(final int title, final int message,
-	final boolean goToTitle) {
+			final boolean goToTitle) {
 		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
 		if (goToTitle) {
@@ -219,7 +219,7 @@ public class RegisterPage extends Activity {
 	 * @param email String representing user's email
 	 */
 	private void setupDatabase(final String username, final String password,
-	final String email) {
+			final String email) {
 		Log.i("Register", "all registration fields are valid, submitting to database");
 
 		ParseUser user = new ParseUser();
@@ -231,7 +231,7 @@ public class RegisterPage extends Activity {
 			public void done(final ParseException e) {
 				if (e == null) {
 					Log.i("Register", 
-					"registration information successfully submitted to database");
+							"registration information successfully submitted to database");
 
 					// sign up succeeded so go to multiplayer screen
 					// store the username of the current player
@@ -251,12 +251,12 @@ public class RegisterPage extends Activity {
 					} else if (errorCode == ParseException.EMAIL_TAKEN) {
 						message = R.string.reg_faile_msg;
 					} else if (errorCode == ParseException.USERNAME_TAKEN) {
-            message = R.string.reg_failu_msg;
+						message = R.string.reg_failu_msg;
 					} else if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
-            message = R.string.reg_faili_msg;
+						message = R.string.reg_faili_msg;
 					} else {
 						e.printStackTrace();
-            message = R.string.reg_failo_msg;
+						message = R.string.reg_failo_msg;
 					}
 					buildAlertDialog(R.string.reg_fail_title, message, false);
 				}

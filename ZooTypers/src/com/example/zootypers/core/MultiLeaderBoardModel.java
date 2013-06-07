@@ -28,7 +28,7 @@ public class MultiLeaderBoardModel {
 
 	//The user's entry in the database
 	private ParseObject entry;
-	
+
 	//All the scores in the database
 	private List<ParseObject> allScores;
 
@@ -51,7 +51,7 @@ public class MultiLeaderBoardModel {
 		getAllScores();
 		//gets the current leaderboard from database and stores it into a list
 	}
-	
+
 	/*
 	 * Gets all the scores from the online database in Descending score order. If
 	 * scores are equal than rank alphabetically.
@@ -120,7 +120,7 @@ public class MultiLeaderBoardModel {
 		ScoreEntry[] scores = new ScoreEntry[size];
 		for (int i = 0; i < size; i++) {
 			scores[i] = new ScoreEntry(allScores.get(i).getString("name"), 
-			allScores.get(i).getInt("score"));
+					allScores.get(i).getInt("score"));
 		}
 		return scores;
 	}
@@ -132,7 +132,7 @@ public class MultiLeaderBoardModel {
 	public boolean isInTopEntries() {
 		return getRank() < numOfEntries;
 	}
-	
+
 	/**
 	 * Return a List of score entries that is in the order of high to low scores
 	 * around your own score. The size of the list will be defalut_entries with the
@@ -182,7 +182,7 @@ public class MultiLeaderBoardModel {
 	}
 
 	/**
-	 * @return rank with 1 being highest. If rank = 0 
+	 * @return rank with 1 being highest. If rank <= 0 
 	 * then user has no multi player score on database
 	 */
 	public int getRank(){
