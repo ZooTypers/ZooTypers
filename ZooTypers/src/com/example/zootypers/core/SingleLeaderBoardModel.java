@@ -107,11 +107,11 @@ public class SingleLeaderBoardModel {
 			public int compare(ScoreEntry one, ScoreEntry two) {
 				return two.getScore() - one.getScore();
 			}
-			
+
 		});
 		save();
 	}
-	
+
 	/*
 	 * After updating the list, save the list back into the file by writing
 	 */
@@ -124,7 +124,7 @@ public class SingleLeaderBoardModel {
 		}
 		ScoreEntry lastSE = scoreEntries.get(scoreEntries.size() - 1);
 		write.append(lastSE.getName() + DELIM + lastSE.getScore());
-		
+
 		try {
 			FileOutputStream fOut = context.openFileOutput(FILE_NAME, Context.MODE_PRIVATE);
 			OutputStreamWriter osw = new OutputStreamWriter(fOut); 
