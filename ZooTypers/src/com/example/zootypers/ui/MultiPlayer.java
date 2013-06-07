@@ -14,6 +14,7 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.text.Html;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -106,7 +107,7 @@ public class MultiPlayer extends Player {
 		// Get animal & background selected by user
 
 		View inflatedView = 
-		getLayoutInflater().inflate(R.layout.activity_pregame_selection_multi, null);
+				getLayoutInflater().inflate(R.layout.activity_pregame_selection_multi, null);
 
 		// Get animal & background selected by user
 		int anmID = getIntent().getIntExtra("anm", 0);
@@ -116,13 +117,13 @@ public class MultiPlayer extends Player {
 
 		// Initialize the database according to whether it's a test or not.
 		useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.e("Extra", "INTENT " + useTestDB);
+		Log.i("Extra", "INTENT " + useTestDB);
 		if (useTestDB == 1) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else { //The Real App Database on Parse
 			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		}
 
 		// Get the user name
@@ -135,26 +136,7 @@ public class MultiPlayer extends Player {
 		LoadTask task = new LoadTask(this);
 		task.execute();
 
-		// create a background music
-        if(readBGM){
-            try {
-                FileInputStream is = openFileInput("bgm.txt");
-                playMusic = 1;
-                Log.i("Multiplayer", "play background music");
-            } catch (FileNotFoundException e){
-            	e.fillInStackTrace();
-            	Log.i("Multiplayer", "no background music");
-            } 
-            readBGM = false;
-        }
-        
-        //play music
-        if(playMusic == 1){
-            mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-            mediaPlayer.setLooping(true);
-            mediaPlayer.setVolume(100, 100);
-            mediaPlayer.start();
-        }
+		backGroundSetUp(mediaPlayer, readBGM, playMusic);
 	}
 
 
@@ -177,28 +159,18 @@ public class MultiPlayer extends Player {
 	 * @param backgroudID Drawable referring to the id of the selected background image.
 	 * @param words An array of the words to display. Must have a length of 5.
 	 */
-	public void initialDisplay(Drawable animal, Drawable background, int oppAnimal) {
-		// display animal
-		ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
-		animalImage.setImageDrawable(animal);
-
-		// display opponent's animal
-		ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
-		oppAnimalImage.setBackgroundResource(oppAnimal);
-
-		// display background
-		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
-		layout.setBackground(background);
+	public void initialDisplay(Drawable animalID, Drawable backgroundID, int oppAnimal) {
+		super.initialDisplay(animalID, backgroundID);
+		model.populateDisplayedList();
 
 		// display opponent's name
 		TextView oppName = (TextView) findViewById(R.id.opp_score_prompt);
 		oppName.setText(model.getOpponentName() + ":");
 
-		model.populateDisplayedList();
+		// display opponent's animal
+		ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
+		oppAnimalImage.setBackgroundResource(oppAnimal);
 
-		displayTime(START_TIME / INTERVAL);
-
-		displayScore(0);
 	}
 
 	/**
@@ -342,7 +314,7 @@ public class MultiPlayer extends Player {
 			error(States.error.CONNECTION);
 			return;
 		} 
-		
+
 		if (playMusic == 1) {
 			mediaPlayer.stop();
 		}
@@ -400,8 +372,8 @@ public class MultiPlayer extends Player {
 		}
 		@Override
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(MultiPlayer.this, "Finding a Game...",  
-			"Searching for opponent, please wait...", false, false);
+			progressDialog = ProgressDialog.show(MultiPlayer.this, getString(R.string.find_game_title),  
+					getString(R.string.find_game_msg), false, false);
 		}
 
 		@Override

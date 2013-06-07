@@ -1,8 +1,6 @@
 package com.example.zootypers.ui;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -13,6 +11,7 @@ import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
+import com.example.zootypers.util.InterfaceUtils;
 import com.example.zootypers.util.InternetConnectionException;
 
 /**
@@ -22,11 +21,18 @@ public class PostGameScreenMulti extends PostGameScreen {
 
 	String username;
 
-	@SuppressLint("NewApi")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		onCreateHelper();
+		opponentDisplay();
+	}
+	
+	/**
+	 * Oncreate Helper
+	 */
+	@SuppressLint("NewApi")
+	protected void onCreateHelper(){
 		// Get & display background
 		setContentView(R.layout.activity_pregame_selection_multi);
 		Drawable background = ((ImageButton) 
@@ -40,10 +46,9 @@ public class PostGameScreenMulti extends PostGameScreen {
 		TextView finalScore = (TextView) findViewById(R.id.final_score);
 		finalScore.setText(score.toString());
 
-		opponentDisplay();
-
 		// Get and store the username
 		username = getIntent().getStringExtra("username");
+				
 	}
 
 	/**
@@ -59,11 +64,11 @@ public class PostGameScreenMulti extends PostGameScreen {
 		TextView resultMessage = (TextView) findViewById(R.id.game_result);
 		int result = getIntent().getIntExtra("result", 0);
 		if (result == 1) {
-			resultMessage.setText("You Won!");
+			resultMessage.setText(R.string.you_won);
 		} else if (result == 0) {
-			resultMessage.setText("You Tied!");
+			resultMessage.setText(R.string.you_tied);
 		} else {
-			resultMessage.setText("You Lost.");
+			resultMessage.setText(R.string.you_lost);
 		}    
 	}
 
@@ -83,9 +88,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 			return;
 		}
 		ml.addEntry(score);
-		final String title = "Saved Score";
-		final String message = "Your score has been successfully saved!";
-		buildAlertDialog(title, message);
+		InterfaceUtils.buildAlertDialog(this, R.string.saved_title, R.string.saved_msg);
 	}
 
 	@Override
@@ -95,38 +98,4 @@ public class PostGameScreenMulti extends PostGameScreen {
 		startActivity(intent);
 		finish();
 	}
-
-
-	// TODO remove repetition from title page / options
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
-	}
-
-
 }

@@ -4,8 +4,6 @@ package com.example.zootypers.ui;
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -23,6 +21,7 @@ import android.widget.TextView;
 
 import com.example.zootypers.R;
 import com.example.zootypers.core.SingleLeaderBoardModel;
+import com.example.zootypers.util.InterfaceUtils;
 
 /**
  *
@@ -101,38 +100,6 @@ public class PostGameScreen extends Activity {
 		finish();
 	}
 
-
-    // TODO remove repetition from title page / options
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
-	}
-
 	/**
 	 * Helper method to build a popup screen for the
 	 * save score popup
@@ -140,9 +107,7 @@ public class PostGameScreen extends Activity {
 	@SuppressLint("InlinedApi")
 	private void buildSavePopup() {
 		if (savedScore) {
-			final String title = "Score already saved";
-			final String message = "You cannot save your current score more than once";
-			buildAlertDialog(title, message);
+			InterfaceUtils.buildAlertDialog(this, R.string.already_saved_title, R.string.already_saved_msg);
 			return;
 		}
 		LayoutInflater layoutInflater =
@@ -183,9 +148,7 @@ public class PostGameScreen extends Activity {
 	    // send the input the the leaderboard model
 	    SingleLeaderBoardModel sl = new SingleLeaderBoardModel(getApplicationContext());
     	sl.addEntry(savedNameString, score);
-		final String title = "Saved Score";
-		final String message = "Your score has been successfully saved!";
-		buildAlertDialog(title, message);
+		InterfaceUtils.buildAlertDialog(this, R.string.saved_title, R.string.saved_msg);
 		ppw.dismiss();
 	}
 }
