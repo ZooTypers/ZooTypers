@@ -107,7 +107,7 @@ public class PostGameScreen extends Activity {
 	@SuppressLint("InlinedApi")
 	private void buildSavePopup() {
 		if (savedScore) {
-			InterfaceUtils.buildAlertDialog(R.string.already_saved_title, R.string.already_saved_msg, this);
+			InterfaceUtils.buildAlertDialog(this, R.string.already_saved_title, R.string.already_saved_msg);
 			return;
 		}
 		LayoutInflater layoutInflater =
@@ -148,7 +148,7 @@ public class PostGameScreen extends Activity {
 	    // send the input the the leaderboard model
 	    SingleLeaderBoardModel sl = new SingleLeaderBoardModel(getApplicationContext());
     	sl.addEntry(savedNameString, score);
-		InterfaceUtils.buildAlertDialog(R.string.saved_title, R.string.saved_msg, this);
+		InterfaceUtils.buildAlertDialog(this, R.string.saved_title, R.string.saved_msg);
 		ppw.dismiss();
 	}
 }
