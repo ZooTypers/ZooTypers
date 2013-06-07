@@ -109,14 +109,16 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      */
     @Test(timeout = TIMEOUT)
     public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException {
-        //create another player with slightly lower score
+        lbModel.addEntry(1000000);
         //get all top scores
+        solo.sleep(5000);
         ScoreEntry[] scoreList = lbModel.getTopScores();
+        solo.sleep(5000);
         int actualScore = scoreList[0].getScore();
         String actualName = scoreList[0].getName();
         //make sure that the highest score TEST still the highest
-        assertEquals("TEST", actualName);
-        assertEquals(30000, actualScore);
+        assertEquals("David", actualName);
+        assertEquals(1000000, actualScore);
     }
 
     /**
@@ -153,8 +155,9 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
             lbModel3.setPlayer("Bob");
             lbModel3.addEntry(300000);
 
+            //TODO fix test so that it works. Lindsey changed how this method works
             //check to see if the high score are relative to the (David) 200000 score
-            ScoreEntry[] relativeList = lbModel.getRelativeScores(1);
+            ScoreEntry[] relativeList = lbModel.getRelativeScores();
             assertEquals(300000, relativeList[0].getScore());
             assertEquals(200000, relativeList[1].getScore());
             assertEquals(100000, relativeList[2].getScore());
@@ -192,9 +195,9 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
         lbModel2.setPlayer("John");
         lbModel2.addEntry(25000);
-        solo.sleep(2500);
+        solo.sleep(5000);
         int actualRank = lbModel.getRank();
-        solo.sleep(2500);
+        solo.sleep(5000);
         assertEquals(1, actualRank);
         lbModel2.clearLeaderboard();
     }

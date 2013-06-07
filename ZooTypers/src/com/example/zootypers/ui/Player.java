@@ -5,13 +5,19 @@ import java.io.FileNotFoundException;
 import java.util.Observable;
 import java.util.Observer;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
@@ -40,10 +46,10 @@ public abstract class Player extends Activity implements Observer {
 
 	// the current time on the game.
 	protected long currentTime;
-	
+
 	//check for whether to vibrate or not
 	private int useVibrate = 0;
-	
+
 	//check to see if you need to read the vibration file or not
 	private boolean readVibrateFile = true;
 
@@ -67,6 +73,34 @@ public abstract class Player extends Activity implements Observer {
 		return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
 	}
 
+
+	/**
+	 * OnCreate 
+	 * Media player for background music
+	 */
+	protected void backGroundSetUp(MediaPlayer mediaPlayer, boolean readBGM, int playMusic){
+		// create a background music
+		if(readBGM){
+			try {
+				FileInputStream is = openFileInput("bgm.txt");
+				playMusic = 1;
+				Log.i("ZooTypers", "play background music");
+			} catch (FileNotFoundException e){
+				e.fillInStackTrace();
+				Log.i("ZooTypers", "no background music");
+			} 
+			readBGM = false;
+		}
+
+		//play music
+		if(playMusic == 1){
+			mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+			mediaPlayer.setLooping(true);
+			mediaPlayer.setVolume(100, 100);
+			mediaPlayer.start();
+		}
+	}
+
 	/**
 	 * Observer for model.
 	 * @param arg0 Thing being observes.
@@ -87,7 +121,7 @@ public abstract class Player extends Activity implements Observer {
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.HIGHLIGHT) {
 					highlightWord(pM.getCurrWordIndex(), pM.getCurrWord(), 
-					pM.getCurrLetterIndex());
+							pM.getCurrLetterIndex());
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.WRONG_LETTER) {
 					//final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
@@ -95,22 +129,22 @@ public abstract class Player extends Activity implements Observer {
 					//tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
 					tv.setVisibility(TextView.VISIBLE);
 					//Check if vibrate
-                    if(readVibrateFile){
-                        try {
-                            FileInputStream is = openFileInput("vibrate.txt");
-                            useVibrate = 1;
-                            Log.i("Player", "use vibrate");
-                        } catch (FileNotFoundException e){
-                        	e.fillInStackTrace();
-                        	Log.i("Player", "no vibrate");
-                        }
-                        readVibrateFile = false;
-                    }
-                    //Vibrate
-                    if(useVibrate == 1){
-                        Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-                        v.vibrate(150);
-                    }
+					if(readVibrateFile){
+						try {
+							FileInputStream is = openFileInput("vibrate.txt");
+							useVibrate = 1;
+							Log.i("Player", "use vibrate");
+						} catch (FileNotFoundException e){
+							e.fillInStackTrace();
+							Log.i("Player", "no vibrate");
+						}
+						readVibrateFile = false;
+					}
+					//Vibrate
+					if(useVibrate == 1){
+						Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+						v.vibrate(150);
+					}
 				} 
 			}
 		} 
@@ -186,7 +220,25 @@ public abstract class Player extends Activity implements Observer {
 	public final void keyboardButton(final View view) {
 		Log.i("ZooTypers", "user has clicked on keyboard button");
 		InputMethodManager inputMgr = (InputMethodManager) 
-		getSystemService(Context.INPUT_METHOD_SERVICE);
+				getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMgr.toggleSoftInput(0, 0);
 	}  
+
+	/**
+	 * Initialize player One's View
+	 */
+	@SuppressLint("NewApi")
+	public void initialDisplay(Drawable animalID, Drawable backgroundID){
+		// display animal
+		ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
+		animalImage.setImageDrawable(animalID);
+
+		// display background
+		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
+		layout.setBackground(backgroundID);
+
+		displayTime(START_TIME / INTERVAL);
+
+		displayScore(0);
+	}
 }

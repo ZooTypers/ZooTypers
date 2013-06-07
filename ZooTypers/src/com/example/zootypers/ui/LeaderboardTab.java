@@ -17,7 +17,7 @@ import com.example.zootypers.core.ScoreEntry;
  *
  */
 public class LeaderboardTab extends Fragment {
-	
+
 
 	private final int MAX_LENGTH = 10;
 
@@ -26,13 +26,13 @@ public class LeaderboardTab extends Fragment {
 	 * 
 	 */
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	Bundle savedInstanceState) {
+			Bundle savedInstanceState) {
 		if (container == null) {
 			return null;
 		}
 		return container;
 	}
-	
+
 	/**
 	 * sets up the leaderboard list using the given array of entries
 	 * @param view the leaderboard view
@@ -47,21 +47,21 @@ public class LeaderboardTab extends Fragment {
 		for (int i = 0; i < size; i++) {
 			// get the text boxes with for the leaderboard
 			TextView currentPlayerText = (TextView) getByStringId(view, 
-			"player_name" + i);
+					"player_name" + i);
 			TextView currentScoreText = (TextView) getByStringId(view,
-			"player_score" + i);
+					"player_score" + i);
 
 			// get the entries from the ScoreEntry
 			ScoreEntry currentSE = seArray[i];
 			String currentPlayer = currentSE.getName();
 			String currentScore = currentSE.getScore() + "";
-			
+
 			// set the text fields
 			currentPlayerText.setText(currentPlayer);
 			currentScoreText.setText(currentScore);
 		}
 	}
-	
+
 	/**
 	 * sets up the leaderboard list using the given array of entries, rank, and relativeRank.
 	 * used for relative score fragment
@@ -70,62 +70,36 @@ public class LeaderboardTab extends Fragment {
 	 * @param rank the ranking position of the current user
 	 * @param how many users before and after to show relative to the current user
 	 */
-	protected void setupLBList(View view, ScoreEntry[] seArray, int rank, int relativeRank) {
+	protected void setupLBList(View view, ScoreEntry[] seArray, int rank, int highestRank) {
 		Log.i("Leaderboard", "setting up ranking list for relative scores");
 
 		// find the position of the user to highlight
-		int userPosition = relativeRank;
-		if ((rank + relativeRank) < MAX_LENGTH) {
-			int temp = rank + relativeRank;
-			int offset = (MAX_LENGTH - temp) + 1;
-			userPosition -= offset;
-		}
-		
-		// find the rank to start the leaderboard at
-		int startRank = rank - 5;
-		if (startRank < 1) {
-			startRank = 1;
-		}
 
-		// fill out the ranks of the leaderboard
-		for (int j = 0; j < MAX_LENGTH; j++) {
-			TextView currentRank = (TextView) getByStringId(view,
-			"relative_rank" + j);
-			String currentRankString = startRank + "";
-			if (j == userPosition) {
-				// mark the current user position
-				currentRankString = "<b>" + startRank + "</b>";
-			}
-			
-			currentRank.setText(Html.fromHtml(currentRankString));
-			startRank++;
-		}
-		
-		// find the size of the list to display
+		int userPosition = rank - highestRank;
 		int size = seArray.length;
-		if (size > 10) {
-			size = MAX_LENGTH;
-		}
-				
-		for (int i = 0; i < size; i++) {
-			// get the text boxes with for the leaderboard
-			TextView currentPlayerText = (TextView) getByStringId(view, 
-			"player_name" + i);
-			TextView currentScoreText = (TextView) getByStringId(view,
-			"player_score" + i);
+		for (int j = 0; j < MAX_LENGTH; j++) {
+			TextView currentRank = (TextView) getByStringId(view, "relative_rank" + j);
+			String currentRankString = highestRank + "";
+			if (j < size) {
+				TextView currentPlayerText = (TextView) getByStringId(view, "player_name" + j);
+				TextView currentScoreText = (TextView) getByStringId(view, "player_score" + j);
 
-			// get the entries from the ScoreEntry
-			ScoreEntry currentSE = seArray[i];
-			String currentPlayer = currentSE.getName();
-			String currentScore = currentSE.getScore() + "";
-			if (i == userPosition) {
-				// mark the current user
-				currentPlayer = "<b>" + currentPlayer + "</b>";
-				currentScore = "<b>" + currentScore + "</b>";
+				// get the entries from the ScoreEntry
+				ScoreEntry currentSE = seArray[j];
+				String currentPlayer = currentSE.getName();;
+				String currentScore = currentSE.getScore() + "";
+				if (j == userPosition) {
+					// mark the current user
+					currentPlayer = "<b>" + currentPlayer + "</b>";
+					currentScore = "<b>" + currentScore + "</b>";
+					currentRankString = "<b>" + highestRank + "</b>";
+				}
+
+				currentPlayerText.setText(Html.fromHtml(currentPlayer));
+				currentScoreText.setText(Html.fromHtml(currentScore));
 			}
-			
-			currentPlayerText.setText(Html.fromHtml(currentPlayer));
-			currentScoreText.setText(Html.fromHtml(currentScore));
+			currentRank.setText(Html.fromHtml(currentRankString));
+			highestRank++;
 		}
 	}
 	/**
@@ -134,6 +108,20 @@ public class LeaderboardTab extends Fragment {
 	 */
 	private final View getByStringId(View view, final String id) {
 		return view.findViewById(getResources().
-		getIdentifier(id, "id", getActivity().getPackageName()));
+				getIdentifier(id, "id", getActivity().getPackageName()));
 	}
+
+	/**
+	 * Create a new instance of SingleplayerTab with the scores as a param
+	 * @param scores
+	 * @return
+	 */
+	protected static LeaderboardTab newInstanceHelper(ScoreEntry[] seArray, LeaderboardTab lbt) {
+		// put the argument in a bundle that the fragment can use
+		Bundle args = new Bundle();
+		args.putParcelableArray("scoreList", seArray);
+		lbt.setArguments(args);
+		return lbt;
+	}
+
 }

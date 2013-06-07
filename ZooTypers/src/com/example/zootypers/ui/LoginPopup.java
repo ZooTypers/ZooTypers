@@ -1,17 +1,11 @@
 package com.example.zootypers.ui;
 
-
-
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
+import com.example.zootypers.util.InterfaceUtils;
 import com.example.zootypers.util.InternetConnectionException;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -54,7 +49,7 @@ public class LoginPopup {
 	 */
 	@SuppressLint("InlinedApi")
 	public final void buildLoginPopup(LayoutInflater layoutInflater, ViewGroup parentLayout,
-	final boolean dispsw) {
+			final boolean dispsw) {
 		// If need be, dismiss the password popup
 		if (dispsw) {
 			password_ppw.dismiss();
@@ -63,7 +58,7 @@ public class LoginPopup {
 		// Build the login poup
 		View popupView = layoutInflater.inflate(R.layout.login_popup, null);
 		login_ppw = new PopupWindow(popupView,
-		LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		login_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
 	}
 
@@ -77,12 +72,12 @@ public class LoginPopup {
 		// Build the reset password popup
 		View popupView = layoutInflater.inflate(R.layout.reset_pw_layout, null);
 		password_ppw = new PopupWindow(popupView,
-		LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		password_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
 		// dismiss the login popup
 		login_ppw.dismiss();
 	}
-	
+
 	/**
 	 * Handles what happens when user clicks the login button.
 	 * @return the username to pass to the multiplayer activity.
@@ -187,7 +182,7 @@ public class LoginPopup {
 	public final void logoutUser(final AlertDialog.Builder alertDialogBuilder) {
 		ParseUser.logOut();
 		currentUser = ParseUser.getCurrentUser();
-		buildAlertDialog(alertDialogBuilder, R.string.logged_out_title, R.string.logged_out_msg);
+		InterfaceUtils.buildAlertDialog(alertDialogBuilder, R.string.logged_out_title, R.string.logged_out_msg);
 		// make the views disappear
 	}
 
@@ -206,7 +201,7 @@ public class LoginPopup {
 		try {
 			ParseUser.requestPasswordReset(emailString);
 			// success
-			buildAlertDialog(alertDialogBuilder, R.string.pswd_reset_title, R.string.pswd_reset_msg);
+			InterfaceUtils.buildAlertDialog(alertDialogBuilder, R.string.pswd_reset_title, R.string.pswd_reset_msg);
 			return true;
 		} catch (ParseException e) {
 			// failure
@@ -218,35 +213,6 @@ public class LoginPopup {
 			}
 			return false;
 		}
-	}
-
-	/**
-	 * Builds an AlertDialog popup with the given title and message.
-	 * @param alertDialogBuilder The AlertDialog.Builder
-	 * @param title The title of the popup.
-	 * @param message The message in the popup.
-	 */
-	private void buildAlertDialog(final AlertDialog.Builder alertDialogBuilder, final int title,
-	final int message) {
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton(R.string.close_alert, new DialogInterface.OnClickListener() {
-			public void onClick(final DialogInterface dialog, final int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
 	}
 
 }
