@@ -1,17 +1,11 @@
 package com.example.zootypers.ui;
 
-
-
-
-
-
 import java.util.ArrayList;
 import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +15,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.example.zootypers.R;
+import com.example.zootypers.util.InterfaceUtils;
 import com.example.zootypers.util.InternetConnectionException;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -82,7 +77,7 @@ public class LoginPopup {
 		// dismiss the login popup
 		login_ppw.dismiss();
 	}
-	
+
 	/**
 	 * Handles what happens when user clicks the login button.
 	 * @return the username to pass to the multiplayer activity.
@@ -105,6 +100,7 @@ public class LoginPopup {
 		try {
 			user = ParseUser.logIn(usernameString, passwordString);
 		} catch (ParseException e) {
+			e.fillInStackTrace();
 			boolean errorOccured = false;
 			List<ParseObject> usernameResults = new ArrayList<ParseObject>();
 			List<ParseObject> passwordResults = new ArrayList<ParseObject>();
@@ -141,16 +137,15 @@ public class LoginPopup {
 
 			// figure out the error
 			if (errorOccured) {
-				errorMessage.setText("Unexpected error occured, could not login.\n" +
-						"Are you connected to the internet?");
+				errorMessage.setText(R.string.error_login_unexp);
 				return "";
 			}
-			if (usernameResults.size() == 0 && passwordResults.size() == 0) {
-				errorMessage.setText("Invalid username / password combination");
-			} else if (usernameResults.size() == 0 && passwordResults.size() != 0) {
-				errorMessage.setText("Invalid username");
-			} else if (usernameResults.size() != 0 && passwordResults.size() == 0) {
-				errorMessage.setText("Invalid password for username");
+			if ((usernameResults.size() == 0) && (passwordResults.size() == 0)) {
+				errorMessage.setText(R.string.error_login_combo);
+			} else if ((usernameResults.size() == 0) && (passwordResults.size() != 0)) {
+				errorMessage.setText(R.string.error_login_uname);
+			} else if ((usernameResults.size() != 0) && (passwordResults.size() == 0)) {
+				errorMessage.setText(R.string.error_login_pswd);
 			} else {
 				// unexpected error occured
 
@@ -162,7 +157,7 @@ public class LoginPopup {
 		// Check for verified email
 		boolean emailVerified = user.getBoolean("emailVerified");
 		if (!emailVerified) {
-			errorMessage.setText("Email is not verified");
+			errorMessage.setText(R.string.error_login_verif);
 			ParseUser.logOut();
 			currentUser = ParseUser.getCurrentUser();
 			usernameString = "";
@@ -187,9 +182,7 @@ public class LoginPopup {
 	public final void logoutUser(final AlertDialog.Builder alertDialogBuilder) {
 		ParseUser.logOut();
 		currentUser = ParseUser.getCurrentUser();
-		final String title = "Logged Out";
-		final String message = "You have successfully logged out";
-		buildAlertDialog(alertDialogBuilder, title, message);
+		InterfaceUtils.buildAlertDialog(alertDialogBuilder, R.string.logged_out_title, R.string.logged_out_msg);
 		// make the views disappear
 	}
 
@@ -208,49 +201,18 @@ public class LoginPopup {
 		try {
 			ParseUser.requestPasswordReset(emailString);
 			// success
-			final String title = "Password Reset";
-			final String message = "An email has been sent to " + emailString;
-			buildAlertDialog(alertDialogBuilder, title, message);
+			InterfaceUtils.buildAlertDialog(alertDialogBuilder, R.string.pswd_reset_title, R.string.pswd_reset_msg);
 			return true;
 		} catch (ParseException e) {
 			// failure
 			int errorCode = e.getCode();
 			if (errorCode == ParseException.INVALID_EMAIL_ADDRESS) {
-				errorMessage.setText("Invalid Email Address");
+				errorMessage.setText(R.string.error_reset_email);
 			} else {
-				errorMessage.setText("Password Reset Failed");
+				errorMessage.setText(R.string.error_reset_fail);
 			}
 			return false;
 		}
-	}
-
-	/**
-	 * Builds an AlertDialog popup with the given title and message.
-	 * @param alertDialogBuilder The AlertDialog.Builder
-	 * @param title The title of the popup.
-	 * @param message The message in the popup.
-	 */
-	private void buildAlertDialog(final AlertDialog.Builder alertDialogBuilder, final String title,
-			final String message) {
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(final DialogInterface dialog, final int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
 	}
 
 }

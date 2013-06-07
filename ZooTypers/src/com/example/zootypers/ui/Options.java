@@ -26,6 +26,7 @@ import android.widget.TextView;
 import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.SingleLeaderBoardModel;
+import com.example.zootypers.util.InterfaceUtils;
 import com.example.zootypers.util.InternetConnectionException;
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -58,7 +59,7 @@ public class Options extends Activity {
 		setCorrectPosition(mySwitch, "vibrate.txt");
 		//attach a listener to check for changes in state
 		mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(!isChecked){
 					Log.i("Options", "vibrate is switched on");
 					deleteFile("vibrate.txt");
@@ -80,7 +81,7 @@ public class Options extends Activity {
 		setCorrectPosition(mySwitch, "bgm.txt");
 		//attach a listener to check for changes in state
 		mySwitch.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-			public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if(!isChecked){
 					Log.i("Options", "background music is switched on");
 					deleteFile("bgm.txt");
@@ -114,9 +115,8 @@ public class Options extends Activity {
 		Log.i("Options", "clearing single player leaderboard");
 		SingleLeaderBoardModel sl = new SingleLeaderBoardModel(this.getApplicationContext());
 		sl.clearLeaderboard();
-		final String title = "Cleared Leaderboard";
-		final String message = "The single player leaderboard has been successfully cleared.";
-		buildAlertDialog(title, message);
+		InterfaceUtils.buildAlertDialog(this, R.string.clear_lb_title, R.string.clear_lbs_msg);
+
 	}
 
 	/**
@@ -147,16 +147,17 @@ public class Options extends Activity {
 				ml = new MultiLeaderBoardModel();
 				ml.setPlayer(currentUser.getString("username"));
 			} catch (InternetConnectionException e) {
-				Log.i("Leaderboard", "triggering internet connection error screen");
+				e.fillInStackTrace();
+				Log.i("Options", "triggering internet connection error screen");
 				Intent intent = new Intent(this, ErrorScreen.class);
 				intent.putExtra("error", R.layout.activity_connection_error);
 				startActivity(intent);
 				return;
 			}
 			ml.clearLeaderboard();
-			final String title = "Cleared Leaderboard";
-			final String message = "Your multiplayer scores have been successfully cleared.";
-			buildAlertDialog(title, message);
+
+			InterfaceUtils.buildAlertDialog(this, R.string.clear_lb_title, R.string.clear_lbm_msg);
+
 		}
 	}
 
@@ -165,7 +166,7 @@ public class Options extends Activity {
 	 * @param view The button clicked
 	 */
 	public final void goToTitlePage(final View view) {
-		Log.i("Leaderboard", "back to title page from options");
+		Log.i("Options", "back to title page from options");
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
 	}
@@ -210,6 +211,7 @@ public class Options extends Activity {
 		try {
 			usernameString = lp.loginButton();
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			Log.i("Options", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error);
@@ -260,6 +262,7 @@ public class Options extends Activity {
 			FileInputStream fis = openFileInput(fileName);
 			mySwitch.setChecked(true);
 		} catch (IOException e){
+			e.fillInStackTrace();
 			mySwitch.setChecked(false);
 		}
 	}
@@ -292,33 +295,4 @@ public class Options extends Activity {
 	}
 
 	// TODO remove repetition from title page / post game / leaderboard
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
-	}
 }

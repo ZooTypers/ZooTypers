@@ -42,14 +42,16 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      */
     @Override
     public void setUp() throws Exception {        
+        solo = new Solo(getInstrumentation(), getActivity());
+
         //intent to tell the Leaderboard that this is for testing database
         Intent myIntent = new Intent();
         myIntent.putExtra("Testing", 1);
         setActivityIntent(myIntent);
-    	
-        solo = new Solo(getInstrumentation(), getActivity());
-        
-        leaderboardButton = (Button) getActivity().findViewById(com.example.zootypers.R.id.leaderboard_button);
+
+        //start off in title page and click on leaderboard to start tests
+        leaderboardButton = (Button) getActivity().
+        findViewById(com.example.zootypers.R.id.leaderboard_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -107,14 +109,16 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      */
     @Test(timeout = TIMEOUT)
     public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException {
-        //create another player with slightly lower score
+        lbModel.addEntry(1000000);
         //get all top scores
+        solo.sleep(5000);
         ScoreEntry[] scoreList = lbModel.getTopScores();
+        solo.sleep(5000);
         int actualScore = scoreList[0].getScore();
         String actualName = scoreList[0].getName();
         //make sure that the highest score TEST still the highest
-        assertEquals("TEST", actualName);
-        assertEquals(30000, actualScore);
+        assertEquals("David", actualName);
+        assertEquals(1000000, actualScore);
     }
 
     /**
@@ -133,7 +137,8 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      * @throws InternetConnectionException
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingMultipleScoresAndChecking1RelativeScore() throws InternetConnectionException {
+    public void testAddingMultipleScoresAndChecking1RelativeScore() 
+    throws InternetConnectionException {
         //instantiate the other 2 test models
         MultiLeaderBoardModel lbModel2 = null;
         MultiLeaderBoardModel lbModel3 = null;
@@ -150,13 +155,15 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
             lbModel3.setPlayer("Bob");
             lbModel3.addEntry(300000);
 
+            //TODO fix test so that it works. Lindsey changed how this method works
             //check to see if the high score are relative to the (David) 200000 score
-            ScoreEntry[] relativeList = lbModel.getRelativeScores(1);
+            ScoreEntry[] relativeList = lbModel.getRelativeScores();
             assertEquals(300000, relativeList[0].getScore());
             assertEquals(200000, relativeList[1].getScore());
             assertEquals(100000, relativeList[2].getScore());
             assertEquals(3, relativeList.length);
         } catch (Exception e) {
+        	e.fillInStackTrace();
             Log.v("There is an error in leaderboard MP testing.", "error");
         } finally {
             //clear leaderboards
@@ -189,7 +196,9 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         lbModel2.setPlayer("John");
         lbModel2.addEntry(25000);
         solo.sleep(5000);
-        assertEquals(1, lbModel.getRank());
+        int actualRank = lbModel.getRank();
+        solo.sleep(5000);
+        assertEquals(1, actualRank);
         lbModel2.clearLeaderboard();
     }
 
@@ -213,7 +222,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      */
     @Override
     public void tearDown() throws Exception {
-        //lbModel.clearLeaderboard();
+        lbModel.clearLeaderboard();
         solo.finishOpenedActivities();
     }
 }

@@ -5,7 +5,6 @@ import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -21,6 +20,7 @@ import com.example.zootypers.R;
 import com.example.zootypers.core.MultiLeaderBoardModel;
 import com.example.zootypers.core.ScoreEntry;
 import com.example.zootypers.core.SingleLeaderBoardModel;
+import com.example.zootypers.util.InterfaceUtils;
 import com.example.zootypers.util.InternetConnectionException;
 import com.parse.Parse;
 import com.parse.ParseUser;
@@ -39,7 +39,7 @@ public class Leaderboard extends FragmentActivity {
 	private SingleLeaderBoardModel lb;
 	private MultiLeaderBoardModel mlb;
 	private Fragment mainCurrentFragment;
-	private final int NUM_RELATIVE = 5;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,13 +51,13 @@ public class Leaderboard extends FragmentActivity {
 
 		// Initialize the database according to whether it's a test or not.
 		int useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.e("LeaderBoard", "INTENT " + useTestDB);
+		Log.i("Extra", "INTENT " + useTestDB);
 		if (useTestDB == 1) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else { //The Real App Database on Parse
 			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		}
 
 		lp = new LoginPopup(currentUser);
@@ -70,9 +70,9 @@ public class Leaderboard extends FragmentActivity {
 		actionBar.setDisplayUseLogoEnabled(false);
 
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		ActionBar.Tab singlePlayerTab = actionBar.newTab().setText("Singleplayer");
-		ActionBar.Tab multiPlayerTab = actionBar.newTab().setText("Multiplayer");
-		ActionBar.Tab relativeUserScoreTab = actionBar.newTab().setText("Relative\nPosition");
+		ActionBar.Tab singlePlayerTab = actionBar.newTab().setText(R.string.single_player_tab);
+		ActionBar.Tab multiPlayerTab = actionBar.newTab().setText(R.string.multi_player_tab);
+		ActionBar.Tab relativeUserScoreTab = actionBar.newTab().setText(R.string.relative_tab);
 
 		// get the list of scores from the model and send it to each of the tabs
 
@@ -80,6 +80,7 @@ public class Leaderboard extends FragmentActivity {
 		try {
 			mlb = new MultiLeaderBoardModel();
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error_lb);
@@ -131,27 +132,26 @@ public class Leaderboard extends FragmentActivity {
 			try {
 				mlb.setPlayer(currentUser.getString("username"));
 			} catch (InternetConnectionException e) {
+				e.fillInStackTrace();
 				Log.i("Leaderboard", "triggering internet connection error screen");
 				Intent intent = new Intent(this, ErrorScreen.class);
 				intent.putExtra("error", R.layout.activity_connection_error_lb);
 				startActivity(intent);
 				return;
 			}
-			int userRank = mlb.getRank();			
-			// get the relative position of the user with the passed in NUM_RELATIVE
-			ScoreEntry[] relativeEntrys = mlb.getRelativeScores(NUM_RELATIVE);
+			int userRank = mlb.getRank();
 			// inform the user that he/she has no scores yet
-			if (relativeEntrys.length == 0) {
-				final String title = "No scores yet";
-				final String message = "You do not have any scores yet. Play " +
-						"games to figure out where you rank!!";
-				buildAlertDialog(title, message);
+			
+			if (userRank <= 0) {
+				InterfaceUtils.buildAlertDialog(this, R.string.no_scores_title, R.string.no_scores_msg);
 				return;
 			}
+			int highestRank = mlb.getHighestRelScoreRank();
+			// get the relative position of the user with the passed in NUM_RELATIVE
+			ScoreEntry[] relativeEntrys = mlb.getRelativeScores();
 
 			// add the relativeScore tab
-			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, userRank,
-					NUM_RELATIVE);
+			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, userRank, highestRank);
 			FragmentTransaction fst = getSupportFragmentManager().beginTransaction();
 			fst.replace(R.id.leaderboard_layout, currentFragment);
 			fst.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
@@ -169,6 +169,7 @@ public class Leaderboard extends FragmentActivity {
 		try {
 			usernameString = lp.loginButton();
 		} catch (InternetConnectionException e) {
+			e.fillInStackTrace();
 			Log.i("Leaderboard", "triggering internet connection error screen");
 			Intent intent = new Intent(this, ErrorScreen.class);
 			intent.putExtra("error", R.layout.activity_connection_error_lb);
@@ -190,8 +191,8 @@ public class Leaderboard extends FragmentActivity {
 	private void buildPopup(boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext()
-				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext()
+		.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.leaderboard_layout);
@@ -236,7 +237,7 @@ public class Leaderboard extends FragmentActivity {
 
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.leaderboard_layout);
@@ -266,36 +267,6 @@ public class Leaderboard extends FragmentActivity {
 		Log.i("Leaderboard", "proceeding to register page");
 		Intent registerIntent = new Intent(this, RegisterPage.class);
 		startActivity(registerIntent);
-	}
-
-	/**
-	 * builds an AlertDialog popup with the given title and message
-	 * @param title String representing title of the AlertDialog popup
-	 * @param message String representing the message of the AlertDialog
-	 * popup
-	 */
-	private void buildAlertDialog(String title, String message) {
-		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
-
-		// set title
-		alertDialogBuilder.setTitle(title);
-
-		// set dialog message
-		alertDialogBuilder
-		.setMessage(message)
-		.setCancelable(false)
-		.setPositiveButton("Close", new DialogInterface.OnClickListener() {
-			public void onClick(DialogInterface dialog, int id) {
-				// if this button is clicked, close the dialog box
-				dialog.cancel();
-			}
-		});
-
-		// create alert dialog
-		AlertDialog alertDialog = alertDialogBuilder.create();
-
-		// show the message
-		alertDialog.show();
 	}
 
 	public void goToMain(View view) {

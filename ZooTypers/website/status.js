@@ -22,7 +22,7 @@ function checkRegistration() {
 function checkMatches() {	
 	var Matches = Parse.Object.extend("Matches");
 	var query = new Parse.Query(Matches);
-	query.get("wMEpPPvv5z", {
+	query.get("Dk80JlRnkQ", {
 		success: function(gameScore) {
 			$("matches").innerHTML = "<td style=\"width: 166px; text-align: center; font-size: 18pt; font-weight: bold;\"><p>Matches</p></td><td style=\"width: 166px; text-align: center; font-size: 18pt; font-weight: bold; color: green\"><p>Live</p></td><td style=\"width: 166px\"><img src=\"images/checkmark.png\" alt=\"homepage-logo\" style=\"width: 70px; height: 66px; padding-left: 50px;\"></td>";
 		},
