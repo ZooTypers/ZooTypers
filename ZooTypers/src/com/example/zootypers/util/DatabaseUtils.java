@@ -45,7 +45,7 @@ public class DatabaseUtils {
 		Collections.shuffle(combinedWords);
 		for (int i = 0; i < combinedWords.size(); i++) {
 			ParseObject wordsObject = new ParseObject("WordsListLatin");
-			wordsObject.add("word", combinedWords.get(i).trim());
+			wordsObject.put("word", combinedWords.get(i).trim());
 			wordsObject.saveInBackground();
 		}
 	}
