@@ -16,11 +16,11 @@ import com.parse.ParseUser;
  *
  */
 public class RelativeUserScoreTab extends LeaderboardTab {
-	
+
 	ParseUser currentUser;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-	Bundle savedInstanceState) {
+			Bundle savedInstanceState) {
 		Log.i("Leaderboard", "entered relative score tab");
 
 		super.onCreateView(inflater, container, savedInstanceState);
@@ -37,7 +37,7 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 		}
 		return relativeScoreView;
 	}
-	
+
 	/**
 	 * Create a new empty instance of RelativeUserScoreTab with the scores as a param
 	 * @return the new RelativeUserScoreTab with the arguments
@@ -52,7 +52,7 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 		spt.setArguments(args);
 		return spt;
 	}
-	
+
 	/**
 	 * Create a new instance of RelativeUserScoreTab with the scores as a param
 	 * @param seArray the array used to fill the relative leaderboard

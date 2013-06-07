@@ -19,7 +19,7 @@ public abstract class PlayerModel extends Observable {
 
 	// number of words displayed on the view
 	protected final int numWordsDisplayed;
-	
+
 	// stores an array of words 
 	protected List<String> wordsList;
 
@@ -34,10 +34,10 @@ public abstract class PlayerModel extends Observable {
 
 	// index of the next word to pull from wordsList, (should ONLY be used with wordsList)
 	protected int nextWordIndex;
-	
+
 	// set of first character of each word currently being displayed
 	protected Set<Character> currFirstLetters;
-	
+
 
 	/**
 	 * Constructs a new model that takes in the number of words being displayed.
@@ -53,7 +53,7 @@ public abstract class PlayerModel extends Observable {
 		currLetterIndex = -1;
 		currWordIndex = -1;
 	}
-	
+
 	/**
 	 * The populateDisplayedList method gets called once by MultiPlayer after
 	 * it added itself as an observer of this class. The method populates the
@@ -77,7 +77,7 @@ public abstract class PlayerModel extends Observable {
 		nextWordIndex++;
 		currWordIndex = -1;
 	}
-	
+
 	/*
 	 *  Replace the current word on display with a new word from list making
 	 *  sure that the new word will not start with the same letter as any of
@@ -116,7 +116,7 @@ public abstract class PlayerModel extends Observable {
 		}
 		return wordsList.get(wordsDisplayed[currWordIndex]);
 	}
-	
+
 	/**
 	 * The typedLetter method handles what words and letter the user has
 	 * typed so far and notify the view to highlight typed letter or fetch 
@@ -125,12 +125,12 @@ public abstract class PlayerModel extends Observable {
 	 * @param letter, the letter that the user typed on the Android soft-keyboard
 	 */
 	public abstract void typedLetter(final char letter);
-	
+
 	/**
 	 * @return current score of the user
 	 */
 	public abstract int getScore();
-	
+
 	/**
 	 * @return the index of the word the player is currently locked to within the words displayed
 	 */
@@ -144,7 +144,7 @@ public abstract class PlayerModel extends Observable {
 	public final int getCurrLetterIndex() {
 		return currLetterIndex;
 	}
-	
+
 	/**
 	 * @return the array of all the index of the words currently being displayed.
 	 */

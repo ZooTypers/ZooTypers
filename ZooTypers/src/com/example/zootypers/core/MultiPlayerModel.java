@@ -250,7 +250,7 @@ public class MultiPlayerModel extends PlayerModel {
 	private void checkIfInMatch() throws InternalErrorException {
 		if (!match.getString(info.get("name")).equals(name)) {
 			Log.e("Multiplayer", 
-			"got replaced by someone else, concurrency error");
+					"got replaced by someone else, concurrency error");
 			throw new InternalErrorException();
 		}
 	}
@@ -307,8 +307,8 @@ public class MultiPlayerModel extends PlayerModel {
 				int curScore = match.getInt(info.get("score"));
 				curScore += wordLen;
 				Log.i("Multiplayer", "completed the word: " + 
-				wordsList.get(wordsDisplayed[currWordIndex]) 
-				+ "\nscore increased to: " + curScore);
+						wordsList.get(wordsDisplayed[currWordIndex]) 
+						+ "\nscore increased to: " + curScore);
 
 				match.put(info.get("score"), curScore);
 				match.saveInBackground();
@@ -373,7 +373,7 @@ public class MultiPlayerModel extends PlayerModel {
 			} catch (ParseException e) {
 				if ("p1name".equals(info.get("name"))) {
 					Log.w("Multiplayer", 
-					"parse error while checking if opponent is finished or not");
+							"parse error while checking if opponent is finished or not");
 					throw new InternetConnectionException();
 				}
 				return false;
@@ -413,7 +413,7 @@ public class MultiPlayerModel extends PlayerModel {
 			throw new InternetConnectionException();
 		}
 	}
-	
+
 	/**
 	 * refreshes the match in a background thread and notifies the
 	 * UI to update the opponent score after the refresh is done.
@@ -430,7 +430,7 @@ public class MultiPlayerModel extends PlayerModel {
 			}
 		});
 	}
-	
+
 	/**
 	 * @return user name of the user's opponent
 	 */
@@ -451,11 +451,11 @@ public class MultiPlayerModel extends PlayerModel {
 	public final int getOpponentScore() {
 		return match.getInt(info.get("oscore"));
 	}
-	
+
 	/**
 	 * @return the words list of all the words
 	 */
 	public final List<String> getWordsList() {
-	    return wordsList;
+		return wordsList;
 	}
 }
