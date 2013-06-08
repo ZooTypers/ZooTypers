@@ -42,7 +42,7 @@ public class Options extends Activity {
 
 	LoginPopup lp;
 	ParseUser currentUser;
-	private int useTestDB;
+	private boolean useTestDB;
 
 	@Override
 	protected final void onCreate(final Bundle savedInstanceState) {
@@ -125,10 +125,10 @@ public class Options extends Activity {
 	public final void clearMulti(final View view) {
 		Log.i("Options", "clearing multiplayer leaderboard");
 
-		useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.e("Extra", "INTENT " + useTestDB);
+		useTestDB = getIntent().getBooleanExtra("Testing", false);
+
 		// Initialize the database
-		if (useTestDB == 1) {
+		if (useTestDB) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else {

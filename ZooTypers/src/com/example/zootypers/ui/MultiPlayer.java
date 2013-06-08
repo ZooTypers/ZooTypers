@@ -42,7 +42,7 @@ import com.parse.Parse;
 @SuppressLint("NewApi")
 public class MultiPlayer extends Player {
 	// boolean to flag our use of a test database or not
-	private int useTestDB;
+	private boolean useTestDB;
 
 	// the username of the user currently trying to play a game
 	private String username;
@@ -116,9 +116,9 @@ public class MultiPlayer extends Player {
 		background = ((ImageButton) inflatedView.findViewById(bg)).getDrawable();
 
 		// Initialize the database according to whether it's a test or not.
-		useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.i("Extra", "INTENT " + useTestDB);
-		if (useTestDB == 1) { //The Testing Database on Parse
+		useTestDB = getIntent().getBooleanExtra("Testing", false);
+
+		if (useTestDB) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else { //The Real App Database on Parse
