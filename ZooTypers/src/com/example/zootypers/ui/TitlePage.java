@@ -29,7 +29,7 @@ public class TitlePage extends Activity {
 	boolean foundUser;
 	boolean foundPassword;
 
-	private int useTestDB;
+	private boolean useTestDB;
 
 	@Override
 	protected final void onCreate(final Bundle savedInstanceState) {
@@ -41,10 +41,10 @@ public class TitlePage extends Activity {
 		multiIntent = new Intent(this, PreGameSelectionMulti.class);
 
 		//used intent to allow testing or not
-		useTestDB = getIntent().getIntExtra("Testing", 0);
-		Log.i("Extra", "INTENT " + useTestDB);
+		useTestDB = getIntent().getBooleanExtra("Testing", false);
+
 		// Initialize the database
-		if (useTestDB == 1) {
+		if (useTestDB) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else {
@@ -99,8 +99,8 @@ public class TitlePage extends Activity {
 	public final void goToLeaderboard(final View view) {
 		Log.i("ZooTypers", "Proceeding to leaderboard");
 		Intent intent = new Intent(this, Leaderboard.class);
-		if (useTestDB == 1) {
-			intent.putExtra("Testing", 1);
+		if (useTestDB) {
+			intent.putExtra("Testing", true);
 		}
 		startActivity(intent);
 	}
