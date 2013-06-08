@@ -46,7 +46,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
 
         //intent to tell the Leaderboard that this is for testing database
         Intent myIntent = new Intent();
-        myIntent.putExtra("Testing", 1);
+        myIntent.putExtra("Testing", true);
         setActivityIntent(myIntent);
 
         //start off in title page and click on leaderboard to start tests
