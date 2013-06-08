@@ -106,14 +106,15 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      * top score and the name of that score also matches the name in database.
      * 
      * @throws InternetConnectionException
+     * @throws InterruptedException 
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException {
-        lbModel.addEntry(1000000);
+    public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException, InterruptedException {
+        lbModel.addEntry(10000);
+        //wait for parse to save the scores
+        Thread.sleep(5000);
         //get all top scores
-        solo.sleep(5000);
         ScoreEntry[] scoreList = lbModel.getTopScores();
-        solo.sleep(5000);
         int actualScore = scoreList[0].getScore();
         String actualName = scoreList[0].getName();
         //make sure that the highest score TEST still the highest
@@ -123,10 +124,13 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
 
     /**
      * Testing if adding a very high score that it is in one of the top ranks.
+     * @throws InterruptedException 
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingHighScoreInTopRank() {
+    public void testAddingHighScoreInTopRank() throws InterruptedException {
         lbModel.addEntry(33333);
+        //wait for parse to save the scores
+        Thread.sleep(3000);
         assertTrue(lbModel.isInTopEntries());
     }
 
@@ -155,7 +159,9 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
             lbModel3.setPlayer("Bob");
             lbModel3.addEntry(300000);
 
-            //TODO fix test so that it works. Lindsey changed how this method works
+            //wait for parse to save the scores
+            Thread.sleep(7000);
+            
             //check to see if the high score are relative to the (David) 200000 score
             ScoreEntry[] relativeList = lbModel.getRelativeScores();
             assertEquals(300000, relativeList[0].getScore());
@@ -174,6 +180,19 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     }
 
     /**
+     * Test if the get highest relative rank works and return the appropariate highest rel rank.
+     * @throws InterruptedException 
+     */
+    @Test(timeout = TIMEOUT)
+    public void testGettingHighestRelativeRank() throws InterruptedException {
+        lbModel.addEntry(200000);
+        //wait for parse to save the scores
+        Thread.sleep(3000);
+        int highestRelRank = lbModel.getHighestRelScoreRank();
+        assertEquals(1, highestRelRank);
+    }
+    
+    /**
      * Adding a player but not giving him a score and checking it the rank is still 0.
      * 
      * @throws InternetConnectionException
@@ -188,16 +207,16 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     /**
      * Adding the highest score seen so far in the database and making sure it's rank 1.
      * @throws InternetConnectionException 
+     * @throws InterruptedException 
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingHighestScoreRankOne() throws InternetConnectionException {
-        lbModel.addEntry(33333);
-        MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
-        lbModel2.setPlayer("John");
-        lbModel2.addEntry(25000);
-        solo.sleep(5000);
-        int actualRank = lbModel.getRank();
-        solo.sleep(5000);
+    public void testAddingHighestScoreRankOne() throws InternetConnectionException, InterruptedException {
+        lbModel.addEntry(10000);
+        MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel(10);
+        lbModel2.addEntry(20000);
+        //wait for parse to save the scores
+        Thread.sleep(3000);
+        int actualRank = lbModel2.getRank();
         assertEquals(1, actualRank);
         lbModel2.clearLeaderboard();
     }
@@ -216,7 +235,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         assertEquals(2, lbModel.getRank());
         lbModel2.clearLeaderboard();
     }
-
+    
     /**
      * Tear down by clearing the leaderboards and finishing opened activities in Robotium.
      */
