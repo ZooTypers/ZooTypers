@@ -3,6 +3,7 @@ package com.example.zootypers.core;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import android.util.Log;
@@ -37,9 +38,11 @@ public class MultiPlayerModel extends PlayerModel {
 
 	// total number of words in wordLists on Parse database
 	private static final int TOTAL_WORDS = 709;
+  private static final int TOTAL_WORDS_LATIN = 342;
 
 	// size of the list to get from the Parse database
 	private static final int LIST_SIZE = 100;
+
 
 	// the object on the database that has all info of the match
 	// on the Parse database
@@ -160,7 +163,13 @@ public class MultiPlayerModel extends PlayerModel {
 	private void addToQueue() throws InternetConnectionException {
 		// sets the starting word index on the database to a random integer
 		Log.i("Multiplayer", "creating match for player");
-		final int randy = (int) (Math.random() * (TOTAL_WORDS));
+		
+		final int randy;
+    if (Locale.getDefault().getDisplayLanguage().equals("français")) {
+      randy = (int) (Math.random() * (TOTAL_WORDS_LATIN));
+    } else {
+      randy = (int) (Math.random() * (TOTAL_WORDS));
+    }
 		try {
 			setInfo(true);
 			match = new ParseObject("Matches");
@@ -220,13 +229,23 @@ public class MultiPlayerModel extends PlayerModel {
 		try {
 			checkInternet();
 			checkIfInMatch();
-			ParseQuery query = new ParseQuery("WordList");
+			ParseQuery query; 
+			if (Locale.getDefault().getDisplayLanguage().equals("français")) {
+			  query = new ParseQuery("WordsListLatin");
+			} else {
+			  query = new ParseQuery("WordList");
+			}
 			query.setSkip(match.getInt("wordIndex"));
 			query.setLimit(LIST_SIZE);
 			wordObjects= query.find();
 			// if not enough words were in the query than get more words
 			if (wordObjects.size() < LIST_SIZE) {
-				ParseQuery query2 = new ParseQuery("WordList");
+			  ParseQuery query2;
+		     if (Locale.getDefault().getDisplayLanguage().equals("français")) {
+		        query2 = new ParseQuery("WordsListLatin");
+		      } else {
+		        query2 = new ParseQuery("WordList");
+		      }
 				query2.setLimit(LIST_SIZE - wordObjects.size());
 				wordObjects.addAll(query2.find());
 			}
