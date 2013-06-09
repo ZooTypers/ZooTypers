@@ -53,6 +53,8 @@ public abstract class Player extends Activity implements Observer {
 	// the vibrator that is used to vibrate the phone
 	private Vibrator vibrator;
 
+	protected MediaPlayer mediaPlayer;
+	
 	/**
 	 * Called when the timer runs out; starts the post game screen
 	 * activity with the correct data to pass.
@@ -242,5 +244,6 @@ public abstract class Player extends Activity implements Observer {
 		displayTime(START_TIME / INTERVAL);
 
 		displayScore(0);
+		mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
 	}
 }
