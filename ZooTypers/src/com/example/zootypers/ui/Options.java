@@ -125,10 +125,9 @@ public class Options extends Activity {
 	public final void clearMulti(final View view) {
 		Log.i("Options", "clearing multiplayer leaderboard");
 
-		useTestDB = getIntent().getBooleanExtra("Testing", false);
-
 		// Initialize the database
-		if (useTestDB) {
+		Log.d("Options: Using Test Database", "" +TitlePage.useTestDB);
+		if (TitlePage.useTestDB) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else {
