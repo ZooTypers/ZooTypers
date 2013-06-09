@@ -64,11 +64,7 @@ public class SinglePlayer extends Player {
 	public static boolean paused;
 
 	// check for whether to play music or not
-	private int playMusic = 0;
-
-	// check to see if you need to read the bgm file or not
-	private boolean readBGM = true;
-
+	private boolean playMusic = false;
 	// creates a new media player for sound
 	private MediaPlayer mediaPlayer;
 
@@ -117,8 +113,11 @@ public class SinglePlayer extends Player {
 		// create and start timer
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
+		
+		mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+		playMusic = setBGMusic(mediaPlayer);
+		setVibrate();
 
-		backgroundMusicSetUp(mediaPlayer, readBGM, playMusic);
 		Log.i("SinglePlayer", "Single player game has begun!");
 	}
 
@@ -189,7 +188,7 @@ public class SinglePlayer extends Player {
 		intent.putExtra("score", model.getScore());
 		intent.putExtra("bg", bg);
 		startActivity(intent);
-		if (playMusic == 1) {
+		if (playMusic) {
 			mediaPlayer.stop();
 		}
 		finish();
@@ -206,7 +205,7 @@ public class SinglePlayer extends Player {
 		// save & stop time
 		pausedTime = currentTime;
 		gameTimer.cancel();
-		if (playMusic == 1) {
+		if (playMusic) {
 			mediaPlayer.pause();
 		}
 
@@ -242,7 +241,7 @@ public class SinglePlayer extends Player {
 		gameTimer.start();
 		ppw.dismiss();
 		paused = false;
-		if (playMusic == 1) {
+		if (playMusic) {
 			mediaPlayer.start();
 		}
 	}

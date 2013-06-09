@@ -54,10 +54,7 @@ public class MultiPlayer extends Player {
 	private static MultiPlayerModel model;
 
 	// check for whether to play music or not
-	private int playMusic = 0;
-
-	//check to see if you need to read the bgm file or not
-	private boolean readBGM = true;
+	private boolean playMusic = false;
 
 	private Drawable animal;
 	private Drawable background;
@@ -137,7 +134,9 @@ public class MultiPlayer extends Player {
 		LoadTask task = new LoadTask(this);
 		task.execute();
 
-		backgroundMusicSetUp(mediaPlayer, readBGM, playMusic);
+		mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+		playMusic = setBGMusic(mediaPlayer);
+		setVibrate();
 		Log.i("Multiplayer", "Multi-player game has begun!");
 	}
 
@@ -192,7 +191,7 @@ public class MultiPlayer extends Player {
 		gameTimer.cancel();
 		Intent intent = new Intent(this, TitlePage.class);
 		startActivity(intent);
-		if (playMusic == 1) {
+		if (playMusic) {
 			mediaPlayer.stop();
 		}
 		finish();
@@ -225,7 +224,7 @@ public class MultiPlayer extends Player {
 			Log.i("Multiplayer", "triggering internet connection error screen");
 			intent.putExtra("error", R.layout.activity_connection_error);
 		}
-		if (playMusic == 1) {
+		if (playMusic) {
 			mediaPlayer.stop();
 		}
 		startActivity(intent);
@@ -237,47 +236,37 @@ public class MultiPlayer extends Player {
 	 */
 	public final void goToPostGame() {
 		Log.i("Multiplayer", "Ending game");
-
 		// Show game over message before going to post game
 		findViewById(R.id.game_over).setVisibility(0);
 
-		// Sets themselves as done with the game
+		Intent intent;
 		try {
+			// Sets themselves as done with the game
 			model.setUserFinish();
-		} catch (InternetConnectionException e) {
-			e.fillInStackTrace();
-			error(States.error.CONNECTION);
-			return;
-		} 
-
-		// See if opponent completed the game
-		try {
+			// See if opponent completed the game
 			if (!model.isOpponentFinished()) {
 				// Opponent did disconnect; switch to go to appropriate screen
 				Log.w("Multiplayer", "timed out waiting for opponent to finish");
-				Intent dintent = new Intent(this, PostGameScreenDisconnect.class);
+				intent = new Intent(this, PostGameScreenDisconnect.class);
+			} else {
+				Log.e("Multiplayer", "opponent is finished with game");
+				intent = new Intent(this, PostGameScreenMulti.class);
+			}
 
-				// Pass score, background & username to post game screen
-				int myScore = model.getScore();
-				dintent.putExtra("score", myScore);
-				dintent.putExtra("bg", bg);
-				dintent.putExtra("username", username);
+			// Pass scores, background, username, and results to post game screen
+			int myScore = model.getScore();
+			int oppScore = model.getOpponentScore();
+			intent.putExtra("score", myScore);
+			intent.putExtra("oppScore", oppScore);
+			intent.putExtra("result", myScore - oppScore);
+			intent.putExtra("bg", bg);
+			intent.putExtra("username", username);
 
-				// Delete the match
-				try {
-					model.deleteUser();
-				} catch (InternetConnectionException e) {
-					e.fillInStackTrace();
-					error(States.error.CONNECTION);
-					return;
-				}
-
-				if (playMusic == 1) {
-					mediaPlayer.stop();
-				}
-				// Go to the disconnect post game screen
-				startActivity(dintent);
-				return;
+			// Delete the match
+			model.deleteUser();
+			// Turn off music if it was playing
+			if (playMusic) {
+				mediaPlayer.stop();
 			}
 		} catch (InternetConnectionException e) {
 			e.fillInStackTrace();
@@ -288,38 +277,6 @@ public class MultiPlayer extends Player {
 			error(States.error.INTERNAL);
 			return;
 		} 
-
-		Intent intent = new Intent(this, PostGameScreenMulti.class);
-
-		// Pass score, background & username to post game screen
-		int myScore = model.getScore();
-		intent.putExtra("score", myScore);
-		intent.putExtra("bg", bg);
-		intent.putExtra("username", username);
-
-		// Add opponent's score & result to intent
-		int oppScore = model.getOpponentScore();
-		intent.putExtra("oppScore", oppScore);
-		if (myScore > oppScore) {
-			intent.putExtra("result", 1);      
-		} else if (myScore == oppScore) {
-			intent.putExtra("result", 0);      
-		} else {      
-			intent.putExtra("result", -1);      
-		}
-
-		// Delete the match
-		try {
-			model.deleteUser();
-		} catch (InternetConnectionException e) {
-			e.fillInStackTrace();
-			error(States.error.CONNECTION);
-			return;
-		} 
-
-		if (playMusic == 1) {
-			mediaPlayer.stop();
-		}
 		// Go to the post game screen
 		startActivity(intent);  
 		finish();
