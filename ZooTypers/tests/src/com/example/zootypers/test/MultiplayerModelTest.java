@@ -55,9 +55,9 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     @Override
     protected void setUp() throws Exception {
         //to tell the database this is a test
-        /*Intent in = new Intent();
-        in.putExtra("Testing", 1);
-        setActivityIntent(in);*/
+        //Intent in = new Intent();
+        //in.putExtra("Testing", true);
+        //setActivityIntent(in);
 
         solo = new Solo(getInstrumentation(), getActivity());
         multiButton = (Button) getActivity().
@@ -267,7 +267,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     private void setUpOpponent() {
         // Initialize the database
         Parse.initialize(this.getActivity(), 
-        "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM", "SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+        		"Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+				"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
         final int randy = (int) (Math.random() * (NUMOFWORDS));
         try {
             match = new ParseObject("Matches");
