@@ -29,7 +29,7 @@ public class TitlePage extends Activity {
 	boolean foundUser;
 	boolean foundPassword;
 
-	private boolean useTestDB;
+	public static boolean useTestDB;
 
 	@Override
 	protected final void onCreate(final Bundle savedInstanceState) {
@@ -42,7 +42,7 @@ public class TitlePage extends Activity {
 
 		//used intent to allow testing or not
 		useTestDB = getIntent().getBooleanExtra("Testing", false);
-
+		Log.d("Title: Using Test Database", "" +TitlePage.useTestDB);
 		// Initialize the database
 		if (useTestDB) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
@@ -99,9 +99,9 @@ public class TitlePage extends Activity {
 	public final void goToLeaderboard(final View view) {
 		Log.i("ZooTypers", "Proceeding to leaderboard");
 		Intent intent = new Intent(this, Leaderboard.class);
-		if (useTestDB) {
-			intent.putExtra("Testing", true);
-		}
+		//if (useTestDB) {
+			//intent.putExtra("Testing", true);
+		//}
 		startActivity(intent);
 	}
 

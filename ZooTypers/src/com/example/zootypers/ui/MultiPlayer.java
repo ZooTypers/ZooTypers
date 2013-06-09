@@ -41,8 +41,6 @@ import com.parse.Parse;
 @SuppressWarnings("unused")
 @SuppressLint("NewApi")
 public class MultiPlayer extends Player {
-	// boolean to flag our use of a test database or not
-	private boolean useTestDB;
 
 	// the username of the user currently trying to play a game
 	private String username;
@@ -60,7 +58,7 @@ public class MultiPlayer extends Player {
 	private Drawable background;
 	private int oppAnimal;
 	private ProgressDialog progressDialog;
-	private MediaPlayer mediaPlayer;
+
 	/*
 	 * flips the animal being displayed horizontally so that the animal
 	 * is facing the other direction.
@@ -113,10 +111,8 @@ public class MultiPlayer extends Player {
 		bg = getIntent().getIntExtra("bg", 0);
 		background = ((ImageButton) inflatedView.findViewById(bg)).getDrawable();
 
-		// Initialize the database according to whether it's a test or not.
-		useTestDB = getIntent().getBooleanExtra("Testing", false);
-
-		if (useTestDB) { //The Testing Database on Parse
+		Log.d("MultiPlayer: Using Test Database", "" +TitlePage.useTestDB);
+		if (TitlePage.useTestDB) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else { //The Real App Database on Parse
@@ -134,9 +130,6 @@ public class MultiPlayer extends Player {
 		LoadTask task = new LoadTask(this);
 		task.execute();
 
-		mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-		playMusic = setBGMusic(mediaPlayer);
-		setVibrate();
 		Log.i("Multiplayer", "Multi-player game has begun!");
 	}
 
@@ -171,7 +164,14 @@ public class MultiPlayer extends Player {
 		// display opponent's animal
 		ImageView oppAnimalImage = (ImageView) findViewById(R.id.opp_animal_image);
 		oppAnimalImage.setBackgroundResource(oppAnimal);
-
+		
+		// set vibrate and background music
+		setVibrate();
+		playMusic = setBGMusic(mediaPlayer);
+		
+		// Create and start timer
+		gameTimer = new GameTimer(START_TIME, INTERVAL);
+		gameTimer.start();
 	}
 
 	/**
@@ -370,9 +370,6 @@ public class MultiPlayer extends Player {
 				progressDialog.dismiss();
 				activity.setContentView(R.layout.activity_multi_player);
 				initialDisplay(animal, background, oppAnimal);
-				// Create and start timer
-				gameTimer = new GameTimer(START_TIME, INTERVAL);
-				gameTimer.start();
 			}
 		}
 	}

@@ -38,8 +38,14 @@ public class RegisterPage extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 
 		setContentView(R.layout.activity_register_page);
-		Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-				"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+		Log.d("RegisterPage: Using Test Database", "" +TitlePage.useTestDB);
+		if (TitlePage.useTestDB) {
+			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+		} else {
+			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
+					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+		}
 		Log.i("Register", "entered register page");
 	}
 
