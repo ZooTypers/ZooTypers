@@ -72,7 +72,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
                 }
             });
             solo.sleep(1000);
-            solo.clickOnButton("Submit");
             EditText username = (EditText) solo.getView(R.id.username_login_input);
             solo.enterText(username, "David");
             EditText password = (EditText) solo.getView(R.id.password_login_input);

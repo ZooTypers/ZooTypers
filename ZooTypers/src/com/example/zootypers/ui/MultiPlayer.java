@@ -53,6 +53,7 @@ public class MultiPlayer extends Player {
 	// used for the communicating with model
 	private static MultiPlayerModel model;
 
+	// check for whether to play music or not
 	private int playMusic = 0;
 
 	//check to see if you need to read the bgm file or not
@@ -136,7 +137,8 @@ public class MultiPlayer extends Player {
 		LoadTask task = new LoadTask(this);
 		task.execute();
 
-		backGroundSetUp(mediaPlayer, readBGM, playMusic);
+		backgroundMusicSetUp(mediaPlayer, readBGM, playMusic);
+		Log.i("Multiplayer", "Multi-player game has begun!");
 	}
 
 

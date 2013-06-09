@@ -118,8 +118,8 @@ public class SinglePlayer extends Player {
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
 
-		backGroundSetUp(mediaPlayer, readBGM, playMusic);
-		Log.i("SinglePlayer", "game has begun");
+		backgroundMusicSetUp(mediaPlayer, readBGM, playMusic);
+		Log.i("SinglePlayer", "Single player game has begun!");
 	}
 
 
