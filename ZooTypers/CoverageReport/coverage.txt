@@ -1,0 +1,22 @@
+[EMMA v2.0.5312 report, generated Sat Jun 08 18:40:55 PDT 2013]
+-------------------------------------------------------------------------------
+OVERALL COVERAGE SUMMARY:
+
+[class, %]	[method, %]	[block, %]	[line, %]	[name]
+77%  (37/48)!	71%  (205/287)	66%  (4654/7087)!	61%  (1079.9/1761)!	all classes
+
+OVERALL STATS SUMMARY:
+
+total packages:	3
+total classes:	48
+total methods:	287
+total executable files:	31
+total executable lines:	1761
+
+COVERAGE BREAKDOWN BY PACKAGE:
+
+[class, %]	[method, %]	[block, %]	[line, %]	[name]
+40%  (4/10)!	28%  (7/25)!	34%  (132/392)!	18%  (12.7/72)!	com.example.zootypers.util
+82%  (23/28)!	71%  (139/195)	65%  (3036/4652)!	61%  (755.1/1232)!	com.example.zootypers.ui
+100% (10/10)	88%  (59/67)	73%  (1486/2043)!	68%  (312.1/457)!	com.example.zootypers.core
+-------------------------------------------------------------------------------

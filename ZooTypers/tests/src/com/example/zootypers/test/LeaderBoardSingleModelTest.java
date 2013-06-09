@@ -2,8 +2,8 @@ package com.example.zootypers.test;
 
 import org.junit.Test;
 
-import android.R;
 import android.test.ActivityInstrumentationTestCase2;
+import android.test.suitebuilder.annotation.Suppress;
 import android.widget.Button;
 
 import com.example.zootypers.core.ScoreEntry;
@@ -170,7 +170,7 @@ public class LeaderBoardSingleModelTest extends ActivityInstrumentationTestCase2
     /**
      * Testing clicking on the multiplayer tab.
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testClickingOnTheMultiplayerTab() {
         solo.clickOnActionBarItem(com.example.zootypers.R.id.multiplayer_tab_layout);
         solo.sleep(3000);
@@ -179,7 +179,7 @@ public class LeaderBoardSingleModelTest extends ActivityInstrumentationTestCase2
     /**
      * Testing clicking on the multiplayer tab.
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testClickingOnTheSingleplayerTab() {
         solo.clickOnActionBarItem(com.example.zootypers.R.id.singleplayer_tab_layout);
         solo.sleep(3000);
@@ -188,7 +188,7 @@ public class LeaderBoardSingleModelTest extends ActivityInstrumentationTestCase2
     /**
      * Testing clicking on the relative tab.
      */
-    @Test(timeout = TIMEOUT)
+    @Test(timeout = TIMEOUT) @Suppress
     public void testClickingOnTheRelativeTab() {
         solo.clickOnActionBarItem(com.example.zootypers.R.id.relative_lb_title);
         solo.sleep(3000);

@@ -47,12 +47,14 @@ public abstract class Player extends Activity implements Observer {
 	// the current time on the game.
 	protected long currentTime;
 
-	//check for whether to vibrate or not
-	private int useVibrate = 0;
+	// check for whether to vibrate or not
+	private boolean useVibrate;
+	
+	// the vibrator that is used to vibrate the phone
+	private Vibrator vibrator;
 
-	//check to see if you need to read the vibration file or not
-	private boolean readVibrateFile = true;
-
+	protected MediaPlayer mediaPlayer;
+	
 	/**
 	 * Called when the timer runs out; starts the post game screen
 	 * activity with the correct data to pass.
@@ -73,32 +75,49 @@ public abstract class Player extends Activity implements Observer {
 		return findViewById(getResources().getIdentifier(id, "id", getPackageName()));
 	}
 
+	/**
+	 * 
+	 * Sets up the vibration so that if vibration in options is set to on then it
+	 * vibrates whenever user types in the incorrect letter.
+	 * 
+	 */
+	protected void setVibrate() {
+		try {
+			FileInputStream is = openFileInput("vibrate.txt");
+			Log.i("Player", "use vibrate");
+			vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+			useVibrate = true;
+		} catch (FileNotFoundException e){
+			Log.i("Player", "no vibrate");
+			useVibrate = false;
+		}
+	}
 
 	/**
-	 * OnCreate 
-	 * Media player for background music
+	 * 
+	 * Set up the background music for the single & multi-player mode, so users can toggle
+	 * on and off in the options menu.
+	 * 
+	 * @param mediaPlayer the MediaPlayer that will play background music
+	 * @returns whether or not music should be playing.
 	 */
-	protected void backGroundSetUp(MediaPlayer mediaPlayer, boolean readBGM, int playMusic){
-		// create a background music
-		if(readBGM){
-			try {
-				FileInputStream is = openFileInput("bgm.txt");
-				playMusic = 1;
-				Log.i("ZooTypers", "play background music");
-			} catch (FileNotFoundException e){
-				e.fillInStackTrace();
-				Log.i("ZooTypers", "no background music");
-			} 
-			readBGM = false;
-		}
-
+	protected boolean setBGMusic(MediaPlayer mediaPlayer) {
+		boolean playMusic = false;
+		try {
+			FileInputStream is = openFileInput("bgm.txt");
+			playMusic = true;
+			Log.i("ZooTypers", "play background music");
+		} catch (FileNotFoundException e){
+			Log.i("ZooTypers", "no background music");
+		} 
 		//play music
-		if(playMusic == 1){
-			mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+		if(playMusic){
 			mediaPlayer.setLooping(true);
 			mediaPlayer.setVolume(100, 100);
 			mediaPlayer.start();
 		}
+
+		return playMusic;
 	}
 
 	/**
@@ -124,26 +143,11 @@ public abstract class Player extends Activity implements Observer {
 							pM.getCurrLetterIndex());
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.WRONG_LETTER) {
-					//final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
-					//final RelativeLayout rl = (RelativeLayout) findViewById(R.id.single_game_layout);
-					//tg.startTone(ToneGenerator.TONE_CDMA_ONE_MIN_BEEP);
 					tv.setVisibility(TextView.VISIBLE);
 					//Check if vibrate
-					if(readVibrateFile){
-						try {
-							FileInputStream is = openFileInput("vibrate.txt");
-							useVibrate = 1;
-							Log.i("Player", "use vibrate");
-						} catch (FileNotFoundException e){
-							e.fillInStackTrace();
-							Log.i("Player", "no vibrate");
-						}
-						readVibrateFile = false;
-					}
 					//Vibrate
-					if(useVibrate == 1){
-						Vibrator v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
-						v.vibrate(150);
+					if(useVibrate){
+						vibrator.vibrate(150);
 					}
 				} 
 			}
@@ -225,7 +229,7 @@ public abstract class Player extends Activity implements Observer {
 	}  
 
 	/**
-	 * Initialize player One's View
+	 * Initialize the player one in both single and multi-player mode.
 	 */
 	@SuppressLint("NewApi")
 	public void initialDisplay(Drawable animalID, Drawable backgroundID){
@@ -240,5 +244,6 @@ public abstract class Player extends Activity implements Observer {
 		displayTime(START_TIME / INTERVAL);
 
 		displayScore(0);
+		mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
 	}
 }
