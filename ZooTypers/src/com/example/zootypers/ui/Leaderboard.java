@@ -50,9 +50,8 @@ public class Leaderboard extends FragmentActivity {
 		setContentView(R.layout.activity_leaderboard);
 
 		// Initialize the database according to whether it's a test or not.
-		boolean useTestDB = getIntent().getBooleanExtra("Testing", false);
-
-		if (useTestDB) { //The Testing Database on Parse
+		Log.d("Leaderboard: Using Test Database", "" +TitlePage.useTestDB);
+		if (TitlePage.useTestDB) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else { //The Real App Database on Parse
