@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 /**
- * Post game activity / UI for a multiplayer game, when the opponent has disconneted.
+ * Post game activity / UI for a multiplayer game, when the opponent has disconnected.
  */
 public class PostGameScreenDisconnect extends PostGameScreenMulti {
 
@@ -12,7 +12,7 @@ public class PostGameScreenDisconnect extends PostGameScreenMulti {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Log.i("Multiplayer", "opponent disconnected");
-		onCreateHelper();
+		onCreateHelper(true);
 	}
 
 	@Override

@@ -83,27 +83,46 @@ public abstract class Player extends Activity implements Observer {
 	 * @param readBGM check to see if you need to read the bgm file or not
 	 * @param playMusic check for whether to play music or not
 	 */
-	protected void backgroundMusicSetUp(MediaPlayer mediaPlayer, boolean readBGM, int playMusic){
-		// create a background music
-		if(readBGM){
-			try {
-				FileInputStream is = openFileInput("bgm.txt");
-				playMusic = 1;
-				Log.i("ZooTypers", "play background music");
-			} catch (FileNotFoundException e){
-				e.fillInStackTrace();
-				Log.i("ZooTypers", "no background music");
-			} 
-			readBGM = false;
-		}
-
+//	protected void backgroundMusicSetUp(MediaPlayer mediaPlayer, boolean readBGM, int playMusic){
+//		// create a background music
+//		if(readBGM){
+//			try {
+//				FileInputStream is = openFileInput("bgm.txt");
+//				playMusic = 1;
+//				Log.i("ZooTypers", "play background music");
+//			} catch (FileNotFoundException e){
+//				e.fillInStackTrace();
+//				Log.i("ZooTypers", "no background music");
+//			} 
+//			readBGM = false;
+//		}
+//
+//		//play music
+//		if(playMusic == 1){
+//			mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+//			mediaPlayer.setLooping(true);
+//			mediaPlayer.setVolume(100, 100);
+//			mediaPlayer.start();
+//		}
+//	}
+	protected boolean setBGMusic(MediaPlayer mediaPlayer) {
+		boolean playMusic = false;
+		try {
+			FileInputStream is = openFileInput("bgm.txt");
+			playMusic = true;
+			Log.i("ZooTypers", "play background music");
+		} catch (FileNotFoundException e){
+			e.fillInStackTrace();
+			Log.i("ZooTypers", "no background music");
+		} 
 		//play music
-		if(playMusic == 1){
-			mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+		if(playMusic){
 			mediaPlayer.setLooping(true);
 			mediaPlayer.setVolume(100, 100);
 			mediaPlayer.start();
 		}
+		
+		return playMusic;
 	}
 
 	/**
