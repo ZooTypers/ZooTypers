@@ -64,7 +64,6 @@ public class SinglePlayer extends Player {
 	public static boolean paused;
 
 	// check for whether to play music or not
-	//private int playMusic = 0;
 	private boolean playMusic = false;
 	// creates a new media player for sound
 	private MediaPlayer mediaPlayer;
@@ -117,8 +116,8 @@ public class SinglePlayer extends Player {
 		
 		mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
 		playMusic = setBGMusic(mediaPlayer);
-		
-		//backgroundMusicSetUp(mediaPlayer, readBGM, playMusic);
+		setVibrate();
+
 		Log.i("SinglePlayer", "Single player game has begun!");
 	}
 

@@ -54,11 +54,7 @@ public class MultiPlayer extends Player {
 	private static MultiPlayerModel model;
 
 	// check for whether to play music or not
-	//private int playMusic = 0;
 	private boolean playMusic = false;
-
-	//check to see if you need to read the bgm file or not
-	//private boolean readBGM = true;
 
 	private Drawable animal;
 	private Drawable background;
@@ -140,7 +136,7 @@ public class MultiPlayer extends Player {
 
 		mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
 		playMusic = setBGMusic(mediaPlayer);
-		//backgroundMusicSetUp(mediaPlayer, readBGM, playMusic);
+		setVibrate();
 		Log.i("Multiplayer", "Multi-player game has begun!");
 	}
 
