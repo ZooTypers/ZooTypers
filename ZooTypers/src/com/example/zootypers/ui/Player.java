@@ -75,10 +75,15 @@ public abstract class Player extends Activity implements Observer {
 
 
 	/**
-	 * OnCreate 
-	 * Media player for background music
+	 * 
+	 * Set up the background music for the single & multi-player mode, so users can toggle
+	 * on and off in the options menu.
+	 * 
+	 * @param mediaPlayer the MediaPlayer that will play background music
+	 * @param readBGM check to see if you need to read the bgm file or not
+	 * @param playMusic check for whether to play music or not
 	 */
-	protected void backGroundSetUp(MediaPlayer mediaPlayer, boolean readBGM, int playMusic){
+	protected void backgroundMusicSetUp(MediaPlayer mediaPlayer, boolean readBGM, int playMusic){
 		// create a background music
 		if(readBGM){
 			try {
@@ -225,7 +230,7 @@ public abstract class Player extends Activity implements Observer {
 	}  
 
 	/**
-	 * Initialize player One's View
+	 * Initialize the player one in both single and multi-player mode.
 	 */
 	@SuppressLint("NewApi")
 	public void initialDisplay(Drawable animalID, Drawable backgroundID){

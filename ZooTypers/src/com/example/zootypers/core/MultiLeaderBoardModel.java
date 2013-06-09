@@ -161,7 +161,7 @@ public class MultiLeaderBoardModel {
 		int rank = getRank();
 		int relative = numOfEntries/2;
 		int highestRank = 0;
-		if (rank > 0) {
+		if (rank != 0) {
 			if (allScores.size() - rank < relative) {
 				highestRank = allScores.size() - numOfEntries + 1;
 			} else {

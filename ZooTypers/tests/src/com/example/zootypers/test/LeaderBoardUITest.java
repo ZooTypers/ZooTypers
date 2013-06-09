@@ -4,6 +4,7 @@ import org.junit.Test;
 
 import android.test.ActivityInstrumentationTestCase2;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.example.zootypers.ui.Leaderboard;
 import com.example.zootypers.ui.TitlePage;
@@ -12,7 +13,7 @@ import com.jayway.android.robotium.solo.Solo;
 /**
  * Test Class that tests the UI of the leaderboard. No logic involved.
  * 
- * @author oaknguyen
+ * @author oaknguyen & dyxliang
  *
  */
 public class LeaderBoardUITest extends ActivityInstrumentationTestCase2<TitlePage> {
@@ -77,7 +78,6 @@ public class LeaderBoardUITest extends ActivityInstrumentationTestCase2<TitlePag
         solo.clickOnText("Singleplayer");
         solo.sleep(3000);
         assertTrue(solo.searchText("Singleplayer Leaderboard"));
-        ranksNamesScoreHelper(solo);
     }
 
     /**
@@ -98,14 +98,32 @@ public class LeaderBoardUITest extends ActivityInstrumentationTestCase2<TitlePag
         solo.clickOnText("Relative\nPosition");
         solo.enterText(0, "bbbb");
         solo.enterText(1, "bbbb");
-        solo.clickOnButton("Login");
+        final Button loginButton = (Button) solo.getView(com.example.zootypers.R.id.login_button);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                loginButton.performClick();
+            }
+        });
         //wait for authorization/rendering
         solo.sleep(3000);
-        solo.clickOnButton("Close");
-        assertTrue(solo.searchText("Your Relative Position :"));
-        ranksNamesScoreHelper(solo);
-        solo.clickOnButton(0);
-        solo.clickOnButton("Logout");
+        final Button button = (Button) solo.getView(com.example.zootypers.R.id.main_menu_button);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                button.performClick();
+            }
+        });
+        final Button logoutButton = (Button) solo.getView(com.example.zootypers.R.id.logout_button);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                logoutButton.performClick();
+            }
+        });
     }
 
     /**
@@ -114,9 +132,15 @@ public class LeaderBoardUITest extends ActivityInstrumentationTestCase2<TitlePag
     @Test(timeout = TIMEOUT)
     public void testRelativePositionLoginForgotPasswordPopsUp(){
         solo.clickOnText("Relative\nPosition");
-        solo.clickOnText("Forgot your password?");
-        solo.clickOnButton("X");
-        assertTrue(solo.searchText("Login"));
+        final TextView forgotButton = (TextView) solo.getView(com.example.zootypers.R.id.forgot_pw);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                forgotButton.performClick();
+            }
+        });
+        assertTrue(solo.searchText("Reset"));
     }
 
     /**
@@ -125,8 +149,15 @@ public class LeaderBoardUITest extends ActivityInstrumentationTestCase2<TitlePag
     @Test(timeout = TIMEOUT)
     public void testRelativePositionLoginRegisterPopsUp(){
         solo.clickOnText("Relative\nPosition");
-        solo.clickOnText("Join now!");
-        solo.clickOnButton("X");
+        final TextView joinNow = (TextView) solo.getView(com.example.zootypers.R.id.join_now);
+        solo.sleep(1000);
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                joinNow.performClick();
+            }
+        });
+        assertTrue(solo.searchText("Register"));
     }
 
     /*
