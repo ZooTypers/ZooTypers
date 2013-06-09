@@ -1,5 +1,7 @@
 package com.example.zootypers.test;
 
+import java.util.List;
+
 import org.junit.Test;
 
 import android.content.Intent;
@@ -13,6 +15,9 @@ import com.example.zootypers.ui.Leaderboard;
 import com.example.zootypers.ui.TitlePage;
 import com.example.zootypers.util.InternetConnectionException;
 import com.jayway.android.robotium.solo.Solo;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
 
 /**
  * The LeaderboardMultiModel Test will test creating default constructors and ones with
@@ -42,12 +47,13 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      */
     @Override
     public void setUp() throws Exception {        
-        solo = new Solo(getInstrumentation(), getActivity());
-
-        //intent to tell the Leaderboard that this is for testing database
         Intent myIntent = new Intent();
         myIntent.putExtra("Testing", true);
         setActivityIntent(myIntent);
+        solo = new Solo(getInstrumentation(), getActivity());
+
+        //intent to tell the Leaderboard that this is for testing database
+
 
         //start off in title page and click on leaderboard to start tests
         leaderboardButton = (Button) getActivity().
@@ -104,16 +110,21 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     /**
      * Test to make sure that when you have a very high score it become the number one
      * top score and the name of that score also matches the name in database.
+     * Adding dynamically does not show up since model gets top scores at initialization. Must create
+     * another model to get most recent ones. 
      * 
      * @throws InternetConnectionException
+     * @throws ParseException 
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException {
+    public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException, ParseException {
         lbModel.addEntry(1000000);
-        //get all top scores
+        //get all top scores..need new model since top scores are fetched at model initialization
         solo.sleep(5000);
-        ScoreEntry[] scoreList = lbModel.getTopScores();
+        MultiLeaderBoardModel refresh = new MultiLeaderBoardModel();
+        refresh.setPlayer("David");
         solo.sleep(5000);
+        ScoreEntry[] scoreList = refresh.getTopScores();
         int actualScore = scoreList[0].getScore();
         String actualName = scoreList[0].getName();
         //make sure that the highest score TEST still the highest

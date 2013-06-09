@@ -56,9 +56,9 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     @Override
     protected void setUp() throws Exception {
         //to tell the database this is a test
-        //Intent in = new Intent();
-        //in.putExtra("Testing", true);
-        //setActivityIntent(in);
+        Intent in = new Intent();
+        in.putExtra("Testing", true);
+        setActivityIntent(in);
 
         solo = new Solo(getInstrumentation(), getActivity());
         multiButton = (Button) getActivity().
@@ -73,7 +73,6 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
                 }
             });
             solo.sleep(1000);
-            solo.clickOnButton("Submit");
             EditText username = (EditText) solo.getView(R.id.username_login_input);
             solo.enterText(username, "David");
             EditText password = (EditText) solo.getView(R.id.password_login_input);
@@ -269,8 +268,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     private void setUpOpponent() {
         // Initialize the database
         Parse.initialize(this.getActivity(), 
-        		"Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-				"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C");
+        		"E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez");
         final int randy = (int) (Math.random() * (NUMOFWORDS));
         try {
             match = new ParseObject("Matches");
