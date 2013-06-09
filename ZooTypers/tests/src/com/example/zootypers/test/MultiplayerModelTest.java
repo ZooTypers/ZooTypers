@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import android.content.Intent;
 import android.test.ActivityInstrumentationTestCase2;
 import android.test.suitebuilder.annotation.Suppress;
 import android.util.Log;

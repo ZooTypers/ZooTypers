@@ -23,7 +23,10 @@ import com.parse.ParseQuery;
  * The LeaderboardMultiModel Test will test creating default constructors and ones with
  * parameters. It will test adding an entry and see if it's in the database; it will also
  * test getting the highest rank, relative scores, and top scores to make sure all the 
- * methods in the multiplayer model works properly.
+ * methods in the multiplayer model works properly. Since each model fetches parse data
+ * at the beginning, we constantly have to update the records with a new model of the same 
+ * person. This is perfectly fine since the model will never have an adding and viewing of 
+ * scores in the same class instance.
  * 
  * (White box testing).
  * 
@@ -128,20 +131,25 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         int actualScore = scoreList[0].getScore();
         String actualName = scoreList[0].getName();
         //make sure that the highest score TEST still the highest
-        assertEquals("aaaa", actualName);
-        assertEquals(300, actualScore);
+        assertEquals("David", actualName);
+        assertEquals(1000000, actualScore);
     }
 
     /**
      * Testing if adding a very high score that it is in one of the top ranks.
      * @throws InterruptedException 
+     * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingHighScoreInTopRank() throws InterruptedException {
+    public void testAddingHighScoreInTopRank() throws InterruptedException, InternetConnectionException {
         lbModel.addEntry(33333);
         //wait for parse to save the scores
         Thread.sleep(3000);
-        assertTrue(lbModel.isInTopEntries());
+        //get the refresh topscores
+        MultiLeaderBoardModel refresh = new MultiLeaderBoardModel();
+        refresh.setPlayer("David");
+
+        assertTrue(refresh.isInTopEntries());
     }
 
     /**
@@ -156,6 +164,8 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         //instantiate the other 2 test models
         MultiLeaderBoardModel lbModel2 = null;
         MultiLeaderBoardModel lbModel3 = null;
+        //necessary for refresh of allscore fetch 
+        MultiLeaderBoardModel refresh = null;
         try {
             //add the current player's high score
             lbModel.addEntry(200000);
@@ -170,10 +180,13 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
             lbModel3.addEntry(300000);
 
             //wait for parse to save the scores
-            Thread.sleep(7000);
+            Thread.sleep(5000);
             
+            //get the new allscores once scores added to db
+            refresh = new MultiLeaderBoardModel();
+            refresh.setPlayer("David");
             //check to see if the high score are relative to the (David) 200000 score
-            ScoreEntry[] relativeList = lbModel.getRelativeScores();
+            ScoreEntry[] relativeList = refresh.getRelativeScores();
             assertEquals(300000, relativeList[0].getScore());
             assertEquals(200000, relativeList[1].getScore());
             assertEquals(100000, relativeList[2].getScore());
@@ -192,13 +205,19 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     /**
      * Test if the get highest relative rank works and return the appropariate highest rel rank.
      * @throws InterruptedException 
+     * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testGettingHighestRelativeRank() throws InterruptedException {
+    public void testGettingHighestRelativeRank() throws InterruptedException, InternetConnectionException {
         lbModel.addEntry(200);
         //wait for parse to save the scores
         Thread.sleep(3000);
-        int highestRelRank = lbModel.getHighestRelScoreRank();
+        
+        //refresh fetch of parse
+        MultiLeaderBoardModel refresh = new MultiLeaderBoardModel();
+        refresh.setPlayer("David");
+        
+        int highestRelRank = refresh.getHighestRelScoreRank();
         assertEquals(1, highestRelRank);
     }
     
@@ -208,7 +227,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      * @throws InternetConnectionException
      */
     @Test(timeout = TIMEOUT)
-    public void getRankNoEntryTest() throws InternetConnectionException {
+    public void testGetRankNoEntryTest() throws InternetConnectionException {
         MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
         lbModel2.setPlayer("Oak");
         assertEquals(0, lbModel.getRank());
@@ -220,12 +239,17 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      * @throws InternetConnectionException
      */
     @Test(timeout = TIMEOUT)
-    public void getRankSecondtoTopEntryTest() throws InternetConnectionException {
+    public void testGetRankSecondtoTopEntryTest() throws InternetConnectionException {
         MultiLeaderBoardModel lbModel2 = new MultiLeaderBoardModel();
         lbModel2.setPlayer("Oak");
         lbModel.addEntry(100000);
         lbModel2.addEntry(100001);
-        assertEquals(2, lbModel.getRank());
+        solo.sleep(3000);
+        
+        //get refreshed fetch of parse data
+        MultiLeaderBoardModel refresh = new MultiLeaderBoardModel();
+        refresh.setPlayer("David");
+        assertEquals(2, refresh.getRank());
         lbModel2.clearLeaderboard();
     }
     
