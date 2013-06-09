@@ -24,7 +24,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		onCreateHelper();
+		onCreateHelper(false);
 		opponentDisplay();
 	}
 	
@@ -32,13 +32,17 @@ public class PostGameScreenMulti extends PostGameScreen {
 	 * Oncreate Helper
 	 */
 	@SuppressLint("NewApi")
-	protected void onCreateHelper(){
+	protected void onCreateHelper(boolean isDiscon){
 		// Get & display background
 		setContentView(R.layout.activity_pregame_selection_multi);
 		Drawable background = ((ImageButton) 
 		findViewById(getIntent().getIntExtra("bg", 0))).getDrawable();
 
-		setContentView(R.layout.activity_post_game_screen_multi);
+		if (isDiscon) {
+			setContentView(R.layout.activity_post_game_screen_disconnect);
+		} else {
+			setContentView(R.layout.activity_post_game_screen_multi);
+		}
 		findViewById(R.id.postgame_layout).setBackground(background);
 
 		// Get and display the player's score
@@ -63,7 +67,7 @@ public class PostGameScreenMulti extends PostGameScreen {
 		// Determine & display result of the game
 		TextView resultMessage = (TextView) findViewById(R.id.game_result);
 		int result = getIntent().getIntExtra("result", 0);
-		if (result == 1) {
+		if (result > 0) {
 			resultMessage.setText(R.string.you_won);
 		} else if (result == 0) {
 			resultMessage.setText(R.string.you_tied);
