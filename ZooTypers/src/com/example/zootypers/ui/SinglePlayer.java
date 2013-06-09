@@ -65,8 +65,6 @@ public class SinglePlayer extends Player {
 
 	// check for whether to play music or not
 	private boolean playMusic = false;
-	// creates a new media player for sound
-	private MediaPlayer mediaPlayer;
 
 	/*
 	 *  Called when the activity is starting. uses the information that was picked
@@ -109,14 +107,6 @@ public class SinglePlayer extends Player {
 		// change screen view
 		setContentView(R.layout.activity_single_player);
 		initialDisplay(animal, background);
-
-		// create and start timer
-		gameTimer = new GameTimer(START_TIME, INTERVAL);
-		gameTimer.start();
-		
-		mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-		playMusic = setBGMusic(mediaPlayer);
-		setVibrate();
 
 		Log.i("SinglePlayer", "Single player game has begun!");
 	}
@@ -174,6 +164,14 @@ public class SinglePlayer extends Player {
 	public void initialDisplay(Drawable animalID, Drawable backgroundID) {
 		super.initialDisplay(animalID, backgroundID);
 		model.populateDisplayedList();
+		
+		// set vibrate and background music
+		playMusic = setBGMusic(mediaPlayer);
+		setVibrate();
+		
+		// create and start timer
+		gameTimer = new GameTimer(START_TIME, INTERVAL);
+		gameTimer.start();
 	}
 
 	/**
