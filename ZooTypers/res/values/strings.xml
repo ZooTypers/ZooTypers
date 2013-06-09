@@ -145,5 +145,6 @@
     <string name="reg_failu_msg">Username is already in use.</string>
     <string name="reg_faili_msg">Invalid Email Address</string>
     <string name="reg_failo_msg">Email is already in use.</string>
+    <string name="no_account_string">Do not have an account yet?</string>
     
 </resources>
