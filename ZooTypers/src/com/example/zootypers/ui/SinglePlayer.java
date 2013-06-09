@@ -2,11 +2,19 @@ package com.example.zootypers.ui;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.io.IOUtils;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -27,6 +35,8 @@ import com.example.zootypers.R;
 import com.example.zootypers.core.SinglePlayerModel;
 import com.example.zootypers.util.States;
 import com.example.zootypers.util.States.difficulty;
+import com.parse.ParseException;
+import com.parse.ParseObject;
 
 
 /**
@@ -54,11 +64,7 @@ public class SinglePlayer extends Player {
 	public static boolean paused;
 
 	// check for whether to play music or not
-	private int playMusic = 0;
-
-	// check to see if you need to read the bgm file or not
-	private boolean readBGM = true;
-
+	private boolean playMusic = false;
 	// creates a new media player for sound
 	private MediaPlayer mediaPlayer;
 
@@ -81,7 +87,7 @@ public class SinglePlayer extends Player {
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection);
 		Drawable animal = ((ImageButton) findViewById
-		(getIntent().getIntExtra("anm", 0))).getDrawable();
+				(getIntent().getIntExtra("anm", 0))).getDrawable();
 		bg = getIntent().getIntExtra("bg", 0);
 		Drawable background = ((ImageButton) findViewById(bg)).getDrawable();
 
@@ -107,28 +113,12 @@ public class SinglePlayer extends Player {
 		// create and start timer
 		gameTimer = new GameTimer(START_TIME, INTERVAL);
 		gameTimer.start();
+		
+		mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
+		playMusic = setBGMusic(mediaPlayer);
+		setVibrate();
 
-		// create a background music
-		if(readBGM){
-			try {
-				FileInputStream is = openFileInput("bgm.txt");
-				playMusic = 1;
-				Log.i("SinglePlayer", "play background music");
-			} catch (FileNotFoundException e){
-				e.fillInStackTrace();
-				Log.i("SinglePlayer", "no background music");
-			}
-			readBGM = false;
-		}
-		// play music
-		if(playMusic == 1){
-			mediaPlayer = MediaPlayer.create(this, R.raw.sound2);
-			mediaPlayer.setLooping(true);
-			mediaPlayer.setVolume(100, 100);
-			mediaPlayer.start();
-		}
-
-		Log.i("SinglePlayer", "game has begun");
+		Log.i("SinglePlayer", "Single player game has begun!");
 	}
 
 
@@ -180,20 +170,10 @@ public class SinglePlayer extends Player {
 	 * e.g. R.drawable.elephant_color.
 	 * @param backgroudID Drawable referring to the id of the selected background image.
 	 */
+	@Override
 	public void initialDisplay(Drawable animalID, Drawable backgroundID) {
-		// display animal
-		ImageView animalImage = (ImageView) findViewById(R.id.animal_image);
-		animalImage.setImageDrawable(animalID);
-
-		// display background
-		ViewGroup layout = (ViewGroup) findViewById(R.id.game_layout);
-		layout.setBackground(backgroundID);
-
+		super.initialDisplay(animalID, backgroundID);
 		model.populateDisplayedList();
-
-		displayTime(START_TIME / INTERVAL);
-
-		displayScore(0);
 	}
 
 	/**
@@ -208,7 +188,7 @@ public class SinglePlayer extends Player {
 		intent.putExtra("score", model.getScore());
 		intent.putExtra("bg", bg);
 		startActivity(intent);
-		if (playMusic == 1) {
+		if (playMusic) {
 			mediaPlayer.stop();
 		}
 		finish();
@@ -225,7 +205,7 @@ public class SinglePlayer extends Player {
 		// save & stop time
 		pausedTime = currentTime;
 		gameTimer.cancel();
-		if (playMusic == 1) {
+		if (playMusic) {
 			mediaPlayer.pause();
 		}
 
@@ -235,7 +215,7 @@ public class SinglePlayer extends Player {
 
 		// create popup window
 		LayoutInflater layoutInflater =
-		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		View popupView = layoutInflater.inflate(R.layout.pause_popup, null);
 		ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.game_layout);
@@ -261,7 +241,7 @@ public class SinglePlayer extends Player {
 		gameTimer.start();
 		ppw.dismiss();
 		paused = false;
-		if (playMusic == 1) {
+		if (playMusic) {
 			mediaPlayer.start();
 		}
 	}

@@ -1,5 +1,7 @@
 package com.example.zootypers.ui;
 
+import com.example.zootypers.R;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,12 +22,12 @@ public class ErrorScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-		
+
 		// Get the kind of error, defaulting to an interrupt error
-		error = getIntent().getIntExtra("error", 2130903041);
-    	setContentView(error);
-    
-    	// Get and store the username
+		error = getIntent().getIntExtra("error", R.layout.activity_connection_error_lb);
+		setContentView(error);
+
+		// Get and store the username
 		username = getIntent().getStringExtra("username");
 	}
 
