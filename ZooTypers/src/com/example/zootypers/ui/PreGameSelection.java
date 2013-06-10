@@ -3,6 +3,7 @@ package com.example.zootypers.ui;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PorterDuff.Mode;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -35,6 +36,7 @@ public class PreGameSelection extends Activity {
 		Log.i("ZooTypers", "entered pre game");
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		setContentView(R.layout.activity_pregame_selection);
 		diff = findViewById(R.id.medium_difficulty_button);

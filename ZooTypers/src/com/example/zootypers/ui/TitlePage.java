@@ -8,6 +8,7 @@ import com.parse.ParseUser;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.*;
@@ -35,6 +36,7 @@ public class TitlePage extends Activity {
 	protected final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 		setContentView(R.layout.activity_title_page);
 		// initialize the Intent to go to Pregame selection
