@@ -165,24 +165,24 @@ public class MultiPlayerModel extends PlayerModel {
 		Log.i("Multiplayer", "creating match for player");
 		
 		final int randy;
-    if (Locale.getDefault().getDisplayLanguage().equals("français")) {
-      randy = (int) (Math.random() * (TOTAL_WORDS_LATIN));
-    } else {
-      randy = (int) (Math.random() * (TOTAL_WORDS));
-    }
+		if (Locale.getDefault().getDisplayLanguage().equals("italiano")) {
+		    randy = (int) (Math.random() * (TOTAL_WORDS_LATIN));
+		} else {
+		    randy = (int) (Math.random() * (TOTAL_WORDS));
+		}
 		try {
-			setInfo(true);
-			match = new ParseObject("Matches");
-			match.put("p1name", name);
-			match.put("p1animal", animalID);
-			match.put("p1score", 0);
-			match.put("p1finished", false);
-			match.put("p2name", "");
-			match.put("wordIndex", randy);
-			match.save();
+		    setInfo(true);
+		    match = new ParseObject("Matches");
+		    match.put("p1name", name);
+		    match.put("p1animal", animalID);
+		    match.put("p1score", 0);
+		    match.put("p1finished", false);
+		    match.put("p2name", "");
+		    match.put("wordIndex", randy);
+		    match.save();
 		} catch (ParseException e) {
-			Log.e("Multiplayer", "parse error while creating a match", e);
-			throw new InternetConnectionException();
+		    Log.e("Multiplayer", "parse error while creating a match", e);
+		    throw new InternetConnectionException();
 		}
 	}
 
