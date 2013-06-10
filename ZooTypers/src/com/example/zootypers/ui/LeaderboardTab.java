@@ -86,7 +86,7 @@ public class LeaderboardTab extends Fragment {
 
 				// get the entries from the ScoreEntry
 				ScoreEntry currentSE = seArray[j];
-				String currentPlayer = currentSE.getName();;
+				String currentPlayer = currentSE.getName();
 				String currentScore = currentSE.getScore() + "";
 				if (j == userPosition) {
 					// mark the current user

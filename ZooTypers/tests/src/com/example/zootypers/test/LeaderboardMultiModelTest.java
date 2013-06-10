@@ -1,7 +1,5 @@
 package com.example.zootypers.test;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import android.content.Intent;
@@ -16,8 +14,6 @@ import com.example.zootypers.ui.TitlePage;
 import com.example.zootypers.util.InternetConnectionException;
 import com.jayway.android.robotium.solo.Solo;
 import com.parse.ParseException;
-import com.parse.ParseObject;
-import com.parse.ParseQuery;
 
 /**
  * The LeaderboardMultiModel Test will test creating default constructors and ones with
@@ -60,7 +56,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
 
         //start off in title page and click on leaderboard to start tests
         leaderboardButton = (Button) getActivity().
-        findViewById(com.example.zootypers.R.id.leaderboard_button);
+                findViewById(com.example.zootypers.R.id.leaderboard_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -109,7 +105,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         lbModel = new MultiLeaderBoardModel(300);
         lbModel.setPlayer("David");
     }
-    
+
     /**
      * Test to make sure that when you have a very high score it become the number one
      * top score and the name of that score also matches the name in database.
@@ -160,7 +156,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      */
     @Test(timeout = TIMEOUT)
     public void testAddingMultipleScoresAndChecking1RelativeScore() 
-    throws InternetConnectionException {
+            throws InternetConnectionException {
         //instantiate the other 2 test models
         MultiLeaderBoardModel lbModel2 = null;
         MultiLeaderBoardModel lbModel3 = null;
@@ -181,7 +177,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
 
             //wait for parse to save the scores
             Thread.sleep(5000);
-            
+
             //get the new allscores once scores added to db
             refresh = new MultiLeaderBoardModel();
             refresh.setPlayer("David");
@@ -192,7 +188,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
             assertEquals(100000, relativeList[2].getScore());
             assertEquals(3, relativeList.length);
         } catch (Exception e) {
-        	e.fillInStackTrace();
+            e.fillInStackTrace();
             Log.v("There is an error in leaderboard MP testing.", "error");
         } finally {
             //clear leaderboards
@@ -212,15 +208,15 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         lbModel.addEntry(200);
         //wait for parse to save the scores
         Thread.sleep(3000);
-        
+
         //refresh fetch of parse
         MultiLeaderBoardModel refresh = new MultiLeaderBoardModel();
         refresh.setPlayer("David");
-        
+
         int highestRelRank = refresh.getHighestRelScoreRank();
         assertEquals(1, highestRelRank);
     }
-    
+
     /**
      * Adding a player but not giving him a score and checking it the rank is still 0.
      * 
@@ -245,14 +241,14 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
         lbModel.addEntry(100000);
         lbModel2.addEntry(100001);
         solo.sleep(3000);
-        
+
         //get refreshed fetch of parse data
         MultiLeaderBoardModel refresh = new MultiLeaderBoardModel();
         refresh.setPlayer("David");
         assertEquals(2, refresh.getRank());
         lbModel2.clearLeaderboard();
     }
-    
+
     /**
      * Tear down by clearing the leaderboards and finishing opened activities in Robotium.
      */
