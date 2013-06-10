@@ -4,6 +4,7 @@ import com.example.zootypers.R;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,7 +23,8 @@ public class ErrorScreen extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+		
 		// Get the kind of error, defaulting to an interrupt error
 		error = getIntent().getIntExtra("error", R.layout.activity_connection_error_lb);
 		setContentView(error);

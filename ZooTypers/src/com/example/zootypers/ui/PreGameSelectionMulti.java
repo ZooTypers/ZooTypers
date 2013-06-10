@@ -27,7 +27,6 @@ public class PreGameSelectionMulti extends PreGameSelection {
 	@Override
 	protected final void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.activity_pregame_selection_multi);
 
 		animal = findViewById(R.id.elephant_button);

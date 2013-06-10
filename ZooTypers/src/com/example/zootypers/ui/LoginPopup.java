@@ -89,7 +89,7 @@ public class LoginPopup {
 		final View contentView = login_ppw.getContentView();
 		EditText usernameInput = (EditText) contentView.findViewById(R.id.username_login_input);
 		EditText passwordInput = (EditText) contentView.findViewById(R.id.password_login_input);
-		String usernameString = usernameInput.getText().toString();
+		String usernameString = usernameInput.getText().toString().trim();
 		final String passwordString = passwordInput.getText().toString();
 
 		// Where to display an error message
