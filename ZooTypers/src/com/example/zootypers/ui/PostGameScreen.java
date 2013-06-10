@@ -6,6 +6,7 @@ import android.app.ActionBar.LayoutParams;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -40,6 +41,7 @@ public class PostGameScreen extends Activity {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		Log.i("ZooTypers", "entered post game");
 
 		savedScore = false;
