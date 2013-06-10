@@ -44,14 +44,14 @@ public class TitlePage extends Activity {
 
 		//used intent to allow testing or not
 		useTestDB = getIntent().getBooleanExtra("Testing", false);
-		Log.d("Title: Using Test Database", "" +TitlePage.useTestDB);
+		Log.d("Title: Using Test Database", "" + TitlePage.useTestDB);
 		// Initialize the database
 		if (useTestDB) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else {
 			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		}
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
@@ -101,9 +101,6 @@ public class TitlePage extends Activity {
 	public final void goToLeaderboard(final View view) {
 		Log.i("ZooTypers", "Proceeding to leaderboard");
 		Intent intent = new Intent(this, Leaderboard.class);
-		//if (useTestDB) {
-			//intent.putExtra("Testing", true);
-		//}
 		startActivity(intent);
 	}
 
@@ -147,7 +144,7 @@ public class TitlePage extends Activity {
 	private void buildPopup(final boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);
@@ -165,7 +162,7 @@ public class TitlePage extends Activity {
 
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.title_page_layout);

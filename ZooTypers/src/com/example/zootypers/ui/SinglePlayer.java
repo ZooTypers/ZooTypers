@@ -87,7 +87,7 @@ public class SinglePlayer extends Player {
 		// Get animal & background selected by user
 		setContentView(R.layout.activity_pregame_selection);
 		Drawable animal = ((ImageButton) findViewById
-				(getIntent().getIntExtra("anm", 0))).getDrawable();
+		(getIntent().getIntExtra("anm", 0))).getDrawable();
 		bg = getIntent().getIntExtra("bg", 0);
 		Drawable background = ((ImageButton) findViewById(bg)).getDrawable();
 
@@ -131,9 +131,9 @@ public class SinglePlayer extends Player {
 	 */
 	@Override
 	public final boolean onKeyDown(final int key, final KeyEvent event){
-		if (key == KeyEvent.KEYCODE_VOLUME_DOWN || key == KeyEvent.KEYCODE_VOLUME_UP) {
+		if ((key == KeyEvent.KEYCODE_VOLUME_DOWN) || (key == KeyEvent.KEYCODE_VOLUME_UP)) {
 			Log.i("SinglePlayer", "pressed volume button");
-			super.onKeyDown(key, event);			
+			super.onKeyDown(key, event);
 		} else {
 			if ((key == KeyEvent.KEYCODE_BACK) && !paused) {
 				pauseGame(findViewById(R.id.pause_button));
@@ -219,7 +219,7 @@ public class SinglePlayer extends Player {
 
 		// create popup window
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 		View popupView = layoutInflater.inflate(R.layout.pause_popup, null);
 		ppw = new PopupWindow(popupView, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.game_layout);

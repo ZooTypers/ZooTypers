@@ -62,7 +62,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
 
         solo = new Solo(getInstrumentation(), getActivity());
         multiButton = (Button) getActivity().
-                findViewById(com.example.zootypers.R.id.multiplayer_button);
+		findViewById(com.example.zootypers.R.id.multiplayer_button);
 
         //initial login for running all the multi-player tests (checking if logged in or not)
         if (loginFlag) {
@@ -78,7 +78,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             EditText password = (EditText) solo.getView(R.id.password_login_input);
             solo.enterText(password, "1234567");
             final Button loginButton = (Button) 
-                    solo.getView(com.example.zootypers.R.id.login_button);
+			solo.getView(com.example.zootypers.R.id.login_button);
             solo.sleep(1000);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -102,7 +102,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         setUpOpponent();
         solo.sleep(3000);
         final Button continueButton = (Button) 
-                solo.getView(com.example.zootypers.R.id.continue_button);
+		solo.getView(com.example.zootypers.R.id.continue_button);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -128,7 +128,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      */
     @Test(timeout = TIMEOUT)
     public void testMakingSureWordsListCorrectSize() 
-            throws InternetConnectionException, InternalErrorException {
+	throws InternetConnectionException, InternalErrorException {
         int expected = 100;
         assertEquals(expected, wordsList.size());
         assertEquals(5, model.getWordsDisplayed().length);
@@ -268,8 +268,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
     private void setUpOpponent() {
         // Initialize the database
         Parse.initialize(this.getActivity(), 
-                "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-                "hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez");
+		"E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+		"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez");
         final int randy = (int) (Math.random() * (NUMOFWORDS));
         try {
             match = new ParseObject("Matches");
@@ -354,7 +354,8 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         if (quitGameFlag) {
             quitGame();
             solo.sleep(1500);
-            final Button logoutButton = (Button) solo.getView(com.example.zootypers.R.id.logout_button);
+            final Button logoutButton = (Button) 
+            solo.getView(com.example.zootypers.R.id.logout_button);
             solo.sleep(1000);
             getActivity().runOnUiThread(new Runnable() {
                 @Override

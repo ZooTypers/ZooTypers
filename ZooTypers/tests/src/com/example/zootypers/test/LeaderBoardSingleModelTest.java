@@ -39,7 +39,7 @@ public class LeaderBoardSingleModelTest extends ActivityInstrumentationTestCase2
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
         leaderboardButton = (Button) getActivity().
-                findViewById(com.example.zootypers.R.id.leaderboard_button);
+		findViewById(com.example.zootypers.R.id.leaderboard_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

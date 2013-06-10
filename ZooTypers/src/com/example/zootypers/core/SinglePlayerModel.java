@@ -122,8 +122,8 @@ public class SinglePlayerModel extends PlayerModel {
 			if ((currLetterIndex + 1) >= wordLen) {
 				score += wordLen;
 				Log.i("SinglePlayer", "completed the word: " + 
-						wordsList.get(wordsDisplayed[currWordIndex]) 
-						+ "\nscore increased to: " + score);
+				wordsList.get(wordsDisplayed[currWordIndex]) 
+				+ "\nscore increased to: " + score);
 				updateWordsDisplayed();
 				currLetterIndex = -1;
 				currWordIndex = -1;

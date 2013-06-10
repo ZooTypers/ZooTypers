@@ -7,7 +7,7 @@ import java.io.IOException;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.media.AudioManager;
 import android.os.Bundle;
@@ -128,13 +128,13 @@ public class Options extends Activity {
 		Log.i("Options", "clearing multiplayer leaderboard");
 
 		// Initialize the database
-		Log.d("Options: Using Test Database", "" +TitlePage.useTestDB);
+		Log.d("Options: Using Test Database", "" + TitlePage.useTestDB);
 		if (TitlePage.useTestDB) {
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else {
 			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		}
 		currentUser = ParseUser.getCurrentUser();
 		if (currentUser == null) {
@@ -176,7 +176,7 @@ public class Options extends Activity {
 	private void buildPopup(boolean dismisspsw) {
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.options_layout);
@@ -193,7 +193,7 @@ public class Options extends Activity {
 		Log.i("Options", "user has forgotten password");
 		// set up the layout inflater to inflate the popup layout
 		LayoutInflater layoutInflater =
-				(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
+		(LayoutInflater) getBaseContext().getSystemService(LAYOUT_INFLATER_SERVICE);
 
 		// the parent layout to put the layout in
 		ViewGroup parentLayout = (ViewGroup) findViewById(R.id.options_layout);

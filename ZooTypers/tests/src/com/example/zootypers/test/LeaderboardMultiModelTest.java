@@ -56,7 +56,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
 
         //start off in title page and click on leaderboard to start tests
         leaderboardButton = (Button) getActivity().
-                findViewById(com.example.zootypers.R.id.leaderboard_button);
+		findViewById(com.example.zootypers.R.id.leaderboard_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -109,14 +109,15 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
     /**
      * Test to make sure that when you have a very high score it become the number one
      * top score and the name of that score also matches the name in database.
-     * Adding dynamically does not show up since model gets top scores at initialization. Must create
-     * another model to get most recent ones. 
+     * Adding dynamically does not show up since model gets top scores at initialization. 
+     * Must create another model to get most recent ones. 
      * 
      * @throws InternetConnectionException
      * @throws ParseException 
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingVeryHighScoreAndNameExists() throws InternetConnectionException, ParseException {
+    public void testAddingVeryHighScoreAndNameExists() 
+    throws InternetConnectionException, ParseException {
         lbModel.addEntry(1000000);
         //get all top scores..need new model since top scores are fetched at model initialization
         solo.sleep(5000);
@@ -137,7 +138,8 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testAddingHighScoreInTopRank() throws InterruptedException, InternetConnectionException {
+    public void testAddingHighScoreInTopRank() 
+    throws InterruptedException, InternetConnectionException {
         lbModel.addEntry(33333);
         //wait for parse to save the scores
         Thread.sleep(3000);
@@ -156,7 +158,7 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      */
     @Test(timeout = TIMEOUT)
     public void testAddingMultipleScoresAndChecking1RelativeScore() 
-            throws InternetConnectionException {
+    throws InternetConnectionException {
         //instantiate the other 2 test models
         MultiLeaderBoardModel lbModel2 = null;
         MultiLeaderBoardModel lbModel3 = null;
@@ -204,7 +206,8 @@ public class LeaderboardMultiModelTest extends ActivityInstrumentationTestCase2<
      * @throws InternetConnectionException 
      */
     @Test(timeout = TIMEOUT)
-    public void testGettingHighestRelativeRank() throws InterruptedException, InternetConnectionException {
+    public void testGettingHighestRelativeRank() 
+    throws InterruptedException, InternetConnectionException {
         lbModel.addEntry(200);
         //wait for parse to save the scores
         Thread.sleep(3000);

@@ -28,7 +28,8 @@ public class InterfaceUtils {
 	 * @param message String representing the message of the AlertDialog
 	 * popup
 	 */
-	public static void buildAlertDialog(Builder alertDialogBuilder, final int title, final int message) {
+	public static void buildAlertDialog(Builder alertDialogBuilder, 
+	final int title, final int message) {
 		// set title
 		alertDialogBuilder.setTitle(title);
 
