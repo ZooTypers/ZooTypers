@@ -16,6 +16,7 @@ import android.app.ActionBar.LayoutParams;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -78,6 +79,7 @@ public class SinglePlayer extends Player {
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 
 		// Set default values
 		pausedTime = START_TIME;
@@ -129,18 +131,22 @@ public class SinglePlayer extends Player {
 	 */
 	@Override
 	public final boolean onKeyDown(final int key, final KeyEvent event){
-		if ((key == KeyEvent.KEYCODE_BACK) && !paused) {
-			pauseGame(findViewById(R.id.pause_button));
-			return true;
-		}
+		if (key == KeyEvent.KEYCODE_VOLUME_DOWN || key == KeyEvent.KEYCODE_VOLUME_UP) {
+			Log.i("SinglePlayer", "pressed volume button");
+			super.onKeyDown(key, event);			
+		} else {
+			if ((key == KeyEvent.KEYCODE_BACK) && !paused) {
+				pauseGame(findViewById(R.id.pause_button));
+				return true;
+			}
 
-		// Only respond to a keystroke if the game is not paused
-		if (!paused) {
-			char charTyped = event.getDisplayLabel();
-			charTyped = Character.toLowerCase(charTyped);
-			model.typedLetter(charTyped);
+			// Only respond to a keystroke if the game is not paused
+			if (!paused) {
+				char charTyped = event.getDisplayLabel();
+				charTyped = Character.toLowerCase(charTyped);
+				model.typedLetter(charTyped);
+			}
 		}
-
 		return true;
 	}
 

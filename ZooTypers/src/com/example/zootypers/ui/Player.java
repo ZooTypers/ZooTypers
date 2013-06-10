@@ -9,11 +9,13 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
@@ -113,7 +115,6 @@ public abstract class Player extends Activity implements Observer {
 		//play music
 		if(playMusic){
 			mediaPlayer.setLooping(true);
-			mediaPlayer.setVolume(100, 100);
 			mediaPlayer.start();
 		}
 
@@ -161,6 +162,18 @@ public abstract class Player extends Activity implements Observer {
 				tv.setVisibility(TextView.INVISIBLE);
 			}
 		}
+	}
+	
+	@Override
+	public boolean onKeyDown(final int key, final KeyEvent event){
+		if (key == KeyEvent.KEYCODE_VOLUME_DOWN || key == KeyEvent.KEYCODE_VOLUME_UP) {
+			AudioManager am = (AudioManager) this.getSystemService(AUDIO_SERVICE);
+			if (key == KeyEvent.KEYCODE_VOLUME_DOWN )
+				am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
+			else 
+				am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+		}
+		return true;
 	}
 
 	/**
