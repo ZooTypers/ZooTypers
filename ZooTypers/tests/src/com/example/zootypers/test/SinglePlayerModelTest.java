@@ -46,7 +46,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
         continueButton = (Button) getActivity().
-        findViewById(com.example.zootypers.R.id.continue_button);
+                findViewById(com.example.zootypers.R.id.continue_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -64,7 +64,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
     @Test(timeout = TIMEOUT)
     public void testTheKeyboardButtonWorks() throws Exception {
         final Button keyboardButton = (Button) 
-        solo.getView(com.example.zootypers.R.id.keyboard_open_button);
+                solo.getView(com.example.zootypers.R.id.keyboard_open_button);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -115,7 +115,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         });
         solo.sleep(1000);
         final Button newGameButton = (Button) 
-        solo.getView(com.example.zootypers.R.id.restart_button);
+                solo.getView(com.example.zootypers.R.id.restart_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -182,7 +182,7 @@ public class SinglePlayerModelTest extends  ActivityInstrumentationTestCase2<Pre
         solo.sleep(1000);
         SpannableString spanString = new SpannableString(word);
         ForegroundColorSpan[] spans = 
-        spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
+                spanString.getSpans(0, spanString.length(), ForegroundColorSpan.class);
         solo.sleep(3000);
         assertTrue(spans.length > 0);
         goBackToMainMenu();

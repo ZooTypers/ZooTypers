@@ -45,8 +45,8 @@
     <string name="toggle_keyboard">鍵盤</string>
     <string name="is_paused">遊戲暫停</string>
     <string name="typedError_prompt">打錯字母</string>
-    <string name="username_string">用戶名</string>
-    <string name="password_string">密碼</string>
+    <string name="username_string">用戶名字</string>
+    <string name="password_string">輸入密碼</string>
     <string name="login_string">登錄</string>
     <string name="register_string">註冊</string>
     <string name="title_activity_register_page">RegisterPage</string>

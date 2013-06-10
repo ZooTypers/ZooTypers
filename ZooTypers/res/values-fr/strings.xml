@@ -74,7 +74,7 @@
     <string name="forgot_pw_string"><u>Forgotoi tu passworday?</u></string>
     <string name="friends_lb_title">Amici ducem tabula</string>
     <string name="rank_string">acerbae</string>
-    <string name="player_name_string">psallere nomini</string>
+    <string name="player_name_string">psallere</string>
     <string name="score_string">octoginta</string>
     <string name="default_string">defaltam</string>
     <string name="default_score">0</string>
@@ -87,7 +87,7 @@
     <string name="save_score">salvum fac score</string>
     <string name="default_ldbd_name">------</string>
     <string name="default_ldbd_score">--</string>
-    <string name="player_name_lb">psallere nomini</string>
+    <string name="player_name_lb">psallere</string>
     <string name="enter_name_string">lorem nomen tuum :</string>
     <string name="see_score_string">in dux tabula vestra positione</string>
     <string name="relative_score_string">vestra positione:</string>
