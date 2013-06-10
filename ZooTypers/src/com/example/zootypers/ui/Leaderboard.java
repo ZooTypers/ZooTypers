@@ -6,6 +6,7 @@ import android.app.ActionBar.Tab;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -43,7 +44,7 @@ public class Leaderboard extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		Log.i("Leaderboard", "entered leaderboard");
 
 		// set the layout for the parent activity which contains the fragments

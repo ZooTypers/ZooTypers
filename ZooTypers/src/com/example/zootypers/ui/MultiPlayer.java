@@ -10,6 +10,7 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -100,6 +101,7 @@ public class MultiPlayer extends Player {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
 		// Get animal & background selected by user
 
 		View inflatedView = 
@@ -286,10 +288,15 @@ public class MultiPlayer extends Player {
 	/**
 	 * Called when the user types a letter; passes the letter to the model.
 	 */
-	public boolean onKeyDown(final int key, final KeyEvent event){     
-		char charTyped = event.getDisplayLabel();
-		charTyped = Character.toLowerCase(charTyped);
-		model.typedLetter(charTyped);
+	public boolean onKeyDown(final int key, final KeyEvent event){		
+		if (key == KeyEvent.KEYCODE_VOLUME_DOWN || key == KeyEvent.KEYCODE_VOLUME_UP) {
+			Log.i("Multiplayer", "pressed volume button");
+			super.onKeyDown(key, event);
+		} else {
+			char charTyped = event.getDisplayLabel();
+			charTyped = Character.toLowerCase(charTyped);
+			model.typedLetter(charTyped);
+		}
 		return true;
 	}
 
