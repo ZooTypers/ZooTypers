@@ -11,7 +11,7 @@ import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.os.Bundle;
+
 import android.os.Vibrator;
 import android.text.Html;
 import android.util.Log;
@@ -90,6 +90,7 @@ public abstract class Player extends Activity implements Observer {
 			vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 			useVibrate = true;
 		} catch (FileNotFoundException e){
+			e.printStackTrace();
 			Log.i("Player", "no vibrate");
 			useVibrate = false;
 		}
@@ -110,6 +111,7 @@ public abstract class Player extends Activity implements Observer {
 			playMusic = true;
 			Log.i("ZooTypers", "play background music");
 		} catch (FileNotFoundException e){
+			e.printStackTrace();
 			Log.i("ZooTypers", "no background music");
 		} 
 		//play music
@@ -141,7 +143,7 @@ public abstract class Player extends Activity implements Observer {
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.HIGHLIGHT) {
 					highlightWord(pM.getCurrWordIndex(), pM.getCurrWord(), 
-							pM.getCurrLetterIndex());
+					pM.getCurrLetterIndex());
 					tv.setVisibility(TextView.INVISIBLE);
 				} else if (change == States.update.WRONG_LETTER) {
 					tv.setVisibility(TextView.VISIBLE);
@@ -166,12 +168,15 @@ public abstract class Player extends Activity implements Observer {
 	
 	@Override
 	public boolean onKeyDown(final int key, final KeyEvent event){
-		if (key == KeyEvent.KEYCODE_VOLUME_DOWN || key == KeyEvent.KEYCODE_VOLUME_UP) {
+		if ((key == KeyEvent.KEYCODE_VOLUME_DOWN) || (key == KeyEvent.KEYCODE_VOLUME_UP)) {
 			AudioManager am = (AudioManager) this.getSystemService(AUDIO_SERVICE);
-			if (key == KeyEvent.KEYCODE_VOLUME_DOWN )
-				am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
-			else 
-				am.adjustStreamVolume(AudioManager.STREAM_MUSIC, AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+			if (key == KeyEvent.KEYCODE_VOLUME_DOWN ) {
+				am.adjustStreamVolume(AudioManager.STREAM_MUSIC, 
+				AudioManager.ADJUST_LOWER, AudioManager.FLAG_SHOW_UI);
+			} else {
+				am.adjustStreamVolume(AudioManager.STREAM_MUSIC, 
+				AudioManager.ADJUST_RAISE, AudioManager.FLAG_SHOW_UI);
+			}
 		}
 		return true;
 	}
@@ -237,7 +242,7 @@ public abstract class Player extends Activity implements Observer {
 	public final void keyboardButton(final View view) {
 		Log.i("ZooTypers", "user has clicked on keyboard button");
 		InputMethodManager inputMgr = (InputMethodManager) 
-				getSystemService(Context.INPUT_METHOD_SERVICE);
+		getSystemService(Context.INPUT_METHOD_SERVICE);
 		inputMgr.toggleSoftInput(0, 0);
 	}  
 

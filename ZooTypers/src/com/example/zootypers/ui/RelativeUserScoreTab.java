@@ -20,7 +20,7 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 	ParseUser currentUser;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
+	Bundle savedInstanceState) {
 		Log.i("Leaderboard", "entered relative score tab");
 
 		super.onCreateView(inflater, container, savedInstanceState);
@@ -31,7 +31,7 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 		// set up the leaderboard
 		int rank = getArguments().getInt("userRank");
 		int highestRank = getArguments().getInt("highestRank");
-		if (rank != -1 && highestRank != -1 && seArray.length != 0) {
+		if (((rank != -1) && (highestRank != -1)) && (seArray.length != 0)) {
 			// means that it is not an empty instance
 			setupLBList(relativeScoreView, seArray, rank, highestRank);
 		}
@@ -60,7 +60,8 @@ public class RelativeUserScoreTab extends LeaderboardTab {
 	 * @param relativeRank how much to find the relative score of the user by
 	 * @return the new RelativeUserScoreTab with the arguments
 	 */
-	public static RelativeUserScoreTab newInstance(ScoreEntry[] seArray, int userRank, int highestRank) {
+	public static RelativeUserScoreTab newInstance(ScoreEntry[] seArray, 
+	int userRank, int highestRank) {
 		RelativeUserScoreTab spt = new RelativeUserScoreTab();
 		// put the argument in a bundle that the fragment can use
 		Bundle args = new Bundle();

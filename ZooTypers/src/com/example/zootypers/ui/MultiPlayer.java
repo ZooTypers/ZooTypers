@@ -105,7 +105,7 @@ public class MultiPlayer extends Player {
 		// Get animal & background selected by user
 
 		View inflatedView = 
-				getLayoutInflater().inflate(R.layout.activity_pregame_selection_multi, null);
+		getLayoutInflater().inflate(R.layout.activity_pregame_selection_multi, null);
 
 		// Get animal & background selected by user
 		int anmID = getIntent().getIntExtra("anm", 0);
@@ -113,13 +113,13 @@ public class MultiPlayer extends Player {
 		bg = getIntent().getIntExtra("bg", 0);
 		background = ((ImageButton) inflatedView.findViewById(bg)).getDrawable();
 
-		Log.d("MultiPlayer: Using Test Database", "" +TitlePage.useTestDB);
+		Log.d("MultiPlayer: Using Test Database", "" + TitlePage.useTestDB);
 		if (TitlePage.useTestDB) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
+			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
 		} else { //The Real App Database on Parse
 			Parse.initialize(this, "Iy4JZxlewoSxswYgOEa6vhOSRgJkGIfDJ8wj8FtM",
-					"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
+			"SVlq5dqYQ4FemgUfA7zdQvdIHOmKBkc5bXoI7y0C"); 
 		}
 
 		// Get the user name
@@ -288,8 +288,8 @@ public class MultiPlayer extends Player {
 	/**
 	 * Called when the user types a letter; passes the letter to the model.
 	 */
-	public boolean onKeyDown(final int key, final KeyEvent event){		
-		if (key == KeyEvent.KEYCODE_VOLUME_DOWN || key == KeyEvent.KEYCODE_VOLUME_UP) {
+	public boolean onKeyDown(final int key, final KeyEvent event){
+		if ((key == KeyEvent.KEYCODE_VOLUME_DOWN) || (key == KeyEvent.KEYCODE_VOLUME_UP)) {
 			Log.i("Multiplayer", "pressed volume button");
 			super.onKeyDown(key, event);
 		} else {
@@ -338,8 +338,9 @@ public class MultiPlayer extends Player {
 		}
 		@Override
 		protected void onPreExecute() {
-			progressDialog = ProgressDialog.show(MultiPlayer.this, getString(R.string.find_game_title),  
-					getString(R.string.find_game_msg), false, false);
+			progressDialog = ProgressDialog.show(MultiPlayer.this, 
+			getString(R.string.find_game_title),  
+			getString(R.string.find_game_msg), false, false);
 		}
 
 		@Override

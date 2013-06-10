@@ -51,7 +51,7 @@ public class Leaderboard extends FragmentActivity {
 		setContentView(R.layout.activity_leaderboard);
 
 		// Initialize the database according to whether it's a test or not.
-		Log.d("Leaderboard: Using Test Database", "" +TitlePage.useTestDB);
+		Log.d("Leaderboard: Using Test Database", "" + TitlePage.useTestDB);
 		if (TitlePage.useTestDB) { //The Testing Database on Parse
 			Parse.initialize(this, "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
 			"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez"); 
@@ -95,7 +95,8 @@ public class Leaderboard extends FragmentActivity {
 
 		singlePlayerTab.setTabListener(new LBTabListener(singlePlayerFragment, "singleplayer"));
 		multiPlayerTab.setTabListener(new LBTabListener(multiPlayerFragment, "multiplayer"));
-		relativeUserScoreTab.setTabListener(new LBTabListener(relativeUserScoreFragment, "relative"));
+		relativeUserScoreTab.setTabListener(
+		new LBTabListener(relativeUserScoreFragment, "relative"));
 
 		actionBar.addTab(singlePlayerTab);
 		actionBar.addTab(multiPlayerTab);
@@ -143,7 +144,8 @@ public class Leaderboard extends FragmentActivity {
 			// inform the user that he/she has no scores yet
 			
 			if (userRank <= 0) {
-				InterfaceUtils.buildAlertDialog(this, R.string.no_scores_title, R.string.no_scores_msg);
+				InterfaceUtils.buildAlertDialog(this, 
+				R.string.no_scores_title, R.string.no_scores_msg);
 				return;
 			}
 			int highestRank = mlb.getHighestRelScoreRank();
@@ -151,7 +153,8 @@ public class Leaderboard extends FragmentActivity {
 			ScoreEntry[] relativeEntrys = mlb.getRelativeScores();
 
 			// add the relativeScore tab
-			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, userRank, highestRank);
+			Fragment currentFragment = RelativeUserScoreTab.newInstance(relativeEntrys, 
+			userRank, highestRank);
 			FragmentTransaction fst = getSupportFragmentManager().beginTransaction();
 			fst.replace(R.id.leaderboard_layout, currentFragment);
 			fst.setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN);
