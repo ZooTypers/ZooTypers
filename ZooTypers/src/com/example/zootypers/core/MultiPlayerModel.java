@@ -230,7 +230,7 @@ public class MultiPlayerModel extends PlayerModel {
 			checkInternet();
 			checkIfInMatch();
 			ParseQuery query; 
-			if (Locale.getDefault().getDisplayLanguage().equals("français")) {
+			if (Locale.getDefault().getDisplayLanguage().equals("italiano")) {
 			  query = new ParseQuery("WordsListLatin");
 			} else {
 			  query = new ParseQuery("WordList");
@@ -241,7 +241,7 @@ public class MultiPlayerModel extends PlayerModel {
 			// if not enough words were in the query than get more words
 			if (wordObjects.size() < LIST_SIZE) {
 			  ParseQuery query2;
-		     if (Locale.getDefault().getDisplayLanguage().equals("français")) {
+		     if (Locale.getDefault().getDisplayLanguage().equals("italiano")) {
 		        query2 = new ParseQuery("WordsListLatin");
 		      } else {
 		        query2 = new ParseQuery("WordList");
