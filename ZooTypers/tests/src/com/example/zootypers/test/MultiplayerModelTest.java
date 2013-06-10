@@ -62,7 +62,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
 
         solo = new Solo(getInstrumentation(), getActivity());
         multiButton = (Button) getActivity().
-        findViewById(com.example.zootypers.R.id.multiplayer_button);
+                findViewById(com.example.zootypers.R.id.multiplayer_button);
 
         //initial login for running all the multi-player tests (checking if logged in or not)
         if (loginFlag) {
@@ -78,7 +78,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             EditText password = (EditText) solo.getView(R.id.password_login_input);
             solo.enterText(password, "1234567");
             final Button loginButton = (Button) 
-            solo.getView(com.example.zootypers.R.id.login_button);
+                    solo.getView(com.example.zootypers.R.id.login_button);
             solo.sleep(1000);
             getActivity().runOnUiThread(new Runnable() {
                 @Override
@@ -97,12 +97,12 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             });
             solo.sleep(1000);
         }
-        
+
         //set up opponent and proceed to the tests
         setUpOpponent();
         solo.sleep(3000);
         final Button continueButton = (Button) 
-        solo.getView(com.example.zootypers.R.id.continue_button);
+                solo.getView(com.example.zootypers.R.id.continue_button);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -110,7 +110,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
                 continueButton.performClick();
             }
         });
-        
+
         //wait for multiplayer activity to get the model
         solo.waitForActivity(MultiPlayer.class, 15000);
         model = ((MultiPlayer) solo.getCurrentActivity()).getModel();
@@ -128,7 +128,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
      */
     @Test(timeout = TIMEOUT)
     public void testMakingSureWordsListCorrectSize() 
-    throws InternetConnectionException, InternalErrorException {
+            throws InternetConnectionException, InternalErrorException {
         int expected = 100;
         assertEquals(expected, wordsList.size());
         assertEquals(5, model.getWordsDisplayed().length);
@@ -150,7 +150,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         sendKeys(firstChar - 68);
         assertEquals(1, model.getCurrLetterIndex());
     }
-    
+
     /**
      * Test if typing a correct word would update the multiplayer score properly.
      */
@@ -162,7 +162,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             sendKeys(firstWord.charAt(i) - 68);
         }
         assertEquals(-1, model.getCurrLetterIndex());
-        
+
         //get the score and check if properly updated
         TextView score = (TextView) solo.getView(com.example.zootypers.R.id.score);
         solo.sleep(1500);
@@ -251,7 +251,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
         assertTrue(solo.searchText("Main Menu"));
         assertTrue(solo.searchText("Your ad could be here!"));
     }
-    
+
     /**
      * Uses the current words to figure out what to automatically type.
      */
@@ -261,15 +261,15 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             sendKeys(firstWord.charAt(j) - 68);
         }
     }
-    
+
     /*
      * Set up the opponent bot for testing multiplayer.
      */
     private void setUpOpponent() {
         // Initialize the database
         Parse.initialize(this.getActivity(), 
-        		"E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
-					"hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez");
+                "E8hfMLlgnEWvPw1auMOvGVsrTp1C6eSoqW1s6roq",
+                "hzPRfP284H5GuRzIFDhVxX6iR9sgTwg4tJU08Bez");
         final int randy = (int) (Math.random() * (NUMOFWORDS));
         try {
             match = new ParseObject("Matches");
@@ -281,7 +281,7 @@ public class MultiplayerModelTest extends ActivityInstrumentationTestCase2<Title
             match.put("wordIndex", randy);
             match.save();
         } catch (ParseException e) {
-        	e.fillInStackTrace();
+            e.fillInStackTrace();
             Log.e("setUp Opponent", "error in setting up opponent");
         }
     }

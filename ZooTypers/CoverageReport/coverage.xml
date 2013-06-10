@@ -1,19 +1,19 @@
-<?xml version="1.0" encoding="UTF-8"?><!-- EMMA v2.0.5312 report, generated Sat Jun 08 18:40:55 PDT 2013 -->
+<?xml version="1.0" encoding="UTF-8"?><!-- EMMA v2.0.5312 report, generated Sun Jun 09 16:11:19 PDT 2013 -->
 
 <report>
   <stats>
     <packages value="3"/>
     <classes value="48"/>
-    <methods value="287"/>
+    <methods value="286"/>
     <srcfiles value="31"/>
-    <srclines value="1761"/>
+    <srclines value="1733"/>
   </stats>
   <data>
     <all name="all classes">
       <coverage type="class, %" value="77%  (37/48)"/>
-      <coverage type="method, %" value="71%  (205/287)"/>
-      <coverage type="block, %" value="66%  (4654/7087)"/>
-      <coverage type="line, %" value="61%  (1079.9/1761)"/>
+      <coverage type="method, %" value="71%  (204/286)"/>
+      <coverage type="block, %" value="67%  (4692/7015)"/>
+      <coverage type="line, %" value="63%  (1085.9/1733)"/>
 
       <package name="com.example.zootypers.util">
         <coverage type="class, %" value="40%  (4/10)"/>
@@ -261,9 +261,9 @@
       </package>
       <package name="com.example.zootypers.ui">
         <coverage type="class, %" value="82%  (23/28)"/>
-        <coverage type="method, %" value="71%  (139/195)"/>
-        <coverage type="block, %" value="65%  (3036/4652)"/>
-        <coverage type="line, %" value="61%  (755.1/1232)"/>
+        <coverage type="method, %" value="71%  (138/194)"/>
+        <coverage type="block, %" value="67%  (3059/4580)"/>
+        <coverage type="line, %" value="63%  (758.1/1204)"/>
 
         <srcfile name="ErrorScreen.java">
           <coverage type="class, %" value="0%   (0/1)"/>
@@ -307,13 +307,13 @@
         <srcfile name="PostGameScreenDisconnect.java">
           <coverage type="class, %" value="0%   (0/1)"/>
           <coverage type="method, %" value="0%   (0/3)"/>
-          <coverage type="block, %" value="0%   (0/14)"/>
+          <coverage type="block, %" value="0%   (0/15)"/>
           <coverage type="line, %" value="0%   (0/6)"/>
 
           <class name="PostGameScreenDisconnect">
             <coverage type="class, %" value="0%   (0/1)"/>
             <coverage type="method, %" value="0%   (0/3)"/>
-            <coverage type="block, %" value="0%   (0/14)"/>
+            <coverage type="block, %" value="0%   (0/15)"/>
             <coverage type="line, %" value="0%   (0/6)"/>
 
             <method name="PostGameScreenDisconnect (): void">
@@ -323,7 +323,7 @@
             </method>
             <method name="onCreate (Bundle): void">
               <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/10)"/>
+              <coverage type="block, %" value="0%   (0/11)"/>
               <coverage type="line, %" value="0%   (0/4)"/>
             </method>
             <method name="opponentDisplay (): void">
@@ -336,14 +336,14 @@
         <srcfile name="PostGameScreenMulti.java">
           <coverage type="class, %" value="0%   (0/1)"/>
           <coverage type="method, %" value="0%   (0/6)"/>
-          <coverage type="block, %" value="0%   (0/167)"/>
-          <coverage type="line, %" value="0%   (0/44)"/>
+          <coverage type="block, %" value="0%   (0/173)"/>
+          <coverage type="line, %" value="0%   (0/46)"/>
 
           <class name="PostGameScreenMulti">
             <coverage type="class, %" value="0%   (0/1)"/>
             <coverage type="method, %" value="0%   (0/6)"/>
-            <coverage type="block, %" value="0%   (0/167)"/>
-            <coverage type="line, %" value="0%   (0/44)"/>
+            <coverage type="block, %" value="0%   (0/173)"/>
+            <coverage type="line, %" value="0%   (0/46)"/>
 
             <method name="PostGameScreenMulti (): void">
               <coverage type="method, %" value="0%   (0/1)"/>
@@ -357,17 +357,17 @@
             </method>
             <method name="onCreate (Bundle): void">
               <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/8)"/>
+              <coverage type="block, %" value="0%   (0/9)"/>
               <coverage type="line, %" value="0%   (0/4)"/>
             </method>
-            <method name="onCreateHelper (): void">
+            <method name="onCreateHelper (boolean): void">
               <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/46)"/>
-              <coverage type="line, %" value="0%   (0/9)"/>
+              <coverage type="block, %" value="0%   (0/52)"/>
+              <coverage type="line, %" value="0%   (0/11)"/>
             </method>
             <method name="opponentDisplay (): void">
               <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/44)"/>
+              <coverage type="block, %" value="0%   (0/43)"/>
               <coverage type="line, %" value="0%   (0/11)"/>
             </method>
             <method name="saveScore (View): void">
@@ -538,25 +538,25 @@
         </srcfile>
         <srcfile name="MultiPlayer.java">
           <coverage type="class, %" value="100% (3/3)"/>
-          <coverage type="method, %" value="85%  (23/27)"/>
-          <coverage type="block, %" value="53%  (350/666)"/>
-          <coverage type="line, %" value="42%  (77/183)"/>
+          <coverage type="method, %" value="84%  (21/25)"/>
+          <coverage type="block, %" value="59%  (341/580)"/>
+          <coverage type="line, %" value="50%  (78/156)"/>
 
           <class name="MultiPlayer">
             <coverage type="class, %" value="100% (1/1)"/>
-            <coverage type="method, %" value="85%  (17/20)"/>
-            <coverage type="block, %" value="46%  (234/507)"/>
-            <coverage type="line, %" value="36%  (51/140)"/>
+            <coverage type="method, %" value="83%  (15/18)"/>
+            <coverage type="block, %" value="55%  (241/437)"/>
+            <coverage type="line, %" value="47%  (54/115)"/>
 
             <method name="error (States$error): void">
               <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/68)"/>
+              <coverage type="block, %" value="0%   (0/67)"/>
               <coverage type="line, %" value="0%   (0/19)"/>
             </method>
             <method name="goToPostGame (): void">
               <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/173)"/>
-              <coverage type="line, %" value="0%   (0/57)"/>
+              <coverage type="block, %" value="0%   (0/101)"/>
+              <coverage type="line, %" value="0%   (0/30)"/>
             </method>
             <method name="onCreateOptionsMenu (Menu): boolean">
               <coverage type="method, %" value="0%   (0/1)"/>
@@ -570,18 +570,18 @@
             </method>
             <method name="goToTitlePage (View): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="81%  (26/32)"/>
-              <coverage type="line, %" value="75%  (9/12)"/>
+              <coverage type="block, %" value="90%  (28/31)"/>
+              <coverage type="line, %" value="83%  (10/12)"/>
             </method>
             <method name="onCreate (Bundle): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="95%  (96/101)"/>
-              <coverage type="line, %" value="95%  (18/19)"/>
+              <coverage type="block, %" value="96%  (92/96)"/>
+              <coverage type="line, %" value="94%  (17/18)"/>
             </method>
             <method name="MultiPlayer (): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (9/9)"/>
-              <coverage type="line, %" value="100% (4/4)"/>
+              <coverage type="block, %" value="100% (6/6)"/>
+              <coverage type="line, %" value="100% (3/3)"/>
             </method>
             <method name="access$000 (): MultiPlayerModel">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -623,16 +623,6 @@
               <coverage type="block, %" value="100% (3/3)"/>
               <coverage type="line, %" value="100% (1/1)"/>
             </method>
-            <method name="access$600 (MultiPlayer): MultiPlayer$GameTimer">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (3/3)"/>
-              <coverage type="line, %" value="100% (1/1)"/>
-            </method>
-            <method name="access$602 (MultiPlayer, MultiPlayer$GameTimer): MultiPlayer$GameTimer">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (5/5)"/>
-              <coverage type="line, %" value="100% (1/1)"/>
-            </method>
             <method name="getModel (): MultiPlayerModel">
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="100% (2/2)"/>
@@ -640,8 +630,8 @@
             </method>
             <method name="initialDisplay (Drawable, Drawable, int): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (31/31)"/>
-              <coverage type="line, %" value="100% (7/7)"/>
+              <coverage type="block, %" value="100% (51/51)"/>
+              <coverage type="line, %" value="100% (11/11)"/>
             </method>
             <method name="onKeyDown (int, KeyEvent): boolean">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -652,8 +642,8 @@
           <class name="MultiPlayer$LoadTask">
             <coverage type="class, %" value="100% (1/1)"/>
             <coverage type="method, %" value="100% (4/4)"/>
-            <coverage type="block, %" value="70%  (91/130)"/>
-            <coverage type="line, %" value="56%  (19/34)"/>
+            <coverage type="block, %" value="66%  (75/114)"/>
+            <coverage type="line, %" value="53%  (17/32)"/>
 
             <method name="doInBackground (Void []): Void">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -667,8 +657,8 @@
             </method>
             <method name="onPostExecute (Void): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (44/44)"/>
-              <coverage type="line, %" value="100% (8/8)"/>
+              <coverage type="block, %" value="100% (28/28)"/>
+              <coverage type="line, %" value="100% (6/6)"/>
             </method>
             <method name="onPreExecute (): void">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -702,14 +692,14 @@
         <srcfile name="Options.java">
           <coverage type="class, %" value="100% (3/3)"/>
           <coverage type="method, %" value="68%  (13/19)"/>
-          <coverage type="block, %" value="62%  (268/432)"/>
-          <coverage type="line, %" value="61%  (75/122)"/>
+          <coverage type="block, %" value="61%  (264/435)"/>
+          <coverage type="line, %" value="59%  (72/122)"/>
 
           <class name="Options">
             <coverage type="class, %" value="100% (1/1)"/>
             <coverage type="method, %" value="60%  (9/15)"/>
-            <coverage type="block, %" value="57%  (198/350)"/>
-            <coverage type="line, %" value="57%  (57/100)"/>
+            <coverage type="block, %" value="55%  (194/353)"/>
+            <coverage type="line, %" value="54%  (54/100)"/>
 
             <method name="exitPasswordPopup (View): void">
               <coverage type="method, %" value="0%   (0/1)"/>
@@ -746,9 +736,14 @@
               <coverage type="block, %" value="41%  (16/39)"/>
               <coverage type="line, %" value="46%  (6/13)"/>
             </method>
+            <method name="setCorrectPosition (Switch, String): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="56%  (9/16)"/>
+              <coverage type="line, %" value="57%  (4/7)"/>
+            </method>
             <method name="clearMulti (View): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="66%  (54/82)"/>
+              <coverage type="block, %" value="67%  (57/85)"/>
               <coverage type="line, %" value="65%  (15/23)"/>
             </method>
             <method name="Options (): void">
@@ -780,11 +775,6 @@
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="100% (52/52)"/>
               <coverage type="line, %" value="100% (12/12)"/>
-            </method>
-            <method name="setCorrectPosition (Switch, String): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (16/16)"/>
-              <coverage type="line, %" value="100% (7/7)"/>
             </method>
           </class>
           <class name="Options$1">
@@ -825,8 +815,8 @@
         <srcfile name="RegisterPage.java">
           <coverage type="class, %" value="100% (3/3)"/>
           <coverage type="method, %" value="67%  (10/15)"/>
-          <coverage type="block, %" value="70%  (319/457)"/>
-          <coverage type="line, %" value="68%  (72.5/107)"/>
+          <coverage type="block, %" value="70%  (332/475)"/>
+          <coverage type="line, %" value="68%  (74.5/110)"/>
 
           <class name="RegisterPage$1">
             <coverage type="class, %" value="100% (1/1)"/>
@@ -865,8 +855,8 @@
           <class name="RegisterPage">
             <coverage type="class, %" value="100% (1/1)"/>
             <coverage type="method, %" value="64%  (7/11)"/>
-            <coverage type="block, %" value="75%  (273/365)"/>
-            <coverage type="line, %" value="75%  (62.5/83)"/>
+            <coverage type="block, %" value="75%  (286/383)"/>
+            <coverage type="line, %" value="75%  (64.5/86)"/>
 
             <method name="access$000 (RegisterPage): Intent">
               <coverage type="method, %" value="0%   (0/1)"/>
@@ -898,6 +888,11 @@
               <coverage type="block, %" value="76%  (174/230)"/>
               <coverage type="line, %" value="75%  (38/51)"/>
             </method>
+            <method name="onCreate (Bundle): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="86%  (32/37)"/>
+              <coverage type="line, %" value="89%  (8/9)"/>
+            </method>
             <method name="RegisterPage (): void">
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="100% (3/3)"/>
@@ -913,11 +908,6 @@
               <coverage type="block, %" value="100% (16/16)"/>
               <coverage type="line, %" value="100% (4/4)"/>
             </method>
-            <method name="onCreate (Bundle): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (19/19)"/>
-              <coverage type="line, %" value="100% (6/6)"/>
-            </method>
             <method name="setupDatabase (String, String, String): void">
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="100% (25/25)"/>
@@ -928,14 +918,14 @@
         <srcfile name="Leaderboard.java">
           <coverage type="class, %" value="100% (2/2)"/>
           <coverage type="method, %" value="85%  (17/20)"/>
-          <coverage type="block, %" value="73%  (363/499)"/>
-          <coverage type="line, %" value="71%  (97/137)"/>
+          <coverage type="block, %" value="74%  (373/504)"/>
+          <coverage type="line, %" value="72%  (98/137)"/>
 
           <class name="Leaderboard">
             <coverage type="class, %" value="100% (1/1)"/>
             <coverage type="method, %" value="81%  (13/16)"/>
-            <coverage type="block, %" value="70%  (315/451)"/>
-            <coverage type="line, %" value="67%  (82/122)"/>
+            <coverage type="block, %" value="71%  (325/456)"/>
+            <coverage type="line, %" value="68%  (83/122)"/>
 
             <method name="exitPasswordPopup (View): void">
               <coverage type="method, %" value="0%   (0/1)"/>
@@ -964,8 +954,8 @@
             </method>
             <method name="onCreate (Bundle): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="82%  (125/153)"/>
-              <coverage type="line, %" value="78%  (29/37)"/>
+              <coverage type="block, %" value="85%  (135/158)"/>
+              <coverage type="line, %" value="81%  (30/37)"/>
             </method>
             <method name="Leaderboard (): void">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -1046,17 +1036,118 @@
             </method>
           </class>
         </srcfile>
+        <srcfile name="SinglePlayer.java">
+          <coverage type="class, %" value="100% (2/2)"/>
+          <coverage type="method, %" value="75%  (12/16)"/>
+          <coverage type="block, %" value="77%  (303/393)"/>
+          <coverage type="line, %" value="75%  (80.6/107)"/>
+
+          <class name="SinglePlayer">
+            <coverage type="class, %" value="100% (1/1)"/>
+            <coverage type="method, %" value="69%  (9/13)"/>
+            <coverage type="block, %" value="75%  (276/366)"/>
+            <coverage type="line, %" value="73%  (72.6/99)"/>
+
+            <method name="error (States$error): void">
+              <coverage type="method, %" value="0%   (0/1)"/>
+              <coverage type="block, %" value="0%   (0/1)"/>
+              <coverage type="line, %" value="0%   (0/1)"/>
+            </method>
+            <method name="onCreateOptionsMenu (Menu): boolean">
+              <coverage type="method, %" value="0%   (0/1)"/>
+              <coverage type="block, %" value="0%   (0/7)"/>
+              <coverage type="line, %" value="0%   (0/2)"/>
+            </method>
+            <method name="pausedContinue (View): void">
+              <coverage type="method, %" value="0%   (0/1)"/>
+              <coverage type="block, %" value="0%   (0/44)"/>
+              <coverage type="line, %" value="0%   (0/11)"/>
+            </method>
+            <method name="pausedMainMenu (View): void">
+              <coverage type="method, %" value="0%   (0/1)"/>
+              <coverage type="block, %" value="0%   (0/24)"/>
+              <coverage type="line, %" value="0%   (0/8)"/>
+            </method>
+            <method name="onKeyDown (int, KeyEvent): boolean">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="65%  (17/26)"/>
+              <coverage type="line, %" value="70%  (5.6/8)"/>
+            </method>
+            <method name="onCreate (Bundle): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="94%  (80/85)"/>
+              <coverage type="line, %" value="90%  (19/21)"/>
+            </method>
+            <method name="SinglePlayer (): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (6/6)"/>
+              <coverage type="line, %" value="100% (3/3)"/>
+            </method>
+            <method name="getModel (): SinglePlayerModel">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (3/3)"/>
+              <coverage type="line, %" value="100% (1/1)"/>
+            </method>
+            <method name="goToPostGame (): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (37/37)"/>
+              <coverage type="line, %" value="100% (10/10)"/>
+            </method>
+            <method name="initialDisplay (Drawable, Drawable): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (28/28)"/>
+              <coverage type="line, %" value="100% (7/7)"/>
+            </method>
+            <method name="onPause (): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (15/15)"/>
+              <coverage type="line, %" value="100% (4/4)"/>
+            </method>
+            <method name="pauseGame (View): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (66/66)"/>
+              <coverage type="line, %" value="100% (15/15)"/>
+            </method>
+            <method name="pausedNewGame (View): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (24/24)"/>
+              <coverage type="line, %" value="100% (8/8)"/>
+            </method>
+          </class>
+          <class name="SinglePlayer$GameTimer">
+            <coverage type="class, %" value="100% (1/1)"/>
+            <coverage type="method, %" value="100% (3/3)"/>
+            <coverage type="block, %" value="100% (27/27)"/>
+            <coverage type="line, %" value="100% (8/8)"/>
+
+            <method name="SinglePlayer$GameTimer (SinglePlayer, long, long): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (8/8)"/>
+              <coverage type="line, %" value="100% (3/3)"/>
+            </method>
+            <method name="onFinish (): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (4/4)"/>
+              <coverage type="line, %" value="100% (2/2)"/>
+            </method>
+            <method name="onTick (long): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (15/15)"/>
+              <coverage type="line, %" value="100% (3/3)"/>
+            </method>
+          </class>
+        </srcfile>
         <srcfile name="TitlePage.java">
           <coverage type="class, %" value="100% (1/1)"/>
           <coverage type="method, %" value="78%  (14/18)"/>
-          <coverage type="block, %" value="75%  (276/369)"/>
-          <coverage type="line, %" value="74%  (77/104)"/>
+          <coverage type="block, %" value="78%  (287/370)"/>
+          <coverage type="line, %" value="76%  (78/103)"/>
 
           <class name="TitlePage">
             <coverage type="class, %" value="100% (1/1)"/>
             <coverage type="method, %" value="78%  (14/18)"/>
-            <coverage type="block, %" value="75%  (276/369)"/>
-            <coverage type="line, %" value="74%  (77/104)"/>
+            <coverage type="block, %" value="78%  (287/370)"/>
+            <coverage type="line, %" value="76%  (78/103)"/>
 
             <method name="exitLoginPopup (View): void">
               <coverage type="method, %" value="0%   (0/1)"/>
@@ -1088,20 +1179,10 @@
               <coverage type="block, %" value="51%  (24/47)"/>
               <coverage type="line, %" value="50%  (7/14)"/>
             </method>
-            <method name="goToLeaderboard (View): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="77%  (17/22)"/>
-              <coverage type="line, %" value="83%  (5/6)"/>
-            </method>
             <method name="resetPassword (View): void">
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="85%  (17/20)"/>
               <coverage type="line, %" value="83%  (5/6)"/>
-            </method>
-            <method name="onCreate (Bundle): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="93%  (69/74)"/>
-              <coverage type="line, %" value="94%  (17/18)"/>
             </method>
             <method name="TitlePage (): void">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -1117,6 +1198,11 @@
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="100% (21/21)"/>
               <coverage type="line, %" value="100% (5/5)"/>
+            </method>
+            <method name="goToLeaderboard (View): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (14/14)"/>
+              <coverage type="line, %" value="100% (4/4)"/>
             </method>
             <method name="goToOptions (View): void">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -1148,106 +1234,10 @@
               <coverage type="block, %" value="100% (1/1)"/>
               <coverage type="line, %" value="100% (1/1)"/>
             </method>
-          </class>
-        </srcfile>
-        <srcfile name="SinglePlayer.java">
-          <coverage type="class, %" value="100% (2/2)"/>
-          <coverage type="method, %" value="75%  (12/16)"/>
-          <coverage type="block, %" value="76%  (302/399)"/>
-          <coverage type="line, %" value="73%  (78.6/107)"/>
-
-          <class name="SinglePlayer">
-            <coverage type="class, %" value="100% (1/1)"/>
-            <coverage type="method, %" value="69%  (9/13)"/>
-            <coverage type="block, %" value="74%  (275/372)"/>
-            <coverage type="line, %" value="71%  (70.6/99)"/>
-
-            <method name="error (States$error): void">
-              <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/1)"/>
-              <coverage type="line, %" value="0%   (0/1)"/>
-            </method>
-            <method name="onCreateOptionsMenu (Menu): boolean">
-              <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/7)"/>
-              <coverage type="line, %" value="0%   (0/2)"/>
-            </method>
-            <method name="pausedContinue (View): void">
-              <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/45)"/>
-              <coverage type="line, %" value="0%   (0/11)"/>
-            </method>
-            <method name="pausedMainMenu (View): void">
-              <coverage type="method, %" value="0%   (0/1)"/>
-              <coverage type="block, %" value="0%   (0/24)"/>
-              <coverage type="line, %" value="0%   (0/8)"/>
-            </method>
-            <method name="onKeyDown (int, KeyEvent): boolean">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="65%  (17/26)"/>
-              <coverage type="line, %" value="70%  (5.6/8)"/>
-            </method>
-            <method name="goToPostGame (): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="92%  (35/38)"/>
-              <coverage type="line, %" value="90%  (9/10)"/>
-            </method>
             <method name="onCreate (Bundle): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="95%  (100/105)"/>
-              <coverage type="line, %" value="92%  (22/24)"/>
-            </method>
-            <method name="pauseGame (View): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="96%  (64/67)"/>
-              <coverage type="line, %" value="93%  (14/15)"/>
-            </method>
-            <method name="SinglePlayer (): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (9/9)"/>
-              <coverage type="line, %" value="100% (4/4)"/>
-            </method>
-            <method name="getModel (): SinglePlayerModel">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (3/3)"/>
-              <coverage type="line, %" value="100% (1/1)"/>
-            </method>
-            <method name="initialDisplay (Drawable, Drawable): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (8/8)"/>
-              <coverage type="line, %" value="100% (3/3)"/>
-            </method>
-            <method name="onPause (): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (15/15)"/>
-              <coverage type="line, %" value="100% (4/4)"/>
-            </method>
-            <method name="pausedNewGame (View): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (24/24)"/>
-              <coverage type="line, %" value="100% (8/8)"/>
-            </method>
-          </class>
-          <class name="SinglePlayer$GameTimer">
-            <coverage type="class, %" value="100% (1/1)"/>
-            <coverage type="method, %" value="100% (3/3)"/>
-            <coverage type="block, %" value="100% (27/27)"/>
-            <coverage type="line, %" value="100% (8/8)"/>
-
-            <method name="SinglePlayer$GameTimer (SinglePlayer, long, long): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (8/8)"/>
-              <coverage type="line, %" value="100% (3/3)"/>
-            </method>
-            <method name="onFinish (): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (4/4)"/>
-              <coverage type="line, %" value="100% (2/2)"/>
-            </method>
-            <method name="onTick (long): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (15/15)"/>
-              <coverage type="line, %" value="100% (3/3)"/>
+              <coverage type="block, %" value="100% (83/83)"/>
+              <coverage type="line, %" value="100% (19/19)"/>
             </method>
           </class>
         </srcfile>
@@ -1332,25 +1322,25 @@
         </srcfile>
         <srcfile name="Player.java">
           <coverage type="class, %" value="100% (1/1)"/>
-          <coverage type="method, %" value="100% (11/11)"/>
-          <coverage type="block, %" value="90%  (280/312)"/>
-          <coverage type="line, %" value="87%  (74/85)"/>
+          <coverage type="method, %" value="100% (12/12)"/>
+          <coverage type="block, %" value="94%  (281/298)"/>
+          <coverage type="line, %" value="91%  (73/80)"/>
 
           <class name="Player">
             <coverage type="class, %" value="100% (1/1)"/>
-            <coverage type="method, %" value="100% (11/11)"/>
-            <coverage type="block, %" value="90%  (280/312)"/>
-            <coverage type="line, %" value="87%  (74/85)"/>
+            <coverage type="method, %" value="100% (12/12)"/>
+            <coverage type="block, %" value="94%  (281/298)"/>
+            <coverage type="line, %" value="91%  (73/80)"/>
 
-            <method name="backgroundMusicSetUp (MediaPlayer, boolean, int): void">
+            <method name="setVibrate (): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="80%  (32/40)"/>
-              <coverage type="line, %" value="80%  (12/15)"/>
+              <coverage type="block, %" value="70%  (19/27)"/>
+              <coverage type="line, %" value="67%  (6/9)"/>
             </method>
-            <method name="update (Observable, Object): void">
+            <method name="setBGMusic (MediaPlayer): boolean">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="83%  (101/121)"/>
-              <coverage type="line, %" value="82%  (28/34)"/>
+              <coverage type="block, %" value="84%  (26/31)"/>
+              <coverage type="line, %" value="83%  (10/12)"/>
             </method>
             <method name="displayWord (int, String): void">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -1359,8 +1349,8 @@
             </method>
             <method name="Player (): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (12/12)"/>
-              <coverage type="line, %" value="100% (4/4)"/>
+              <coverage type="block, %" value="100% (6/6)"/>
+              <coverage type="line, %" value="100% (2/2)"/>
             </method>
             <method name="displayOpponentScore (int): void">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -1389,13 +1379,18 @@
             </method>
             <method name="initialDisplay (Drawable, Drawable): void">
               <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (23/23)"/>
-              <coverage type="line, %" value="100% (7/7)"/>
+              <coverage type="block, %" value="100% (28/28)"/>
+              <coverage type="line, %" value="100% (8/8)"/>
             </method>
             <method name="keyboardButton (View): void">
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="100% (14/14)"/>
               <coverage type="line, %" value="100% (4/4)"/>
+            </method>
+            <method name="update (Observable, Object): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (90/90)"/>
+              <coverage type="line, %" value="100% (24/24)"/>
             </method>
           </class>
         </srcfile>
@@ -1573,8 +1568,8 @@
       <package name="com.example.zootypers.core">
         <coverage type="class, %" value="100% (10/10)"/>
         <coverage type="method, %" value="88%  (59/67)"/>
-        <coverage type="block, %" value="73%  (1486/2043)"/>
-        <coverage type="line, %" value="68%  (312.1/457)"/>
+        <coverage type="block, %" value="73%  (1501/2043)"/>
+        <coverage type="line, %" value="69%  (315.1/457)"/>
 
         <srcfile name="ScoreEntry.java">
           <coverage type="class, %" value="100% (2/2)"/>
@@ -1660,14 +1655,14 @@
         <srcfile name="MultiPlayerModel.java">
           <coverage type="class, %" value="100% (2/2)"/>
           <coverage type="method, %" value="91%  (20/22)"/>
-          <coverage type="block, %" value="57%  (518/916)"/>
-          <coverage type="line, %" value="53%  (115.6/217)"/>
+          <coverage type="block, %" value="59%  (539/916)"/>
+          <coverage type="line, %" value="55%  (119.6/217)"/>
 
           <class name="MultiPlayerModel">
             <coverage type="class, %" value="100% (1/1)"/>
             <coverage type="method, %" value="90%  (18/20)"/>
-            <coverage type="block, %" value="56%  (502/900)"/>
-            <coverage type="line, %" value="52%  (111.6/213)"/>
+            <coverage type="block, %" value="58%  (523/900)"/>
+            <coverage type="line, %" value="54%  (115.6/213)"/>
 
             <method name="addToQueue (): void">
               <coverage type="method, %" value="0%   (0/1)"/>
@@ -1704,11 +1699,6 @@
               <coverage type="block, %" value="53%  (10/19)"/>
               <coverage type="line, %" value="57%  (4/7)"/>
             </method>
-            <method name="setWordsList (): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="54%  (61/114)"/>
-              <coverage type="line, %" value="57%  (16/28)"/>
-            </method>
             <method name="findOpponent (): boolean">
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="58%  (28/48)"/>
@@ -1728,6 +1718,11 @@
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="66%  (19/29)"/>
               <coverage type="line, %" value="62%  (5/8)"/>
+            </method>
+            <method name="setWordsList (): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="72%  (82/114)"/>
+              <coverage type="line, %" value="71%  (20/28)"/>
             </method>
             <method name="typedLetter (char): void">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -1854,51 +1849,17 @@
             </method>
           </class>
         </srcfile>
-        <srcfile name="SinglePlayerModel.java">
-          <coverage type="class, %" value="100% (1/1)"/>
-          <coverage type="method, %" value="100% (4/4)"/>
-          <coverage type="block, %" value="89%  (217/243)"/>
-          <coverage type="line, %" value="83%  (44/53)"/>
-
-          <class name="SinglePlayerModel">
-            <coverage type="class, %" value="100% (1/1)"/>
-            <coverage type="method, %" value="100% (4/4)"/>
-            <coverage type="block, %" value="89%  (217/243)"/>
-            <coverage type="line, %" value="83%  (44/53)"/>
-
-            <method name="getWordsList (States$difficulty): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="61%  (41/67)"/>
-              <coverage type="line, %" value="57%  (12/21)"/>
-            </method>
-            <method name="SinglePlayerModel (States$difficulty, AssetManager, int): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (13/13)"/>
-              <coverage type="line, %" value="100% (5/5)"/>
-            </method>
-            <method name="getScore (): int">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (3/3)"/>
-              <coverage type="line, %" value="100% (1/1)"/>
-            </method>
-            <method name="typedLetter (char): void">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (160/160)"/>
-              <coverage type="line, %" value="100% (26/26)"/>
-            </method>
-          </class>
-        </srcfile>
         <srcfile name="MultiLeaderBoardModel.java">
           <coverage type="class, %" value="100% (2/2)"/>
           <coverage type="method, %" value="100% (13/13)"/>
-          <coverage type="block, %" value="91%  (309/340)"/>
-          <coverage type="line, %" value="88%  (63.9/73)"/>
+          <coverage type="block, %" value="89%  (303/340)"/>
+          <coverage type="line, %" value="86%  (62.9/73)"/>
 
           <class name="MultiLeaderBoardModel">
             <coverage type="class, %" value="100% (1/1)"/>
             <coverage type="method, %" value="100% (11/11)"/>
-            <coverage type="block, %" value="90%  (277/308)"/>
-            <coverage type="line, %" value="87%  (59.9/69)"/>
+            <coverage type="block, %" value="88%  (271/308)"/>
+            <coverage type="line, %" value="85%  (58.9/69)"/>
 
             <method name="getAllScores (): void">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -1909,6 +1870,11 @@
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="83%  (49/59)"/>
               <coverage type="line, %" value="81%  (13/16)"/>
+            </method>
+            <method name="getHighestRelScoreRank (): int">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="86%  (36/42)"/>
+              <coverage type="line, %" value="90%  (9/10)"/>
             </method>
             <method name="isInTopEntries (): boolean">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -1934,11 +1900,6 @@
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="100% (8/8)"/>
               <coverage type="line, %" value="100% (3/3)"/>
-            </method>
-            <method name="getHighestRelScoreRank (): int">
-              <coverage type="method, %" value="100% (1/1)"/>
-              <coverage type="block, %" value="100% (42/42)"/>
-              <coverage type="line, %" value="100% (10/10)"/>
             </method>
             <method name="getRank (): int">
               <coverage type="method, %" value="100% (1/1)"/>
@@ -1971,6 +1932,40 @@
               <coverage type="method, %" value="100% (1/1)"/>
               <coverage type="block, %" value="100% (26/26)"/>
               <coverage type="line, %" value="100% (4/4)"/>
+            </method>
+          </class>
+        </srcfile>
+        <srcfile name="SinglePlayerModel.java">
+          <coverage type="class, %" value="100% (1/1)"/>
+          <coverage type="method, %" value="100% (4/4)"/>
+          <coverage type="block, %" value="89%  (217/243)"/>
+          <coverage type="line, %" value="83%  (44/53)"/>
+
+          <class name="SinglePlayerModel">
+            <coverage type="class, %" value="100% (1/1)"/>
+            <coverage type="method, %" value="100% (4/4)"/>
+            <coverage type="block, %" value="89%  (217/243)"/>
+            <coverage type="line, %" value="83%  (44/53)"/>
+
+            <method name="getWordsList (States$difficulty): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="61%  (41/67)"/>
+              <coverage type="line, %" value="57%  (12/21)"/>
+            </method>
+            <method name="SinglePlayerModel (States$difficulty, AssetManager, int): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (13/13)"/>
+              <coverage type="line, %" value="100% (5/5)"/>
+            </method>
+            <method name="getScore (): int">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (3/3)"/>
+              <coverage type="line, %" value="100% (1/1)"/>
+            </method>
+            <method name="typedLetter (char): void">
+              <coverage type="method, %" value="100% (1/1)"/>
+              <coverage type="block, %" value="100% (160/160)"/>
+              <coverage type="line, %" value="100% (26/26)"/>
             </method>
           </class>
         </srcfile>
