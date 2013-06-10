@@ -109,7 +109,8 @@ public class PostGameScreen extends Activity {
 	@SuppressLint("InlinedApi")
 	private void buildSavePopup() {
 		if (savedScore) {
-			InterfaceUtils.buildAlertDialog(this, R.string.already_saved_title, R.string.already_saved_msg);
+			InterfaceUtils.buildAlertDialog(this, 
+			R.string.already_saved_title, R.string.already_saved_msg);
 			return;
 		}
 		LayoutInflater layoutInflater =

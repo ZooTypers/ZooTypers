@@ -120,7 +120,7 @@ public class MultiLeaderBoardModel {
 		ScoreEntry[] scores = new ScoreEntry[size];
 		for (int i = 0; i < size; i++) {
 			scores[i] = new ScoreEntry(allScores.get(i).getString("name"), 
-					allScores.get(i).getInt("score"));
+			allScores.get(i).getInt("score"));
 		}
 		return scores;
 	}
@@ -146,8 +146,10 @@ public class MultiLeaderBoardModel {
 		int highestRank = getHighestRelScoreRank();
 		if (highestRank != 0) {
 			int startIndex = highestRank - 1;
-			for (int i = startIndex; i < allScores.size() && i < startIndex + DEFAULT_ENTRIES; i++) {
-				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), allScores.get(i).getInt("score")));
+			for (int i = startIndex; (i < allScores.size()) 
+			&& (i < (startIndex + DEFAULT_ENTRIES)); i++) {
+				scoreEntries.add(new ScoreEntry(allScores.get(i).getString("name"), 
+				allScores.get(i).getInt("score")));
 			}
 		}
 		return scoreEntries.toArray(new ScoreEntry[scoreEntries.size()]);
@@ -159,13 +161,13 @@ public class MultiLeaderBoardModel {
 	 */
 	public int getHighestRelScoreRank() {
 		int rank = getRank();
-		int relative = numOfEntries/2;
+		int relative = numOfEntries / 2;
 		int highestRank = 0;
 		if (rank != 0) {
-			if (allScores.size() - rank < relative) {
-				highestRank = allScores.size() - numOfEntries + 1;
+			if ((allScores.size() - rank) < relative) {
+				highestRank = (allScores.size() - numOfEntries) + 1;
 			} else {
-				highestRank = rank - relative + 1;
+				highestRank = (rank - relative) + 1;
 			}
 			if (highestRank < 1) {
 				highestRank = 1;

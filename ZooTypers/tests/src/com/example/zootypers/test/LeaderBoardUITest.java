@@ -30,7 +30,7 @@ public class LeaderBoardUITest extends ActivityInstrumentationTestCase2<TitlePag
     public void setUp() throws Exception {
         solo = new Solo(getInstrumentation(), getActivity());
         leaderboardButton = (Button) getActivity().
-                findViewById(com.example.zootypers.R.id.leaderboard_button);
+		findViewById(com.example.zootypers.R.id.leaderboard_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {

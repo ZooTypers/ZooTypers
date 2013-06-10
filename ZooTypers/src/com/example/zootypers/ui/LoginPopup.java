@@ -49,7 +49,7 @@ public class LoginPopup {
 	 */
 	@SuppressLint("InlinedApi")
 	public final void buildLoginPopup(LayoutInflater layoutInflater, ViewGroup parentLayout,
-			final boolean dispsw) {
+	final boolean dispsw) {
 		// If need be, dismiss the password popup
 		if (dispsw) {
 			password_ppw.dismiss();
@@ -58,7 +58,7 @@ public class LoginPopup {
 		// Build the login poup
 		View popupView = layoutInflater.inflate(R.layout.login_popup, null);
 		login_ppw = new PopupWindow(popupView,
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+		LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		login_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
 	}
 
@@ -72,7 +72,7 @@ public class LoginPopup {
 		// Build the reset password popup
 		View popupView = layoutInflater.inflate(R.layout.reset_pw_layout, null);
 		password_ppw = new PopupWindow(popupView,
-				LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
+		LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT, true);
 		password_ppw.showAtLocation(parentLayout, Gravity.TOP, 10, 50);
 		// dismiss the login popup
 		login_ppw.dismiss();
@@ -182,7 +182,8 @@ public class LoginPopup {
 	public final void logoutUser(final AlertDialog.Builder alertDialogBuilder) {
 		ParseUser.logOut();
 		currentUser = ParseUser.getCurrentUser();
-		InterfaceUtils.buildAlertDialog(alertDialogBuilder, R.string.logged_out_title, R.string.logged_out_msg);
+		InterfaceUtils.buildAlertDialog(alertDialogBuilder, 
+		R.string.logged_out_title, R.string.logged_out_msg);
 		// make the views disappear
 	}
 
@@ -201,7 +202,8 @@ public class LoginPopup {
 		try {
 			ParseUser.requestPasswordReset(emailString);
 			// success
-			InterfaceUtils.buildAlertDialog(alertDialogBuilder, R.string.pswd_reset_title, R.string.pswd_reset_msg);
+			InterfaceUtils.buildAlertDialog(alertDialogBuilder, 
+			R.string.pswd_reset_title, R.string.pswd_reset_msg);
 			return true;
 		} catch (ParseException e) {
 			// failure

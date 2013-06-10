@@ -33,7 +33,7 @@ public class OptionsMenuTest extends ActivityInstrumentationTestCase2<TitlePage>
         super.setUp();
         solo = new Solo(getInstrumentation(), getActivity());
         optionsButton = (Button) getActivity().findViewById
-                (com.example.zootypers.R.id.options_button);
+		(com.example.zootypers.R.id.options_button);
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -49,7 +49,7 @@ public class OptionsMenuTest extends ActivityInstrumentationTestCase2<TitlePage>
     @Test(timeout = TIMEOUT)
     public void testClearingSinglePlayerLeaderboard() {
         final Button clearSingleButton = (Button) 
-                solo.getView(com.example.zootypers.R.id.clearSingle);
+		solo.getView(com.example.zootypers.R.id.clearSingle);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -67,7 +67,7 @@ public class OptionsMenuTest extends ActivityInstrumentationTestCase2<TitlePage>
     @Test(timeout = TIMEOUT)
     public void testClearingMultiPlayerLeaderboard() {
         final Button clearMultiButton = (Button) 
-                solo.getView(com.example.zootypers.R.id.clearMulti);
+		solo.getView(com.example.zootypers.R.id.clearMulti);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -101,7 +101,8 @@ public class OptionsMenuTest extends ActivityInstrumentationTestCase2<TitlePage>
      * Private method for Logging out of the leaderboard clearing.
      */
     private void logout() {
-        final Button menuButton = (Button) solo.getView(com.example.zootypers.R.id.main_menu_options);
+        final Button menuButton = (Button) 
+        solo.getView(com.example.zootypers.R.id.main_menu_options);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override
@@ -173,7 +174,7 @@ public class OptionsMenuTest extends ActivityInstrumentationTestCase2<TitlePage>
     @Test(timeout = TIMEOUT)
     public void testGoingBackToMainMenu() {
         final Button menuButton = (Button) 
-                solo.getView(com.example.zootypers.R.id.main_menu_options);
+		solo.getView(com.example.zootypers.R.id.main_menu_options);
         solo.sleep(1000);
         getActivity().runOnUiThread(new Runnable() {
             @Override

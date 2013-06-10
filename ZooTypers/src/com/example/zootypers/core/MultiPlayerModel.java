@@ -38,7 +38,7 @@ public class MultiPlayerModel extends PlayerModel {
 
 	// total number of words in wordLists on Parse database
 	private static final int TOTAL_WORDS = 709;
-  private static final int TOTAL_WORDS_LATIN = 342;
+	private static final int TOTAL_WORDS_LATIN = 342;
 
 	// size of the list to get from the Parse database
 	private static final int LIST_SIZE = 100;
@@ -163,26 +163,26 @@ public class MultiPlayerModel extends PlayerModel {
 	private void addToQueue() throws InternetConnectionException {
 		// sets the starting word index on the database to a random integer
 		Log.i("Multiplayer", "creating match for player");
-		
+
 		final int randy;
 		if (Locale.getDefault().getDisplayLanguage().equals("italiano")) {
-		    randy = (int) (Math.random() * (TOTAL_WORDS_LATIN));
+			randy = (int) (Math.random() * (TOTAL_WORDS_LATIN));
 		} else {
-		    randy = (int) (Math.random() * (TOTAL_WORDS));
+			randy = (int) (Math.random() * (TOTAL_WORDS));
 		}
 		try {
-		    setInfo(true);
-		    match = new ParseObject("Matches");
-		    match.put("p1name", name);
-		    match.put("p1animal", animalID);
-		    match.put("p1score", 0);
-		    match.put("p1finished", false);
-		    match.put("p2name", "");
-		    match.put("wordIndex", randy);
-		    match.save();
+			setInfo(true);
+			match = new ParseObject("Matches");
+			match.put("p1name", name);
+			match.put("p1animal", animalID);
+			match.put("p1score", 0);
+			match.put("p1finished", false);
+			match.put("p2name", "");
+			match.put("wordIndex", randy);
+			match.save();
 		} catch (ParseException e) {
-		    Log.e("Multiplayer", "parse error while creating a match", e);
-		    throw new InternetConnectionException();
+			Log.e("Multiplayer", "parse error while creating a match", e);
+			throw new InternetConnectionException();
 		}
 	}
 
@@ -231,21 +231,21 @@ public class MultiPlayerModel extends PlayerModel {
 			checkIfInMatch();
 			ParseQuery query; 
 			if (Locale.getDefault().getDisplayLanguage().equals("italiano")) {
-			  query = new ParseQuery("WordsListLatin");
+				query = new ParseQuery("WordsListLatin");
 			} else {
-			  query = new ParseQuery("WordList");
+				query = new ParseQuery("WordList");
 			}
 			query.setSkip(match.getInt("wordIndex"));
 			query.setLimit(LIST_SIZE);
 			wordObjects= query.find();
 			// if not enough words were in the query than get more words
 			if (wordObjects.size() < LIST_SIZE) {
-			  ParseQuery query2;
-		     if (Locale.getDefault().getDisplayLanguage().equals("italiano")) {
-		        query2 = new ParseQuery("WordsListLatin");
-		      } else {
-		        query2 = new ParseQuery("WordList");
-		      }
+				ParseQuery query2;
+				if (Locale.getDefault().getDisplayLanguage().equals("italiano")) {
+					query2 = new ParseQuery("WordsListLatin");
+				} else {
+					query2 = new ParseQuery("WordList");
+				}
 				query2.setLimit(LIST_SIZE - wordObjects.size());
 				wordObjects.addAll(query2.find());
 			}
@@ -269,7 +269,7 @@ public class MultiPlayerModel extends PlayerModel {
 	private void checkIfInMatch() throws InternalErrorException {
 		if (!match.getString(info.get("name")).equals(name)) {
 			Log.e("Multiplayer", 
-					"got replaced by someone else, concurrency error");
+			"got replaced by someone else, concurrency error");
 			throw new InternalErrorException();
 		}
 	}
@@ -326,8 +326,8 @@ public class MultiPlayerModel extends PlayerModel {
 				int curScore = match.getInt(info.get("score"));
 				curScore += wordLen;
 				Log.i("Multiplayer", "completed the word: " + 
-						wordsList.get(wordsDisplayed[currWordIndex]) 
-						+ "\nscore increased to: " + curScore);
+				wordsList.get(wordsDisplayed[currWordIndex]) 
+				+ "\nscore increased to: " + curScore);
 
 				match.put(info.get("score"), curScore);
 				match.saveInBackground();
@@ -392,7 +392,7 @@ public class MultiPlayerModel extends PlayerModel {
 			} catch (ParseException e) {
 				if ("p1name".equals(info.get("name"))) {
 					Log.w("Multiplayer", 
-							"parse error while checking if opponent is finished or not");
+					"parse error while checking if opponent is finished or not");
 					throw new InternetConnectionException();
 				}
 				return false;
