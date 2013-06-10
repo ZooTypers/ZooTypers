@@ -58,24 +58,24 @@ public class SinglePlayerModel extends PlayerModel {
 		Log.i("SinglePlayer", "reading file for words list");
 
 		String file;
-    if (Locale.getDefault().getDisplayLanguage().equals("français")) {
-      if (diff == States.difficulty.EASY) {
-        file = "4words-latin.txt";
-      } else if (diff == States.difficulty.MEDIUM) {
-        file = "5words-latin.txt";
-      } else {
-        file = "6words-latin.txt";
-      }
-    } else {
-      if (diff == States.difficulty.EASY) {
-        file = "4words.txt";
-      } else if (diff == States.difficulty.MEDIUM) {
-        file = "5words.txt";
-      } else {
-        file = "6words.txt";
-      }
-    }
-    
+		if (Locale.getDefault().getDisplayLanguage().equals("italiano")) {
+		    if (diff == States.difficulty.EASY) {
+		        file = "4words-latin.txt";
+		    } else if (diff == States.difficulty.MEDIUM) {
+		        file = "5words-latin.txt";
+		    } else {
+		        file = "6words-latin.txt";
+		    }
+		} else {
+		    if (diff == States.difficulty.EASY) {
+		        file = "4words.txt";
+		    } else if (diff == States.difficulty.MEDIUM) {
+		        file = "5words.txt";
+		    } else {
+		        file = "6words.txt";
+		    }
+		}
+
 		// read entire file as string, parsed into array by new line
 		try {
 			InputStream stream = am.open(file);
